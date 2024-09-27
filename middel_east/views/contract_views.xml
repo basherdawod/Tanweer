@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_east_contract_form_view" model="ir.ui.view">
+            <field name="name">middel.east.contract.form.view</field>
+            <field name="model">middel.east.contract</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" position="inside">
+                            <button class="oe_start_button" type="object" name="action_view_source_middel_booking"
+                                    icon="fa-tasks" invisible="contract_middel == False">
+                                <field string="Qty" name="qty_count" widget="statinfo"/>
+                            </button>
+
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                         <group string="Customer Information ">
+                             <group >
+                                <field name="partner_id"/>
+                                <field name="phone"/>
+                             </group>
+                             <group>
+                                <field name="location_Details"/>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <group string="Responsible">
+                            <field name="responsible_id" widget="many2one_avatar_user" />
+                            <field name="contract_middel" />
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="contract_tree_view" model="ir.ui.view">
+            <field name="name">middel.east.contract.tree.view</field>
+            <field name="model">middel.east.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="contract_middel"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="contract_kanban_view" model="ir.ui.view">
+            <field name="name">middel.east.contract.kanban.view</field>
+            <field name="model">middel.east.contract</field>
+            <field name="arch" type="xml">
+                <kanban sample="1" string="Kanban" class="o_res_partner_kanban">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="contract_middel"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                    <br/>
+                                    <field name="partner_id"/>&#160;-&#160;
+                                    <field name="contract_middel"/>
+
+                                    <br/>
+                                     <field name="date"/>&#160;-
+                                    <br/>
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_right">
+                                            <field name="responsible_id" widget="many2one_avatar_user"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="contract_calendar_view" model="ir.ui.view">
+            <field name="name">middel.east.contract.calendar.view</field>
+            <field name="model">middel.east.contract</field>
+            <field name="arch" type="xml">
+                <calendar string="Middel Service Details Calendar"
+                          date_start="date"
+                          event_open_popup="true"
+                          mode="month"
+                          color="responsible_id"
+                          scales="day,month,year"
+                          quick_create="False">
+                    <field name="responsible_id" filters="1"/>
+                   <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="contract_middel"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="contract_search_view" model="ir.ui.view">
+            <field name="name">middel.east.contract.search.view</field>
+            <field name="model">middel.east.contract</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <group string="Group By">
+                        <filter name="partner_id" string="Customer"
+                                context="{'group_by': 'partner_id'}"/>
+                        <filter name="responsible_id" string="Responsible"
+                                context="{'group_by': 'responsible_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_contract" model="ir.actions.act_window">
+            <field name="name">Contract</field>
+            <field name="res_model">middel.east.contract</field>
+            <field name="view_mode">kanban,tree,form,search,calendar,activity</field>
+        </record>
+    </data>
+</odoo>

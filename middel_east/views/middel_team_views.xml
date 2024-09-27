@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_east_team_form_view" model="ir.ui.view">
+            <field name="name">middel.east.team.form.view</field>
+            <field name="model">middel.east.team</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="e.g.Team"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" readonly="1" invisible="project_id == False"/>
+                            </group>
+                            <group>
+                                <field name="responsible_id" widget="many2one_avatar_user"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="team_member" string="Team Members">
+                                <field name="team_member_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+<!--                    <div class="oe_chatter">-->
+<!--&lt;!&ndash;                        <field name="message_follower_ids"/>&ndash;&gt;-->
+<!--                        <field name="activity_ids"/>-->
+<!--                        <field name="message_ids"/>-->
+<!--                    </div>-->
+                </form>
+            </field>
+        </record>
+        <record id="middel_east_team_tree_view" model="ir.ui.view">
+            <field name="name">middel.east.team.tree.view</field>
+            <field name="model">middel.east.team</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="responsible_id" widget="many2one_avatar_user"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_east_team_search_view" model="ir.ui.view">
+            <field name="name">middel.east.team.search.view</field>
+            <field name="model">middel.east.team</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <group string="Group By">
+                        <filter name="responsible_id" string="Responsible"
+                                context="{'group_by': 'responsible_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_middel_team_team" model="ir.actions.act_window">
+            <field name="name">Middel Team</field>
+            <field name="res_model">middel.east.team</field>
+            <field name="view_mode">tree,form,search,activity</field>
+        </record>
+    </data>
+</odoo>

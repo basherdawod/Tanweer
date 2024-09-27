@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_east_form_view" model="ir.ui.view">
+            <field name="name">middel.east.form.view</field>
+            <field name="model">middel.east</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                        <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                                invisible="status not in  ('c_complete' ,'approval','in_progress')" />
+                        <button string="Quotations" name="action_sale_quotations_new_middel" type="object" class="oe_highlight"
+                                invisible="status in  ('c_complete' ,'approval','in_progress')" />
+
+                        <button string="Approval" name="action_approval" type="object" class="oe_highlight"/>
+                        <button string="Create Contract" name="create_contract" type="object" class="oe_highlight"/>
+
+                        <button string="Create Team Task" name="create_team_task" type="object" class="oe_highlight"/>
+                        <button string="Complete" name="b_in_progress_to_c_complete" type="object" class="oe_highlight"/>
+
+                    </header>
+                    <sheet>
+
+                        <div class="oe_button_box" name="button_box" position="inside">
+                              <button class="oe_stat_button" type="object"
+                                name="action_view_middel_quotation" icon="fa-pencil-square-o">
+                                <field name="quotation_count" widget="statinfo" string="Quotations"/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                name="action_contract" icon="fa-pencil-square-o">
+                                <field name="contract_count" widget="statinfo" string="Contract"/>
+                            </button>
+                            <button class="oe_start_button" type="object" name="action_team_task"
+                                    icon="fa-tasks" invisible="project_task_id == False">
+                                <field string="Team Task" name="task_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                         <group string="Customer Information ">
+                             <group >
+                                <field name="partner_id"/>
+                                <field name="phone"/>
+                             </group>
+                             <group>
+                                <field name="email"/>
+                                <field name="location"/>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <group string="Responsible">
+                            <field name="user_middel" widget="many2one_avatar_user" />
+                            <field name="company_id" />
+                        </group>
+<!--                        <group string="Service Details">-->
+<!--                            <group>-->
+<!--                                <field name="prod_ids" />-->
+<!--                            </group>-->
+<!--                        </group>-->
+                        <group string="Middel Service Details">
+                            <group>
+                                <field name="middel_east_team_id"/>
+                                <field name="project_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="project_task_id" invisible="1"/>
+                                <field name="product_qty" invisible="0"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Order Lines" name="middel_order_line_ids">
+                        <field name="middel_order_line_ids"
+                                      mode="tree,kanban"
+                                        >
+                                     <form>
+                                        <field name="sequence" invisible="1"/>
+                                        <field name="middel_service_details_id" invisible="1"/>
+                                        <group>
+                                            <group>
+                                                <field name="product_updatable" invisible="1"/>
+                                                <field name="product_id"
+                                                       domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                                       context="{'partner_id':parent.partner_id, 'quantity':parent.product_qty, 'company_id': parent.company_id}"
+                                                        readonly="not product_updatable"
+                                                       required="not display_type"
+                                                       force_save="1"
+                                                       widget="many2one_barcode" />
+                                                <field name="display_type" column_invisible="True"/>
+                                                <field name="product_type" invisible="1"/>
+                                                <field name="price_total" invisible="1"/>
+                                                <field name="price_tax" invisible="1"/>
+                                                <field name="price_subtotal" invisible="1"/>
+
+                                                <label for="product_qty"/>
+                                                <div class="o_row" name="ordered_qty">
+                                                    <field
+
+                                                            context="{'partner_id':parent.partner_id, 'quantity':parent.product_qty, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                                                            name="product_qty"/>
+                                                </div>
+                                                <field name="price_unit"/>
+                                                <field name="tax_id" widget="many2many_tags"
+                                                       options="{'no_create': True}"
+                                                       context="{'search_view_ref': 'account.account_tax_view_search'}"
+                                                       domain="[('type_tax_use', '=', 'sale'), ('company_id', 'parent_of', parent.company_id)]"
+                                                />
+                                                <field name="sequence" invisible="1"/>
+                                            </group>
+
+                                        </group>
+                                        <label for="name" string="Description"/>
+                                        <field name="name"/>
+                                        <field name="company_id" invisible="1"/>
+                                    </form>
+                                   <tree editable="bottom" limit="200" >
+
+                                       <field name="product_updatable" column_invisible="True"/>
+                                       <field name="product_id"
+                                                       domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                                                       context="{'partner_id':parent.partner_id, 'quantity':parent.product_qty, 'company_id': parent.company_id}"
+                                              readonly="not product_updatable"
+                                              required="not display_type"
+                                              force_save="1"
+                                                       widget="many2one_barcode" />
+
+                                       <field name="product_template_id"
+                                    string="Product"
+                                    column_invisible="True"
+                                    readonly="not product_updatable"
+                                    required="not display_type"
+                                    context="{
+                                        'partner_id': parent.partner_id,
+                                        'quantity': product_uom_qty,
+
+                                        'uom':product_uom,
+                                        'company_id': parent.company_id,
+                                        'default_list_price': price_unit
+
+                                    }"
+                                    options="{
+                                        'no_open': True,
+                                    }"
+                                    domain="[('sale_ok', '=', True)]"
+                                    widget="sol_product_many2one"
+                                    placeholder="Type to find a product..."/>
+<!--                                       <field name="quantity"/>-->
+                                       <field name="display_type" column_invisible="True"/>
+                                       <field name="product_uom_qty" />
+                                       <field name="price_unit"/>
+                                       <field name="product_uom"/>
+                                       <field name="product_packaging_qty" optional="hide" />
+                                        <field name="product_template_attribute_value_ids" column_invisible="1" />
+                                        <field name="product_custom_attribute_value_ids" column_invisible="1" >
+                                            <tree>
+                                                <field name="custom_product_template_attribute_value_id" />
+                                                <field name="custom_value" />
+                                            </tree>
+                                        </field>
+                                        <field name="product_no_variant_attribute_value_ids" column_invisible="1" />
+<!--                                        <field name="is_configurable_product" column_invisible="1" />-->
+<!--                                       <field name="tax_id"-->
+<!--                                    widget="many2many_tags"-->
+<!--                                    options="{'no_create': True}"-->
+<!--                                    domain="[('type_tax_use', '=', 'sale'), ('company_id', 'parent_of', parent.company_id), ('country_id', '=', parent.tax_country_id)]"-->
+<!--                                    context="{'active_test': True}"-->
+<!--                                    optional="show"/>-->
+                                       <field name="discount"/>
+                                       <field name="price_subtotal"/>
+                                       <field name="price_tax" optional="hide"/>
+                                       <field name="price_reduce_taxexcl" optional="hide" />
+                                       <field name="price_reduce_taxinc" optional="hide" />
+                                       <control>
+                                            <create name="add_product_control" string="Add a product"/>
+                                        </control>
+                                   </tree>
+                                </field>
+                        <group name="note_group" col="6" class="mt-2 mt-md-0">
+                            <group colspan="4">
+                                <field  colspan="2" name="note" nolabel="1" placeholder="Terms and conditions..."/>
+                            </group>
+                            <group class="oe_subtotal_footer" colspan="2" name="sale_total">
+                                <field name="tax_totals" widget="account-tax-totals-field" nolabel="1" colspan="2" readonly="1"/>
+                            </group>
+                            <div class="clearfix"/>
+                        </group>
+                    </page>
+                            <page string="Expenses Lines" >
+                                <field name="middel_expense_ids"/>
+                            </page>
+                            <page string="Drawing Lines" >
+                                <div class="row">
+                                    <div class="col-6">
+                                        <field name="attachment_id" widget="file"/>
+                                    </div>
+                                    <div class="col-6">
+                                        <field name="image" widget="image"/>
+                                    </div>
+                                </div>
+                                <group>
+
+                                </group>
+                                <group>
+
+                                </group>
+
+
+                            </page>
+                        </notebook>
+                    </sheet>
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids"/>-->
+<!--                        <field name="activity_ids"/>-->
+<!--                        <field name="message_ids"/>-->
+<!--                    </div>-->
+                </form>
+            </field>
+        </record>
+        <record id="middel_east_tree_view" model="ir.ui.view">
+            <field name="name">middel.east.tree.view</field>
+            <field name="model">middel.east</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="middel_east_team_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_east_kanban_view" model="ir.ui.view">
+            <field name="name">middel.east.kanban.view</field>
+            <field name="model">middel.east</field>
+            <field name="arch" type="xml">
+                <kanban sample="1" string="Kanban" class="o_res_partner_kanban">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="middel_east_team_id"/>
+                    <field name="project_id"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                    <br/>
+                                    <field name="partner_id"/>&#160;-&#160;
+                                    <field name="middel_east_team_id"/>
+
+                                    <br/>
+                                     <field name="date"/>&#160;-
+                                    <br/>
+                                    <field name="project_id"/>
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <field name="status" widget="label_selection"
+                                                   options="{'classes': {'draft': 'info', 'quotations': 'warning','approval': 'warning','in_progress': 'warning', 'c_complete': 'success'}}"/>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <field name="user_middel" widget="many2one_avatar_user"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="middel_east_calendar_view" model="ir.ui.view">
+            <field name="name">middel.east.calendar.view</field>
+            <field name="model">middel.east</field>
+            <field name="arch" type="xml">
+                <calendar string="Middel Service Details Calendar"
+                          date_start="date"
+                          event_open_popup="true"
+                          mode="month"
+                          color="user_middel"
+                          scales="day,month,year"
+                          quick_create="False">
+                    <field name="user_middel" filters="1"/>
+                   <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="middel_east_team_id"/>
+                    <field name="project_id"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="middel_east_search_view" model="ir.ui.view">
+            <field name="name">middel.east.search.view</field>
+            <field name="model">middel.east</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <group string="Group By">
+                        <filter name="partner_id" string="Customer"
+                                context="{'group_by': 'partner_id'}"/>
+                        <filter name="user_middel" string="Responsible"
+                                context="{'group_by': 'user_middel'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_middel_east" model="ir.actions.act_window">
+            <field name="name">Visitor</field>
+            <field name="res_model">middel.east</field>
+            <field name="view_mode">kanban,tree,form,search,calendar,activity</field>
+        </record>
+        <record id="action_middel_services" model="ir.actions.act_window">
+            <field name="name">Product</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+    </data>
+</odoo>

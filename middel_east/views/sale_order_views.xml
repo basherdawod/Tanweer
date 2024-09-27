@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="middel_action_quotations_new" model="ir.actions.act_window">
+        <field name="name">Quotation</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form,tree,graph</field>
+        <field name="domain">[('order_middel_oppo_id', '=', active_id)]</field>
+        <field name="context">{'search_default_order_middel_oppo_id': active_id, 'default_order_middel_oppo_id': active_id}</field>
+    </record>
+
+    <record id="sale_view_inherit_middel" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.middel.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        name="action_view_middel_quotation"
+                        type="object"
+                        icon="fa-pencil-square-o"
+                        >
+                    <field string="Middel Orders" name="middel_count_num" widget="statinfo"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="order_middel_oppo_id" context="{
+                    'default_campaign_id': campaign_id,
+                    'default_company_id': company_id,
+                    'default_medium_id': medium_id,
+                    'default_partner_id': partner_id,
+                    'default_source_id': source_id,
+                    'default_type': 'order_middel_oppo_id',
+                }"/>
+            </xpath>
+        </field>
+    </record>
+       <record id="sale_view_inherit_middel_list" model="ir.ui.view">
+        <field name="name">sale.order.list.inherit.middel.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='create_date']" position="after">
+                <field name="order_middel_oppo_id"/>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

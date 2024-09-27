@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="module_category_middel_management" model="ir.module.category">
+            <field name="name">Middel East Management</field>
+            <field name="description">Access rights for Middel East Management</field>
+        </record>
+        <record id="middel_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_category_middel_management"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="middel_employee" model="res.groups">
+            <field name="name">Employee</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_category_middel_management"/>
+        </record>
+        <record id="middel_receptionist" model="res.groups">
+            <field name="name">Receptionist</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_category_middel_management"/>
+        </record>
+
+        <record id="base.default_user" model="res.users">
+            <field name="groups_id" eval="[(4, ref('middel_manager'))]"/>
+        </record>
+    </data>
+</odoo>

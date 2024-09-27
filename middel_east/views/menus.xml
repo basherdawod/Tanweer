@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <menuitem id="main_menu_middel_east" name="Middel East Management System"/>
+
+        <menuitem id="menu_middel_east_dashboard"
+                  name="Dashboard"
+                  action="action_middel_east"
+                  parent="main_menu_middel_east"
+                  sequence="0"/>
+
+        <menuitem id="menu_middel_east"
+                  name="Visitor"
+                  action="action_middel_east"
+                  parent="main_menu_middel_east"
+                  sequence="1"/>
+        <menuitem id="menu_customer"
+                  name="Customers"
+                  parent="main_menu_middel_east"
+                  action="contacts.action_contacts"
+                  sequence="3"/>
+        <menuitem id="menu_Product"
+                  name="Product"
+                  parent="main_menu_middel_east"
+                  action="action_middel_services"
+                  sequence="4"/>
+        <menuitem id="menu_customer_contract"
+                  name="Contract"
+                  parent="main_menu_middel_east"
+                  action="action_contract"
+                  sequence="5"/>
+        <menuitem id="menu_middel_east_team"
+                  name="Teams"
+                  action="action_middel_team_team"
+                  parent="main_menu_middel_east"
+                  sequence="6"/>
+
+    <menuitem
+        id="sale_order_middel_quotations_crm"
+        name="My Quotations"
+        action="sale.action_quotations"
+        parent="main_menu_middel_east"
+        sequence="2"/>
+
+        <menuitem id="menu_configuration" name="Configurations" parent="main_menu_middel_east" sequence="4"/>
+
+    </data>
+</odoo>
