@@ -41,7 +41,7 @@ class MiddelEast(models.Model):
     user_middel = fields.Many2one('res.users', default=lambda self: self.env.user, required=True,
                                   string="Responsible")
     status = fields.Selection(
-        [('draft', "Draft"), ('quotations', "Quotations"), ('approval', "Approval"), ('in_progress', "In Progress"),
+        [('draft', "Draft"), ('sent', "Quotations"), ('approval', "Approval"), ('in_progress', "In Progress"),
          ('c_complete', "Complete")],
         string="Status", default='draft')
     middel_east_team_id = fields.Many2one('middel.east.team', string="Middel Team")
@@ -216,16 +216,39 @@ class MiddelEast(models.Model):
             return self.action_new_quotation_middel()
 
     def action_new_quotation_middel(self):
-        if self.middel_order_line_ids != 'null' :
-            action = self.env["ir.actions.actions"]._for_xml_id("middel_east.middel_action_quotations_new")
-            action['context'] = self._prepare_opportunity_quotation_context()
+        # if self.middel_order_line_ids != 'null' :
 
-            action['context']['search_default_order_middel_oppo_id'] = self.id
-            self.status = 'quotations'
-        else:
-            raise ValidationError('You cannot Create Quotations Product Line is Empty .')
-
+        middel_list = []
+        for data in self.middel_order_line_ids:
+            order_lines = {
+                'display_type': data.display_type,
+                'product_id': data.product_id.id,
+                'product_uom_qty': data.product_uom_qty,
+                'price_unit': data.price_unit,
+                'discount': data.discount,
+                'state': self.status,
+                'price_subtotal': data.price_subtotal,
+                'price_total': data.price_total,
+                'tax_id': [Command.set(data.product_id.taxes_id.ids)],
+            }
+            middel_list.append(Command.create(order_lines))
+        action = self.env['sale.order'].sudo().create({
+                'order_middel_oppo_id': self.id,
+                'partner_id': self.partner_id.id,
+                'origin': self.name,
+                'order_line': middel_list,
+            })
         return action
+        # self.status = 'sent'
+        # action = self.env["ir.actions.actions"]._for_xml_id("middel_east.middel_action_quotations_new")
+        # action['context'] = self._prepare_opportunity_quotation_context()
+        #
+        # action['context']['search_default_order_middel_oppo_id'] = self.id
+        #
+        # # else:
+        # #     raise ValidationError('You cannot Create Quotations Product Line is Empty .')
+        #
+        # return action
 
     def action_view_middel_quotation(self):
         self.ensure_one()
@@ -258,22 +281,23 @@ class MiddelEast(models.Model):
     def _prepare_opportunity_quotation_context(self):
         """ Prepares the context for a new quotation (sale.order) by sharing the values of common fields """
         self.ensure_one()
-
+        
         middel_list = []
         for data in self.middel_order_line_ids:
-            invoice_lines = {
+            order_lines = {
                 'display_type': data.display_type,
                 'product_id': data.product_id.id,
                 'product_uom_qty': data.product_uom_qty,
                 'price_unit': data.price_unit,
                 'discount': data.discount,
+                'state': self.status,
                 'price_subtotal': data.price_subtotal,
                 'price_total': data.price_total,
                 'tax_id': [Command.set(data.product_id.taxes_id.ids)],
-
             }
-            middel_list.append(Command.create(invoice_lines))
 
+            middel_list.append(Command.create(order_lines))
+            print('##########################',middel_list)
         quotation_context = {
             'default_order_middel_oppo_id': self.id,
             'default_partner_id': self.partner_id.id,
@@ -284,14 +308,6 @@ class MiddelEast(models.Model):
 
     @api.depends('status', 'middel_order_line_ids.invoice_status')
     def _compute_invoice_status(self):
-        """
-        Compute the invoice status of a SO. Possible statuses:
-        - no: if the SO is not in status 'sale' or 'done', we consider that there is nothing to
-          invoice. This is also the default value if the conditions of no other status is met.
-        - to invoice: if any SO line is 'to invoice', the whole SO is 'to invoice'
-        - invoiced: if all SO lines are invoiced, the SO is invoiced.
-        - upselling: if all SO lines are invoiced or upselling, the status is upselling.
-        """
         confirmed_orders = self.filtered(lambda so: so.status == 'a_draft')
         (self - confirmed_orders).invoice_status = 'no'
         if not confirmed_orders:
