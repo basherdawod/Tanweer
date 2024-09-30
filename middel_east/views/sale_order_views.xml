@@ -14,6 +14,9 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <button string="Create Contract" name="create_contract" type="object" class="oe_highlight"/>
+            </xpath>
              <xpath expr="//div[@name='button_box']" position="inside">
                 <button class="oe_stat_button"
                         name="action_view_middel_quotation"
@@ -21,6 +24,13 @@
                         icon="fa-pencil-square-o"
                         >
                     <field string="Middel Orders" name="middel_count_num" widget="statinfo"/>
+                </button>
+                 <button class="oe_stat_button"
+                        name="action_contract_quotation"
+                        type="object"
+                        icon="fa-pencil-square-o"
+                        >
+                    <field string="Middel Orders" name="contract_count" widget="statinfo"/>
                 </button>
             </xpath>
 

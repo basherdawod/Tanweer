@@ -13,11 +13,17 @@
     'data': [
         # data
         'data/sequence_views.xml',
+        'data/contract_seq.xml',
+        'data/ir_cron_data.xml',
         # Security
-        # 'security/groups.xml',
-        # 'security/ir.model.access.csv',
-        # 'security/ir_rules.xml',
+        'security/groups.xml',
+        'security/visitor_schedule_security.xml',
+        'security/ir.model.access.csv',
+        'security/ir_rules.xml',
         # Views
+        'views/visitor_schedule_view.xml',
+        'views/maintenance_view.xml',
+
         'views/meddil_Form.xml',
         'views/account_views.xml',
         'views/middel_team_views.xml',

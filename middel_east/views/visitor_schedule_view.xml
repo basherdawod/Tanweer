@@ -1,0 +1,55 @@
+<!-- views/visitor_schedule_view.xml -->
+<odoo>
+    <record id="view_visitor_schedule_form" model="ir.ui.view">
+        <field name="name">visitor.schedule.form</field>
+        <field name="model">visitor.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Visitor Schedule">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="recurring_day"/>
+                        <field name="visit_date"/>
+                        <field name="team_id"/>
+                        <field name="user_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_visitor_schedule_tree" model="ir.ui.view">
+        <field name="name">visitor.schedule.tree</field>
+        <field name="model">visitor.schedule</field>
+        <field name="arch" type="xml">
+            <tree string="Visitor Schedule">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="recurring_day"/>
+                <field name="visit_date"/>
+                <field name="team_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_visitor_schedule_calendar" model="ir.ui.view">
+        <field name="name">visitor.schedule.calendar</field>
+        <field name="model">visitor.schedule</field>
+        <field name="arch" type="xml">
+            <calendar string="Visitor Schedule" color="team_id" date_start="visit_date">
+                <field name="name"/>
+                <field name="team_id"/>
+            </calendar>
+        </field>
+    </record>
+
+
+    <record id="action_visitor_schedule" model="ir.actions.act_window">
+        <field name="name">Visitor Schedules</field>
+        <field name="res_model">visitor.schedule</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+</odoo>

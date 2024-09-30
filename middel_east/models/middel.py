@@ -41,7 +41,7 @@ class MiddelEast(models.Model):
     user_middel = fields.Many2one('res.users', default=lambda self: self.env.user, required=True,
                                   string="Responsible")
     status = fields.Selection(
-        [('draft', "Draft"), ('sent', "Quotations"), ('approval', "Approval"), ('in_progress', "In Progress"),
+        [('draft', "Draft"),('ready', "Ready"), ('sent', "Quotations"), ('approval', "Approval"), ('in_progress', "In Progress"),
          ('c_complete', "Complete")],
         string="Status", default='draft')
     middel_east_team_id = fields.Many2one('middel.east.team', string="Middel Team")
@@ -50,6 +50,10 @@ class MiddelEast(models.Model):
 
     team_member_ids = fields.Many2many('res.users', string="Team Members",
                                        domain="[('id', 'in', middel_team_members_ids)]")
+
+    employee_count = fields.Integer(string='Number of Employees')
+
+    estimated_time = fields.Float(string='Estimated Time (hours)')
 
     project_id = fields.Many2one(related='middel_east_team_id.project_id', string="Project")
     project_task_id = fields.Many2one('project.task', string="Team Task")
@@ -281,7 +285,7 @@ class MiddelEast(models.Model):
     def _prepare_opportunity_quotation_context(self):
         """ Prepares the context for a new quotation (sale.order) by sharing the values of common fields """
         self.ensure_one()
-        
+
         middel_list = []
         for data in self.middel_order_line_ids:
             order_lines = {
@@ -621,6 +625,7 @@ class MiddelEast(models.Model):
 
     def create_qrf(self):
         self.status = 'quotations'
+        self.action_sale_quotations_new_middel()
 
     def b_in_progress(self):
         self.status = 'c_complete'
@@ -752,6 +757,18 @@ class ProjectTask(models.Model):
     _description = __doc__
 
     middel_east_id = fields.Many2one('middel.east', string="Middle Contract")
+    project_middel = fields.Many2one('middel.east.contract', string="Middel Project")
+
+    visit_id = fields.Many2one('visitor.schedule', string='Related Visit')
+    maintenance_contract_id = fields.Many2one('middel.maintenance', string='Maintenance Contract')
+
+    def create_maintenance_contract(self):
+        self.maintenance_contract_id = self.env['middel.maintenance'].create({
+            'project_id': self.id,
+            'name': f'Maintenance Contract for {self.name}',
+        })
+
+
 
     @api.depends('product_id')
     def _compute_name(self):
@@ -777,6 +794,14 @@ class SaleOrder(models.Model):
 
     middel_count_num = fields.Integer(compute='_compute_sale_visitor', string="Visitor")
 
+
+    contract_id = fields.Many2one('middel.east.contract', string='Contract')
+    contract_count = fields.Integer(string="Invoice Count", compute='_get_contract', tracking=True)
+    contract_ids = fields.One2many('middel.east.contract', 'contract_middel', string="Contract", copy=False, tracking=True)
+
+
+
+
     def action_view_middel_quotation(self):
         self.ensure_one()
         source_orders = self.order_middel_oppo_id
@@ -799,7 +824,31 @@ class SaleOrder(models.Model):
             rec.middel_count_num = q_count
 
 
+    @api.depends('contract_id')
+    def _get_contract(self):
+        for middel in self:
+            middel.contract_count = len(middel.contract_id)
 
+
+    def create_contract(self):
+            if self.state in ('sale' ,'sent') :
+                contract_middel_id = self.env['middel.east.contract'].sudo().create({
+                    'contract_order': self.id
+                })
+                self.contract_id = contract_middel_id.id
+            else:
+                raise ValidationError('You cannot Create Task  completed The information Of Project.')
+
+
+    def action_contract_quotation(self):
+        return {
+            'name': 'Contract',
+            'type': 'ir.actions.act_window',
+            'res_model': 'middel.east.contract',
+            'view_mode': 'form',
+            'res_id': self.contract_id.id,
+            'target': 'current',
+        }
     def action_confirm(self):
         return super(SaleOrder, self.with_context({k:v for k,v in self._context.items() if k != 'default_tag_ids'})).action_confirm()
 

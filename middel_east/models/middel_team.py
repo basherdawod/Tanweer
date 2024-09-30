@@ -10,7 +10,8 @@ class MiddelEastTeam(models.Model):
     _rec_name = 'name'
 
     color = fields.Integer()
-    name = fields.Char(string="Name", required=True)
+
+    name = fields.Char(string="Name Of Task", required=True)
     responsible_id = fields.Many2one('res.users', default=lambda self: self.env.user, required=True)
     team_member_ids = fields.Many2many('res.users', string="Team Members")
     project_id = fields.Many2one('project.project', string="Team Project")

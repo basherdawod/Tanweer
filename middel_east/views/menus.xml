@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <menuitem id="main_menu_middel_east" name="Middel East Management System"/>
+        <menuitem id="main_menu_middel_east" name="Middel East"
+        web_icon="middel_east,static/description/icon.png" />
 
         <menuitem id="menu_middel_east_dashboard"
                   name="Dashboard"
@@ -43,6 +44,15 @@
         sequence="2"/>
 
         <menuitem id="menu_configuration" name="Configurations" parent="main_menu_middel_east" sequence="4"/>
+
+
+    <menuitem id="menu_visitor_schedule_root" name="Visitor Scheduling"/>
+
+    <menuitem id="menu_visitor_schedule" name="Visitor Schedules" parent="menu_visitor_schedule_root" action="action_visitor_schedule"/>
+
+    <menuitem id="menu_contract_maintenance_root" name="Contract Maintenance"/>
+    <menuitem id="menu_contract_maintenance" name="Contract Maintenance" parent="menu_contract_maintenance_root" action="action_contract_maintenance"/>
+
 
     </data>
 </odoo>

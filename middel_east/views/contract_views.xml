@@ -6,6 +6,11 @@
             <field name="model">middel.east.contract</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                        <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"/>
+                         <button string="Conform" name="action_confirm" type="object" class="oe_highlight"/>
+                    </header>
 
                     <sheet>
                         <div class="oe_button_box" name="button_box" position="inside">
@@ -17,7 +22,7 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="name"/>
+                                <field name="contract"/>
                             </h1>
                         </div>
                          <group string="Customer Information ">
@@ -44,7 +49,7 @@
             <field name="model">middel.east.contract</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="name"/>
+                    <field name="contract"/>
                     <field name="partner_id"/>
                     <field name="contract_middel"/>
                     <field name="date"/>
@@ -57,7 +62,7 @@
             <field name="arch" type="xml">
                 <kanban sample="1" string="Kanban" class="o_res_partner_kanban">
                     <field name="id"/>
-                    <field name="name"/>
+                    <field name="contract"/>
                     <field name="partner_id"/>
                     <field name="contract_middel"/>
                     <field name="date"/>
@@ -66,7 +71,7 @@
                             <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
                                 <div class="oe_kanban_details">
                                     <strong>
-                                        <field name="name"/>
+                                        <field name="contract"/>
                                     </strong>
                                     <br/>
                                     <field name="partner_id"/>&#160;-&#160;
@@ -100,7 +105,7 @@
                           scales="day,month,year"
                           quick_create="False">
                     <field name="responsible_id" filters="1"/>
-                   <field name="name"/>
+                   <field name="contract"/>
                     <field name="partner_id"/>
                     <field name="contract_middel"/>
                 </calendar>
@@ -111,7 +116,7 @@
             <field name="model">middel.east.contract</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/>
+                    <field name="contract"/>
                     <group string="Group By">
                         <filter name="partner_id" string="Customer"
                                 context="{'group_by': 'partner_id'}"/>

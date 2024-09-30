@@ -17,7 +17,12 @@
             <field name="category_id" ref="module_category_middel_management"/>
         </record>
         <record id="middel_receptionist" model="res.groups">
-            <field name="name">Receptionist</field>
+            <field name="name">Supervisor</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_category_middel_management"/>
+        </record>
+        <record id="middel_contract" model="res.groups">
+            <field name="name">Contract</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
             <field name="category_id" ref="module_category_middel_management"/>
         </record>

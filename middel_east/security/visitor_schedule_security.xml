@@ -1,0 +1,35 @@
+<!-- security/visitor_schedule_security.xml -->
+<odoo>
+    <data>
+        <!-- Admin Group: Can see all visitors -->
+        <record id="group_admin" model="res.groups">
+            <field name="name">Visitor Schedule Admin</field>
+        </record>
+
+        <!-- Regular User Group: Can only see visitors in their team -->
+        <record id="group_user" model="res.groups">
+            <field name="name">Visitor Schedule User</field>
+        </record>
+
+        <!-- Access Rights -->
+        <record id="visitor_schedule_admin_access" model="ir.model.access">
+            <field name="name">visitor_schedule_admin_access</field>
+            <field name="model_id" ref="model_visitor_schedule"/>
+            <field name="group_id" ref="middel_east.group_admin"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="visitor_schedule_user_access" model="ir.model.access">
+            <field name="name">visitor_schedule_user_access</field>
+            <field name="model_id" ref="model_visitor_schedule"/>
+            <field name="group_id" ref="middel_east.group_user"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+    </data>
+</odoo>
