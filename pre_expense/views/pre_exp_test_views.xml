@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pre_exp_test_form" model="ir.ui.view">
+        <field name="name">pre.exp.test.model.form</field>
+        <field name="model">pre.exp.test.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                <!-- <button name="action_draft" string="Set to Draft" type="object" 
+                            invisible="state not in ('confirm', 'close')" class="oe_highlight"/>
+                    <button name="action_confirm" string="Confirm" type="object" 
+                            invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_close" string="Close" type="object" 
+                            invisible="state != 'confirm'" class="oe_highlight"/>
+                    <button name="action_compute_expenses" string="Compute Expenses" type="object" 
+                            invisible="state not in ('draft', 'confirm')" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,close"/>
+                </header> -->
+                <header>
+                    <button name="action_draft" string="Set to Draft" type="object"/>
+                    <button name="action_confirm" string="Confirm" type="object"/>
+                    <button name="action_close" string="Close" type="object"/>
+                    <button name="action_compute_expenses" string="Compute Expenses" type="object"/>
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,close"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="account_number"/>
+                            <field name="category_id"/>
+                            <field name="contract_start_date"/>
+                            <field name="contract_end_date"/>
+                        </group>
+                        <group>
+                            <field name="method_period"/>
+                            <field name="contract_amount"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Expense Lines">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="move_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pre_exp_test_tree" model="ir.ui.view">
+        <field name="name">pre.exp.test.model.tree</field>
+        <field name="model">pre.exp.test.model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="account_number"/>
+                <field name="category_id"/>
+                <field name="contract_start_date"/>
+                <field name="contract_end_date"/>
+                <field name="contract_amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pre_exp_test" model="ir.actions.act_window">
+        <field name="name">Prepaid Expenses</field>
+        <field name="res_model">pre.exp.test.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_pre_exp_test"
+              name="Prepaid Expenses"
+              parent="account.menu_finance"
+              action="action_pre_exp_test"
+              sequence="15"/>
+</odoo>

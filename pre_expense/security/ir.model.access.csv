@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pre_exp_test_model_user,pre.exp.test.model.user,model_pre_exp_test_model,account.group_account_user,1,1,1,0
+access_pre_exp_test_model_manager,pre.exp.test.model.manager,model_pre_exp_test_model,account.group_account_manager,1,1,1,1
+access_pre_exp_test_line_user,pre.exp.test.line.user,model_pre_exp_test_line,account.group_account_user,1,1,1,0
+access_pre_exp_test_line_manager,pre.exp.test.line.manager,model_pre_exp_test_line,account.group_account_manager,1,1,1,1
+access_pre_exp_test_category_user,pre.exp.test.category.user,model_pre_exp_test_category,account.group_account_user,1,0,0,0
+access_pre_exp_test_category_manager,pre.exp.test.category.manager,model_pre_exp_test_category,account.group_account_manager,1,1,1,1
