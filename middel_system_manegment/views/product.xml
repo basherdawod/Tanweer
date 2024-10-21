@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_product_form_view" model="ir.ui.view">
+            <field name="name">middel.product.form.view</field>
+            <field name="model">middel.product</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <gruop>
+                                <div class="oe_title">
+                                    <label for="name" class="oe_edit_only"/> <!-- Label for 'name' -->
+                                    <h1>
+                                        <field name="name" placeholder="e.g. name"/>
+                                    </h1>
+                                </div>
+                            </gruop>
+                            <group>
+                                <field name="image" widget="image" class="oe_avatar float-start"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="description"/>
+                                <field name="product_category"/>
+                                <field name="product_sub"/>
+                                <field name="brand"/>
+                            </group>
+                            <group>
+                                <field name="model_no"/>
+                                <field name="cost_price"/>
+                                <field name="margin_percent"/>
+                                <field name="price"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="middel_product_tree_view" model="ir.ui.view">
+            <field name="name">middel.product.tree.view</field>
+            <field name="model">middel.product</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="model_no"/>
+                    <field name="price"/>
+                    <field name="active"/>
+                    <field name="product_category"/>
+                    <field name="product_sub"/>
+                    <field name="brand"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_product_search_view" model="ir.ui.view">
+            <field name="name">middel.product.search.view</field>
+            <field name="model">middel.product</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="model_no"/>
+                    <field name="price"/>
+                    <field name="active"/>
+                    <field name="product_category"/>
+                    <field name="product_sub"/>
+                    <field name="brand"/>
+                    <group string="Group By">
+                        <filter name="model_no" string="Model NO "
+                                context="{'group_by': 'model_no'}"/>
+                    <filter name="active" string="Active "
+                                context="{'group_by': 'active'}"/>
+                    <filter name="product_category" string="Product Category "
+                                context="{'group_by': 'product_category'}"/>
+                    <filter name="product_sub" string="Sub Category "
+                                context="{'group_by': 'product_sub'}"/>
+                    <filter name="brand" string="Brand "
+                                context="{'group_by': 'brand'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="middel_product_kanban" model="ir.ui.view">
+            <field name="name">middel.product.kanban.view</field>
+            <field name="model">middel.product</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="price"/>
+                    <field name="description"/>
+                    <field name="model_no"/>
+                    <field name="product_category"/>
+                    <field name="product_sub"/>
+                    <field name="brand"/>
+                    <field name="active"/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="o_kanban_record">
+                                <!-- Title and Price -->
+                                <div class="o_kanban_record_top">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+                                    <span class="badge badge-primary">
+                                        <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </span>
+                                </div>
+
+                                <!-- Description Section -->
+                                <div class="o_kanban_record_body">
+                                    <div class="text-muted">
+                                        <field name="description"/>
+                                    </div>
+
+                                    <!-- Model and Categories Section -->
+                                    <div class="o_kanban_secondary_fields">
+                                        <div>
+                                            <strong>Model No:</strong> <field name="model_no"/>
+                                        </div>
+                                        <div>
+                                            <strong>Category:</strong> <field name="product_category"/>
+                                        </div>
+                                        <div>
+                                            <strong>Subcategory:</strong> <field name="product_sub"/>
+                                        </div>
+                                        <div>
+                                            <strong>Brand:</strong> <field name="brand"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Active Status -->
+                                <div class="o_kanban_record_footer">
+                                    <span t-attf-class="badge #{record.active ? 'badge-success' : 'badge-danger'}">
+                                        <t t-if="record.active">Active</t>
+                                        <t t-else="" >Inactive</t>
+                                    </span>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_middel_product" model="ir.actions.act_window">
+            <field name="name">Middel product</field>
+            <field name="res_model">middel.product</field>
+            <field name="view_mode">tree,form,search,activity</field>
+        </record>
+    </data>
+</odoo>

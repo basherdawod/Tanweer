@@ -1,0 +1,18 @@
+<odoo>
+    <!-- Manager can access all records -->
+    <record id="middel_east_manager_rule" model="ir.rule">
+        <field name="name">Middel East Manager Rule</field>
+        <field name="model_id" ref="model_middel_east"/>
+        <field name="groups" eval="[(4, ref('group_middel_east_manager'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+
+    <!-- User can only access their own records -->
+    <record id="middel_east_user_rule" model="ir.rule">
+        <field name="name">Middel East User Rule</field>
+        <field name="model_id" ref="model_middel_east"/>
+        <field name="groups" eval="[(4, ref('group_middel_east_user'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+</odoo>

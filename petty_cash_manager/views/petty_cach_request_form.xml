@@ -1,0 +1,72 @@
+<odoo>
+    <!-- Petty Cash Request Form -->
+    <record id="view_petty_cash_request_form" model="ir.ui.view">
+        <field name="name">Petty Cash Request</field>
+        <field name="model">petty.cash.request</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash Request">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button string="Approve" name="action_approve" type="object" class="oe_highlight"
+                            invisible="state not in  ('draft')"
+                            />
+                    <!-- Pay button, visible only in approved state -->
+                    <button name="action_pay" string="Pay" type="object"
+                            class="btn-primary"
+                            invisible="state not in  ('approved')"
+                            />
+                    <!-- Reimburse button, visible only in paid state -->
+                    <button name="action_reimburse" string="Reimburse" type="object"
+                            class="btn-primary"
+                            invisible="state not in  ('paid')"/>
+
+                </header>
+                 <sheet>
+                    <div class="row">
+                        <div class="col-6 oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <div class="col-6">
+                            <field name="date"/>
+                        </div>
+                    </div>
+                     <group string="APPLICANT'S NAME">
+                         <group>
+                             <field name="petty_card"/>
+                            <field name="petty_code"/>
+                             <field name="user_approval"/>
+                         </group>
+                         <group>
+                             <field name="account_id"/>
+                             <field name="account_code"/>
+                         </group>
+                    </group>
+                     <group >
+                         <group>
+                             <field name="request_amount"/>
+                             <field name="amount_in_words"/>
+                         </group>
+                         <group>
+                            <field name="follow"/>
+                            <field name="note"/>
+                         </group>
+                    </group>
+                 </sheet>
+
+            </form>
+        </field>
+    </record>
+    <menuitem id="menu_petty_cash_accounting_root"
+              name="Petty Cash Requests"
+              parent="petty_cash_manager.menu_petty_cash_accounting"
+              action="action_petty_cash_request"
+              sequence="3"/>
+
+     <record id="action_petty_cash_request" model="ir.actions.act_window">
+        <field name="name">Petty Cash Requests</field>
+        <field name="res_model">petty.cash.request</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

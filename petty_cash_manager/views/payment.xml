@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<record id="view_petty_cash_payment_form" model="ir.ui.view">
+    <field name="name">petty.cash.payment.form</field>
+    <field name="model">petty.cash.payment</field>
+    <field name="arch" type="xml">
+        <form string="Petty Cash Payment">
+            <header>
+                <field name="state" widget="statusbar"/>
+                <button name="confirm_payment" type="object" string="Confirm" class="btn-primary" invisible="state not in  ('draft')"/>
+                <button name="validate_payment" type="object" string="Validate" class="btn-success" invisible="state not in  ('confirm')"/>
+                <button string="Cancel" class="btn-secondary" special="cancel"/>
+            </header>
+            <sheet>
+                <div class="oe_title">
+                    <h1 invisible="state != 'draft'"><span>Draft</span></h1>
+                    <h1 invisible="state == 'draft'"><field name="name" readonly="1"/></h1>
+                </div>
+                <group name="main_group">
+                    <group name="group1">
+                        <field name="user_approval"/>
+                        <field name="employee_petty"/>
+                        <field name="payment_type" widget="radio" options="{'horizontal': True}" required="1" readonly="state != 'draft'" />
+
+                    </group>
+                    <group name="group2">
+                            <field name="account_receive"/>
+
+                            <field name="payment_date"/>
+                            <field name="amount"/>
+                            <field name="currency_id" />
+
+                    </group>
+                </group>
+                <group name="=main_group">
+                    <group>
+                        <field name="employee_request"/>
+                        <field name="employee_submission"/>
+                        <field name="account_id"/>
+                    </group>
+                    <group>
+                        <field name="company_id"/>
+                    </group>
+
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="view_petty_cash_payment_list" model="ir.ui.view">
+    <field name="name">petty.cash.payment.list</field>
+    <field name="model">petty.cash.payment</field>
+    <field name="arch" type="xml">
+        <tree string="Petty Cash Payment">
+            <field name="name"/>
+            <field name="employee_petty"/>
+            <field name="payment_type"/>
+            <field name="amount"/>
+            <field name="payment_date"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+</odoo>

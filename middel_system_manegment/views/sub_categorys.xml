@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_east_sub_category_form" model="ir.ui.view">
+            <field name="name">middel.sub.category</field>
+            <field name="model">middel.sub.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="main_Category"/>
+                                <field name="brand"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="middel_east_sub_category_tree" model="ir.ui.view">
+            <field name="name">middel.sub.category</field>
+            <field name="model">middel.sub.category</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="main_Category"/>
+                    <field name="brand"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_east_sub_category_search_view" model="ir.ui.view">
+            <field name="name">middel.sub.category</field>
+            <field name="model">middel.sub.category</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <group string="Group By">
+                        <filter name="responsible_id" string="Responsible"
+                                context="{'group_by': 'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_middel_sub_category" model="ir.actions.act_window">
+            <field name="name">Middel sub Category</field>
+            <field name="res_model">middel.sub.category</field>
+            <field name="view_mode">tree,form,search,activity</field>
+        </record>
+    </data>
+</odoo>

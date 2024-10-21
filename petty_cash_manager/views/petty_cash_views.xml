@@ -1,0 +1,64 @@
+<odoo>
+    <!-- Petty Cash Accounting Menu Item -->
+
+
+    <!-- Petty Cash Account List -->
+    <record id="view_petty_cash_account_tree" model="ir.ui.view">
+        <field name="name">petty.cash.account.tree</field>
+        <field name="model">petty.cash.account</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Accounts">
+                <field name="name"/>
+                <field name="balance"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Petty Cash Account Form -->
+    <record id="view_petty_cash_account_form" model="ir.ui.view">
+        <field name="name">petty.cash.account.form</field>
+        <field name="model">petty.cash.account</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash Account">
+                <group>
+                    <field name="name"/>
+                    <field name="balance" readonly="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Petty Cash Request List -->
+    <record id="view_petty_cash_request_tree" model="ir.ui.view">
+        <field name="name">petty.cash.request.tree</field>
+        <field name="model">petty.cash.request</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Requests">
+                <field name="employee_petty"/>
+                <field name="request_amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Add Petty Cash to Accounting Menu after Vendors -->
+    <menuitem id="menu_petty_cash_accounting"
+              name="Petty Cash Management"
+              parent="account.menu_finance"
+              sequence="16"
+             />
+
+<menuitem id="menu_petty_cash_form"
+              name="Petty Cash "
+              parent="petty_cash_manager.menu_petty_cash_accounting"
+              sequence="2"
+              action="action_petty_cash_account"/>
+
+    <!-- Actions -->
+    <record id="action_petty_cash_account" model="ir.actions.act_window">
+        <field name="name">Petty Cash Accounts</field>
+        <field name="res_model">petty.cash.account</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+</odoo>

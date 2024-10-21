@@ -1,0 +1,86 @@
+<odoo>
+    <!-- Petty Cash card Form -->
+    <record id="view_petty_cash_card_form" model="ir.ui.view">
+        <field name="name">petty.cash.card</field>
+        <field name="model">petty.cash.card</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                </header>
+                 <sheet>
+                    <div class="row">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </div>
+                     <group string="Employee  Details">
+                        <group>
+<!--                            <field name="barcode"/>-->
+                            <field name="employee_id"/>
+                            <field name="job_title"/>
+                            <field name="account_id"/>
+                            <field name="open_balance"/>
+                        </group>
+                         <group>
+
+                                <field name="address"/>
+                                <field name="phone"/>
+                                <field name="email"/>
+                         </group>
+                    </group>
+                     <group string="Card Details">
+                         <group>
+                             <field name="company_id"/>
+                         </group>
+                         <group>
+                             <field name="currency_id"/>
+                         </group>
+                    </group>
+
+                 </sheet>
+
+            </form>
+        </field>
+    </record>
+    <menuitem id="menu_petty_cash_e_card"
+              name="PCMC"
+              parent="petty_cash_manager.menu_petty_cash_accounting"
+              action="action_petty_e_card"
+              sequence="1"/>
+
+    <menuitem id="menu_cash_submission"
+              name="Petty Cash Submissions"
+              parent="petty_cash_manager.menu_petty_cash_accounting"
+              action="action_petty_cash_submission"
+              sequence="4"/>
+
+     <record id="action_petty_e_card" model="ir.actions.act_window">
+        <field name="name">PCMC</field>
+        <field name="res_model">petty.cash.card</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+     <record id="action_petty_cash_submission" model="ir.actions.act_window">
+        <field name="name">Petty Cash Submissions</field>
+        <field name="res_model">petty.cash.submission</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Petty Cash Submissions have been made yet.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_petty_cash_payment" model="ir.actions.act_window">
+        <field name="name">Petty Cash Payments</field>
+        <field name="res_model">petty.cash.payment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+<menuitem id="menu_petty_cash_payments" name="Petty Cash Payments" parent="petty_cash_manager.menu_petty_cash_accounting" action="action_petty_cash_payment" sequence="4"/>
+
+
+
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_petrol_charges_form" model="ir.ui.view">
+            <field name="name">middel.petrol.charges</field>
+            <field name="model">middel.petrol.charges</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                         <div class="oe_title">
+                            <h1>
+
+                                <field name="name"/>
+
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                            </group>
+                            <group>
+                                <field name="charges"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="middel_petrol_charges_tree" model="ir.ui.view">
+            <field name="name">middel.petrol.charges</field>
+            <field name="model">middel.petrol.charges</field>
+            <field name="arch" type="xml">
+<!--                <tree js_class="toggleActiveTreeView" >-->
+                <tree>
+                <field name="name"/>
+                    <field name="date"/>
+                    <field name="charges"/>
+                    <field name="active"/>
+                    <button name="toggle_active" type="object" string="Change Status"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_petrol_charges_search_view" model="ir.ui.view">
+            <field name="name">middel.petrol.charges</field>
+            <field name="model">middel.petrol.charges</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="active"/>
+                </search>
+            </field>
+        </record>
+        <record id="action_middel_petrol_charges_category" model="ir.actions.act_window">
+            <field name="name">Middel Petrol Charges </field>
+            <field name="res_model">middel.petrol.charges</field>
+            <field name="view_mode">tree,form,search,activity</field>
+        </record>
+    </data>
+</odoo>

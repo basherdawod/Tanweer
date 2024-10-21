@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_team_form_view" model="ir.ui.view">
+            <field name="name">middel.team.form.view</field>
+            <field name="model">middel.team</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="id_employee" class="oe_edit_only"/> <!-- Label for 'name' -->
+                            <h1>
+                                <field name="id_employee" placeholder="e.g. ID Card"/>
+
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+
+                            <group>
+                                <field name="image" widget="image" class="oe_avatar float-start"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="country_id"/>
+                                <field name="employee_address"/>
+                                <field name="street"/>
+                                <field name="street2"/>
+                                <field name="time_cost"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="middel_team_tree_view" model="ir.ui.view">
+            <field name="name">middel.team.tree.view</field>
+            <field name="model">middel.team</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id_employee"/>
+                    <field name="name"/>
+                    <field name="employee_address"/>
+                    <field name="time_cost"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_team_search_view" model="ir.ui.view">
+            <field name="name">middel.team.search.view</field>
+            <field name="model">middel.team</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="employee_address"/>
+                    <group string="Group By">
+                        <filter name="employee_address" string="Address"
+                                context="{'group_by': 'employee_address'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_middel_team" model="ir.actions.act_window">
+            <field name="name">Middel Team</field>
+            <field name="res_model">middel.team</field>
+            <field name="view_mode">tree,form,search,activity</field>
+        </record>
+    </data>
+</odoo>

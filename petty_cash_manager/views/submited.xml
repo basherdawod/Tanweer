@@ -1,0 +1,76 @@
+<odoo>
+    <record id="view_submission_tree" model="ir.ui.view">
+        <field name="name">Petty Cash Submission</field>
+        <field name="model">petty.cash.submission</field>
+        <field name="arch" type="xml">
+            <tree string="Petty Cash Submissions">
+                <field name="name"/>
+                <field name="submission_date"/>
+                <field name="total_spent"/>
+                <field name="remaining_amount"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_submission_form" model="ir.ui.view">
+        <field name="name">Petty Cash Submission</field>
+        <field name="model">petty.cash.submission</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash Submission" >
+                <header>
+                    <field name="state" widget="statusbar" />
+                      <button string="Submit" type="object" name="action_submit" class="btn-primary" invisible="state not in  ('draft')" />
+                    <button string="Approve" type="object" name="action_submit_payment" class="btn-success" invisible="state not in  ('submitted')"/>
+                </header>
+                <sheet>
+                    <div class="row">
+                        <div class="oe_title">
+                            <group>
+                               <h1>
+                                    <field name="name"/>
+                                </h1>
+                            </group>
+                            <group>
+                             <field name="user_approval"/>
+                             <field name="submission_date"/>
+                            </group>
+                        </div>
+                    </div>
+                     <group string="Petty Cash Details">
+                         <group>
+                             <field name="petty_cash_request_id" options='{"no_open": True, "no_create": True}' />
+                            </group>
+                         <group>
+<!--                             <field name="code_petty_cash"/>-->
+                         </group>
+                    </group>
+                     <group string="Amount Details">
+                        <group>
+                            <field name="total_spent" readonly="1" />
+                            <field name="remaining_amount" readonly="1"/>
+                        </group>
+                    </group>
+                <notebook>
+                    <page string="Expense Details" name="expense_details">
+                       <field name="expense_details" context="{'default_submission_id': active_id}">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="reference"/>
+                                <field name="account_code"/>
+                                <field name="account"/>
+                                <field name="description"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                 </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+
+</odoo>

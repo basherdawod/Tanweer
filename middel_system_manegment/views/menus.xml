@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <menuitem id="main_middel_manegment_sys" name="Middel East"
+        web_icon="middel_east,static/description/icon.png" />
+
+        <menuitem id="menu_middel_system"
+                  name="Booking"
+                  action="action_middel_east"
+                  parent="main_middel_manegment_sys"
+                  sequence="1"/>
+        <menuitem id="menu_quotation"
+                  name="Quotation"
+                  parent="main_middel_manegment_sys"
+                  action="action_middel_quotation_east"
+                  sequence="2"/>
+        <menuitem id="menu_customer"
+                  name="Customers"
+                  parent="main_middel_manegment_sys"
+                  action="contacts.action_contacts"
+                  sequence="3"/>
+        <menuitem id="menu_Product"
+                  name="Product"
+                  parent="main_middel_manegment_sys"
+                  action="action_middel_product"
+                  sequence="4"/>
+
+
+    <!-- Child Menu for Configuration -->
+    <menuitem id="menu_middel_Configration"
+          name="Configuration"
+          parent="main_middel_manegment_sys"
+          sequence="6"/>
+         <!-- Child Sub Menu for Configuration -->
+    <menuitem id="menu_middel_Configration_Sub1"
+          name="Team"
+          parent="menu_middel_Configration"
+          sequence="1"/>
+     <menuitem id="menu_middel_Configration_Sub2"
+          name="Category"
+          parent="menu_middel_Configration"
+          sequence="2"/>
+    <menuitem id="menu_middel_Configration_Sub3"
+          name="Brand"
+          parent="menu_middel_Configration"
+          sequence="3"/>
+    <menuitem id="menu_middel_Configration_Sub4"
+          name="Petrol Charges"
+          parent="menu_middel_Configration"
+          sequence="4"/>
+    <menuitem id="menu_middel_Configration_Sub5"
+          name="Cost Expense"
+          parent="menu_middel_Configration"
+          sequence="5"/>
+
+    <!-- Child Menu for Teams -->
+    <menuitem id="sub_menu_middel_team"
+              name="Teams"
+              action="action_middel_team"
+              parent="menu_middel_Configration_Sub1"
+              sequence="1"/>
+<!--         Child Menu for Category -->
+        <menuitem id="menu_middel_main_category"
+                  name="Category"
+                  action="action_middel_main_category"
+                  parent="menu_middel_Configration_Sub2"
+                  sequence="2"/>
+        <menuitem id="menu_middel_sub_category"
+                  name="Sub Category"
+                  action="action_middel_sub_category"
+                  parent="menu_middel_Configration_Sub2"
+                  sequence="2"/>
+        <!--         Child Menu for Brand -->
+        <menuitem id="menu_middel_brand"
+              name="Brand"
+              action="action_middel_brand_category"
+              parent="menu_middel_Configration_Sub3"
+              sequence="1"/>
+
+    <menuitem id="menu_middel_petrol"
+              name="Petrol Charges"
+              action="action_middel_petrol_charges_category"
+              parent="menu_middel_Configration_Sub4"
+              sequence="1"/>
+<menuitem id="menu_middel_expense"
+              name="Company Cost Type"
+              action="action_middel_expense"
+              parent="menu_middel_Configration_Sub5"
+              sequence="1"/>
+
+
+    </data>
+</odoo>

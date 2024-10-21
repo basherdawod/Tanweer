@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="middel_quotation_form_view" model="ir.ui.view">
+            <field name="name">middel.quotation.form.view</field>
+            <field name="model">middel.quotation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                        <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                                invisible="status not in  ('c_complete' ,'approval','in_progress')" />
+                         <button string="Conform" name="action_approval" type="object" class="oe_highlight"
+                                 />
+                        <button string="Create Invoice" name="create_invoices" type="object" class="oe_highlight"
+                                 />
+                        <button string="Cancel" name="action_cancel" type="object" class="oe_highlight"/>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" position="inside">
+                              <button class="oe_stat_button" type="object"
+                                name="action_view_middel_visitor" icon="fa-pencil-square-o"
+                              invisible="visitor_count == 0 ">
+                                <field name="visitor_count" widget="statinfo" string="Visitor"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                         <group>
+                             <group >
+                                <field name="partner_id"/>
+                                <field name="phone"/>
+                                <field name="country_id" invisible="1"/>
+                                <field name="state_id"/>
+                                <field name="project"/>
+                             </group>
+                             <group>
+                                 <field name="date"/>
+                                 <field name="currency_id" invisible="1"/>
+                                <field name="approch"/>
+                                <field name="customer_need_drawing"
+                                       invisible="{'invisible': [('project', 'not in', ['Farm', 'SOF_Office', 'Factory'])]}"
+
+                                         />
+                                <field name="customer_need_amc" invisible="{'invisible': [('project', 'not in', ['Building', 'BUC'])]}"
+                                               />
+                                <field name="customer_need_cid" invisible="{'invisible': [('project', 'not in', ['Villa', 'VUC', 'VUC'])]}"
+                                           />
+                            </group>
+                        </group>
+                        <notebook>
+<!--                            <page name="customer_need" string="Customer Need" invisible="{'invisible': [('customer_need_active', '=', False)]}">-->
+                            <page name="order_line_ids" string="Customer Need" groups="middel_system_manegment.group_middel_east_manager">
+                                <field name="order_line_ids" mode="tree,kanban">
+                                    <tree editable="bottom" limit="200">
+                                        <field name="product_category"/>
+                                        <field name="product_sub"/>
+                                        <field name="brand"/>
+                                        <field name="product"/>
+                                        <field name="description"/>
+                                        <field name="model_no"/>
+                                        <field name="quantity"/>
+                                        <field name="price" groups="middel_system_manegment.group_middel_east_manager" />
+                                        <field name="price_total" groups="middel_system_manegment.group_middel_east_manager" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="middel_quotation_tree_view" model="ir.ui.view">
+            <field name="name">middel.quotation.tree.view</field>
+            <field name="model">middel.quotation</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="phone"/>
+                    <field name="project"/>
+                    <field name="status"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="middel_quotation_kanban_view" model="ir.ui.view">
+            <field name="name">middel.quotation.kanban.view</field>
+            <field name="model">middel.quotation</field>
+            <field name="arch" type="xml">
+                <kanban sample="1" string="Kanban" class="o_res_partner_kanban">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
+                                    <br/>
+                                    <field name="partner_id"/>&#160;-&#160;
+
+                                    <br/>
+                                     <field name="date"/>&#160;-
+                                    <br/>
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <field name="status" widget="label_selection"
+                                                   options="{'classes': {'draft': 'info', 'quotations': 'warning','approval': 'warning','in_progress': 'warning', 'c_complete': 'success'}}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="middel_quotation_calendar_view" model="ir.ui.view">
+            <field name="name">middel.quotation.calendar.view</field>
+            <field name="model">middel.quotation</field>
+            <field name="arch" type="xml">
+                <calendar string="Middel Service Details Calendar"
+                          date_start="date"
+                          event_open_popup="true"
+                          mode="month"
+                          color="name"
+                          scales="day,month,year"
+                          quick_create="False">
+                   <field name="name"/>
+                    <field name="partner_id"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="middel_quotation_search_view" model="ir.ui.view">
+            <field name="name">middel.quotation.search.view</field>
+            <field name="model">middel.quotation</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <group string="Group By">
+                        <filter name="partner_id" string="Customer"
+                                context="{'group_by': 'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_middel_quotation_east" model="ir.actions.act_window">
+            <field name="name">Quotation</field>
+            <field name="res_model">middel.quotation</field>
+            <field name="view_mode">kanban,tree,form,search,calendar,activity</field>
+        </record>
+    </data>
+</odoo>

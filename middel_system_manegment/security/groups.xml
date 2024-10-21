@@ -1,0 +1,19 @@
+<odoo>
+    <!-- Create Custom Category -->
+    <record id="module_category_middel_east_management" model="ir.module.category">
+        <field name="name">Middel East Management</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- Define Middel East Manager Group -->
+    <record id="group_middel_east_manager" model="res.groups">
+        <field name="name">Middel East Manager</field>
+        <field name="category_id" ref="module_category_middel_east_management"/>
+    </record>
+
+    <!-- Define Middel East User Group -->
+    <record id="group_middel_east_user" model="res.groups">
+        <field name="name">Middel East User</field>
+        <field name="category_id" ref="module_category_middel_east_management"/>
+    </record>
+</odoo>
