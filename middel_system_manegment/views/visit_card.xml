@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+    <record id="visit_card_contract_view" model="ir.ui.view">
+            <field name="name">visit.card.form.view</field>
+            <field name="model">visit.card</field>
+            <field name="arch" type="xml">
+                <form>
+                  <!--   <header>
+                        <field name="status" widget="statusbar"/>
+                        <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                                invisible="status not in  ('complete')" />
+                        <button string="Complete" name="set_to_compleat" type="object" class="oe_highlight"
+                                 invisible="status not in  ('draft')"/>
+
+                    </header> -->
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="visit_no"/>
+                                <field name="date"/>
+                                <field name="bullding_type"/>
+                             </group>
+                              <group>
+                                <field name="project_name"/>
+                                <field name="area"/>
+                             </group>
+                        </group>
+                        
+                      
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="hdd">HDD</label>
+                                <field name="hdd" />
+                            </div>
+                            <div class="col-6">
+                                <field name="hdd1" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <label for="bullet_n">Bullet N</label>
+                                <field name="bullet_n" />
+                            </div>
+                            <div class="col-2">
+                                <label for="bullet_v">Bullet V</label>
+                                <field name="bullet_v" />
+                            </div>
+                            <div class="col-2">
+                                <label for="bullet_wdr_vf">Bullet WDR VF</label>
+                                <field name="bullet_wdr_vf" />
+                            </div>
+                            <div class="col-2">
+                                <label for="dome_n">Dome N</label>
+                                <field name="dome_n" />
+                            </div>
+                            <div class="col-2">
+                                <label for="dome_vf">Dome VF</label>
+                                <field name="dome_vf" />
+                            </div>
+                            <div class="col-2">
+                                <label for="dome_wdr_vf">Dome WDR VF</label>
+                                <field name="dome_wdr_vf" />
+                            </div>
+                        </div>
+                        <div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="full_system_working">Full System Working </label>
+                                <field name="full_system_working" />
+                            </div>
+                             <div class="col-4">
+                                <label for="full_system_cleaning">Full System Cleaning </label>
+                                <field name="full_system_cleaning" />
+                            </div>
+                            <div class="col-4">
+                                <label for="dvr_nvr_recording_30_days">DVR/NVR Recording 30 Days </label>
+                                <field name="dvr_nvr_recording_30_days" />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+
+                        <group>
+                            <group>
+                                <field name="technican_name"/>
+                                <field name="watch_man"/>
+                            </group>
+                            <group>
+                                <field name="watch_no"/>
+                            </group>
+                        </group>
+                         <notebook>
+                            <page string="Notes">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="notes_before_visiting">Notes Before Visiting</label>
+                                        <field name="notes_before_visiting"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="notes_before_visiting">Notes Before Visiting</label>
+                                        <field name="notes_after_visiting"/>
+                                    </div>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+         <record id="visit_card_tree_view" model="ir.ui.view">
+            <field name="name">visit.card.tree.view</field>
+            <field name="model">visit.card</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="visit_no"/>
+                    <field name="project_name"/>
+                    <field name="makani_no"/>
+                    <field name="hdd"/>
+                    <field name="technican_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_visit_card" model="ir.actions.act_window">
+            <field name="name">Visit Card</field>
+            <field name="res_model">visit.card</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+    </data>
+</odoo>
+
+
+
+
+
+ 

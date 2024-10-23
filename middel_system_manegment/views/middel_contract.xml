@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+    <record id="middel_east_contract_view" model="ir.ui.view">
+            <field name="name">middel.contract.form.view</field>
+            <field name="model">middel.contract</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar"/>
+                        <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                                invisible="status not in  ('complete')" />
+                        <button string="Complete" name="set_to_compleat" type="object" class="oe_highlight"
+                                 invisible="status not in  ('draft')"/>
+                        <button string="Create Visit Card" name="action_create_visit_card" type="object" class = "oe_highlight"
+                              invisible="not (status == 'complete')"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" position="inside">
+                              <button class="oe_stat_button" type="object"
+                                name="action_view_visit_cards" icon="fa-solid fa-map">
+                                <field name="visit_count" widget="statinfo" string="Visits"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                             <group>
+                                <field name="partner_id"/>
+                                <field name="name"/>
+                                <field name="area_id"/>
+                                <field name="plot_no"/>
+                             </group>
+                              <group>
+                                <field name="makani_no"/>
+                                <field name="mob"/>
+                                <field name="email"/>
+                                <field name="quotation_id"/>
+                             </group>
+                        </group>
+                         <notebook>
+                             <page name="commercial_proposal_for_amc" string="Commerical Propasal For AMC">
+                                <field name="middel_list_ids" mode="tree,kanban">
+                                    <tree editable="bottom">
+                                        <field name="product"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="price" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                     <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+         <record id="middel_conrtact_tree_view" model="ir.ui.view">
+            <field name="name">middel.contract.tree.view</field>
+            <field name="model">middel.contract</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="partner_id"/>
+                    <field name="area_id"/>
+                    <field name="plot_no"/>
+                    <field name="makani_no"/>
+                    <field name="mob"/>
+                    <field name="email"/>
+                    <field name="quotation_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_middel_contract" model="ir.actions.act_window">
+            <field name="name">Maintenance</field>
+            <field name="res_model">middel.contract</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+    </data>
+</odoo>
+
+
+
+
+ 

@@ -14,16 +14,46 @@
                   parent="main_middel_manegment_sys"
                   action="action_middel_quotation_east"
                   sequence="2"/>
+
+          <!-- Contract Menu  -->
+        <menuitem id="menu_contract"
+                  name="Middel Contract"
+                  parent="main_middel_manegment_sys"
+                  sequence="2"/>
+
+        <menuitem id="menu_middel_contract_maintenance"
+          name="Maintenance"
+          parent="menu_contract"
+          action="action_middel_contract"
+          sequence="1"/>
+        <menuitem id="menu_middel_contract_vist_card"
+          name="Visit Card"
+          parent="menu_contract"
+          action="action_visit_card"
+          sequence="2"/>
+        <!--  -->
+        <menuitem id="menu_invoice"
+                  name="Invoice"
+                  parent="main_middel_manegment_sys"
+                  action="account.action_move_out_invoice_type"
+                  sequence="3"/>
         <menuitem id="menu_customer"
                   name="Customers"
                   parent="main_middel_manegment_sys"
                   action="contacts.action_contacts"
-                  sequence="3"/>
-        <menuitem id="menu_Product"
+                  sequence="4"/>
+
+        <menuitem id="menu_Product_template"
                   name="Product"
                   parent="main_middel_manegment_sys"
-                  action="action_middel_product"
+                  action="action_middel_services"
                   sequence="4"/>
+
+<!--        <menuitem id="menu_Product"-->
+<!--                  name="Product"-->
+<!--                  parent="main_middel_manegment_sys"-->
+<!--                  action="action_middel_product"-->
+<!--                  sequence="5"/>-->
 
 
     <!-- Child Menu for Configuration -->
@@ -65,11 +95,16 @@
                   action="action_middel_main_category"
                   parent="menu_middel_Configration_Sub2"
                   sequence="2"/>
+        <menuitem id="menu_middel_product_category"
+                  name="Product Category"
+                  action="product.product_category_action_form"
+                  parent="menu_middel_Configration_Sub2"
+                  sequence="2"/>
         <menuitem id="menu_middel_sub_category"
                   name="Sub Category"
                   action="action_middel_sub_category"
                   parent="menu_middel_Configration_Sub2"
-                  sequence="2"/>
+                  sequence="3"/>
         <!--         Child Menu for Brand -->
         <menuitem id="menu_middel_brand"
               name="Brand"

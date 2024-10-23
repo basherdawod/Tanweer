@@ -9,14 +9,11 @@
                     <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
-                                invisible="status not in  ('c_complete' ,'approval','in_progress')" />
-                         <button string="Conform" name="create_qrf" type="object" class="oe_highlight"
-                                 />
+                                invisible="status not in  ('set','approval','c_complete')" />
                          <button string="Quotation" name="action_create_quotation" type="object" class="oe_highlight"
-                                 />
-                        <button string="Approval" name="action_approval" type="object" class="oe_highlight"/>
-
-                        <button string="Complete" name="b_in_progress_to_c_complete" type="object" class="oe_highlight"/>
+                               invisible="status  in  ('approval' ,'c_complete')"   />
+                        <button string="Complete" name="b_c_complete" type="object" class="oe_highlight"
+                        invisible="status not in  ('set' ,'draft')" />
 
                     </header>
                     <sheet>
@@ -39,7 +36,7 @@
                                 <field name="address"/>
                                 <field name="country_id" invisible="1"/>
                                 <field name="state_id"/>
-                                <field name="makani"/>
+                                <field name="makani" placeholder="Enter Makani number without commas" />
                                  <field name="petrol_Charges"/>
                              </group>
                              <group>
@@ -61,7 +58,7 @@
                             <group>
                                 <field name="visits"/>
                                 <field name="works_employee"/>
-                                <field name="petrol_cost"/>
+                                <field name="petrol_cost" invisible="1"/>
                             </group>
                         </group>
                         <group string="Responsible">
@@ -73,22 +70,37 @@
                             </group>
                         </group>
                         <notebook>
-                             <page name="customer_need" string="Customer Need" groups="middel_system_manegment.group_middel_east_manager">
-                                <field name="customer_need" mode="tree,kanban">
-                                    <tree editable="bottom" limit="200">
-                                        <field name="product_category"/>
-                                        <field name="product_sub"/>
-                                        <field name="brand"/>
-                                        <field name="product"/>
-                                        <field name="description"/>
-                                        <field name="model_no"/>
-                                        <field name="quantity"/>
-                                        <field name="cost_price"/>
-                                        <field name="margin_percent"/>
-                                        <field name="price" groups="middel_system_manegment.group_middel_east_manager" />
-                                        <field name="price_total" sum="Total Amount" groups="middel_system_manegment.group_middel_east_manager" />
-                                    </tree>
+                             <page name="m_order_line_ids" string="Product Line" groups="middel_system_manegment.group_middel_east_manager">
+                                <field name="m_order_line_ids" mode="tree,kanban">
+                                    <tree editable="bottom" limit="200" >
+                                       <field name="product_id"/>
+                                       <field name="description"/>
+                                       <field name="categ_id"/>
+                                       <field name="brand"/>
+                                       <field name="model_no"/>
+                                       <field name="standard_price"/>
+                                       <field name="margin_percent"/>
+                                       <field name="discount" optional="hide"/>
+                                       <field name="tax_ids" widget="many2many_tags" optional="hide"/>
+                                       <field name="quantity"/>
+                                       <field name="list_price"/>
+                                       <field name="amount_total"/>
+                                        <field name="price_subtotal"  optional="hide"/>
+                                       <field name="price_tax"  optional="hide"/>
+                                       <field name="image" widget="image" options="{'size': [60, 60]}"/>
+                                   </tree>
                                 </field>
+                                 <group class="oe_subtotal_footer" colspan="2">
+                                <field name="amount_untaxed"/>
+                                <div class="oe_inline o_td_label">
+                                    <label for="amount_tax"/>
+                                </div>
+                                <field name="amount_tax" nolabel="1"/>
+                                <div class="oe_inline o_td_label">
+                                    <label for="total_amount"/>
+                                </div>
+                                <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                            </group>
                             </page>
                              <page name="team_work" string="Team Work" groups="middel_system_manegment.group_middel_east_manager">
                                 <field name="team_work" mode="tree,kanban">
@@ -102,7 +114,7 @@
                                 </field>
                             </page>
                             <page name="middel_expense_line" string="Company Expense Line" groups="middel_system_manegment.group_middel_east_manager">
-                                <field name="middel_expense_line" mode="tree,kanban">
+                                <field name="middel_expense_line" mode="tree,kanban" >
                                     <tree editable="bottom" limit="200">
                                         <field name="company_cost"/>
                                         <field name="charges"/>
@@ -136,6 +148,9 @@
                     <field name="project"/>
                     <field name="status"/>
                     <field name="date"/>
+                    <field name="company_total_amount" sum="Total Amount"/>
+                    <field name="total_cost_employee" sum="Total Amount"/>
+                    <field name="total_cost_project" sum="Total Amount"/>
                 </tree>
             </field>
         </record>

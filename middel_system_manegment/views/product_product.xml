@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Inherit Form View to Modify it -->
+<odoo>
+    <data>
+        <record id="inherit_product_template_forms" model="ir.ui.view">
+            <field name="name">product.template</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sale_ok']" position="before">
+                    <field name="active"/>
+                </xpath>
+                <xpath expr="//field[@name='detailed_type']" position="before">
+                    <field name="description"/>
+                    <field name="model_no"/>
+                    <field name="margin_percent"/>
+                    <field name="product_category"/>
+                    <field name="product_sub"/>
+                    <field name="brand"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit Form View to Modify it -->
+     <record id="inherit_product_category_middel_form" model="ir.ui.view">
+        <field name="name">product.category.inherit</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/> <!-- Correct reference -->
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <!-- Add new fields inside the first group -->
+                <field name="brand"/>
+                <field name="active"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    </data>
+</odoo>

@@ -28,6 +28,14 @@
         'views/middel_quotation.xml',
         'views/middel_team_views.xml',
         'views/account_views.xml',
+        'views/product_product.xml',
+        'report/report_quotiation.xml',
+        'report/inhiret_external_layout.xml',
+        'views/middel_contract.xml',
+        'views/visit_card.xml',
+        'report/maintenans_report_action.xml',
+        'report/maintenans_report.xml',
+
 
 
         'views/middel_Form.xml',
@@ -38,6 +46,7 @@
         'web.assets_backend': [
             '/middel_system_manegment/static/description/icon.png',
             # '/middel_system_manegment/static/src/js/toggle_active_button.js'
+
         ],
     },
     'license': 'LGPL-3',
