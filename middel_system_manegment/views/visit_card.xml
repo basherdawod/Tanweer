@@ -155,14 +155,17 @@
     <field name="model">visit.card</field>
     <field name="arch" type="xml">
         <search>
-            <field name="name"/>
+            <field name="partner_id"/>
             <group string="Group By">
-                <filter name="name" string="Visit NO" context="{'group_by': 'name'}"/>
+                <filter name="name" string="Customer" context="{'group_by': 'partner_id'}"/>
             </group>
-               <filter name="today" string="Today" domain="[('date', '>=', fields.Date.context_today())]"/>
-               <!--  <filter name="this_week" string="This Week" domain="[('date', '>=', fields.Date.context_today() - timedelta(days=fields.Date.context_today().weekday()))]"/>
-                <filter name="this_month" string="This Month" domain="[('date', '>=', fields.Date.context_today().replace(day=1))]"/>
-                <filter name="this_year" string="This Year" domain="[('date', '>=', fields.Date.context_today().replace(month=1, day=1))]"/> -->
+             <filter string="Today's Visits" name="today_visits" domain="[('date', '>=', context_today())]"/>
+             <!--  <filter string="This Week" name="this_week_visits" 
+                        domain="[('date', '>=', context_today() - timedelta(days=context_today().weekday())), ('date', '&gt;=', context_today())]"/>
+                <filter string="This Month" name="this_month_visits" 
+                        domain="[('date', '>=', context_today().replace(day=1)), ('date', '&gt;=', context_today())]"/>
+                <filter string="This Year" name="this_year_visits" 
+                        domain="[('date', '>=', context_today().replace(month=1, day=1)), ('date', '&gt;=', context_today())]"/> -->
         </search>
     </field>
 </record>
@@ -172,6 +175,7 @@
             <field name="name">Visit Card</field>
             <field name="res_model">visit.card</field>
             <field name="view_mode">tree,form,kanban,calendar,search</field>
+            <field name="context">{'search_default_name': 1}</field>
         </record>
     </data>
 </odoo>

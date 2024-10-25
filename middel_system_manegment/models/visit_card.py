@@ -48,6 +48,8 @@ class VisitCard(models.Model):
         [('draft', "Draft"),('complete', "Complete")],string="Status", default='draft')
     sequence = fields.Integer(string='Sequence', default=0)
 
+    partner_id = fields.Many2one('res.partner', string='Customer Name', required=True)
+
 
     def set_to_draft(self):
         self.status = 'draft'

@@ -72,8 +72,7 @@ class MiddelContract(models.Model):
     @api.depends('visit_ids')
     def _compute_visit_counts(self):
         for rec in self:
-            visit_cards_count = self.env['visit.card'].search_count([('middel_contract_id', '=', rec.id)])
-            rec.visit_count = visit_cards_count
+            rec.visit_count = len(rec.visit_ids)
 
     # @api.depends('visit_ids')
     # def _compute_visit_counts(self):
@@ -126,6 +125,8 @@ class MiddelContract(models.Model):
                 try:
                     visit_card_record = self.env['visit.card'].create({
                         'name': visit_name,
+                        'partner_id': record.partner_id.id,
+                        'middel_contract_id':record.id,
                         'date': future_date,
                         'area': record.area_id.id,
                         'makani_no':record.makani_no
