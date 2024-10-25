@@ -5,9 +5,18 @@ from odoo.exceptions import ValidationError
 from odoo.tools import float_is_zero, format_amount, format_date, html_keep_url, is_html_empty
 
 
+class MiddelProductCategory(models.Model):
+    """product Category"""
+
+    _inherit = "product.category"
+
+    active = fields.Boolean(string="Active",default=True )
+    brand = fields.Many2one('middel.brand', string="Brand", required=True)
+
 
 class MiddelEastCategory(models.Model):
     """Middel East Main Category"""
+
     _name = "middel.main.category"
     _description = "Middle Main Category"
     _rec_name = 'name'

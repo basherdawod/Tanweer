@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_middel_visitor_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="doc">
+                        <style type="text/css">
+                            table  {
+                                     font-family: 'Arial', sans-serif;
+                                     font-size: 18px;
+                                }
+                            p {
+                                font-family: 'Arial', sans-serif;
+                                font-size: 20px;
+                                font-weight: bold !important;
+                                 margin-bottom:-7px;
+                            }
+                            th {
+                               color:#000000 !important;
+                            }
+                        </style>
+                        <div class="page" style="margin-top: -20px;">
+                            <!-- Customer Information -->
+                            <div class="row text-center" >
+                                <div class="col-2"></div>
+                                <div class="col-8">   <p> Customer visit form</p>
+                               <p  >نموذج زيارة عميل </p></div>
+                                <div class="col-2"></div>
+
+
+                            </div>
+
+                            <div class="row" style="margin-bottom: 20px;">
+                                <div class="col-6">
+                                    <table class="table" >
+                                        <tr>
+                                           <td style="background-color: #3498db; color: #000000;"> NO </td>
+                                            <td style="text-align:center ; background-color:  #ffffff  !important; color:#000000 "> <t t-esc="doc.name"/>  </td>
+                                            <td style="background-color: #3498db; color:#000000"> الرقم  </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table">
+                                <tr>
+                                    <td style="background-color: #3498db ; color:#000000" > Date  </td>
+                                    <td style="text-align: center; background-color: #ffffff  !important; color: #000000;">
+                                            <t t-esc="doc.date"/>
+                                        </td>
+                                    <td style="background-color: #3498db; color:#000000" > التاريخ  </td>
+                                </tr>
+                            </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                            <table class="table " style="color:#000000;">
+                                <tr>
+                                    <td style="background-color: #3498db ; color:#000000" > Name  </td>
+                                    <td style="text-align:center"> <t t-esc="doc.partner_id.name"/>  </td>
+                                    <td style="background-color: #3498db ; color:#000000"> الاسم  </td>
+                                </tr>
+                                <tr >
+                                    <td style="background-color: #3498db ; color:#000000" > Mobile No  </td>
+                                    <td style="text-align:center"> <t t-esc="doc.phone"/> </td>
+                                    <td style="background-color: #3498db ; color:#000000"> الهاتف  </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #3498db ; color:#000000"> Location Details  </td>
+                                    <td style="text-align:center"> <t t-esc="doc.address"/> </td>
+                                    <td style="background-color: #3498db ; color:#000000"> العنوان  </td>
+                                </tr>
+                            </table>
+                                </div>
+                            <div class="row>">
+                                <table class="table">
+                                    <tr style="text-align:center">
+                                        <td> CID APPROVAL  </td>
+                                        <td > CUSTOMER NEED AMC  </td>
+                                        <td> CUSTOMER NEED DRAWING  </td>
+                                        <td> CUSTOMER NEED MAINTAINANCE  </td>
+                                    </tr>
+                                    <tr style="text-align:center" >
+                                        <td><t t-esc="doc.customer_need_cid"/> </td>
+                                        <td > <t t-esc="doc.customer_need_amc"/> </td>
+                                        <td > <t t-esc="doc.customer_need_drawing"/> </td>
+                                        <td> <t t-esc="doc.customer_need_management"/>  </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p>Raw Materials</p>
+                            <div class="row">
+                            <!-- Raw Materials -->
+
+                            <table class="table">
+                                <thead style="background-color: #3498db ; color:#000000 !important;"  >
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_number" t-value="0"/>
+                                    <t t-foreach="doc.m_order_line_ids" t-as="line">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <t t-set="line_number" t-value="line_number + 1"/>
+                                                <t t-esc="line_number"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="line.description"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <t t-esc="line.quantity"/>
+                                            </td>
+                                            <td style="text-align:center background-color: #3498db ; color:#000000">
+                                               <t t-esc="line.list_price " />
+                                            </td>
+                                             <td style="background-color: #3498db ; color:#000000">
+                                                <t t-esc="line.total_cost_amount "/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+
+                                <!-- Table Footer -->
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" style="text-align:right; font-weight:bold;">Total:</td>
+                                        <td style="background-color: #3498db; color: #000000;">
+                                            <t t-set="total_cost_amount" t-value="sum(line.total_cost_amount for line in doc.m_order_line_ids)"/>
+                                            <t t-esc="total_cost_amount"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+
+                                </div>
+                            <!-- Workers & Technicians -->
+                            <p>Workers and Technicians</p>
+                            <div class="row">
+
+                            <table class="table" style="color:#000000">
+                                <thead style="background-color: #3498db ; color:#000000 !important;">
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Name</th>
+                                        <th>Hour</th>
+                                        <th>Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_number" t-value="0"/>
+                                    <t t-foreach="doc.team_work" t-as="worker">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <t t-set="line_number" t-value="line_number + 1"/>
+                                                <t t-esc="line_number"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="worker.team_id.name"/>
+                                            </td>
+                                            <td style="text-align:center background-color: #3498db ; color:#000000">
+                                                <t t-esc="worker.time_work "/>
+                                            </td>
+                                            <td style="text-align:center background-color: #3498db ; color:#000000">
+                                                <t t-esc="worker.total" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                 <tfoot style="background-color: #3498db; color:#000000 !important;">
+                                    <tr>
+                                        <td colspan="2" style="text-align:right;"><strong>Total:</strong></td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="sum(worker.time_work for worker in doc.team_work)"/>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <t t-esc="sum(worker.total for worker in doc.team_work)"/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            </div>
+                            <!-- Other Expenses -->
+                            <p>Other Expenses</p>
+                            <div class="row">
+                              <table class="table" >
+                                <thead style="background-color: #3498db; color: #000000 !important;">
+
+                                    <tr>
+                                        <th>SN</th>
+                                        <th>Description</th>
+                                        <th>Liter</th>
+                                        <th>Cost</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="line_number" t-value="0"/>
+                                    <t t-foreach="doc.middel_expense_line" t-as="expense">
+                                        <tr>
+                                            <td style="text-align:center">
+                                                <t t-set="line_number" t-value="line_number + 1"/>
+                                                <t t-esc="line_number"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="expense.company_cost.name"/>
+                                            </td>
+                                            <td style="text-align:center ">
+                                                <t t-esc="expense.charges"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <t t-esc="expense.quantity"/>
+                                            </td>
+                                            <td style="text-align:center background-color: #3498db ; color:#000000">
+                                                <t t-esc="expense.sub_total_amount"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                    <tfoot style="background-color: #3498db; color: #000000 !important;">
+                                        <tr>
+                                            <td colspan="4" style="text-align:right;"><strong>Total:</strong></td>
+                                            <td style="text-align:center;">
+                                                <t t-esc="sum(expense.sub_total_amount for expense in doc.middel_expense_line)"/>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                            </table>
+                            </div>
+                            <!-- Total Cost -->
+                            <p>Total Project Cost</p>
+                            <div class="row">
+                                <table class="table">
+                                    <tr>
+                                        <td style="background-color: #3498db ;" > Total Project Cost </td>
+                                        <td style="text-align:center"> <t t-esc="doc.total_cost_project"/> </td>
+                                        <td style="text-align:right; background-color: #3498db ;" > تكلفة المشروع الكلية  </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span>Signature project supervisor</span><br/>
+                                    <span>توقيع مشرف المشروع </span>
+                                </div>
+                                <div class="col-4">
+                                    <span> </span><br/>
+                                    <span>  </span>
+                                </div>
+                                <div class="col-4" style="text-align:right">
+                                    <span>Management approval</span><br/>
+                                    <span>اعتماد الادارة </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <record id="action_middel_visitor_form_report" model="ir.actions.report">
+            <field name="name">Visit Form Report PDF</field>
+            <field name="model">middel.east</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">middel_system_manegment.report_middel_visitor_template</field>
+            <field name="report_file">middel_system_manegment.report_middel_visitor_template</field>
+            <field name="print_report_name">'Visit - %s' % (object.name).replace('/', '')</field>
+            <field name="binding_model_id" ref="model_middel_east"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>
+
+

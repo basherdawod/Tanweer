@@ -14,5 +14,54 @@
         <field name="groups" eval="[(4, ref('group_middel_east_user'))]"/>
         <field name="domain_force">[('user_id', '=', user.id)]</field>
     </record>
+    <record id="middel_east_user_gurops" model="ir.rule">
+        <field name="name">Middel East User Rule</field>
+        <field name="model_id" ref="model_middel_east"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_admin_access" model="ir.rule">
+        <field name="name">Admin Access</field>
+        <field name="model_id" ref="model_middel_east"/>  <!-- Replace with your actual model -->
+        <field name="groups" eval="[(4, ref('base.group_system'))]"/>  <!-- Odoo admin group -->
+        <field name="domain_force">[(1, '=', 1)]</field>  <!-- Allows access to all records -->
+    </record>
+
+     <record id="model_middel_quotation_rule" model="ir.rule">
+            <field name="name">Middel East Manager Rule</field>
+            <field name="model_id" ref="model_middel_quotation"/>
+            <field name="groups" eval="[(4, ref('group_middel_east_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- User can only access their own records -->
+        <record id="model_middel_quotation_user_rule" model="ir.rule">
+            <field name="name">Middel East User Rule</field>
+            <field name="model_id" ref="model_middel_quotation"/>
+            <field name="groups" eval="[(4, ref('group_middel_east_user'))]"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+        </record>
+
+        <record id="rule_admin_access_model_middel_quotation" model="ir.rule">
+            <field name="name">Admin Access</field>
+            <field name="model_id" ref="model_middel_quotation"/>  <!-- Replace with your actual model -->
+            <field name="groups" eval="[(4, ref('base.group_system'))]"/>  <!-- Odoo admin group -->
+            <field name="domain_force">[(1, '=', 1)]</field>  <!-- Allows access to all records -->
+        </record>
+
+<!--        <record id="rule_middel_east_user_access" model="ir.rule">-->
+<!--            <field name="name">Middel East User Access</field>-->
+<!--            <field name="model_id" ref="model_middel_east"/>  &lt;!&ndash; Replace with your actual model &ndash;&gt;-->
+<!--            <field name="groups" eval="[(4, ref('group_middel_east_user'))]"/>  &lt;!&ndash; Replace with your module name &ndash;&gt;-->
+<!--            <field name="domain_force">[('company_id', 'in', user.company_id.id)]</field>  &lt;!&ndash; Assumes 'company_id' relates the user to their company &ndash;&gt;-->
+<!--        </record>-->
+
+<!--        <record id="rule_middel_quotation_user_access" model="ir.rule">-->
+<!--            <field name="name">Middel East User Access</field>-->
+<!--            <field name="model_id" ref="model_middel_quotation"/>  &lt;!&ndash; Replace with your actual model &ndash;&gt;-->
+<!--            <field name="groups" eval="[(4, ref('group_middel_east_user'))]"/>  &lt;!&ndash; Replace with your module name &ndash;&gt;-->
+<!--            <field name="domain_force">[('company_id.id', '=', user.company_id.id)]</field>  &lt;!&ndash; Assumes 'company_id' relates the user to their company &ndash;&gt;-->
+<!--        </record>-->
 
 </odoo>

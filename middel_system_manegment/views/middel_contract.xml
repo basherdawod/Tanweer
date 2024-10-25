@@ -5,7 +5,7 @@
             <field name="name">middel.contract.form.view</field>
             <field name="model">middel.contract</field>
             <field name="arch" type="xml">
-                <form create="false">
+                <form>
                     <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
@@ -31,8 +31,6 @@
                              <group>
                                 <field name="partner_id"/>
                                 <field name="name"/>
-                                <field name="date_today"/>
-                                <field name="date_next_year"/>
                                 <field name="area_id"/>
                                 <field name="plot_no"/>
                              </group>
@@ -69,7 +67,7 @@
             <field name="name">middel.contract.tree.view</field>
             <field name="model">middel.contract</field>
             <field name="arch" type="xml">
-                <tree create="false">
+                <tree>
                     <field name="partner_id"/>
                     <field name="area_id"/>
                     <field name="plot_no"/>
