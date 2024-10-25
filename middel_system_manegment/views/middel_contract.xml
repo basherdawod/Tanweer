@@ -31,6 +31,8 @@
                              <group>
                                 <field name="partner_id"/>
                                 <field name="name"/>
+                                <field name="date_today"/>
+                                <field name="date_next_year"/>
                                 <field name="area_id"/>
                                 <field name="plot_no"/>
                              </group>

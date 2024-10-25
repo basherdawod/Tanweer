@@ -18,9 +18,14 @@
         <record id="middel_visit_card_sequence" model="ir.sequence">
             <field name="name">Visit Card</field>
             <field name="code">visit.card</field>
-            <field name="prefix">VC/%(year)s/</field>
+            <field name="prefix">VC/</field>
             <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
+        </record>
+        <record id="middel_maintinance_contract_sequence" model="ir.sequence">
+            <field name="name">Visit Card</field>
+            <field name="code">middel.contract</field>
+            <field name="prefix">MC/</field>
+            <field name="padding">5</field>
         </record>
     </data>
 </odoo>

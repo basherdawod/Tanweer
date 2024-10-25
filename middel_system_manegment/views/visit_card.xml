@@ -6,20 +6,19 @@
             <field name="model">visit.card</field>
             <field name="arch" type="xml">
                 <form>
-                  <!--   <header>
+                 <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
                                 invisible="status not in  ('complete')" />
                         <button string="Complete" name="set_to_compleat" type="object" class="oe_highlight"
                                  invisible="status not in  ('draft')"/>
-
-                    </header> -->
+                    </header>
                     <sheet>
                         <group>
                              <group>
-                                <field name="visit_no"/>
+                                <field name="name"/>
                                 <field name="date"/>
-                                <field name="bullding_type"/>
+                                <field name="building_type"/>
                              </group>
                               <group>
                                 <field name="project_name"/>
@@ -39,27 +38,30 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="bullet_n">Bullet N</label>
                                 <field name="bullet_n" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="bullet_v">Bullet V</label>
                                 <field name="bullet_v" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="bullet_wdr_vf">Bullet WDR VF</label>
                                 <field name="bullet_wdr_vf" />
                             </div>
-                            <div class="col-2">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
                                 <label for="dome_n">Dome N</label>
                                 <field name="dome_n" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="dome_vf">Dome VF</label>
                                 <field name="dome_vf" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="dome_wdr_vf">Dome WDR VF</label>
                                 <field name="dome_wdr_vf" />
                             </div>
@@ -86,7 +88,7 @@
 
                         <group>
                             <group>
-                                <field name="technican_name"/>
+                                <field name="technician_name"/>
                                 <field name="watch_man"/>
                             </group>
                             <group>
@@ -124,19 +126,52 @@
             <field name="model">visit.card</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="visit_no"/>
+                    <field name="name"/>
                     <field name="project_name"/>
                     <field name="makani_no"/>
                     <field name="hdd"/>
-                    <field name="technican_name"/>
+                    <field name="technician_name"/>
                 </tree>
             </field>
         </record>
 
+        <record id="visit_card_calendar_view" model="ir.ui.view">
+            <field name="name">visit.card.calendar.view</field>
+            <field name="model">visit.card</field>
+            <field name="arch" type="xml">
+                <calendar string="Visit Card Calendar"
+                          date_start="date"
+                          event_open_popup="true"
+                          mode="month"
+                          color="name"
+                          scales="day,month,year"
+                          quick_create="False">
+                   <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="visit_card_search_view" model="ir.ui.view">
+    <field name="name">visit.card.search.view</field>
+    <field name="model">visit.card</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="name"/>
+            <group string="Group By">
+                <filter name="name" string="Visit NO" context="{'group_by': 'name'}"/>
+            </group>
+               <filter name="today" string="Today" domain="[('date', '>=', fields.Date.context_today())]"/>
+               <!--  <filter name="this_week" string="This Week" domain="[('date', '>=', fields.Date.context_today() - timedelta(days=fields.Date.context_today().weekday()))]"/>
+                <filter name="this_month" string="This Month" domain="[('date', '>=', fields.Date.context_today().replace(day=1))]"/>
+                <filter name="this_year" string="This Year" domain="[('date', '>=', fields.Date.context_today().replace(month=1, day=1))]"/> -->
+        </search>
+    </field>
+</record>
+
+
         <record id="action_visit_card" model="ir.actions.act_window">
             <field name="name">Visit Card</field>
             <field name="res_model">visit.card</field>
-            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_mode">tree,form,kanban,calendar,search</field>
         </record>
     </data>
 </odoo>
