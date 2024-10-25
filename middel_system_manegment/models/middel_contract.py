@@ -106,6 +106,13 @@ class MiddelContract(models.Model):
             result = {'type': 'ir.actions.act_window_close'}
         return result
 
+    # def get_visit_card_date(self):
+    #     visit_card = self.visit_ids and self.visit_ids[0]
+    #     return visit_card.date if visit_card else None
+
+    def get_visit_card_dates(self):
+        dates = [visit_card.date for visit_card in self.visit_ids]
+        return dates
 
     def action_create_visit_card(self):
         base_date = fields.Date.context_today(self)
