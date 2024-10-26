@@ -11,6 +11,16 @@ class ResPartner(models.Model):
     reference_no = fields.Char(string='Customer Reference', required=True,
                                readonly=True, default=lambda self: _('New'))
 
+    middel_user_ids = fields.Many2many('res.users', string="Assigned User")
+
+    visiter_id = fields.One2many('middel.east','partner_id' , string="Customer Visiters")
+
+    def action_create_visit(self):
+        self.env['middel.quotation'].create({
+            'partner_id':self.id,
+            'user_id': visiter_id.ids,
+        })
+
     @api.constrains('phone')
     def _check_phone(self):
         pattern_with_plus = re.compile(r'^\+?[0-9]{12}$')  # If + is used, 12 digits should follow

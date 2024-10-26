@@ -34,6 +34,7 @@
         'report/inhiret_external_layout.xml',
         'views/middel_contract.xml',
         'views/visit_card.xml',
+        'views/res_partner_views.xml',
         'report/maintenans_report_action.xml',
         'report/maintenans_report.xml',
         'report/report_estmatin.xml',

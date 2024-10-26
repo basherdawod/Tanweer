@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="view_partner_form_custom" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+<!--            <xpath expr="//header" position="inside">-->
+<!--                <button name="action_create_visit" string="Create Visit" type="object" class="oe_highlight"/>-->
+<!--            </xpath>-->
+
+            <notebook position="before">
+                <group>
+                    <field name="middel_user_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Selected Employee To Visits"/>
+                </group>
+            </notebook>
+            <field name="function" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="city" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="title" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="email" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="vat" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="website" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="street2" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+             <notebook position="attributes">
+                <attribute name="invisible">1</attribute>
+            </notebook>
+        </field>
+    </record>
+
+
+    </data>
+</odoo>

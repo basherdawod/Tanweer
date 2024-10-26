@@ -696,13 +696,12 @@ class MiddelOrderProuduct(models.Model):
     _name = "middel.order.line"
     _description = 'Middel order Line'
 
-
     product_id = fields.Many2one(
         comodel_name='product.product',
         string="Product",
-        domain="[('brand', '=', brand)]"  # Filter products by the selected brand
-    )
-
+        domain="[('brand', '=', brand), ('categ_id', '=', categ_id)]",
+        # Domain to filter products by selected brand and category
+        required=True)
 
     description = fields.Char(string="description",
                               )

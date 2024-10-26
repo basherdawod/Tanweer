@@ -42,7 +42,7 @@ access_middel_expense_user,access_middel_expense_user,model_middel_expense,group
 
 
 access_middel_order_line_manager,access_middel_order_line_manager,model_middel_order_line,group_middel_east_manager,1,1,1,1
-access_middel_order_line_user,access_middel_order_line_user,model_middel_order_line,group_middel_east_user,1,0,1,0
+access_middel_order_line_user,access_middel_order_line_user,model_middel_order_line,group_middel_east_user,1,1,1,0
 
 
 
