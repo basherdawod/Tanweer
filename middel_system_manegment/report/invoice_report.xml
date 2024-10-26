@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="account_move_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <t t-foreach="docs" t-as="o">
+
+                <div class="page">
+                   <div class="row">
+                        <div class="col-4">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">DATE :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt;">
+                            21/10/2024
+                        </span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt;">:التاريخ</span>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div class="row">
+                        <div class="col-6">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Second party data</span>
+                        </div>
+                        <div class="col-6" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">بيانات الطرف الثاني</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Owner Name :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;">SAEEDA SALEH MOHAMED SALEH AL-ALI</span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">:اسم المالك</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Area :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;">AL MOREDA 07</span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">:المنطقة</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Plot No :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;">560</span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">:رقم القطعة</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Makani No :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;"></span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">:رقم المكاني</span>
+                        </div>
+                    </div>
+
+                     <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">MOB :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;">0509388897</span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">:رقم التواصل</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Email :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;"></span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt">:البريد الإلكتروني</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;">Quotation no :</span>
+                        </div>
+                        <div class="col-4" style="text-align: center;">
+                             <span style="font-weight: bold; color: #000000; font-size: 12pt;">QN880_23_D</span>
+                        </div>
+                        <div class="col-4" style="text-align: right;">
+                            <span style="font-weight: bold; color: #000000; font-size: 12pt"></span>
+                        </div>
+                    </div>
+
+
+                    <br/><br/>
+                    <br/><br/>
+
+                    <!-- Contract Header Section -->
+                    <div style="text-align: center;">
+                        <h2 style="text-decoration: underline;">Contract</h2>
+                    </div>
+                    <br/><br/>
+                    <br/><br/>
+
+                    <div style="text-align: right; font-size: 16pt;">
+                        <p>إتفق الطرف الأول: شرق الأوسط للتكنولوجيا
+                            <br/>العنوان: عجمان - الروضة
+                            <br/>مع الطرف الثاني المبين تفاصيله أعلاه على صيانة الكاميرات المبينة أو تفاصيلها أدناه:
+                        </p>
+                    </div>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <div style="text-align: left; font-size: 16pt;">
+                        <p>First Party: Middle East Technology
+                            <br/>Address: Ajman – Al Rawdha
+                            <br/>With the second party described above details on the maintenance of the details and descriptions are below:
+                        </p>
+                    </div>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <!-- Commercial Proposal Section -->
+                    <div style="text-align: center; font-size: 18pt; color: #0000FF;">
+                        <h3>COMMERCIAL PROPOSAL FOR HIKVISION</h3>
+                    </div>
+
+
+
+                    <!-- Commercial Proposal Table -->
+                    <table style="width: 100%; height: 100%; border: 2px solid;">
+                        <thead style="background-color: #d3d3d3;">
+                            <tr>
+                                <th>SL #</th>
+                                <th>MODEL #</th>
+                                <th>PART #</th>
+                                <th>DESCRIPTION OF ITEMS</th>
+                                <th>QTY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>product photo</td>
+                                <td>IP CAMERA</td>
+                                <td>4MP COLOURVU SMART HYBRID
+                                    LIGHT FIXED TURRET NETWORK
+                                    CAMERA(DS-2CD1347G2H-LIU)</td>
+                                <td>06</td>
+                            </tr>
+                            <tr style="background-color: #ffff00;text-align: right;">
+                                <td colspan="5">Total Amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/><br/><br/><br/>
+
+                    <div style="text-align: center; font-size: 18pt; color: #0000FF;">
+                        <h3>COMMERCIAL PROPOSAL FOR INTERCOM SYSTEM</h3>
+                    </div>
+
+
+
+                    <!-- Commercial Proposal Table -->
+                    <table style="width: 100%; height: 100%; border: 2px solid;">
+                        <thead style="background-color: #d3d3d3;">
+                            <tr>
+                                <th>SL #</th>
+                                <th>MODEL #</th>
+                                <th>PART #</th>
+                                <th>DESCRIPTION OF ITEMS</th>
+                                <th>QTY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>product photo</td>
+                                <td>IP INTERCOM</td>
+                                <td>HIKVISION IP INTERCOM OUTDOOR</td>
+                                <td>01</td>
+                            </tr>
+                            <tr style="background-color: #ffff00;text-align: right;">
+                                <td colspan="5">Total Amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/><br/><br/><br/>
+
+                    <div style="text-align: center; font-size: 18pt; color: #0000FF;">
+                        <h3>COMMERCIAL PROPOSAL FOR WIFI SYSTEM</h3>
+                    </div>
+
+
+
+                    <!-- Commercial Proposal Table -->
+                    <table style="width: 100%; height: 100%; border: 2px solid;">
+                        <thead style="background-color: #d3d3d3;">
+                            <tr>
+                                <th>SL #</th>
+                                <th>MODEL #</th>
+                                <th>PART #</th>
+                                <th>DESCRIPTION OF ITEMS</th>
+                                <th>QTY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>product photo</td>
+                                <td>WIFI ACCESS POINT</td>
+                                <td>EAP230-WALL
+                                    OMADA AC1200 WIRELESS MU-MIMO
+                                    GIGABIT WALL-PLATE ACCESS POINT</td>
+                                <td>11</td>
+                            </tr>
+                            <tr style="background-color: #ffff00;text-align: right;">
+                                <td colspan="5">Total Amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/><br/><br/><br/>
+
+                    <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
+                        <p style="color: #FF0000;">
+                            • WIFI SYSTEM CABLE NEED ARRANGE FROM CUSTOMER SIDE .<br/>
+                        </p>
+                    </div>
+
+                    <div style="text-align: center; font-size: 18pt; color: #0000FF;">
+                        <h3>COMMERCIAL PROPOSAL FOR SPEAKER</h3>
+                    </div>
+
+
+
+                    <!-- Commercial Proposal Table -->
+                    <table style="width: 100%; height: 100%; border: 2px solid;">
+                        <thead style="background-color: #d3d3d3;">
+                            <tr>
+                                <th>SL #</th>
+                                <th>MODEL #</th>
+                                <th>PART #</th>
+                                <th>DESCRIPTION OF ITEMS</th>
+                                <th>QTY</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>product photo</td>
+                                <td>SPEAKER</td>
+                                <td>BOSH 6W INDOOR SPEAKER</td>
+                                <td>09</td>
+                            </tr>
+                            <tr style="background-color: #ffff00;text-align: right;">
+                                <td colspan="5">Total Amount</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br/><br/><br/><br/>
+
+                    <table style="width: 50%; height: 100%; border: 2px solid;background-color: #ffff00;text-align: right;">
+                        <tr>
+                            <td>TOTAL AMOUNT - AED 20,979.00</td>
+                        </tr>
+                        <tr>
+                            <td>DISCOUNT AMOUN - AED 785.00</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FF0000;">DISCOUNT AFTER AMOUNT - AED 20,194.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>VAT 5% - AED 1,009.70</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #FF0000;">FINAL AMOUNT - AED 21,203.70</td>
+                        </tr>
+                    </table>
+                    <!-- Additional Notes and Agreement -->
+                   
+                    <br/><br/><br/>
+                    <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
+                        <p style="color: #FF0000;">
+                            • CIVIL WORKS LIKE PIPING ,WALL CUTTING, PLASTERING ANDINTERLOCK REMOVING ETC.
+                            IT HAS TO DO FROM CUSTOMER SIDE .<br/>
+                            • CABLING FROM MIDDLE EAST TECHNOLOGY SIDE AND INCLUDED IN THE QUOTATIO .
+                        </p>
+                    </div>
+                    <br/><br/>
+                    <br/><br/>
+                    <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
+                        <p>
+                           <span style="text-decoration: underline;">Payment Terms: TOTAL AMOUNT AED 21,203.70</span>
+                            
+                            1. 1st Payment Advance – AED 1,000.00 <br/>
+                            2. 2nd Payment Before Starting cabling–AED 3,500.00 <br/>
+                            3. 3rd Payment Before Installation of the full systems –AED 15,500.00 <br/>
+                            4. 4th and Final Payment after complete all the work and handover to the customer– AED 1,203.70
+
+                        </p>
+                    </div>
+
+                    <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
+                        <p>
+                           <span style="text-decoration: underline;">Terms &amp; Conditions:</span>
+                            
+                        1. All materials using as per the quotation . <br/>
+                        2. Maintenance: One Year Full maintenance FREE for Full Materials . <br/>
+                        3. Warranty: One Years Warranty for all the above mentioned materials. 
+
+                        </p>
+                    </div>
+
+                    <!-- Date Schedule Table -->
+                    <br/><br/>
+                    <br/><br/>
+                    <br/><br/>
+                    <div class="row" style="display: flex; justify-content: space-between;">
+                        <div class='col-6'>
+                            <span style="text-align: left;">For First Party</span>
+                        </div>
+                        <div class='col-6'>
+                            <span style="text-align: right;">For Second Party</span>
+                        </div>
+                    </div>
+
+              </div>
+            </t>
+        </t>
+    </t>
+</t>
+    </template>
+</odoo>
