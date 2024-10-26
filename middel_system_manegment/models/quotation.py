@@ -271,7 +271,7 @@ class MiddelQuotation(models.Model):
         else:
             result = {'type': 'ir.actions.act_window_close'}
         return result
-<<<<<<< HEAD
+
 
     def action_create_maintenance(self):
         if not self.order_product_line_ids:
@@ -293,23 +293,4 @@ class MiddelQuotation(models.Model):
                 'quotation_id': self.id,
                 'middel_quotation_id': self.id,
                 'area_id':self.state_id.id,
-                'middel_list_ids':maintenance_line,
-=======
-    def action_create_maintenance(self):
-        maintenance_record = self.env['middel.contract'].create({
-            'partner_id': self.partner_id.id, 
-            'quotation_id': self.id,
-            'middel_quotation_id': self.id,
-            'area_id':self.state_id.id,
->>>>>>> 7861dc4f4250b940546e9195a7e5ccf87d1e6e44
-            
-           
-             })
-        # return {
-        #     'name': 'New',
-        #     'type': 'ir.actions.act_window',
-        #     'res_model': 'middel.contract',
-        #     'res_id': maintenance_record.id,
-        #     'view_mode': 'form',
-        #     'target': 'current', 
-        # }
+                'middel_list_ids':maintenance_line,})
