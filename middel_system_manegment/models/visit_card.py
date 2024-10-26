@@ -49,6 +49,7 @@ class VisitCard(models.Model):
     sequence = fields.Integer(string='Sequence', default=0)
 
     partner_id = fields.Many2one('res.partner', string='Customer Name', required=True)
+    employee_team = fields.Many2one('middel.team', string="Employee")
 
 
     def set_to_draft(self):

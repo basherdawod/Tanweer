@@ -18,7 +18,8 @@
                         <button string="Cancel" name="action_cancel" type="object" class="oe_highlight"
                             invisible="status not in ('Confirm')"  />
                              <button string="Create Maintenance" name="action_create_maintenance" type="object" class = "oe_highlight"
-                              invisible="not (status == 'Confirm')"/>
+                              invisible="not (status == 'Confirm')"  
+                              />
                     </header>
                     <sheet>
                          <div class="oe_button_box" name="button_box" position="inside">
@@ -41,38 +42,39 @@
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="name"/>
+                                <field name="name" readonly="status != 'draft'"/>
                             </h1>
                         </div>
                          <group>
                              <group >
-                                <field name="partner_id"/>
-                                <field name="phone"/>
-                                <field name="country_id" invisible="1"/>
-                                <field name="state_id"/>
-                                <field name="project"/>
-                                <field name="makani"/>
-                                <field name="margin_amount" groups="middel_system_manegment.group_middel_east_manager"/>
+                                <field name="partner_id" readonly="status != 'draft'"/>
+                                <field name="phone" readonly="status != 'draft'"/>
+                                <field name="country_id" invisible="1" readonly="status != 'draft'"/>
+                                <field name="state_id" readonly="status != 'draft'"/>
+                                <field name="project" readonly="status != 'draft'"/>
+                                <field name="makani" readonly="status != 'draft'"/>
+                                <field name="margin_amount" groups="middel_system_manegment.group_middel_east_manager"
+                                    readonly="status != 'draft'"/>
                              </group>
                              <group>
-                                 <field name="date"/>
-                                 <field name="currency_id" invisible="1"/>
-                                <field name="approch"/>
+                                 <field name="date" readonly="status != 'draft'"/>
+                                 <field name="currency_id" invisible="1" readonly="status != 'draft'"/>
+                                <field name="approch" readonly="status != 'draft'"/>
                                 <field name="customer_need_drawing"
                                        invisible="{'invisible': [('project', 'not in', ['Farm', 'SOF_Office', 'Factory'])]}"
-
+                                            readonly="status != 'draft'"
                                          />
                                 <field name="customer_need_amc" invisible="{'invisible': [('project', 'not in', ['Building', 'BUC'])]}"
-                                               />
+                                               readonly="status != 'draft'"/>
                                 <field name="customer_need_cid" invisible="{'invisible': [('project', 'not in', ['Villa', 'VUC', 'VUC'])]}"
-                                           />
+                                          readonly="status != 'draft'" />
                             </group>
                         </group>
                         <notebook>
                             <page name="order_product_line_ids" string="Product Line">
-                                <field name="order_product_line_ids" mode="tree,kanban">
+                                <field name="order_product_line_ids" readonly="status != 'draft'" mode="tree,kanban">
                                      <tree editable="bottom" limit="200" >
-                                       <field name="categ_id"/>
+                                       <field name="categ_id" />
                                        <field name="brand"/>
                                          <field name="product_id"/>
                                        <field name="description"/>
