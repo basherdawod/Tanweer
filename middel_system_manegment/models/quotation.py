@@ -271,7 +271,6 @@ class MiddelQuotation(models.Model):
         else:
             result = {'type': 'ir.actions.act_window_close'}
         return result
-<<<<<<< HEAD
 
     def action_create_maintenance(self):
         if not self.order_product_line_ids:
@@ -281,28 +280,25 @@ class MiddelQuotation(models.Model):
             if not data.product_id: 
                 raise ValidationError("Product not found in line.")
             product_lines = {
-                'product': data.product_id.id,
+                'categ_id':data.categ_id.id,
+                'brand':data.brand, 
+                'product_id': data.product_id.id,
                 'description': data.description,
+                'model_no':data.model_no,
                 'quantity': data.quantity,
-                'price': data.price_total,
+                'list_price': data.list_price,
+                'standard_price': data.standard_price,
+                'price_total': data.price_total,
+                'image': data.image
             }
             maintenance_line.append(Command.create(product_lines))
 
             maintenance_record = self.env['middel.contract'].create({
-                'partner_id': self.partner_id.id, 
+                'partner_id': self.partner_id.id,
                 'quotation_id': self.id,
                 'middel_quotation_id': self.id,
                 'area_id':self.state_id.id,
                 'middel_list_ids':maintenance_line,
-=======
-    def action_create_maintenance(self):
-        maintenance_record = self.env['middel.contract'].create({
-            'partner_id': self.partner_id.id, 
-            'quotation_id': self.id,
-            'middel_quotation_id': self.id,
-            'area_id':self.state_id.id,
->>>>>>> 7861dc4f4250b940546e9195a7e5ccf87d1e6e44
-            
            
              })
         # return {
@@ -313,3 +309,5 @@ class MiddelQuotation(models.Model):
         #     'view_mode': 'form',
         #     'target': 'current', 
         # }
+
+    

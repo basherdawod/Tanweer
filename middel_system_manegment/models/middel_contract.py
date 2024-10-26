@@ -40,6 +40,9 @@ class MiddelContract(models.Model):
 
     middel_quotation_id = fields.Many2one('middel.quotation',string=' Middel Quotation',required=False)
 
+    middel_contract_line_ids = fields.One2many('middel.contract.line', 'contract_id', string="Contract Lines")
+
+
 
     @api.depends('partner_id.phone')
     def _compute_phone(self):
@@ -149,8 +152,23 @@ class ContractLine(models.Model):
     _name = 'middel.contract.line'  #model_middel_contract_line
 
     contract_id = fields.Many2one('middel.contract')
-    product = fields.Many2one('middel.product',string='Product',required=False)
+    product_id = fields.Many2one(comodel_name='product.product',string="Product",domain="[('brand', '=', brand)]")
 
-    description = fields.Char(string="description", related='product.description', depends=['product'],)
+    description = fields.Char(string="description")
     quantity = fields.Integer(string="Quantity",)
     price = fields.Float(string='price')
+    categ_id = fields.Many2one('product.category', 'Product Category',)
+    brand = fields.Many2one(comodel_name='middel.brand', string='Brand',domain="[('category_id', '=', categ_id)]")
+    model_no = fields.Char(string="Model No" )
+    standard_price = fields.Float('Cost',digits='Product Cost',
+        help="""Value of the product (automatically computed in AVCO).
+           Used to value the product when the purchase cost is not known (e.g. inventory adjustment).
+           Used to compute margins on sale orders.""")
+    list_price = fields.Float('Product Price', default=0.0,
+        help="Price at which the product is sold to customers.")
+    image = fields.Binary(
+        string="Image",related="product_id.image_1920",
+        required=False)
+    currency_id = fields.Many2one('res.currency', string='Currency',
+                                  default=lambda self: self.env.company.currency_id)
+    price_total = fields.Char(string="Total")

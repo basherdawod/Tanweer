@@ -47,10 +47,16 @@
                              <page name="commercial_proposal_for_amc" string="Commerical Propasal For AMC">
                                 <field name="middel_list_ids" mode="tree,kanban">
                                     <tree editable="bottom">
-                                        <field name="product"/>
-                                        <field name="description"/>
-                                        <field name="quantity"/>
-                                        <field name="price" />
+                                        <field name="categ_id"/>
+                                        <field name="brand"/>
+                                        <field name="product_id"/>
+                                       <field name="description"/>
+                                       <field name="model_no"/>
+                                       <field name="standard_price" groups="middel_system_manegment.group_middel_east_manager" />
+                                       <field name="quantity"/>
+                                       <field name="list_price" groups="middel_system_manegment.group_middel_east_manager" />
+                                       <field name="price_total" groups="middel_system_manegment.group_middel_east_manager" />
+                                       <field name="image" widget="image" options="{'size': [60, 60]}"/>
                                     </tree>
                                 </field>
                             </page>
