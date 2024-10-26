@@ -5,21 +5,21 @@
             <field name="name">visit.card.form.view</field>
             <field name="model">visit.card</field>
             <field name="arch" type="xml">
-                <form>
-                  <!--   <header>
+                <form create="false">
+                 <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
                                 invisible="status not in  ('complete')" />
                         <button string="Complete" name="set_to_compleat" type="object" class="oe_highlight"
                                  invisible="status not in  ('draft')"/>
 
-                    </header> -->
+                    </header>
                     <sheet>
                         <group>
                              <group>
                                 <field name="name"/>
                                 <field name="date"/>
-                                <field name="bullding_type"/>
+                                <field name="building_type"/>
                              </group>
                               <group>
                                 <field name="project_name"/>
@@ -39,27 +39,30 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="bullet_n">Bullet N</label>
                                 <field name="bullet_n" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="bullet_v">Bullet V</label>
                                 <field name="bullet_v" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="bullet_wdr_vf">Bullet WDR VF</label>
                                 <field name="bullet_wdr_vf" />
                             </div>
-                            <div class="col-2">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
                                 <label for="dome_n">Dome N</label>
                                 <field name="dome_n" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="dome_vf">Dome VF</label>
                                 <field name="dome_vf" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 <label for="dome_wdr_vf">Dome WDR VF</label>
                                 <field name="dome_wdr_vf" />
                             </div>
@@ -86,7 +89,7 @@
 
                         <group>
                             <group>
-                                <field name="technican_name"/>
+                                <field name="technician_name"/>
                                 <field name="watch_man"/>
                             </group>
                             <group>
@@ -123,20 +126,76 @@
             <field name="name">visit.card.tree.view</field>
             <field name="model">visit.card</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree create="false">
                     <field name="name"/>
                     <field name="project_name"/>
                     <field name="makani_no"/>
                     <field name="hdd"/>
-                    <field name="technican_name"/>
+                    <field name="technician_name"/>
                 </tree>
             </field>
         </record>
 
+        <record id="visit_card_calendar_view" model="ir.ui.view">
+            <field name="name">visit.card.calendar.view</field>
+            <field name="model">visit.card</field>
+            <field name="arch" type="xml">
+                <calendar string="Visit Card Calendar"
+                          date_start="date"
+                          event_open_popup="true"
+                          mode="month"
+                          color="name"
+                          scales="day,month,year"
+                          quick_create="False">
+                   <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="visit_card_search_view" model="ir.ui.view">
+    <field name="name">visit.card.search.view</field>
+    <field name="model">visit.card</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="partner_id"/>
+            <group string="Group By">
+                <filter name="name" string="Customer" context="{'group_by': 'partner_id'}"/>
+            </group>
+             <filter string="Today's Visits" name="today_visits" domain="[('date', '>=', context_today())]"/>
+            <!--   <filter string="This Week" name="this_week_visits" 
+                        domain="[('date', '>=', context_today() - timedelta(days=context_today().weekday())), ('date', '&gt;=', context_today())]"/>
+                <filter string="This Month" name="this_month_visits" 
+                        domain="[('date', '>=', context_today().replace(day=1)), ('date', '&gt;=', context_today())]"/>
+                <filter string="This Year" name="this_year_visits" 
+                        domain="[('date', '>=', context_today().replace(month=1, day=1)), ('date', '&gt;=', context_today())]"/> -->
+        </search>
+    </field>
+</record>
+         <!--    <record id="visit_card_search_view" model="ir.ui.view">
+    <field name="name">visit.card.search.view</field>
+    <field name="model">visit.card</field>
+    <field name="arch" type="xml">
+        <search>
+            <field name="partner_id"/>
+            <group string="Group By">
+                <filter name="name" string="Customer" context="{'group_by': 'partner_id'}"/>
+            </group>
+            <filter string="Today's Visits" name="today_visits" domain="[('date', '>=', context_today())]"/>
+            <filter string="This Week" name="this_week_visits" 
+                    domain="[('date', '>=', (context_today() - timedelta(days=context_today().weekday()))), ('date', '&gt;=', context_today())]"/>
+            <filter string="This Month" name="this_month_visits" 
+                    domain="[('date', '>=', context_today().replace(day=1)), ('date', '&gt;=', context_today())]"/>
+            <filter string="This Year" name="this_year_visits" 
+                    domain="[('date', '>=', context_today().replace(month=1, day=1)), ('date', '&gt;=', context_today())]"/>
+        </search>
+    </field>
+</record> -->
+
+
         <record id="action_visit_card" model="ir.actions.act_window">
             <field name="name">Visit Card</field>
             <field name="res_model">visit.card</field>
-            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_mode">tree,form,kanban,calendar,search</field>
+            <field name="context">{'search_default_name': 1}</field>
         </record>
     </data>
 </odoo>

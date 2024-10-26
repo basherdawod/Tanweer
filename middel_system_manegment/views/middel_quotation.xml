@@ -17,8 +17,16 @@
                                  invisible="status not in ('Confirm')" />
                         <button string="Cancel" name="action_cancel" type="object" class="oe_highlight"
                             invisible="status not in ('Confirm')"  />
+                             <button string="Create Maintenance" name="action_create_maintenance" type="object" class = "oe_highlight"
+                              invisible="not (status == 'Confirm')"/>
                     </header>
                     <sheet>
+                         <div class="oe_button_box" name="button_box" position="inside">
+                              <button class="oe_stat_button" type="object"
+                                name="action_view_maintenance" icon="fa-solid fa-map">
+                                <field name="maintenance_count" widget="statinfo" string="Maintenance"/>
+                            </button>
+                        </div>
                         <div class="oe_button_box" name="button_box" position="inside">
                               <button class="oe_stat_button" type="object"
                                 name="action_view_middel_visitor" icon="fa-check-square"

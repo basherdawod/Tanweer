@@ -3,6 +3,7 @@
 # Part of TechKhedut. See LICENSE file for full copyright and licensing details.
 {
     'name': "Middel Management System",
+    'sequence':-1000,
     'version': "17.0.1.0.0",
     'description': "Middel East Management System",
     'summary': "Middel East Management System",
@@ -37,6 +38,12 @@
         'report/maintenans_report.xml',
         'report/report_estmatin.xml',
         'report/report_visiteor_form.xml',
+
+        # Report
+        'report/maintenans_report_action.xml',
+        'report/visit_card_report_action.xml',
+        'report/maintenans_report.xml',
+        'report/visit_card_report.xml',
 
 
 

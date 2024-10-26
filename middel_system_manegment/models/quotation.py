@@ -249,3 +249,40 @@ class MiddelQuotation(models.Model):
                 return res
             else:
                 raise ValidationError('You cannot delete the completed order contact To Admin or Rest To draft First .')
+
+    maintenance_count = fields.Integer(compute='_compute_maintenance', string="Maintrnance Count")
+    qu_ids = fields.One2many('middel.contract','middel_quotation_id', string='Maintrnance')
+    
+    def _compute_maintenance(self):
+        for rec in self:
+            mainte_count = self.env['middel.contract'].search_count([('middel_quotation_id', '=', rec.id)])
+            rec.maintenance_count = mainte_count
+    def action_view_maintenance(self):
+        self.ensure_one()
+        source_orders = self.qu_ids
+        result = self.env['ir.actions.act_window']._for_xml_id('middel_system_manegment.action_middel_contract')
+        if len(source_orders) > 1:
+            result['domain'] = [('id', 'in', source_orders.ids)]
+        elif len(source_orders) == 1:
+            result['views'] = [(self.env.ref('middel_system_manegment.middel_east_contract_view', False).id, 'form')]
+            result['res_id'] = source_orders.id
+        else:
+            result = {'type': 'ir.actions.act_window_close'}
+        return result
+    def action_create_maintenance(self):
+        maintenance_record = self.env['middel.contract'].create({
+            'partner_id': self.partner_id.id, 
+            'quotation_id': self.id,
+            'middel_quotation_id': self.id,
+            'area_id':self.state_id.id,
+            
+           
+        })
+        # return {
+        #     'name': 'New',
+        #     'type': 'ir.actions.act_window',
+        #     'res_model': 'middel.contract',
+        #     'res_id': maintenance_record.id,
+        #     'view_mode': 'form',
+        #     'target': 'current', 
+        # }
