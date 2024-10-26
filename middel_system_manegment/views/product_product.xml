@@ -14,8 +14,8 @@
                     <field name="description"/>
                     <field name="model_no"/>
                     <field name="margin_percent"/>
-                    <field name="product_category"/>
-                    <field name="product_sub"/>
+<!--                    <field name="product_category"/>-->
+<!--                    <field name="product_sub"/>-->
                     <field name="brand"/>
                 </xpath>
             </field>
@@ -28,7 +28,6 @@
         <field name="arch" type="xml">
             <xpath expr="//group" position="inside">
                 <!-- Add new fields inside the first group -->
-                <field name="brand"/>
                 <field name="active"/>
             </xpath>
         </field>

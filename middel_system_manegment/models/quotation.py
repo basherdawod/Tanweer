@@ -271,6 +271,10 @@ class MiddelQuotation(models.Model):
         else:
             result = {'type': 'ir.actions.act_window_close'}
         return result
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4bbe3761c9c6583d32d6641fa4d9f7db7d4b37e
 
     def action_create_maintenance(self):
         if not self.order_product_line_ids:
@@ -298,6 +302,7 @@ class MiddelQuotation(models.Model):
                 'quotation_id': self.id,
                 'middel_quotation_id': self.id,
                 'area_id':self.state_id.id,
+<<<<<<< HEAD
                 'middel_list_ids':maintenance_line,
            
              })
@@ -311,3 +316,6 @@ class MiddelQuotation(models.Model):
         # }
 
     
+=======
+                'middel_list_ids':maintenance_line,})
+>>>>>>> f4bbe3761c9c6583d32d6641fa4d9f7db7d4b37e

@@ -722,11 +722,10 @@ class MiddelOrderProuduct(models.Model):
         string='Product Sub Category',
         required=False)
 
-
     brand = fields.Many2one(
         comodel_name='middel.brand',
-        string='Brand',
-        domain="[('category_id', '=', categ_id)]"  # Filter brands by selected category
+        string='Brand'
+      # Filter brands by selected category
     )
     list_price = fields.Float(
         'Product Price', default=0.0,compute='_compute_price_unit',
@@ -852,16 +851,16 @@ class MiddelOrderProuduct(models.Model):
                 line.list_price = line.standard_price * (1 + line.margin_percent / 100)
             else:
                 line.list_price = line.product_id.list_price
-
-    @api.onchange('categ_id')
-    def _onchange_product_category(self):
-        """Update the brand field domain based on the selected product category."""
-        self.brand = False  # Clear the brand selection when category changes
-        return {
-            'domain': {
-                'brand': [('category_id', '=', self.categ_id.id)]
-            }
-        }
+    #
+    # @api.onchange('categ_id')
+    # def _onchange_product_category(self):
+    #     """Update the brand field domain based on the selected product category."""
+    #     self.brand = False  # Clear the brand selection when category changes
+    #     return {
+    #         'domain': {
+    #             'brand': [('category_id', '=', self.categ_id.id)]
+    #         }
+    #     }
 
     @api.onchange('brand')
     def _onchange_brand(self):
