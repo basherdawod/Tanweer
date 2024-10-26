@@ -276,7 +276,7 @@ class MiddelQuotation(models.Model):
 
 
     def action_create_maintenance(self):
-        # self.button_disabled = True
+        self.button_disabled = True
         if not self.order_product_line_ids:
             raise ValidationError("No Products found.")
         maintenance_line = []

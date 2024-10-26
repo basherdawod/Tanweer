@@ -18,8 +18,9 @@
                         <button string="Cancel" name="action_cancel" type="object" class="oe_highlight"
                             invisible="status not in ('Confirm')"  />
                              <button string="Create Maintenance" name="action_create_maintenance" type="object" class = "oe_highlight"
-                              invisible="not (status == 'Confirm')"  
-                              />
+                              invisible="not (status == 'Confirm' and not button_disabled)" />  
+                              
+                               <field name="button_disabled" invisible="1"/>
                     </header>
                     <sheet>
                          <div class="oe_button_box" name="button_box" position="inside">

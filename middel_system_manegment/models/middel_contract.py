@@ -41,6 +41,7 @@ class MiddelContract(models.Model):
     middel_quotation_id = fields.Many2one('middel.quotation',string=' Middel Quotation',required=False)
 
     middel_contract_line_ids = fields.One2many('middel.contract.line', 'contract_id', string="Contract Lines")
+    button_disabled = fields.Boolean(string="Disable Button", default=False)
 
 
 
@@ -118,6 +119,7 @@ class MiddelContract(models.Model):
         return dates
 
     def action_create_visit_card(self):
+        self.button_disabled = True
         base_date = fields.Date.context_today(self)
         for record in self:
             # Get existing visit count
