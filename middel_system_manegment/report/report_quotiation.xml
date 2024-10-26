@@ -26,7 +26,7 @@
                                  style="display: flex; justify-content: space-between; align-items: right; margin: 0 50px; border: 2px solid #004F98; padding: 10px 20px;">
                                 <!-- Left Section: Date and Reference -->
 <!--                                <div style="position: relative !important; " class="vl"> </div>-->
-                                <!--div class="col-4"
+                                <div class="col-4"
                                      style="text-align: left; font-size: 16px; font-weight: bold; color: #004F98;">
                                     <div style="margin-bottom: 10px;">
                                         <span>Date:</span>
@@ -40,7 +40,7 @@
                                             <span t-esc="doc.name"/>
                                         </span>
                                     </div>
-                                </div-->
+                                </div>
 
                                 <!-- Right Section: Image -->
                                 <div class="col-8" style="text-align: left;">
@@ -70,7 +70,7 @@
                                     <h4 >
                                         <span t-esc="doc.partner_id.name"/>
                                     </h4>
-                                    <p>4280410983<br/>RUMAILA 1
+                                    <p><span t-esc="doc.makani"/><br/><span t-esc="doc.partner_id.contact_address"/>
                                     </p>
                                 </div>
                             </div>
@@ -95,7 +95,7 @@
                             <!-- Prepared By -->
                                 <div style="margin-bottom: 20px; text-align: left;">
                                     <strong>Prepared By:</strong>
-                                    <span>MADHUSHAN</span>
+                                    <span><span t-esc="env.user.id"/></span>
                                 </div>
                             </div>
                             <div class="row"
@@ -163,7 +163,9 @@
                                             <t t-esc="line_number"/>
                                         </td>
                                         <td>
-                                            <img t-att-src="image_data_uri(datas.image)" style="max-height:35pt; max-width:90%"/>
+                                           <t t-if="datas.image">
+                                                <img t-att-src="image_data_uri(datas.image)" style="max-height:35pt; max-width:90%"/>
+                                            </t>
                                         </td>
                                         <td t-esc="datas.brand.name"/>
                                         <td t-esc="datas.description"/>

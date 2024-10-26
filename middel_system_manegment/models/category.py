@@ -59,6 +59,12 @@ class MiddelEastBrand(models.Model):
         comodel_name='middel.sub.category',
         string='Product Sub',
         required=False)
+
+    category_id = fields.One2many(
+        'product.category','brand',
+        string='Product Category',
+        required=False)
+
     image = fields.Binary(
         string="Image",
         required=False)

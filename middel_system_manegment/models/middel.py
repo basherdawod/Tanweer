@@ -699,8 +699,10 @@ class MiddelOrderProuduct(models.Model):
 
     product_id = fields.Many2one(
         comodel_name='product.product',
-        string="Product"
-        )
+        string="Product",
+        domain="[('brand', '=', brand)]"  # Filter products by the selected brand
+    )
+
 
     description = fields.Char(string="description",
                               )
@@ -720,10 +722,12 @@ class MiddelOrderProuduct(models.Model):
         string='Product Sub Category',
         required=False)
 
+
     brand = fields.Many2one(
-            comodel_name='middel.brand',
-            string='Brand',
-            required=False)
+        comodel_name='middel.brand',
+        string='Brand',
+        domain="[('category_id', '=', categ_id)]"  # Filter brands by selected category
+    )
     list_price = fields.Float(
         'Product Price', default=0.0,compute='_compute_price_unit',
         help="Price at which the product is sold to customers.",
@@ -744,7 +748,7 @@ class MiddelOrderProuduct(models.Model):
         store=True)
 
     image = fields.Binary(
-        string="Image",related="brand.image",
+        string="Image",related="product_id.image_1920",
         required=False)
 
     company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id, string="Company")
@@ -849,15 +853,33 @@ class MiddelOrderProuduct(models.Model):
             else:
                 line.list_price = line.product_id.list_price
 
+    @api.onchange('categ_id')
+    def _onchange_product_category(self):
+        """Update the brand field domain based on the selected product category."""
+        self.brand = False  # Clear the brand selection when category changes
+        return {
+            'domain': {
+                'brand': [('category_id', '=', self.categ_id.id)]
+            }
+        }
+
+    @api.onchange('brand')
+    def _onchange_brand(self):
+        """Update the product field domain based on the selected brand."""
+        self.product_id = False  # Clear the product selection when brand changes
+        return {
+            'domain': {
+                'product_id': [('brand', '=', self.brand.id)]
+            }
+        }
 
     @api.onchange('product_id')
     def _update_data_fields(self):
+        """Update fields based on the selected product."""
         if self.product_id:
-            for line in self:
-                line.description = line.product_id.description
-                line.model_no = line.product_id.model_no
-                line.product_sub = line.product_id.product_sub
-                line.brand = line.product_id.brand
-                line.standard_price = line.product_id.standard_price
-                line.list_price = line.product_id.list_price
-                line.categ_id = line.product_id.categ_id
+            self.description = self.product_id.description
+            self.model_no = self.product_id.model_no
+            self.standard_price = self.product_id.standard_price
+            self.list_price = self.product_id.list_price
+
+
