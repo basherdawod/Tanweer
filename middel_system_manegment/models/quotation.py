@@ -106,6 +106,7 @@ class MiddelQuotation(models.Model):
     invoice_id = fields.Many2one('account.move', string='Invoice')
     invoice_count = fields.Integer(string="Invoice Count", compute='_get_invoiced', tracking=True)
     middel_contract_line_ids = fields.One2many('middel.contract.line','contract_id')
+
     #
     # def write(self, vals):
     #     for record in self:
@@ -270,27 +271,31 @@ class MiddelQuotation(models.Model):
         else:
             result = {'type': 'ir.actions.act_window_close'}
         return result
-        
+
     def action_create_maintenance(self):
+        if not self.order_product_line_ids:
+            raise ValidationError("No Products found.")
         maintenance_line = []
-        for data in self.middel_contract_line_ids:
+        for data in self.order_product_line_ids:
+            if not data.product_id: 
+                raise ValidationError("Product not found in line.")
             product_lines = {
-                'product_id': data.product_id.id,
+                'product': data.product_id.id,
                 'description': data.description,
                 'quantity': data.quantity,
-                'price_total': data.price_total,
+                'price': data.price_total,
             }
             maintenance_line.append(Command.create(product_lines))
 
-        maintenance_record = self.env['middel.contract'].create({
-            'partner_id': self.partner_id.id, 
-            'quotation_id': self.id,
-            'middel_quotation_id': self.id,
-            'area_id':self.state_id.id,
-            'middel_list_ids':maintenance_line,
+            maintenance_record = self.env['middel.contract'].create({
+                'partner_id': self.partner_id.id, 
+                'quotation_id': self.id,
+                'middel_quotation_id': self.id,
+                'area_id':self.state_id.id,
+                'middel_list_ids':maintenance_line,
             
            
-        })
+             })
         # return {
         #     'name': 'New',
         #     'type': 'ir.actions.act_window',
