@@ -11,8 +11,6 @@ class MiddelProductCategory(models.Model):
     _inherit = "product.category"
 
     active = fields.Boolean(string="Active",default=True )
-    brand = fields.Many2one('middel.brand', string="Brand", required=True)
-
 
 class MiddelEastCategory(models.Model):
     """Middel East Main Category"""
@@ -61,7 +59,7 @@ class MiddelEastBrand(models.Model):
         required=False)
 
     category_id = fields.One2many(
-        'product.category','brand',
+        'product.template','brand',
         string='Product Category',
         required=False)
 
