@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="account_move_report_template">
+    <template id="custom_external_layout_inherited" inherit_id="account.report_invoice_document">
+    <xpath expr="//t[@t-name='account.report_invoice_document']/t[@t-call='web.external_layout']" position="after">
+
         <t t-call="web.html_container">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
                     <t t-foreach="docs" t-as="o">
+
 
                 <div class="page">
                    <div class="row">
@@ -322,7 +325,7 @@
                     <br/><br/>
                     <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
                         <p>
-                           <span style="text-decoration: underline;">Payment Terms: TOTAL AMOUNT AED 21,203.70</span>
+                           <span style="text-decoration: underline;">Payment Terms: TOTAL AMOUNT AED 21,203.70</span><br/>
                             
                             1. 1st Payment Advance – AED 1,000.00 <br/>
                             2. 2nd Payment Before Starting cabling–AED 3,500.00 <br/>
@@ -334,7 +337,7 @@
 
                     <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
                         <p>
-                           <span style="text-decoration: underline;">Terms &amp; Conditions:</span>
+                           <span style="text-decoration: underline;">Terms &amp; Conditions:</span> <br/>
                             
                         1. All materials using as per the quotation . <br/>
                         2. Maintenance: One Year Full maintenance FREE for Full Materials . <br/>
@@ -361,5 +364,5 @@
         </t>
     </t>
 </t>
-    </template>
+   </xpath> </template>
 </odoo>

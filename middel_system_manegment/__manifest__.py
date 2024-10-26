@@ -44,7 +44,7 @@
         'report/visit_card_report_action.xml',
         'report/maintenans_report.xml',
         'report/visit_card_report.xml',
-        'report/invoice_report_action.xml',
+        # 'report/invoice_report_action.xml',
         'report/invoice_report.xml',
 
 
