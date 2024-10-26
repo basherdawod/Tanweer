@@ -72,10 +72,10 @@
                             <page name="order_product_line_ids" string="Product Line">
                                 <field name="order_product_line_ids" mode="tree,kanban">
                                      <tree editable="bottom" limit="200" >
-                                       <field name="product_id"/>
-                                       <field name="description"/>
                                        <field name="categ_id"/>
                                        <field name="brand"/>
+                                         <field name="product_id"/>
+                                       <field name="description"/>
                                        <field name="model_no"/>
                                        <field name="standard_price" groups="middel_system_manegment.group_middel_east_manager" />
                                        <field name="quantity"/>
@@ -84,6 +84,7 @@
                                        <field name="image" widget="image" options="{'size': [60, 60]}"/>
                                    </tree>
                                 </field>
+                                <field name="total_project_amount" groups="middel_system_manegment.group_middel_east_manager"/>
                             </page>
                         </notebook>
                     </sheet>
