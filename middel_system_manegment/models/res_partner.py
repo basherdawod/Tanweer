@@ -14,17 +14,17 @@ class ResPartner(models.Model):
     middel_user_ids = fields.Many2many('res.users', string="Assigned User")
 
     visiter_id = fields.One2many('middel.east','partner_id' , string="Customer Visiters")
-
-    approch = fields.Selection(
-        string=' Approch ',
-        selection=[('direct', 'Direct'),
-                   ('Instagram', 'Instagram'),
-                   ('snap', 'Snap'),
-                   ('twitter', 'Twitter'),
-                   ('Shop', 'shop'),
-                   ('Tik_tok', 'Tik Tok'),
-                   ('Friend', 'Friend'), ],
-        required=False, )
+    #
+    # approch = fields.Selection(
+    #     string=' Approch ',
+    #     selection=[('direct', 'Direct'),
+    #                ('Instagram', 'Instagram'),
+    #                ('snap', 'Snap'),
+    #                ('twitter', 'Twitter'),
+    #                ('Shop', 'shop'),
+    #                ('Tik_tok', 'Tik Tok'),
+    #                ('Friend', 'Friend'), ],
+    #     required=False, )
 
     def action_create_visit(self):
         for record in self:
@@ -33,7 +33,6 @@ class ResPartner(models.Model):
                 'partner_id': record.id,
                 'state_id': record.state_id.id,
                 'user_id': record.middel_user_ids.ids,
-                'approch': record.approch,
             })
 
         # Return a notification action to show success message
