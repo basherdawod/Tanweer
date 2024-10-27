@@ -154,13 +154,13 @@ class ContractLine(models.Model):
     _name = 'middel.contract.line'  #model_middel_contract_line
 
     contract_id = fields.Many2one('middel.contract')
-    product_id = fields.Many2one(comodel_name='product.product',string="Product",domain="[('brand', '=', brand)]")
+    product_id = fields.Many2one(comodel_name='product.product',string="Product",domain="[('brand', '=', brand), ('categ_id', '=', categ_id)]")
 
     description = fields.Char(string="description")
     quantity = fields.Integer(string="Quantity",)
     price = fields.Float(string='price')
     categ_id = fields.Many2one('product.category', 'Product Category',)
-    brand = fields.Many2one(comodel_name='middel.brand', string='Brand',domain="[('category_id', '=', categ_id)]")
+    brand = fields.Many2one(comodel_name='middel.brand', string='Brand')
     model_no = fields.Char(string="Model No" )
     standard_price = fields.Float('Cost',digits='Product Cost',
         help="""Value of the product (automatically computed in AVCO).
@@ -174,3 +174,14 @@ class ContractLine(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self: self.env.company.currency_id)
     price_total = fields.Char(string="Total")
+
+
+    @api.onchange('brand')
+    def _onchange_brand(self):
+        """Update the product field domain based on the selected brand."""
+        self.product_id = False  # Clear the product selection when brand changes
+        return {
+            'domain': {
+                'product_id': [('brand', '=', self.brand.id)]
+            }
+        }

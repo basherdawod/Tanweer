@@ -26,7 +26,7 @@ class MiddelEast(models.Model):
     user_id = fields.Many2many('res.users', string="Assigned User")  # Link to res.users
     country_id = fields.Many2one('res.country', string="Emirates",readonly=True, default=lambda self: self.env.ref('base.ae').id)
     state_id = fields.Many2one('res.country.state', string="City", domain="[('country_id', '=', country_id)]")
-    makani = fields.Char(string="Makani Number" , required=True)
+    makani = fields.Char(string="Makani Number")
     margin_amount = fields.Float(
             string="Margin %",
             default=30.0 ,
@@ -43,7 +43,7 @@ class MiddelEast(models.Model):
     location = fields.Char(string="Customer Map Location")
     date = fields.Date(string="Date", default=fields.date.today(), required=True)
     status = fields.Selection(
-        [('draft', "Draft"),('waiting', "waiting for visiting"), ('sent', "Quotations"), ('approval', "Approval"),
+        [('draft', "Draft"),('waiting', "waiting for visiting"), ('confirm', "Confirm"), ('sent', "Quotations"), ('approval', "Approval"),
          ('c_complete', "Complete")],
         string="Status", default='draft')
 
@@ -194,7 +194,7 @@ class MiddelEast(models.Model):
     petrol_Charges = fields.Many2one(
         comodel_name='middel.petrol.charges',
         string='Petrol Charges',store=True,
-        required=True)
+        )
 
     distance = fields.Integer(
         string='Distance K/M',
@@ -435,8 +435,8 @@ class MiddelEast(models.Model):
     def action_approval(self):
         self.status = 'approval'
     #
-    # def set_to_draft(self):
-    #     self.status = 'draft'
+    def set_confirm(self):
+        self.status = 'confirm'
 
     def create_qrf(self):
         self.status = 'sent'
@@ -454,6 +454,7 @@ class MiddelEast(models.Model):
         for vals in vals_list:
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('middel.east') or _('New')
+                vals['status'] = 'waiting'
         res = super(MiddelEast, self).create(vals_list)
         return res
 

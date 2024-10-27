@@ -58,26 +58,6 @@ class VisitCard(models.Model):
     def set_to_compleat(self):
         self.status = 'complete'
 
-    # @api.model
-    # def create(self, vals):
-    #     vals['sequence'] = self.env['ir.sequence'].next_by_code('visit.card.sequence')
-
-    #     today = datetime.today()
-    #     year = today.year
-    #     month = today.month
-    #     day = today.day
-
-    #     vals['visit_no'] = f"VC/{year}/{month}/{day}/{str(vals['sequence'])}"
-        
-    #     return super(VisitCard, self).create(vals)
-
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     for vals in vals_list:
-    #         if vals.get('visit_no', _('New')) == _('New'):
-    #             vals['visit_no'] = self.env['ir.sequence'].next_by_code('visit.card.sequence') or _('New')
-    #     return super(VisitCard, self).create(vals)
-    
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

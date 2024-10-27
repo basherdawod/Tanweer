@@ -15,11 +15,39 @@ class ResPartner(models.Model):
 
     visiter_id = fields.One2many('middel.east','partner_id' , string="Customer Visiters")
 
+    approch = fields.Selection(
+        string=' Approch ',
+        selection=[('direct', 'Direct'),
+                   ('Instagram', 'Instagram'),
+                   ('snap', 'Snap'),
+                   ('twitter', 'Twitter'),
+                   ('Shop', 'shop'),
+                   ('Tik_tok', 'Tik Tok'),
+                   ('Friend', 'Friend'), ],
+        required=False, )
+
     def action_create_visit(self):
-        self.env['middel.quotation'].create({
-            'partner_id':self.id,
-            'user_id': visiter_id.ids,
-        })
+        for record in self:
+            # Create the visit record
+            visit = self.env['middel.east'].create({
+                'partner_id': record.id,
+                'state_id': record.state_id.id,
+                'user_id': record.middel_user_ids.ids,
+                'approch': record.approch,
+            })
+
+        # Return a notification action to show success message
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Success!',
+                'message': 'Visit created successfully!',
+                'type': 'success',  # Types: success, warning, danger, info
+                'sticky': False,  # True to keep the notification visible
+            }
+        }
+
 
     @api.constrains('phone')
     def _check_phone(self):

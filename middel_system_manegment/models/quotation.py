@@ -277,34 +277,12 @@ class MiddelQuotation(models.Model):
 
     def action_create_maintenance(self):
         self.button_disabled = True
-        if not self.order_product_line_ids:
-            raise ValidationError("No Products found.")
-        maintenance_line = []
-        for data in self.order_product_line_ids:
-            if not data.product_id: 
-                raise ValidationError("Product not found in line.")
-            product_lines = {
-                'categ_id':data.categ_id.id,
-                'brand':data.brand, 
-                'product_id': data.product_id.id,
-                'description': data.description,
-                'model_no':data.model_no,
-                'quantity': data.quantity,
-                'list_price': data.list_price,
-                'standard_price': data.standard_price,
-                'price_total': data.price_total,
-                'image': data.image
-            }
-            maintenance_line.append(Command.create(product_lines))
-
-            maintenance_record = self.env['middel.contract'].create({
-                'partner_id': self.partner_id.id,
-                'quotation_id': self.id,
-                'middel_quotation_id': self.id,
-                'area_id':self.state_id.id,
-                'middel_list_ids':maintenance_line,
-           
-             })
+        self.env['middel.contract'].create({
+            'partner_id': self.partner_id.id,
+            'quotation_id': self.id,
+            'middel_quotation_id': self.id,
+            'area_id':self.state_id.id,
+         })
        
 
     
