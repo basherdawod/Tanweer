@@ -11,11 +11,11 @@
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
                                 invisible="status not in  ('done')" />
                         <button string="Confirm" name="set_to_confirm" type="object" class="oe_highlight"
-                                invisible="status not in  ('confirm')" />
+                                invisible="status not in  ('done')" />
                        <!--  <button string="Create Invoice" name="create_invoices" type="object" class="oe_highlight"
                                 invisible="status in  ('confirm')" /> -->
                         <button string="Done" name="set_to_done" type="object" class="oe_highlight"
-                                 invisible="status not in  ('draft')"/>
+                                 invisible="status not in  ('draft','confirm')"/>
                         <button string="Create Visit Card" name="action_create_visit_card" type="object" class = "oe_highlight"
                                invisible="not (status == 'done' and not button_disabled)"/>
                                <field name="button_disabled" invisible="1"/>
@@ -35,23 +35,23 @@
                         </div>
                         <group>
                              <group>
-                                <field name="partner_id"/>
-                                <field name="name"/>
-                                <field name="date_today"/>
-                                <field name="date_next_year"/>
-                                <field name="area_id"/>
-                                <field name="plot_no"/>
+                                <field name="partner_id" required="1"/>
+                                <field name="name"  required="1"/>
+                                <field name="date_today"  required="1"/>
+                                <field name="date_next_year"  required="1"/>
+                                <field name="area_id"  required="1"/>
+                                <field name="plot_no"  required="1"/>
                              </group>
                               <group>
-                                <field name="makani_no"/>
-                                <field name="mob"/>
-                                <field name="email"/>
-                                <field name="quotation_id"/>
+                                <field name="makani_no" required="1"/>
+                                <field name="mob"  required="1"/>
+                                <field name="email"  required="1"/>
+                                <field name="quotation_id"  required="1"/>
                              </group>
                         </group>
                          <notebook>
                              <page name="commercial_proposal_for_amc" string="Commerical Propasal For AMC">
-                                <field name="middel_list_ids" mode="tree,kanban">
+                                <field name="middel_list_ids" mode="tree,kanban"  required="1">
                                     <tree editable="bottom">
                                         <field name="categ_id"/>
                                         <field name="brand"/>
