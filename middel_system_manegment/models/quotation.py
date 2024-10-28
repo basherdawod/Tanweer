@@ -21,7 +21,7 @@ class MiddelQuotation(models.Model):
     partner_id = fields.Many2one('res.partner', string='Customer', required=True)
     user_id = fields.Many2many('res.users', string="Assigned User")  # Link to res.users
     country_id = fields.Many2one('res.country', string="Emirates",readonly=True, default=lambda self: self.env.ref('base.ae').id)
-    state_id = fields.Many2one('res.country.state', string="Makani", domain="[('country_id', '=', country_id)]")
+    state_id = fields.Many2one('res.country.state', string="Area", domain="[('country_id', '=', country_id)]")
     currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
     margin_amount = fields.Monetary(
         string="Margin %",
