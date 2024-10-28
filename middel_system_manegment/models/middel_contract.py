@@ -46,6 +46,8 @@ class MiddelContract(models.Model):
     company_id = fields.Many2one('res.company',
                                  default=lambda self: self.env.user.company_id.id, string="Company")
 
+    tax_ids = fields.Many2many('account.tax', string='Taxes')
+
 
 
     @api.depends('partner_id.phone')
@@ -157,54 +159,114 @@ class MiddelContract(models.Model):
                     raise UserError(f"An unexpected error occurred: {str(e)}")
 
 
-    # def action_view_invoice(self, invoices=None):
-    #     self.ensure_one()
-    #     source_orders = invoices or self.invoice_ids  # Use passed invoices or default to self.invoice_ids
-    #     result = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
+    def action_view_invoice(self, invoices=None):
+        self.ensure_one()
+        source_orders = invoices or self.invoice_ids  # Use passed invoices or default to self.invoice_ids
+        result = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
 
-    #     if source_orders:
-    #         if len(source_orders) > 1:
-    #             result['domain'] = [('id', 'in', source_orders.ids)]
-    #         else:
-    #             result['views'] = [(self.env.ref('account.view_move_form', False).id, 'form')]
-    #             result['res_id'] = source_orders.id
-    #     else:
-    #         result = {'type': 'ir.actions.act_window_close'}
+        if source_orders:
+            if len(source_orders) > 1:
+                result['domain'] = [('id', 'in', source_orders.ids)]
+            else:
+                result['views'] = [(self.env.ref('account.view_move_form', False).id, 'form')]
+                result['res_id'] = source_orders.id
+        else:
+            result = {'type': 'ir.actions.act_window_close'}
 
-    #     return result
+        return result
 
-    # def create_invoices(self):
-    #     self.ensure_one()
-    #     self = self.with_company(self.company_id)
-    #     if not self.env['account.move'].check_access_rights('create', False):
-    #         try:
-    #             self.check_access_rights('write')
-    #             self.check_access_rule('write')
-    #         except AccessError:
-    #             return self.env['account.move']
-    #     if not self.order_product_line_ids:
-    #         raise ValidationError(
-    #             _("No service product found, please define one.")
-    #         )
+    def create_invoices(self):
+        self.ensure_one()
+        self = self.with_company(self.company_id)
+        if not self.env['account.move'].check_access_rights('create', False):
+            try:
+                self.check_access_rights('write')
+                self.check_access_rule('write')
+            except AccessError:
+                return self.env['account.move']
+        if not self.middel_list_ids:
+            raise ValidationError(
+                _("No service product found, please define one.")
+            )
 
-    #     # 1) Create invoices.
-    #     invoice_vals_list = []
-    #     for middel in self:
-    #         middel = middel.with_company(middel.company_id).with_context(lang=middel.partner_id.lang)
-    #         invoice_vals = middel._prepare_invoice()
-    #         invoice_vals_list.append(invoice_vals)
-    #     moves = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals_list)
-    #     if moves :
-    #         moves.action_post()
-    #     # 4) Some moves might actually be refunds: convert them if the total amount is negative
-    #     # We do this after the moves have been created since we need taxes, etc. to know if the total
-    #     # is actually negative or not
-    #     for move in moves:
-    #         move.message_post_with_source(
-    #             'mail.message_origin_link',
-    #             render_values={'self': move, 'origin': self},
-    #             subtype_xmlid='mail.mt_note',
-    #         )
+        # 1) Create invoices.
+        invoice_vals_list = []
+        for middel in self:
+            middel = middel.with_company(middel.company_id).with_context(lang=middel.partner_id.lang)
+            invoice_vals = middel._prepare_invoice()
+            invoice_vals_list.append(invoice_vals)
+        moves = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals_list)
+        if moves :
+            moves.action_post()
+        # 4) Some moves might actually be refunds: convert them if the total amount is negative
+        # We do this after the moves have been created since we need taxes, etc. to know if the total
+        # is actually negative or not
+        for move in moves:
+            move.message_post_with_source(
+                'mail.message_origin_link',
+                render_values={'self': move, 'origin': self},
+                subtype_xmlid='mail.mt_note',
+            )
+
+
+    def _prepare_invoice(self):
+
+        self.ensure_one()
+        middel_list = []
+        for data in self.middel_list_ids:
+            invoice_lines = {
+                'display_type': 'product',
+                'product_id': data.product_id.id,
+                'quantity': data.quantity,
+                'tax_ids': self.tax_ids,
+                'price_unit': data.list_price,
+                'price_subtotal': data.price_total,
+            }
+            middel_list.append(Command.create(invoice_lines))
+
+        values = {
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_id.id,
+            'invoice_origin': self.name,
+            'middel_id': self.id,
+            'company_id': self.company_id.id,
+            'invoice_line_ids':  middel_list,
+        }
+
+        self.button_disabled = True
+        base_date = fields.Date.context_today(self)
+        for record in self:
+            # Get existing visit count
+            existing_visit_count = len(record.visit_ids)
+
+            for i in range(4):
+                # Calculate the next letter based on the existing visit count and loop index
+                next_letter = chr(65 + existing_visit_count + i)
+                visit_name = f"{record.name}/{next_letter}"
+
+                # Calculate the future date by adding months
+                future_date = base_date + relativedelta(months=i * 3)
+
+                # Create the visit card record
+                try:
+                    visit_card_record = self.env['visit.card'].create({
+                        'name': visit_name,
+                        'partner_id': record.partner_id.id,
+                        'middel_contract_id':record.id,
+                        'date': future_date,
+                        'area': record.area_id.id,
+                        'makani_no':record.makani_no
+                    })
+
+                    if not visit_card_record:
+                        raise UserError("Error creating visit card record")
+
+                except Exception as e:
+                    raise UserError(f"An unexpected error occurred: {str(e)}")
+                    
+        return values
+
+
 
 class ContractLine(models.Model):
     _name = 'middel.contract.line'  #model_middel_contract_line
