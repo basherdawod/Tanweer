@@ -367,11 +367,11 @@
                         2. 2nd Payment Before Starting cabling – AED <span t-esc="second_payment" t-options='{"widget": "float", "precision": 2}'/> 
                         <br/>
 
-                        <t t-set="third_payment" t-value="(total_amount - second_payment) * (73.00 / 100)"/>
+                        <t t-set="third_payment" t-value="(total_amount - second_payment - first_payment) * (73.00 / 100)"/>
                         3. 3rd Payment Before Installation of the full systems – AED <span t-esc="third_payment" t-options='{"widget": "float", "precision": 2}'/> 
                         <br/>
 
-                        <t t-set="fourth_payment" t-value="(total_amount - third_payment) * (5.00 / 100)"/>
+                        <t t-set="fourth_payment" t-value="(total_amount - third_payment - second_payment - first_payment) * (5.00 / 100)"/>
                         4. 4th and Final Payment after complete all the work and handover to the customer – AED <span t-esc="fourth_payment" t-options='{"widget": "float", "precision": 2}'/> 
                         <br/>
                     </p>
