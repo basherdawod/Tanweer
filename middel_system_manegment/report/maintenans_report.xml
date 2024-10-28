@@ -221,7 +221,7 @@
                     <br/><br/><br/><br/><br/><br/>
 
                     <!-- Additional Notes and Agreement -->
-                   <div style="font-size: 16pt; direction: rtl; text-align: right;">
+                   <div style="font-size: 16pt; direction: rtl;margin: 30px; text-align: right;">
 
                     <p>
                      1- التأكد من عمل نظام المراقبة وتنظيف عدسة الكاميرات 4 مرات خلال السنة.
@@ -236,7 +236,7 @@
                     </div>
 
                     <br/><br/><br/>
-                    <div style="font-size: 16pt; margin-top: 20px;text-align: left;">
+                    <div style="font-size: 16pt;margin: 30px;text-align: left;">
                         <p>
                             1. Make sure the system of surveillance is working properly and clean the lenses of cameras 4 times during the year.
                             <br/>2. Maintain and replace the BNC &amp; DC on the first party.
