@@ -104,6 +104,7 @@ class MiddelQuotation(models.Model):
         string="Project Amount",
         currency_field='currency_id',
         readonly=True,
+
         store=True)
 
     total_expense_line_amount = fields.Monetary(
@@ -111,10 +112,11 @@ class MiddelQuotation(models.Model):
         currency_field='currency_id',readonly=True,
         store=True)
     total_amount = fields.Monetary(
-        string="Total  Amount",
+        string="Total Amount",
         currency_field='currency_id',
         compute="_compute_amount_quotation",
         required=True,
+        default=0.0,
         store=True
     )
     tax_amount = fields.Monetary(
@@ -122,6 +124,7 @@ class MiddelQuotation(models.Model):
         currency_field='currency_id',
         compute="_compute_amount_quotation" ,
         required=True,
+        default=0.0,
         store=True
     )
     tax_ids = fields.Many2many('account.tax', string='Taxes')
@@ -223,7 +226,6 @@ class MiddelQuotation(models.Model):
             invoice_lines = {
                 'display_type': 'product',
                 'product_id': data.product_id.id,
-                'name': data.description,
                 'quantity': data.quantity,
                 'tax_ids': self.tax_ids,
                 'price_unit': data.list_price,

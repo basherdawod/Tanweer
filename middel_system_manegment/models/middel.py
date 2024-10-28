@@ -79,7 +79,7 @@ class MiddelEast(models.Model):
         required=False )
 
     customer_need_management = fields.Selection(
-        string=' Customer Need AMC ',
+        string=' Customer Need Management ',
         selection=[('yes', 'Yes'),
                    ('No', 'NO'), ],
         default='No',
@@ -158,7 +158,7 @@ class MiddelEast(models.Model):
             store=True)
 
     cost_total_amount = fields.Monetary(
-            string="Company Total Cost",
+            string="Company Cost Total Amount",
             currency_field='currency_id',
             store=True)
     total_amount = fields.Monetary(
@@ -375,9 +375,11 @@ class MiddelEast(models.Model):
                 middel_list.append(Command.create(order_lines))
 
             # Collect Service Line (assuming total expense is stored in `total_expense_line_amount`)
+            service_product = self.env['product.template'].search([('type', '=', 'service')], limit=1)
             service_line = {
+                'product_id': service_product.id if service_product else False,
                 'description': 'service',
-                'product_type': "service",
+                'product_type': 'service',
                 'sevice_amount': self.total_expense_line_amount,
             }
             middel_list.append(Command.create(service_line))
@@ -521,18 +523,17 @@ class middelTeamLine(models.Model):
 
     margin_amount = fields.Float(
         string="Margin %",
-        currency_field='currency_id',
         related='middel_team.margin_amount',
         store=True)
 
     amount_total = fields.Monetary(
-            string="Total",
+            string="Total Amount",
             compute='_compute_amount',
             currency_field='currency_id',
             store=True, precompute=True)
 
     sub_amount_total = fields.Monetary(
-            string="Total Amount",
+            string="Sub Total Amount",
             compute='_compute_sub_amount_total',
             currency_field='currency_id',
             store=True)
@@ -557,8 +558,12 @@ class middelTeamLine(models.Model):
     def _compute_charges_houer(self):
         """Computes the total cost based on the charges and quantity of work hours."""
         for record in self:
-            record.time_work =record.middel_team[
-                    0].works_hours
+            if record.middel_team:
+                record.time_work = record.middel_team[
+                    0].works_hours  # Access the first item
+            else:
+                record.time_work = 0
+
 
     def _compute_amount(self):
         """
@@ -626,7 +631,6 @@ class ExpenseLine(models.Model):
 
     margin_amount = fields.Float(
         string="Margin %",
-        currency_field='currency_id',
         related='middel_expense_id.margin_amount',
         store=True)
 
@@ -635,7 +639,7 @@ class ExpenseLine(models.Model):
         compute='_compute_charges_quantity',
         required=False)
     petrol = fields.Monetary(
-        string="Work Hours",
+        string="Petrol",
         currency_field='currency_id',
         related='middel_expense_id.petrol_cost',
         required=False)
@@ -722,18 +726,18 @@ class MiddelOrderProuduct(models.Model):
     model_no = fields.Char(string="Model No" ,
                             )
 
-    product_category = fields.Many2one(
-        comodel_name='middel.main.category',
-        string='Product Category',
-        required=False)
+    # product_category = fields.Many2one(
+    #     comodel_name='middel.main.category',
+    #     string='Product Category',
+    #     required=False)
     quantity = fields.Integer(
         string="Quantity",default=1.0,
         required=False)
 
-    product_sub = fields.Many2one(
-        comodel_name='middel.sub.category',
-        string='Product Sub Category',
-        required=False)
+    # product_sub = fields.Many2one(
+    #     comodel_name='middel.sub.category',
+    #     string='Product Sub Category',
+    #     required=False)
 
     brand = fields.Many2one(
         comodel_name='middel.brand',
@@ -754,7 +758,6 @@ class MiddelOrderProuduct(models.Model):
 
     margin_percent = fields.Float(
         string="Margin %",
-        currency_field='currency_id',
         related='middel_m_order_id.margin_amount',
         store=True)
 
@@ -772,7 +775,7 @@ class MiddelOrderProuduct(models.Model):
                                   default=lambda self: self.env.company.currency_id)
 
     price_total = fields.Monetary(
-        string="Total",
+        string="Total Price",
         compute='_compute_price_reduce_taxincl',
         currency_field='currency_id',
         store=True, precompute=True)

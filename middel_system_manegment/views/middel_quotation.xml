@@ -54,7 +54,7 @@
                                 <field name="state_id" readonly="status != 'draft'"/>
                                 <field name="project" readonly="status != 'draft'"/>
                                 <field name="makani" readonly="status != 'draft'"/>
-                                 <field name="tax_ids" widget="many2many_tags" />
+                                 <field name="tax_ids" widget="many2many_tags"  readonly="status != 'draft'"/>
                                 <field name="margin_amount" groups="middel_system_manegment.group_middel_east_manager"
                                     readonly="status != 'draft'"/>
                              </group>

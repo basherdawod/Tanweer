@@ -26,19 +26,19 @@ class MiddelService(models.Model):
                               )
     model_no = fields.Char(string="Model No" ,
                             )
-
-    product_category = fields.Many2one(
-        comodel_name='middel.main.category',
-        string='Product Category',
-        required=False)
+    #
+    # product_category = fields.Many2one(
+    #     comodel_name='middel.main.category',
+    #     string='Product Category',
+    #     required=False)
     quantity = fields.Integer(
         string="Quantity",default=1.0,
         required=False)
 
-    product_sub = fields.Many2one(
-        comodel_name='middel.sub.category',
-        string='Product Sub Category',
-        required=False)
+    # product_sub = fields.Many2one(
+    #     comodel_name='middel.sub.category',
+    #     string='Product Sub Category',
+    #     required=False)
 
 
     brand = fields.Many2one(

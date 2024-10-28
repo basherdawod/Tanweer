@@ -30,50 +30,47 @@
                                 <field name="name"/>
                             </h1>
                         </div>
-                         <group>
+                         <group  >
                              <group >
-                                <field name="partner_id"/>
+                                <field name="partner_id" readonly="status in ('c_complete', 'approval')" />
                                 <field name="phone"/>
-                                <field name="address" invisible="1" />
+                                <field name="address" invisible="1" readonly="status in ('c_complete', 'approval')" />
                                 <field name="country_id" invisible="1"/>
-                                <field name="state_id" />
-                                <field name="makani" placeholder="Enter Makani number without commas" />
-                                 <field name="petrol_Charges" invisible="status  in  ('waiting')" />
+                                <field name="state_id" readonly="status in ('c_complete', 'approval')" />
+                                <field name="makani" placeholder="Enter Makani number without commas"  readonly="status in ('c_complete', 'approval')"/>
+                                 <field name="petrol_Charges" invisible="status  in  ('waiting')" readonly="status in ('c_complete', 'approval')"/>
                              </group>
                              <group>
-                                 <field name="date"/>
+                                 <field name="date"  readonly="status in ('c_complete', 'approval')" />
                                  <field name="currency_id" invisible="1"/>
-                                <field name="approch"/>
-                                 <field name="project"/>
-                                <field name="customer_need_drawing" invisible="status not in  ('waiting')" />
-                                <field name="customer_need_amc" invisible="status  in  ('waiting')"/>
-                                <field name="customer_need_cid" invisible="status  in  ('waiting')"/>
-                                <field name="customer_need_active" invisible="status  in  ('waiting')" />
+                                <field name="approch" readonly="status in ('c_complete', 'approval')" />
+                                 <field name="project" readonly="status in ('c_complete', 'approval')" />
+                                <field name="customer_need_drawing" readonly="status in ('c_complete', 'approval')"  invisible="status not in  ('waiting')" />
+                                <field name="customer_need_amc" readonly="status in ('c_complete', 'approval')"  invisible="status  in  ('waiting')"/>
+                                <field name="customer_need_cid" readonly="status in ('c_complete', 'approval')"  invisible="status  in  ('waiting')"/>
+                                <field name="customer_need_active" readonly="status in ('c_complete', 'approval')"  invisible="status  in  ('waiting')" />
                             </group>
                         </group>
-                        <group>
+                        <group >
                             <group>
-                                <field name="distance"/>
-                                <field name="works_hours"/>
-                                <field name="margin_amount" groups="middel_system_manegment.group_middel_east_manager"/>
+                                <field name="distance" readonly="status in ('c_complete', 'approval')" />
+                                <field name="works_hours" readonly="status in ('c_complete', 'approval')" />
+                                <field name="margin_amount" readonly="status in ('c_complete', 'approval')"  groups="middel_system_manegment.group_middel_east_manager"/>
                             </group>
                             <group>
-                                <field name="visits"/>
-                                <field name="works_employee"/>
-                                <field name="petrol_cost" invisible="1"/>
-                            </group>
-                        </group>
-                        <group string="Responsible">
-                            <group>
-                                <field name="user_id" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
-                            </group>
-                            <group>
-
+                                <field name="visits" readonly="status in ('c_complete', 'approval')" />
+                                <field name="works_employee" readonly="status in ('c_complete', 'approval')" />
+                                <field name="petrol_cost" invisible="1" readonly="status in ('c_complete', 'approval')" />
                             </group>
                         </group>
-                        <notebook>
-                             <page name="m_order_line_ids" string="Product Line" >
-                                <field name="m_order_line_ids" mode="tree,kanban" >
+                        <group string="Responsible" >
+                            <group>
+                                <field name="user_id" widget="many2many_tags" readonly="status in ('c_complete', 'approval')" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            </group>
+                        </group>
+                        <notebook >
+                             <page name="m_order_line_ids" string="Product Line"  readonly="status in ('c_complete', 'approval')" >
+                                <field name="m_order_line_ids" mode="tree,kanban" readonly="status in ('c_complete', 'approval')" >
                                     <tree editable="bottom" limit="200" >
                                        <field name="categ_id"/>
                                         <field name="brand"/>
@@ -104,8 +101,8 @@
                                 <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
                             </group>
                             </page>
-                             <page name="team_work" string="Team Work" groups="middel_system_manegment.group_middel_east_manager">
-                                <field name="team_work" mode="tree,kanban">
+                             <page name="team_work" readonly="status in ('c_complete', 'approval')" string="Team Work" groups="middel_system_manegment.group_middel_east_manager">
+                                <field name="team_work" mode="tree,kanban" readonly="status in ('c_complete', 'approval')">
                                     <tree editable="bottom" limit="200">
 
                                         <field name="team_id"/>
@@ -118,8 +115,8 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="middel_expense_line" string="Company Expense Line" groups="middel_system_manegment.group_middel_east_manager">
-                                <field name="middel_expense_line" mode="tree,kanban" >
+                            <page name="middel_expense_line" readonly="status in ('c_complete', 'approval')" string="Company Expense Line" groups="middel_system_manegment.group_middel_east_manager">
+                                <field name="middel_expense_line" mode="tree,kanban"  readonly="status in ('c_complete', 'approval')">
                                     <tree editable="bottom" limit="200">
                                         <field name="company_cost"/>
                                         <field name="charges"/>
@@ -130,7 +127,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page name="drawing" string="Drawing">
+                            <page name="drawing" string="Drawing" readonly="status in ('c_complete', 'approval')">
                                 <div class="o_attachment_preview"/>
                             </page>
                         </notebook>
