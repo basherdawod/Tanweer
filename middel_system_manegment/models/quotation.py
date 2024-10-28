@@ -223,6 +223,7 @@ class MiddelQuotation(models.Model):
             invoice_lines = {
                 'display_type': 'product',
                 'product_id': data.product_id.id,
+                'name': data.description,
                 'quantity': data.quantity,
                 'tax_ids': self.tax_ids,
                 'price_unit': data.list_price,

@@ -356,64 +356,67 @@ class MiddelEast(models.Model):
 
     def action_create_quotation(self):
         middel_list = []
+        if self.middel_expense_line and self.m_order_line_ids and self.team_work :
+            # Collect Product Lines
+            for data in self.m_order_line_ids:
+                order_lines = {
+                    'product_id': data.product_id.id,
+                    'description': data.description,
+                    'categ_id': data.categ_id.id,
+                    'brand': data.brand.id,
+                    'model_no': data.model_no,
+                    'standard_price': data.standard_price,
+                    'margin_percent': data.margin_percent,
+                    'quantity': data.quantity,
+                    'list_price': data.list_price,
+                    'price_total': data.price_total,
+                    'amount_total': data.amount_total,
+                }
+                middel_list.append(Command.create(order_lines))
 
-        # Collect Product Lines
-        for data in self.m_order_line_ids:
-            order_lines = {
-                'product_id': data.product_id.id,
-                'description': data.description,
-                'categ_id': data.categ_id.id,
-                'brand': data.brand.id,
-                'model_no': data.model_no,
-                'standard_price': data.standard_price,
-                'margin_percent': data.margin_percent,
-                'quantity': data.quantity,
-                'list_price': data.list_price,
-                'price_total': data.price_total,
-                'amount_total': data.amount_total,
+            # Collect Service Line (assuming total expense is stored in `total_expense_line_amount`)
+            service_line = {
+                'description': 'service',
+                'product_type': "service",
+                'sevice_amount': self.total_expense_line_amount,
             }
-            middel_list.append(Command.create(order_lines))
+            middel_list.append(Command.create(service_line))
 
-        # Collect Service Line (assuming total expense is stored in `total_expense_line_amount`)
-        service_line = {
-            'description': 'service',
-            'product_type': "service",
-            'sevice_amount': self.total_expense_line_amount,
-        }
-        middel_list.append(Command.create(service_line))
+            # Create Quotations with Unique Names
+            for record in self:
+                existing_quotations = record.quotation_ids
+                if not existing_quotations:
+                    quotation_name = record.name
+                else:
+                    next_letter = chr(65 + len(existing_quotations))  # ASCII 'A' is 65
+                    quotation_name = f"{record.name}/{next_letter}"
 
-        # Create Quotations with Unique Names
-        for record in self:
-            existing_quotations = record.quotation_ids
-            if not existing_quotations:
-                quotation_name = record.name
-            else:
-                next_letter = chr(65 + len(existing_quotations))  # ASCII 'A' is 65
-                quotation_name = f"{record.name}/{next_letter}"
+                # Create the new quotation record
+                quotation = self.env['middel.quotation'].create({
+                    'name': quotation_name,
+                    'partner_id': record.partner_id.id,
+                    'middel_quotation_id': record.id,
+                    'country_id': record.country_id.id,
+                    'state_id': record.state_id.id,
+                    'phone': record.phone,
+                    'project': record.project,
+                    'margin_amount': record.margin_amount,
+                    'makani': record.makani,
+                    'total_project_amount': record.total_project_amount,
+                    'customer_need_cid': record.customer_need_cid,
+                    'customer_need_amc': record.customer_need_amc,
+                    'approch': record.approch,
+                    'order_product_line_ids': middel_list,  # Attach order lines
+                })
 
-            # Create the new quotation record
-            quotation = self.env['middel.quotation'].create({
-                'name': quotation_name,
-                'partner_id': record.partner_id.id,
-                'middel_quotation_id': record.id,
-                'country_id': record.country_id.id,
-                'state_id': record.state_id.id,
-                'phone': record.phone,
-                'project': record.project,
-                'margin_amount': record.margin_amount,
-                'makani': record.makani,
-                'total_project_amount': record.total_project_amount,
-                'customer_need_cid': record.customer_need_cid,
-                'customer_need_amc': record.customer_need_amc,
-                'approch': record.approch,
-                'order_product_line_ids': middel_list,  # Attach order lines
-            })
+                # Log the creation in chatter
+                record.message_post(body=f"Quotation {quotation.name} has been created.")
 
-            # Log the creation in chatter
-            record.message_post(body=f"Quotation {quotation.name} has been created.")
+            # Call any additional method like `create_qrf` if necessary
+            self.create_qrf()
+        else:
+            raise ValidationError('You cannot Create Quotation Without Expense Line And Team Worker ,  completed information Or  contact To Supervisor  .')
 
-        # Call any additional method like `create_qrf` if necessary
-        self.create_qrf()
 
     @api.onchange('country_id')
     def _onchange_country(self):
@@ -504,7 +507,7 @@ class middelTeamLine(models.Model):
         string='Team Name',
         required=False)
     time_work = fields.Integer(
-        string='Time Work',
+        string='Time Work', compute="_compute_charges_houer",
         required=False)
     time_cost = fields.Float(
         string='Time cost',
@@ -549,6 +552,13 @@ class middelTeamLine(models.Model):
             else:
                 line.sub_amount_total = 0.0
 
+
+    @api.depends('time_work', 'middel_team')
+    def _compute_charges_houer(self):
+        """Computes the total cost based on the charges and quantity of work hours."""
+        for record in self:
+            record.time_work =record.middel_team[
+                    0].works_hours
 
     def _compute_amount(self):
         """

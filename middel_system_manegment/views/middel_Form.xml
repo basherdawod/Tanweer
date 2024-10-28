@@ -38,7 +38,7 @@
                                 <field name="country_id" invisible="1"/>
                                 <field name="state_id" />
                                 <field name="makani" placeholder="Enter Makani number without commas" />
-                                 <field name="petrol_Charges" invisible="status not in  ('waiting')" />
+                                 <field name="petrol_Charges" invisible="status  in  ('waiting')" />
                              </group>
                              <group>
                                  <field name="date"/>
