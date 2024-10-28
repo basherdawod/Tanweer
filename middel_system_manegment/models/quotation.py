@@ -224,6 +224,7 @@ class MiddelQuotation(models.Model):
                 'display_type': 'product',
                 'product_id': data.product_id.id,
                 'quantity': data.quantity,
+                'tax_ids': self.tax_ids,
                 'price_unit': data.list_price,
                 'price_subtotal': data.price_total,
             }

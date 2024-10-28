@@ -9,7 +9,7 @@
                     <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
-                                invisible="status not in  ('set','approval','c_complete')" />
+                                invisible="status not in  ('set','draft','approval','c_complete')" />
                          <button string="Quotation" name="action_create_quotation" type="object" class="oe_highlight"
                                invisible="status  in  ('approval' ,'waiting','draft' ,'c_complete')"   />
                         <button string="Complete" name="b_c_complete" type="object" class="oe_highlight"

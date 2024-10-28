@@ -167,9 +167,15 @@
                                                 <img t-att-src="image_data_uri(datas.image)" style="max-height:35pt; max-width:90%"/>
                                             </t>
                                         </td>
-                                        <td t-esc="datas.brand.name"/>
-                                        <td t-esc="datas.description"/>
-                                        <td t-esc="datas.quantity"/>
+                                        <td >
+                                            <t t-esc="datas.brand.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="datas.description"/>
+                                        </td>
+                                        <td >
+                                            <t t-esc="datas.quantity"/>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

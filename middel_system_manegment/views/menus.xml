@@ -45,7 +45,6 @@
           sequence="5"/>
         <menuitem id="menu_invoice_Payment"
                   name="Payment"
-
                   parent="main_middel_manegment_sys"
                   action="account.action_account_payments"
                   sequence="6"/>

@@ -278,7 +278,7 @@ class MiddelEast(models.Model):
 
     def set_to_draft(self):
         # Set the record's status to 'draft'
-        self.write({'status': 'draft'})
+        self.write({'status': 'waiting'})
         return True  # Indicate that the status was set to draft
 
     @api.depends('company_cost_amount', 'total_cost_employee', 'product_cost_amount')
@@ -537,25 +537,6 @@ class middelTeamLine(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
 
     name = fields.Char(string="Employee Code",  store=True , related="team_id.name")
-    #
-    # @api.depends('name', 'team_id')
-    # def _compute_team_name(self):
-    #     for rec in self:
-    #         if rec.name:
-    #             rec.team_id = self.env['middel.team'].search([('id_employee', '=', rec.name)], limit=1)
-    #         elif rec.team_id:
-    #             for record in rec.team_id:
-    #                 rec.name = record.id_employee
-
-    #
-    # @api.depends('margin_amount', 'middel_team')
-    # def _compute_margin_amount(self):
-    #     """Computes the total cost based on the charges and quantity of work hours."""
-    #     for record in self:
-    #         # Initialize margin  amount
-    #         if record.middel_team :
-    #             record.margin_amount =record.middel_team[0].margin_amount
-
 
     @api.depends('time_work','time_cost', 'margin_amount')
     def _compute_sub_amount_total(self):
@@ -724,7 +705,6 @@ class MiddelOrderProuduct(models.Model):
         comodel_name='product.product',
         string="Product",
         domain="[('brand', '=', brand), ('categ_id', '=', categ_id)]",
-        # Domain to filter products by selected brand and category
         required=True)
 
     description = fields.Char(string="description",
@@ -748,7 +728,6 @@ class MiddelOrderProuduct(models.Model):
     brand = fields.Many2one(
         comodel_name='middel.brand',
         string='Brand'
-      # Filter brands by selected category
     )
     list_price = fields.Float(
         'Product Price', default=0.0,compute='_compute_price_unit',
@@ -874,16 +853,6 @@ class MiddelOrderProuduct(models.Model):
                 line.list_price = line.standard_price * (1 + line.margin_percent / 100)
             else:
                 line.list_price = line.product_id.list_price
-    #
-    # @api.onchange('categ_id')
-    # def _onchange_product_category(self):
-    #     """Update the brand field domain based on the selected product category."""
-    #     self.brand = False  # Clear the brand selection when category changes
-    #     return {
-    #         'domain': {
-    #             'brand': [('category_id', '=', self.categ_id.id)]
-    #         }
-    #     }
 
     @api.onchange('brand')
     def _onchange_brand(self):
@@ -901,7 +870,7 @@ class MiddelOrderProuduct(models.Model):
         if self.product_id:
             self.description = self.product_id.description
             self.model_no = self.product_id.model_no
-            self.standard_price = self.product_id.standard_price
-            self.list_price = self.product_id.list_price
+            # self.standard_price = self.product_id.standard_price
+            # self.list_price = self.product_id.list_price
 
 
