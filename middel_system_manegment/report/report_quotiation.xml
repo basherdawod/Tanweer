@@ -183,11 +183,11 @@
                             </p>
                             <p>
                                 <strong>VAT (5%):</strong>
-                                AED
+                               <t t-esc="doc.tax_amount"/> AED
                             </p>
                             <p>
                                 <strong>Final Amount:</strong>
-                                AED
+                               <t t-esc="doc.total_amount"/> AED
                             </p>
                         </div>
 

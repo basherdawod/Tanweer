@@ -1,0 +1,24 @@
+<odoo>
+    <template id="FieldBinaryFileUploader">
+        <div>
+            <button type="button" class="o_attach btn btn-primary">Attach File</button>
+            <input type="file" class="o_input_file" style="display:none;"/>
+            <div class="o_attachments">
+                <t t-if="widget.value">
+                    <div class="attachment-preview">
+                        <span>Uploaded File: </span>
+                        <a t-att-href="'/web/content/' + widget.value"
+                           t-esc="widget.value"
+                           target="_blank">
+                           <t t-esc="widget.value"/>
+                        </a>
+                        <button type="button" class="o_attachment_delete btn btn-danger" data-id="widget.value">Delete</button>
+                    </div>
+                </t>
+                <t t-else="">
+                    <span>No files uploaded.</span>
+                </t>
+            </div>
+        </div>
+    </template>
+</odoo>

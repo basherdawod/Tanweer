@@ -34,21 +34,21 @@
                              <group >
                                 <field name="partner_id"/>
                                 <field name="phone"/>
-                                <field name="address"/>
+                                <field name="address" invisible="1" />
                                 <field name="country_id" invisible="1"/>
-                                <field name="state_id"/>
+                                <field name="state_id" />
                                 <field name="makani" placeholder="Enter Makani number without commas" />
-                                 <field name="petrol_Charges"/>
+                                 <field name="petrol_Charges" invisible="status not in  ('waiting')" />
                              </group>
                              <group>
                                  <field name="date"/>
                                  <field name="currency_id" invisible="1"/>
                                 <field name="approch"/>
                                  <field name="project"/>
-                                <field name="customer_need_drawing"/>
-                                <field name="customer_need_amc"/>
-                                <field name="customer_need_cid"/>
-                                <field name="customer_need_active"/>
+                                <field name="customer_need_drawing" invisible="status not in  ('waiting')" />
+                                <field name="customer_need_amc" invisible="status  in  ('waiting')"/>
+                                <field name="customer_need_cid" invisible="status  in  ('waiting')"/>
+                                <field name="customer_need_active" invisible="status  in  ('waiting')" />
                             </group>
                         </group>
                         <group>
@@ -73,11 +73,11 @@
                         </group>
                         <notebook>
                              <page name="m_order_line_ids" string="Product Line" >
-                                <field name="m_order_line_ids" mode="tree,kanban">
+                                <field name="m_order_line_ids" mode="tree,kanban" >
                                     <tree editable="bottom" limit="200" >
                                        <field name="categ_id"/>
                                         <field name="brand"/>
-                                        <field name="product_id"/>
+                                        <field name="product_id" />
                                        <field name="description"/>
                                        <field name="model_no"/>
                                        <field name="standard_price" groups="middel_system_manegment.group_middel_east_manager" />
@@ -107,8 +107,9 @@
                              <page name="team_work" string="Team Work" groups="middel_system_manegment.group_middel_east_manager">
                                 <field name="team_work" mode="tree,kanban">
                                     <tree editable="bottom" limit="200">
-                                        <field name="name"/>
+
                                         <field name="team_id"/>
+                                        <field name="name"/>
                                         <field name="time_work"/>
                                         <field name="margin_amount"/>
                                         <field name="time_cost"/>
@@ -128,6 +129,9 @@
                                         <field name="total_cost" sum="Total Amount" />
                                     </tree>
                                 </field>
+                            </page>
+                            <page name="drawing" string="Drawing">
+                                <div class="o_attachment_preview"/>
                             </page>
                         </notebook>
                     </sheet>

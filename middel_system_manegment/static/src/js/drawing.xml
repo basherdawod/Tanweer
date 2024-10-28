@@ -1,0 +1,8 @@
+<odoo>
+    <t t-name="middel_system_manegment.DrawingFieldTemplate">
+        <div class="drawing-container">
+            <canvas t-ref="canvas" class="drawing-canvas" style="border: 1px solid #ddd;"></canvas>
+            <button type="button" t-on-click="clearCanvas">Clear</button>
+        </div>
+    </t>
+</odoo>

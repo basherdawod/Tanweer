@@ -30,15 +30,6 @@ class MiddelQuotation(models.Model):
     makani = fields.Char(string="Makani Number", readonly=True)
     company_id = fields.Many2one('res.company',
                                  default=lambda self: self.env.user.company_id.id, string="Company")
-    total_project_amount = fields.Monetary(
-        string="Project Amount",
-        currency_field='currency_id',
-        readonly=True,
-        store=True)
-    total_expense_line_amount = fields.Monetary(
-        string="Expense Line Amount",
-        currency_field='currency_id',readonly=True,
-        store=True)
 
     phone = fields.Char(
         'Phone', tracking=50,
@@ -109,14 +100,45 @@ class MiddelQuotation(models.Model):
 
     button_disabled = fields.Boolean(string="Disable Button", default=False)
 
-    #
-    # def write(self, vals):
-    #     for record in self:
-    #         # Check if the record's status is 'Confirm'
-    #         if record.status == 'confirm':
-    #             # If creating invoices allows modification, continue; otherwise, raise an error
-    #             if not record.create_invoices():
-    #                 raise UserError("You cannot edit this record because it is confirmed.")
+    total_project_amount = fields.Monetary(
+        string="Project Amount",
+        currency_field='currency_id',
+        readonly=True,
+        store=True)
+
+    total_expense_line_amount = fields.Monetary(
+        string="Expense Line Amount",
+        currency_field='currency_id',readonly=True,
+        store=True)
+    total_amount = fields.Monetary(
+        string="Total  Amount",
+        currency_field='currency_id',
+        compute="_compute_amount_quotation",
+        required=True,
+        store=True
+    )
+    tax_amount = fields.Monetary(
+        string="Tax Amount",
+        currency_field='currency_id',
+        compute="_compute_amount_quotation" ,
+        required=True,
+        store=True
+    )
+    tax_ids = fields.Many2many('account.tax', string='Taxes')
+
+    @api.depends('tax_amount', 'total_project_amount', 'total_amount', 'tax_ids')
+    def _compute_amount_quotation(self):
+        """Compute the untaxed amount, tax amount, and total amount."""
+        for line in self:
+            # Tax computation
+            taxes = line.tax_ids.compute_all(line.total_project_amount, currency=line.currency_id)
+
+            # Tax amount
+            line.tax_amount = taxes['total_included'] - taxes['total_excluded']
+
+            # Total amount including taxes
+            line.total_amount = taxes['total_included']
+
 
     @api.depends('invoice_ids')
     def _get_invoiced(self):

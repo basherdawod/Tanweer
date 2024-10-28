@@ -28,8 +28,6 @@
                             <group>
                                 <field name="country_id"/>
                                 <field name="employee_address"/>
-                                <field name="street"/>
-                                <field name="street2"/>
                                 <field name="time_cost"/>
                             </group>
                         </group>

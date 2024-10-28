@@ -224,11 +224,35 @@ class MiddelEast(models.Model):
         readonly=True,
         compute='_compute_amount_line_order'
     )
+    text = fields.Text(
+        string="Commented",
+        required=False)
+    file_name = fields.Char("Filename")
+    file_data = fields.Binary(string="Upload File"  )
 
 
     works_employee = fields.Integer(
         string='How Many Employee Need ',
         required=False)
+    file_preview = fields.Html("Preview", sanitize=False, compute="_compute_file_preview")
+
+
+    def _compute_file_preview(self):
+        for record in self:
+            if not record.file_data:
+                record.file_preview = "<p>No file uploaded or unsupported format</p>"
+                continue
+            # File type detection and conditional MIME selection
+            file_extension = record.file_name.lower() if record.file_name else ''
+            if file_extension.endswith(('.jpg', '.jpeg', '.png')):
+                mime_type = 'image/jpeg' if file_extension.endswith(('.jpg', '.jpeg')) else 'image/png'
+                img_data = record.file_data.decode()
+                record.file_preview = f'<img src="data:{mime_type};base64,{img_data}" width="100%" height="auto"/>'
+            elif file_extension.endswith('.pdf'):
+                pdf_data = record.file_data.decode()
+                record.file_preview = f'<iframe src="data:application/pdf;base64,{pdf_data}" width="100%" height="500px"></iframe>'
+            else:
+                record.file_preview = "<p>Unsupported file format</p>"
 
     @api.depends('petrol_cost', 'visits', 'distance', 'petrol_Charges')
     def _petrol_cont_compute(self):
@@ -478,7 +502,6 @@ class middelTeamLine(models.Model):
     team_id = fields.Many2one(
         comodel_name='middel.team',
         string='Team Name',
-        compute = '_compute_team_name',
         required=False)
     time_work = fields.Integer(
         string='Time Work',
@@ -513,16 +536,16 @@ class middelTeamLine(models.Model):
 
     currency_id = fields.Many2one('res.currency', string='Currency', default=lambda self: self.env.company.currency_id)
 
-    name = fields.Char(string="Employee Code",  store=True, required=True)
-
-    @api.depends('name', 'team_id')
-    def _compute_team_name(self):
-        for rec in self:
-            if rec.name:
-                rec.team_id = self.env['middel.team'].search([('id_employee', '=', rec.name)], limit=1)
-            elif rec.team_id:
-                for record in rec.team_id:
-                    rec.name = record.id_employee
+    name = fields.Char(string="Employee Code",  store=True , related="team_id.name")
+    #
+    # @api.depends('name', 'team_id')
+    # def _compute_team_name(self):
+    #     for rec in self:
+    #         if rec.name:
+    #             rec.team_id = self.env['middel.team'].search([('id_employee', '=', rec.name)], limit=1)
+    #         elif rec.team_id:
+    #             for record in rec.team_id:
+    #                 rec.name = record.id_employee
 
     #
     # @api.depends('margin_amount', 'middel_team')

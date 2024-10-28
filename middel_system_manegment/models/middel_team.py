@@ -14,8 +14,6 @@ class MiddelTeam(models.Model):
     country_id = fields.Many2one('res.country', string="Emirates", readonly=True,
                                  default=lambda self: self.env.ref('base.ae').id)
     employee_address = fields.Many2one('res.country.state', string="Address", domain="[('country_id', '=', country_id)]")
-    street = fields.Char(string="Street")
-    street2  = fields.Char(string="Street1", required=True)
     time_cost = fields.Float(
         string='Time cost',
         required=False)

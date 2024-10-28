@@ -56,8 +56,9 @@
     ],
     'assets': {
         'web.assets_backend': [
-            '/middel_system_manegment/static/description/icon.png',
-            # '/middel_system_manegment/static/src/js/toggle_active_button.js'
+            'middel_system_manegment/static/description/icon.png',
+            'middel_system_manegment/static/src/js/binary_attachment_preview.js'
+            'middel_system_manegment/static/src/js/templates.xml'
 
         ],
     },

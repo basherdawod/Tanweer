@@ -25,7 +25,6 @@ class ResPartner(models.Model):
     #                ('Tik_tok', 'Tik Tok'),
     #                ('Friend', 'Friend'), ],
     #     required=False, )
-
     def action_create_visit(self):
         for record in self:
             # Create the visit record
@@ -35,6 +34,16 @@ class ResPartner(models.Model):
                 'user_id': record.middel_user_ids.ids,
             })
 
+            # Send a message to the user to go on the visit
+            message_body = f"A new visit has been created for {record.name}. Please proceed with the visit.{visit.name}."
+            self.env['mail.message'].create({
+                'body': message_body,
+                'subject': 'Visit Notification',
+                'message_type': 'notification',
+                'subtype_id': self.env.ref('mail.mt_comment').id,
+                'partner_ids': [(4, record.middel_user_ids.id)],  # Adjust this to target the correct user
+            })
+
         # Return a notification action to show success message
         return {
             'type': 'ir.actions.client',
@@ -42,11 +51,10 @@ class ResPartner(models.Model):
             'params': {
                 'title': 'Success!',
                 'message': 'Visit created successfully!',
-                'type': 'success',  # Types: success, warning, danger, info
-                'sticky': False,  # True to keep the notification visible
+                'type': 'success',
+                'sticky': False,
             }
         }
-
 
     @api.constrains('phone')
     def _check_phone(self):
