@@ -10,11 +10,11 @@
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
                                 invisible="status not in  ('done')" />
-                        <button string="Confirm" name="set_to_confirm" type="object" class="oe_highlight"
-                                invisible="status not in  ('done')" />
-                        <button string="Create Invoice" name="create_invoices" type="object" class="oe_highlight"
+                        <button string="Confirm" name="create_invoices" type="object" class="oe_highlight"
+                                invisible="not (status == 'done' and not button_disabled)"/>
+                       <!--  <button string="Create Invoice" name="create_invoices" type="object" class="oe_highlight"
                                 invisible="not (status == 'confirm' and not button_disabled)"
-                                />
+                                /> -->
                         <button string="Done" name="set_to_done" type="object" class="oe_highlight"
                                  invisible="status not in  ('draft','confirm')"/>
                         <!-- <button string="Create Visit Card" name="action_create_visit_card" type="object" class = "oe_highlight"

@@ -176,6 +176,7 @@ class MiddelContract(models.Model):
         return result
 
     def create_invoices(self):
+        self.status = 'confirm'
         self.ensure_one()
         self = self.with_company(self.company_id)
         if not self.env['account.move'].check_access_rights('create', False):
