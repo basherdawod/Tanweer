@@ -171,7 +171,7 @@
                         </thead>
                       <tbody>
                         <t t-set="sequence" t-value="1"/>
-                        <t t-set="total_price" t-value="0.0"/>  <!-- متغير لتخزين المجموع -->
+                        <t t-set="total_price" t-value="0.0"/>  
                         <t t-foreach="o.middel_contract_line_ids" t-as="line">
                             <tr>
                                 <td>

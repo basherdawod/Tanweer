@@ -27,7 +27,7 @@ class MiddelContract(models.Model):
     email = fields.Char(string='email',compute='_compute_email', readonly=True, store=True)
     quotation_id = fields.Many2one('middel.quotation', string='Quotations' , readonly=True)
     status = fields.Selection(
-        [('draft', "Draft"),('complete', "Complete")],string="Status", default='draft' )
+        [('draft', "Draft"),('confirm', "Confirm"),('done', "Done")],string="Status", default='draft' )
     date_today = fields.Date(string='Date Today', default=lambda self: fields.Date.today(),readonly=True)
     date_next_year = fields.Date(string='Date Next Year', default=lambda self: fields.Date.today() + timedelta(days=365),readonly=True)
 
@@ -42,6 +42,9 @@ class MiddelContract(models.Model):
 
     middel_contract_line_ids = fields.One2many('middel.contract.line', 'contract_id', string="Contract Lines")
     button_disabled = fields.Boolean(string="Disable Button", default=False)
+
+    company_id = fields.Many2one('res.company',
+                                 default=lambda self: self.env.user.company_id.id, string="Company")
 
 
 
@@ -93,8 +96,11 @@ class MiddelContract(models.Model):
     def set_to_draft(self):
         self.status = 'draft'
 
-    def set_to_compleat(self):
-        self.status = 'complete'
+    def set_to_done(self):
+        self.status = 'done'
+
+    def set_to_confirm(self):
+        self.status = 'confirm'
 
 
     def action_view_visit_cards(self):
@@ -149,6 +155,56 @@ class MiddelContract(models.Model):
 
                 except Exception as e:
                     raise UserError(f"An unexpected error occurred: {str(e)}")
+
+
+    # def action_view_invoice(self, invoices=None):
+    #     self.ensure_one()
+    #     source_orders = invoices or self.invoice_ids  # Use passed invoices or default to self.invoice_ids
+    #     result = self.env['ir.actions.act_window']._for_xml_id('account.action_move_out_invoice_type')
+
+    #     if source_orders:
+    #         if len(source_orders) > 1:
+    #             result['domain'] = [('id', 'in', source_orders.ids)]
+    #         else:
+    #             result['views'] = [(self.env.ref('account.view_move_form', False).id, 'form')]
+    #             result['res_id'] = source_orders.id
+    #     else:
+    #         result = {'type': 'ir.actions.act_window_close'}
+
+    #     return result
+
+    # def create_invoices(self):
+    #     self.ensure_one()
+    #     self = self.with_company(self.company_id)
+    #     if not self.env['account.move'].check_access_rights('create', False):
+    #         try:
+    #             self.check_access_rights('write')
+    #             self.check_access_rule('write')
+    #         except AccessError:
+    #             return self.env['account.move']
+    #     if not self.order_product_line_ids:
+    #         raise ValidationError(
+    #             _("No service product found, please define one.")
+    #         )
+
+    #     # 1) Create invoices.
+    #     invoice_vals_list = []
+    #     for middel in self:
+    #         middel = middel.with_company(middel.company_id).with_context(lang=middel.partner_id.lang)
+    #         invoice_vals = middel._prepare_invoice()
+    #         invoice_vals_list.append(invoice_vals)
+    #     moves = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals_list)
+    #     if moves :
+    #         moves.action_post()
+    #     # 4) Some moves might actually be refunds: convert them if the total amount is negative
+    #     # We do this after the moves have been created since we need taxes, etc. to know if the total
+    #     # is actually negative or not
+    #     for move in moves:
+    #         move.message_post_with_source(
+    #             'mail.message_origin_link',
+    #             render_values={'self': move, 'origin': self},
+    #             subtype_xmlid='mail.mt_note',
+    #         )
 
 class ContractLine(models.Model):
     _name = 'middel.contract.line'  #model_middel_contract_line

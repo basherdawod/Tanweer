@@ -9,11 +9,15 @@
                     <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
-                                invisible="status not in  ('complete')" />
-                        <button string="Complete" name="set_to_compleat" type="object" class="oe_highlight"
+                                invisible="status not in  ('done')" />
+                        <button string="Confirm" name="set_to_confirm" type="object" class="oe_highlight"
+                                invisible="status not in  ('confirm')" />
+                       <!--  <button string="Create Invoice" name="create_invoices" type="object" class="oe_highlight"
+                                invisible="status in  ('confirm')" /> -->
+                        <button string="Done" name="set_to_done" type="object" class="oe_highlight"
                                  invisible="status not in  ('draft')"/>
                         <button string="Create Visit Card" name="action_create_visit_card" type="object" class = "oe_highlight"
-                               invisible="not (status == 'complete' and not button_disabled)"/>
+                               invisible="not (status == 'done' and not button_disabled)"/>
                                <field name="button_disabled" invisible="1"/>
                     </header>
                     <sheet>
