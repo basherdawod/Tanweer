@@ -40,8 +40,8 @@ class VisitCard(models.Model):
     full_system_working = fields.Boolean(string="Full System Working")
     full_system_cleaning = fields.Boolean(string="Full System Cleaning")
     dvr_nvr_recording_30_days = fields.Boolean(string="DVR/NVR Recording 30 Days")
-    technician_name = fields.Char(string="Technician Name")
-    watch_man = fields.Char(string="Watch Man")
+    technician_name = fields.Many2one('middel.team',string="Technician Name")
+    watch_man = fields.Many2one('middel.team',string="Watch Man")
     watch_no = fields.Integer(string="Watch NO")
     middel_contract_id = fields.Many2one('middel.contract', string='Middel Contract', required=False)
     status = fields.Selection(
