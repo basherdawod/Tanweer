@@ -292,7 +292,14 @@ class ContractLine(models.Model):
         required=False)
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self: self.env.company.currency_id)
-    price_total = fields.Char(string="Total")
+    product_type = fields.Selection(related='product_id.detailed_type')
+    price_total = fields.Monetary(
+        string="Total",
+        compute='_compute_price_reduce_taxincl',
+        currency_field='currency_id',
+        store=True, precompute=True)
+    discount = fields.Float(string='Discount (%)', default=0.0)
+
 
 
     @api.onchange('brand')
@@ -304,3 +311,14 @@ class ContractLine(models.Model):
                 'product_id': [('brand', '=', self.brand.id)]
             }
         }
+
+
+    @api.depends('list_price', 'quantity', 'discount')
+    def _compute_price_reduce_taxincl(self):
+        for line in self:
+            if line.product_type == 'service':
+                line.price_total =  line.sevice_amount if line.sevice_amount else 0.0
+            else:
+                discount_amount = (line.discount / 100) * line.list_price
+                line.price_total = (line.list_price - discount_amount) * line.quantity if line.quantity else 0.0
+
