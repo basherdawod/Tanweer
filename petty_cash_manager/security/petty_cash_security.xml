@@ -1,10 +1,8 @@
 <odoo>
-    <!-- Module Category for Petty Cash -->
     <record id="module_category_petty_cash_management" model="ir.module.category">
         <field name="name">Petty Cash Management</field>
         <field name="sequence">11</field>
     </record>
-
     <!-- User Group -->
     <record id="group_petty_cash_user" model="res.groups">
         <field name="name">Petty Cash User</field>

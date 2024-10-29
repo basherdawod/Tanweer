@@ -6,16 +6,15 @@
         <field name="arch" type="xml">
             <form string="Petty Cash Request">
                 <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    <field name="state" widget="statusbar"/>
                     <button string="Approve" name="action_approve" type="object" class="oe_highlight"
                         invisible="state != 'draft' "  />
+                    <button string="To Draft" name="action_to_draft" type="object" class="oe_highlight"
+                        invisible="state != 'approve' "  />
                     <!-- Pay button, visible only in approved state -->
-                    <button name="action_pay" string="Pay" type="object" class="btn-primary"
-                        invisible="state !=  'approved'"
-                          />
                     <!-- Reimburse button, visible only in paid state -->
                     <button name="action_reimburse" string="Reimburse" type="object" class="btn-primary"
-                        invisible="state != 'paid'"
+                        invisible="state != 'approve'"
                             />
                 </header>
                 <sheet>
@@ -26,28 +25,28 @@
                             </h1>
                         </div>
                         <div class="col-6">
-                            <field name="date"/>
+                            <field name="date" readonly="state != 'draft'"/>
                         </div>
                     </div>
                     <group string="Applicant's Details">
                         <group>
-                            <field name="petty_card"/>
-                            <field name="petty_code"/>
-                            <field name="user_approval"/>
+                            <field name="petty_card" readonly="state != 'draft'" />
+                            <field name="petty_code" readonly="state != 'draft'" />
+                            <field name="user_approval" readonly="state != 'draft'"/>
                         </group>
                         <group>
-                            <field name="account_id"/>
-                            <field name="account_code"/>
+                            <field name="account_id" readonly="state != 'draft'"/>
+                            <field name="account_code" readonly="state != 'draft'"/>
                         </group>
                     </group>
                     <group>
                         <group>
-                            <field name="request_amount"/>
-                            <field name="amount_in_words"/>
+                            <field name="request_amount" readonly="state != 'draft'"/>
+                            <field name="amount_in_words" readonly="state != 'draft'"/>
                         </group>
                         <group>
-                            <field name="follow"/>
-                            <field name="note"/>
+                            <field name="follow" readonly="state != 'draft'"/>
+                            <field name="note" readonly="state != 'draft'"/>
                         </group>
                     </group>
                 </sheet>

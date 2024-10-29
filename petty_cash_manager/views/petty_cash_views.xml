@@ -29,6 +29,13 @@
                     <field name="name"/>
                     <field name="balance" readonly="1"/>
                 </group>
+                <notebook>
+                    <page name="transactions" string="Transactions">
+                        <group>
+                            <field name="transactions"/>
+                        </group>
+                    </page>
+                </notebook>
             </form>
         </field>
     </record>
@@ -52,10 +59,10 @@
               parent="account.menu_finance"
               sequence="16"/>
 
-    <!-- Petty Cash Submenu linked to the Action -->
-    <menuitem id="menu_petty_cash_form"
-              name="Petty Cash"
-              parent="menu_petty_cash_accounting"
-              sequence="2"
-              action="action_petty_cash_account"/>
+<!--    &lt;!&ndash; Petty Cash Submenu linked to the Action &ndash;&gt;-->
+<!--    <menuitem id="menu_petty_cash_form"-->
+<!--              name="Petty Cash"-->
+<!--              parent="menu_petty_cash_accounting"-->
+<!--              sequence="2"-->
+<!--              action="action_petty_cash_account"/>-->
 </odoo>

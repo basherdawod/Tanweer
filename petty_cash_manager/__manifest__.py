@@ -13,8 +13,8 @@
     'depends': ['base', 'account', 'hr'],  # Include any required modules
     'data': [
         'data/sequence_views.xml',
-        'security/ir.model.access.csv',
         'security/petty_cash_security.xml',
+        'security/ir.model.access.csv',
         'security/petty_cash_record_rules.xml',
         'views/petty_cash_views.xml',
         'views/petty_card_form.xml',

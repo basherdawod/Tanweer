@@ -39,6 +39,18 @@
             </form>
         </field>
     </record>
+    <record id="petty_cash_card_view_tree" model="ir.ui.view">
+        <field name="name">petty.cash.card.tree</field>
+        <field name="model">petty.cash.card</field>
+        <field name="arch" type="xml">
+            <tree string="_tree">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="job_title"/>
+                <field name="open_balance"/>
+            </tree>
+        </field>
+    </record>
 
     <!-- Actions -->
     <record id="action_petty_e_card" model="ir.actions.act_window">
