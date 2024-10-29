@@ -280,7 +280,7 @@
 
  -->
 
- <table style="width: 50%; border: 2px solid; margin: auto; text-align: center;">
+<table style="width: 40%; border: 2px solid; margin: auto; text-align: center;">
     <thead style="background-color: #d3d3d3;">
         <tr>
             <th>S/N</th>
@@ -288,27 +288,23 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td rowspan="4">
-                <t t-foreach="o.visit_ids" t-as="line">
-                    <t t-foreach="line" t-as="line_date">
-                        <span t-esc="line_date.date"/><br/>
-                    </t>
-                </t>
-            </td>
-        </tr>
-        <tr>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>4</td>
-        </tr>
+        <t t-set="sequence" t-value="1"/>
+        <t t-foreach="o.visit_ids" t-as="line">
+            <tr>
+                <td>
+                    <span t-esc="sequence"/>
+                </td>
+                <td>
+                    <span t-esc="line.date"/>
+                </td>
+            </tr>
+            <t t-set="sequence" t-value="sequence + 1"/>
+        </t>
+        
     </tbody>
 </table>
+
+
 
                      <!--  <table style="width: 50%; border: 2px solid; margin: auto; text-align: center;">
      <tbody>
