@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_prepaid_expense">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            .report-header { background-color: #87CEEB; color: white; padding: 10px; margin-bottom: 20px; }
+                            .info-box { background-color: #E6F3FF; border: 1px solid #87CEEB; padding: 10px; margin-bottom: 15px; }
+                            .info-box strong { color: #4682B4; }
+                            .expense-table th { background-color: #4682B4; color: white; }
+                            .expense-table tr:nth-child(even) { background-color: #F0F8FF; }
+                            .total-table { background-color: #E6F3FF; }
+                            .total-table .border-black { border-top: 2px solid #4682B4; }
+                        </style>
+
+                        <div class="report-header">
+                            <h2 class="text-center">Prepaid Expense Report</h2>
+                        </div>
+
+                        <div class="row info-box">
+                            <div class="col-3">
+                                <strong>Reference:</strong>
+                                <p t-field="o.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Date:</strong>
+                                <p t-field="o.default_date"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Status:</strong>
+                                <p t-field="o.state"/>
+                            </div>
+
+                        </div>
+
+                        <div class="row info-box">
+                            <div class="col-3">
+                                <strong>Account:</strong>
+                                <p t-field="o.account_id.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Category:</strong>
+                                <p t-field="o.category_id.name"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Contract Start:</strong>
+                                <p t-field="o.contract_start_date"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Contract End:</strong>
+                                <p t-field="o.contract_end_date"/>
+                            </div>
+                        </div>
+
+                        <h3 class="mt-4 mb-3" style="color: #4682B4;">Expense Details</h3>
+                        <t t-if="o.line_ids">
+                            <table class="table table-sm expense-table">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Date</th>
+                                        <th>Days</th>
+                                        <th class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.line_ids" t-as="line">
+                                        <tr>
+                                            <td><span t-field="line.name"/></td>
+                                            <td><span t-field="line.date"/></td>
+                                            <td><span t-field="line.days"/></td>
+                                            <td class="text-right"><span t-field="line.amount"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <p class="text-center" style="color: #4682B4;">No expense lines found.</p>
+                        </t>
+
+                        <div class="row justify-content-end mt-5">
+                            <div class="col-4">
+                                <table class="table table-sm total-table">
+                                    <tr>
+                                        <td><strong>Total Contract Amount</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.contract_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Contract Fees</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.contract_fees_amount"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Total Amount</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_amount"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

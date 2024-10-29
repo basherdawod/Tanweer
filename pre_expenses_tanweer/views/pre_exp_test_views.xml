@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pre_exp_test_form" model="ir.ui.view">
+        <field name="name">pre.exp.test.model.form</field>
+        <field name="model">pre.exp.test.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,confirm,computed,to_approve,approved,validate,done"/>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_compute" string="Compute" type="object" class="btn-primary" invisible="state != 'confirm'"/>
+                    <button name="action_to_approve" string="Submit for Approval" type="object" class="btn-primary" invisible="state != 'computed'"/>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'to_approve'"/>
+                    <button name="action_validate" string="Validate" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_done" string="Mark as Done" type="object" class="btn-primary" invisible="state != 'validate'"/>
+                    <button name="action_draft" string="Reset to Draft" type="object" invisible="state not in ('done', 'cancel')"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('done', 'cancel')"/>
+                    <button name="action_post_journal_entries" string="Post Journal Entry" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="default_date"/>
+                            <field name="category_id"/>
+                            <field name="account_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="expense_account_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="account_number"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                        <group>
+                            <field name="contract_start_date"/>
+                            <field name="contract_end_date"/>
+                            <field name="method_period"/>
+                            <field name="contract_amount"/>
+                            <field name="contract_fees_amount"/>
+                            <field name="remaining_days"/>
+                           <!-- <field name="month_remaining_amount"/> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Expense Lines">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="days"/>
+                                    <field name="amount"/>
+                                    <field name="debit"/>
+                                    <field name="credit"/>
+                                    <field name="account_id"/>
+                                    <field name="month_remaining_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Journal Entries">
+                            <field name="journal_entry_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="ref"/>
+                                    <field name="amount_total"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pre_exp_test_tree" model="ir.ui.view">
+        <field name="name">pre.exp.test.model.tree</field>
+        <field name="model">pre.exp.test.model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="default_date"/>
+                <field name="category_id"/>
+                <field name="contract_amount"/>
+                <!--<field name="month_remaining_amount"/>-->
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pre_exp_test_search" model="ir.ui.view">
+        <field name="name">pre.exp.test.model.search</field>
+        <field name="model">pre.exp.test.model</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="account_id"/>
+                <field name="category_id"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Validated" name="validated" domain="[('state', '=', 'validate')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="status" context="{'group_by': 'state'}"/>
+                    <filter string="Account" name="account" context="{'group_by': 'account_id'}"/>
+                    <filter string="Category" name="category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_pre_exp_test" model="ir.actions.act_window">
+        <field name="name">Prepaid Expenses</field>
+        <field name="res_model">pre.exp.test.model</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_pre_exp_test_search"/>
+    </record>
+
+    <menuitem id="menu_pre_exp_test_root" 
+              name="Prepaid Expense Register" 
+              parent="account.menu_finance"
+              sequence="10"/>
+    
+    <menuitem id="menu_pre_exp_test_model"
+              name="Prepaid Expense Register List"
+              action="action_pre_exp_test"
+              parent="menu_pre_exp_test_root"
+              sequence="1"/>
+
+    <record id="seq_pre_exp_test" model="ir.sequence">
+        <field name="name">Prepaid Expense Sequence</field>
+        <field name="code">pre.exp.test.sequence</field>
+        <field name="prefix">PRE/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="action_pre_exp_test_report" model="ir.actions.act_window">
+        <field name="name">Prepaid Expense Reports</field>
+        <field name="res_model">pre.exp.test.report</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_pre_exp_test_report"
+              name="Reports"
+              action="action_pre_exp_test_report"
+              parent="menu_pre_exp_test_root"
+              sequence="3"/>
+
+              
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pre_exp_test_model,access_pre_exp_test_model,model_pre_exp_test_model,account.group_account_user,1,1,1,1
+access_pre_exp_test_category,access_pre_exp_test_category,model_pre_exp_test_category,account.group_account_user,1,1,1,1
+access_pre_exp_test_line,access_pre_exp_test_line,model_pre_exp_test_line,account.group_account_user,1,1,1,1
+access_pre_exp_test_report,access_pre_exp_test_report,model_pre_exp_test_report,account.group_account_user,1,1,1,1

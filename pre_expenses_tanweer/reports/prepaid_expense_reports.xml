@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_prepaid_expense" model="ir.actions.report">
+        <field name="name">Prepaid Expense Report</field>
+        <field name="model">pre.exp.test.model</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pre_exp_testa.report_prepaid_expense</field>
+        <field name="report_file">pre_exp_testa.report_prepaid_expense</field>
+        <field name="binding_model_id" ref="model_pre_exp_test_model"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
