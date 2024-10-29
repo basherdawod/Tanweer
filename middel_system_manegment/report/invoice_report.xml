@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="custom_external_layout_inherited" inherit_id="account.report_invoice_document">
+     <!--    <xpath expr="//div[@name='address_not_same_as_shipping' or @name='address_same_as_shipping' or @name='no_shipping']" position="replace">
+        </xpath> -->
+        <xpath expr="//div[@class='row']" position="replace">
+        </xpath>
+
+
     <xpath expr="//t[@t-name='account.report_invoice_document']/t[@t-call='web.external_layout']" position="after">
 
         <t t-call="web.html_container">
@@ -142,7 +148,7 @@
                     <br/><br/>
                     <br/><br/>
 
-                    <div style="text-align: right; font-size: 16pt;">
+                    <div style="text-align: right;margin: 30px; font-size: 16pt;">
                         <p>إتفق الطرف الأول: شرق الأوسط للتكنولوجيا
                             <br/>العنوان: عجمان - الروضة
                             <br/>مع الطرف الثاني المبين تفاصيله أعلاه على صيانة الكاميرات المبينة أو تفاصيلها أدناه:
@@ -152,7 +158,7 @@
                     <br/><br/>
                     <br/><br/>
                     <br/><br/>
-                    <div style="text-align: left; font-size: 16pt;">
+                    <div style="text-align: left;margin: 30px; font-size: 16pt;">
                         <p>First Party: Middle East Technology
                             <br/>Address: Ajman – Al Rawdha
                             <br/>With the second party described above details on the maintenance of the details and descriptions are below:
