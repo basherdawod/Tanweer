@@ -1,0 +1,19 @@
+<odoo>
+    <!-- Module Category for Petty Cash -->
+    <record id="module_category_petty_cash_management" model="ir.module.category">
+        <field name="name">Petty Cash Management</field>
+        <field name="sequence">11</field>
+    </record>
+
+    <!-- User Group -->
+    <record id="group_petty_cash_user" model="res.groups">
+        <field name="name">Petty Cash User</field>
+        <field name="category_id" ref="module_category_petty_cash_management"/>
+    </record>
+
+    <!-- Manager Group -->
+    <record id="group_petty_cash_manager" model="res.groups">
+        <field name="name">Petty Cash Manager</field>
+        <field name="category_id" ref="module_category_petty_cash_management"/>
+    </record>
+</odoo>
