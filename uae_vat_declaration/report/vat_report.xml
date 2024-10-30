@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_contract_template">
+        <t t-call="web.html_container">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                    <!-- <t t-foreach="docs" t-as="o"> -->
+                            <div style="font-weight: bold; color: #000000; text-align: center;">
+                                <h4 style="margin: 0; padding: 10px;">
+                                    VAT 201 Return - <span style="direction: rtl; unicode-bidi: embed;">إقرار ضريبة القيمة المضافة</span> - 230006435114
+                                </h4>
+                            </div>
+
+                            <hr style="border: 1px solid black; margin: 10px 0;" />
+                            
+                            <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 10px ">
+                                <span>Taxpayer Information</span>
+                                <br/>
+                                <span >معلومات دافعي الضرائب</span>
+                            </div>
+
+                            <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                            TRN<br/>رقم تسجيل الضريبة
+                                        </span>
+                                        <span style="text-align: right;">
+                                            100423863800003
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                             VAT Return Period 
+                                            <br/>فترة الإقرار الضريبي لضريبة القيمة المضافة
+                                        </span>
+                                        <span style="text-align: right;">
+                                             01/12/2023 - 29/02/2024
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                            Legal Name of 
+                                            Entity(English)<br/> الإسم القانوني للكيان باللغة الإنجايزية
+                                        </span>
+                                        <span style="text-align: right;">
+                                            Al Mayadi Enterprises
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                             VAT Stagger 
+                                            <br/>فالفترة الضريبية لضريبة القيمة المضافة
+                                        </span>
+                                        <span style="text-align: right;">
+                                              Stagger 2 – Quarterly (Mar to Feb
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                             Legal Name of Entity (Arabic) <br/> الإسم القانوني للكيان باللغة العربية
+                                        </span>
+                                        <span style="text-align: right;">
+                                            مشاريع الميادي
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                             VAT Return Due Date
+                                            <br/>تاريخ إستحقاق إقرار ضريبة القيمة المضافة
+                                        </span>
+                                        <span style="text-align: right;">
+                                              28/03/2024
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                            Address <br/> العنوان
+                                        </span>
+                                        <span style="text-align: right;">
+                                            Abdullah belhab building no. <br/>
+                                            596, Damascus street corner <br/>
+                                            halab street, Al qusais industrial<br/> 
+                                            area, 84611, Dubai, <br/>
+                                            +97142678922
+                                        </span>
+                                    </div>
+                                </div>
+                                <div style="width: 50%; padding: 10px;">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="text-align: left;">
+                                              Tax Year End
+                                            <br/>نهاية السنة الضريبية
+                                        </span>
+                                        <span style="text-align: right;">
+                                              29/02/2024
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- </t> -->
+                  </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

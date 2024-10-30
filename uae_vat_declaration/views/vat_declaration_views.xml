@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="view_vat_declaration_form" model="ir.ui.view">
+        <field name="name">vat.declaration.form</field>
+        <field name="model">vat.declaration</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="vat_registration_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="trn"/>
+                        </group>
+                        <group>
+                            <field name="due_date"/>
+                            <field name="legal_name"/>
+                            <field name="basic_rate_supplies_emirate" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="VAT on Sales and Outputs">
+                            <field name="vat_sales_outputs" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="description" widget="text"/>
+                                    <field name="amount"/>
+                                    <field name="vat_amount"/>
+                                    <field name="line_type" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="total_sales" class="oe_subtotal_footer_separator"/>
+                                <field name="total_sales_vat" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="VAT on Expenses and Inputs">
+                            <field name="vat_expenses_inputs" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="description"/>
+                                    <field name="amount"/>
+                                    <field name="vat_amount"/>
+                                    <field name="line_type" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="total_expenses" class="oe_subtotal_footer_separator"/>
+                                <field name="total_expenses_vat" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="Summary">
+                            <group>
+                                <field name="total_sales"/>
+                                <field name="total_sales_vat"/>
+                                <field name="total_expenses"/>
+                                <field name="total_expenses_vat"/>
+                                <field name="net_vat" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vat_declaration_tree" model="ir.ui.view">
+        <field name="name">vat.declaration.tree</field>
+        <field name="model">vat.declaration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="trn"/>
+                <field name="net_vat"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vat_declaration_search" model="ir.ui.view">
+        <field name="name">vat.declaration.search</field>
+        <field name="model">vat.declaration</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="trn"/>
+                <field name="legal_name"/>
+                <field name="vat_registration_id"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_vat_declaration" model="ir.actions.act_window">
+        <field name="name">VAT Declarations</field>
+        <field name="res_model">vat.declaration</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_vat_declaration_search"/>
+    </record>
+
+    <menuitem id="menu_uae_vat_main"
+              name="UAE VAT"
+              parent="account.menu_finance"
+              sequence="10"/>
+
+    <menuitem id="menu_vat_declaration_parent"
+              name="VAT Declarations"
+              parent="menu_uae_vat_main"
+              sequence="1"/>
+
+    <menuitem id="menu_vat_declaration_list"
+              name="Declaration List"
+              action="action_vat_declaration"
+              parent="menu_vat_declaration_parent"
+              sequence="1"/>
+
+    <record id="action_vat_registration" model="ir.actions.act_window">
+        <field name="name">VAT Registration</field>
+        <field name="res_model">vat.registration</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_vat_registration"
+              name="VAT Registration"
+              action="action_vat_registration"
+              parent="menu_uae_vat_main"
+              sequence="2"/>
+</odoo>

@@ -225,10 +225,6 @@ class PreExpTestModel(models.Model):
         return self.env.ref('pre_exp_testa.action_report_prepaid_expense').report_action(self)
 
 
-    # @api.model
-    # def pre_exp_cron_job_method(self):
-    #     print("Cron job is running")
-
     @api.model
     def pre_exp_cron_job_method(self):
         today = fields.Date.today()
