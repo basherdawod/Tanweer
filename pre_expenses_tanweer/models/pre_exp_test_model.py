@@ -4,6 +4,9 @@ from odoo import models, fields, api, Command, _
 from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 import base64
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class PreExpTestModel(models.Model):
     _name = 'pre.exp.test.model'
@@ -177,49 +180,100 @@ class PreExpTestModel(models.Model):
                 raise UserError(_("Done or already cancelled records cannot be cancelled."))
         return True
 
-    def action_post_journal_entries(self):
-        for record in self:
-            move_lines = []
-            for line in record.line_ids:
-                move_lines.append(Command.create({
-                    'name': f"Prepaid Expense - {line.name}",
-                    'account_id': record.account_id.id,
-                    'debit': 0.0,
-                    'credit': line.amount,
-                }))
+    # def action_post_journal_entries(self):
+    #     for record in self:
+    #         move_lines = []
+    #         for line in record.line_ids:
+    #             move_lines.append(Command.create({
+    #                 'name': f"Prepaid Expense - {line.name}",
+    #                 'account_id': record.account_id.id,
+    #                 'debit': 0.0,
+    #                 'credit': line.amount,
+    #             }))
                 
-                move_lines.append(Command.create({
-                    'name': f"Expense Recognition - {line.name}",
-                    'account_id': record.expense_account_id.id,
-                    'debit': line.amount,
-                    'credit': 0.0,
-                }))
+    #             move_lines.append(Command.create({
+    #                 'name': f"Expense Recognition - {line.name}",
+    #                 'account_id': record.expense_account_id.id,
+    #                 'debit': line.amount,
+    #                 'credit': 0.0,
+    #             }))
 
 
 
-            journal_entry = self.env['account.move'].create({
-                'date': fields.Date.today(),
-                'ref': f"Prepaid Expense - {record.name}",
-                'line_ids': move_lines,
-                'prepaid_expense_id': record.id,
-            })
+    #         journal_entry = self.env['account.move'].create({
+    #             'date': fields.Date.today(),
+    #             'ref': f"Prepaid Expense - {record.name}",
+    #             'line_ids': move_lines,
+    #             'prepaid_expense_id': record.id,
+    #         })
 
-            try:
-                journal_entry.action_post()
-            except Exception as e:
-                raise UserError(_("Error posting journal entry: %s") % str(e))
+    #         try:
+    #             journal_entry.action_post()
+    #         except Exception as e:
+    #             raise UserError(_("Error posting journal entry: %s") % str(e))
 
-            record.write({
-                'state': 'validate',
-                'journal_entry_ids': [(4, journal_entry.id)]
-            })
+    #         record.write({
+    #             'state': 'validate',
+    #             'journal_entry_ids': [(4, journal_entry.id)]
+    #         })
 
-        return True
+    #     return True
 
 
     def action_generate_report(self):
         self.ensure_one()
         return self.env.ref('pre_exp_testa.action_report_prepaid_expense').report_action(self)
+
+
+    # @api.model
+    # def pre_exp_cron_job_method(self):
+    #     print("Cron job is running")
+
+    @api.model
+    def pre_exp_cron_job_method(self):
+        today = fields.Date.today()
+        records = self.search([('line_ids.date', '=', today)])
+
+        for record in records:
+            move_lines = []
+            for line in record.line_ids:
+                if line.date == today:
+                    move_lines.append(Command.create({
+                        'name': f"Prepaid Expense - {line.name}",
+                        'account_id': record.account_id.id,
+                        'debit': 0.0,
+                        'credit': line.amount,
+                    }))
+                
+                    move_lines.append(Command.create({
+                        'name': f"Expense Recognition - {line.name}",
+                        'account_id': record.expense_account_id.id,
+                        'debit': line.amount,
+                        'credit': 0.0,
+                    }))
+
+            if move_lines:
+                journal_entry = self.env['account.move'].create({
+                    'date': today,
+                    'ref': f"Prepaid Expense - {record.name}",
+                    'line_ids': move_lines,
+                    'prepaid_expense_id': record.id,
+                })
+
+                try:
+                    journal_entry.action_post()
+                except Exception as e:
+                    raise UserError(_("Error posting journal entry: %s") % str(e))
+
+                record.write({
+                    'state': 'validate',
+                    'journal_entry_ids': [(4, journal_entry.id)]
+                })
+
+                _logger.info(f"Journal entry posted successfully for record {record.id}")
+
+        return True
+
 
 class PreExpTestReport(models.Model):
     _name = 'pre.exp.test.report'

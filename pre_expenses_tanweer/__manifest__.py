@@ -9,10 +9,12 @@
     'depends': ['base', 'account', 'mail'],
     'data': [
         'security/ir.model.access.csv',
+        'data/cron_job.xml',
         'views/pre_exp_test_views.xml', 
         'views/pre_exp_test_category_views.xml',
         'reports/prepaid_expense_report_template.xml',
         'reports/prepaid_expense_reports.xml',
+
 
     ],
     'assets': {
