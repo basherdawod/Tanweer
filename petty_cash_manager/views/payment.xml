@@ -18,13 +18,13 @@
                 </div>
                 <group name="main_group">
                     <group name="group1">
-                        <field name="user_approval"/>
+                        <field name="user_approval" readonly="state in ('confirm', 'done')" />
                         <field name="employee_petty"/>
                         <field name="payment_type" widget="radio" options="{'horizontal': True}" required="1" readonly="state != 'draft'" />
 
                     </group>
                     <group name="group2">
-                            <field name="account_receive"/>
+                            <field name="account_receive" invisible="payment_type != 'receive'"/>
 
                             <field name="payment_date"/>
                             <field name="amount"/>
@@ -34,9 +34,10 @@
                 </group>
                 <group name="=main_group">
                     <group>
-                        <field name="employee_request"/>
-                        <field name="employee_submission"/>
-                        <field name="account_id"/>
+                        <field name="employee_request" invisible="payment_type != 'receive'"/>
+                        <field name="employee_card"/>
+                        <field name="employee_submission" invisible="payment_type == 'receive'"/>
+                        <field name="account_id" invisible="payment_type == 'receive'"/>
                     </group>
                     <group>
                         <field name="company_id"/>

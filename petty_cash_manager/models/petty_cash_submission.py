@@ -11,8 +11,10 @@ class PettyCashSubmission(models.Model):
     name = fields.Char(string="Submission Reference", required=True, readonly=True,
                        default=lambda self: _('New'), copy=False)
     # code_petty_cash = fields.Char(string="Petty Cash Code", related="petty_cash_request_id.request_code")
-    petty_cash_request_id = fields.Many2one('petty.cash.request',
-                                            string="Petty Cash Request", required=True)
+
+    petty_cash_id = fields.Many2one('petty.cash.card',
+                                            string="Petty Cash Card", required=True)
+
     payment_type = fields.Selection([('send', 'Send'), ('receive', 'Receive')], default="send", string="Payment Type",
                                     required=True)
     user_approval = fields.Many2one('res.users', string="User Approval ", required=True)
@@ -45,10 +47,10 @@ class PettyCashSubmission(models.Model):
         default = dict(default or {})
         return super().copy_data(default)
 
-    @api.depends('petty_cash_request_id.request_amount', 'total_spent')
+    @api.depends('petty_cash_id.open_balance', 'total_spent')
     def _compute_remaining_amount(self):
         for rec in self:
-            rec.remaining_amount = rec.petty_cash_request_id.request_amount - rec.total_spent
+            rec.remaining_amount = rec.petty_cash_id.open_balance - rec.total_spent
 
     def action_submit(self):
         self.state = 'submitted'
@@ -57,13 +59,13 @@ class PettyCashSubmission(models.Model):
         self.state = 'submitted'
         payment = self.env['petty.cash.payment'].create({
             'user_approval': self.user_approval.id,
-            'account_id': self.petty_cash_request_id.account_id.id,
+            'account_id': self.petty_cash_id.account_id.id,
             'amount': self.total_spent,
             'payment_type': self.payment_type,
             'currency_id': self.currency_id.id,
-            'employee_request': self.petty_cash_request_id.id,
-            'employee_petty': self.petty_cash_request_id.employee_petty.id,
+            'employee_petty': self.petty_cash_id.employee_id.id,
             'employee_submission': self.id,
+            'employee_card': self.petty_cash_id.id,
         })
 
 

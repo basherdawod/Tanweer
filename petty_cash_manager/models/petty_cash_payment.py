@@ -7,10 +7,11 @@ class PettyCashPayment(models.Model):
     _description = 'Petty Cash Payment'
 
     name = fields.Char(string='Reference', required=True, copy=False, readonly=True, default=lambda self: _('New'))
-    # petty_code = fields.Char(string='Pettych', required=True, copy=False, readonly=True)
     user_approval = fields.Many2one('res.users', string="User Approval ", required=True)
     employee_petty = fields.Many2one('hr.employee', string="Employee", required=True)
     employee_request = fields.Many2one('petty.cash.request', string="Employee Request")
+    employee_card = fields.Many2one('petty.cash.card', string="Employee Card")
+
     employee_submission = fields.Many2one('petty.cash.submission', string="Employee submission")
     account_id = fields.Many2one(string=" Account " , comodel_name='account.account',
         store=True, readonly=False,
@@ -100,13 +101,12 @@ class PettyCashPayment(models.Model):
                 }),
             ]
         })
-
         # Post the move
         move.action_post()
-
         # Update related employee request state
         for rec in self:
             rec.employee_request.action_pay()
+
 
     def action_approve_submission(self):
         self.ensure_one()
@@ -161,10 +161,9 @@ class PettyCashPayment(models.Model):
         except Exception as e:
             raise UserError(f"Failed to post accounting move: {e}")
 
-        for record in self.employee_submission.mapped('petty_cash_request_id'):
-            if hasattr(record, 'petty_card'):
-                for res in record.mapped('petty_card'):
-                    if res.open_balance is not None:
-                        res.open_balance -= total_amount  # Ensure consistent balance updates
+
+        for card in self.employee_card:
+            if card.open_balance is not None:
+                card.open_balance -= total_amount  # Ensure consistent balance updates
             else:
-                raise UserError("The field 'petty_card' is missing in the model.")
+                raise UserError("The field 'open_balance' is missing in the model.")

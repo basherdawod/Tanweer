@@ -68,6 +68,7 @@ class PettyCashRequest(models.Model):
             'payment_type': self.payment_type,
             'employee_petty': self.employee_petty.id,
             'employee_request': self.id,
+            'employee_card': self.petty_card.id,
         })
 
     def action_add_amount_to_model_b(self):

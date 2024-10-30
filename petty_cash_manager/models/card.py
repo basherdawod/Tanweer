@@ -1,4 +1,6 @@
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 
 class PettyCashMasterCard(models.Model):
     _name = 'petty.cash.card'
@@ -52,7 +54,17 @@ class PettyCashMasterCard(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get('name', _('New')) == _('New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code('petty.cash.card') or _('New')
+            # Check if employee_id is provided and if a petty cash card already exists for that employee
+            employee_id = vals.get('employee_id')
+            if employee_id:
+                existing_cards = self.search_count([('employee_id', '=', employee_id)])
+                if existing_cards:
+                    raise ValueError("A petty cash card already exists for this employee.")
+                elif 'name' not in vals or vals.get('name') == _('New'):
+                # If name is not provided or set to the default 'New', assign a new sequence
+                    vals['name'] = self.env['ir.sequence'].next_by_code('petty.cash.card') or _('New')
+
+        # Call super to create the records
         res = super(PettyCashMasterCard, self).create(vals_list)
         return res
+

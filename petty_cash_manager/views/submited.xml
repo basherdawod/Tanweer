@@ -39,7 +39,7 @@
                     </div>
                      <group string="Petty Cash Details">
                          <group>
-                             <field name="petty_cash_request_id" options='{"no_open": True, "no_create": True}' />
+                             <field name="petty_cash_id" options='{"no_open": True, "no_create": True}' />
                             </group>
                          <group>
 <!--                             <field name="code_petty_cash"/>-->
