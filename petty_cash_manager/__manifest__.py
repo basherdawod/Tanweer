@@ -21,8 +21,16 @@
         'views/payment.xml',
         'views/submited.xml',
         'views/petty_cach_request_form.xml',
+        # 'views/petty_cash_dashboard_template.xml',
         'report/pety_cash_template.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            # 'petty_cash_manager/static/description/js/petty_cash_dashboard.js',
+            # 'petty_cash_manager/static/description/src/scss/petty_cash_dashboard.scss',
+        ],
+    },
     "application": True,
     "installable": True,
+    'license': 'LGPL-3',
 }

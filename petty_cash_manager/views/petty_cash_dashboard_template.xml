@@ -1,0 +1,27 @@
+<odoo>
+    <template id="PettyCashDashboardTemplate">
+        <div class="petty_cash_dashboard">
+            <h2>Petty Cash Dashboard</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Request Code</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="transactions.data" t-as="transaction">
+                        <tr>
+                            <td><t t-esc="transaction.name"/></td>
+                            <td><t t-esc="transaction.date"/></td>
+                            <td><t t-esc="transaction.request_amount"/></td>
+                            <td><t t-esc="transaction.state"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </template>
+</odoo>

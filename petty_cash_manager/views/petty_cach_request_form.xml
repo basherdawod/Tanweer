@@ -31,7 +31,6 @@
                     <group string="Applicant's Details">
                         <group>
                             <field name="petty_card" readonly="state != 'draft'" />
-                            <field name="petty_code" readonly="state != 'draft'" />
                             <field name="user_approval" readonly="state != 'draft'"/>
                         </group>
                         <group>
@@ -53,6 +52,17 @@
             </form>
         </field>
     </record>
+
+     <record id="action_petty_cash_dashboard" model="ir.actions.client">
+        <field name="name">Petty Cash Dashboard</field>
+        <field name="tag">petty_cash_dashboard</field>
+    </record>
+
+    <menuitem id="menu_petty_cash_dashboard"
+              name="Petty Cash Dashboard"
+              parent="petty_cash_manager.menu_petty_cash_accounting"
+              action="action_petty_cash_dashboard"
+              sequence="1"/>
 
     <!-- Action for Petty Cash Requests -->
     <record id="action_petty_cash_request" model="ir.actions.act_window">

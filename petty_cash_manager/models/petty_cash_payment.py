@@ -7,7 +7,7 @@ class PettyCashPayment(models.Model):
     _description = 'Petty Cash Payment'
 
     name = fields.Char(string='Reference', required=True, copy=False, readonly=True, default=lambda self: _('New'))
-    petty_code = fields.Char(string='Pettych', required=True, copy=False, readonly=True)
+    # petty_code = fields.Char(string='Pettych', required=True, copy=False, readonly=True)
     user_approval = fields.Many2one('res.users', string="User Approval ", required=True)
     employee_petty = fields.Many2one('hr.employee', string="Employee", required=True)
     employee_request = fields.Many2one('petty.cash.request', string="Employee Request")
@@ -133,4 +133,10 @@ class PettyCashPayment(models.Model):
         })
         # Post the move
         move.action_post()
-
+        for record in self.employee_submission.mapped('petty_cash_request_id'):
+            if hasattr(record, 'petty_card'):
+                for res in record.mapped('petty_card'):
+                    if res.open_balance is not None:
+                        res.open_balance -= self.employee_submission.total_spent
+            else:
+                raise UserError("The field 'petty_card' is missing in the model.")

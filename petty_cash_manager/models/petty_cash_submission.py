@@ -63,7 +63,7 @@ class PettyCashSubmission(models.Model):
             'currency_id': self.currency_id.id,
             'employee_request': self.petty_cash_request_id.id,
             'employee_petty': self.petty_cash_request_id.employee_petty.id,
-            'petty_code': self.petty_cash_request_id.petty_code,
+            'petty_code': self.petty_cash_request_id.name,
             'employee_submission': self.id,
         })
 
@@ -78,18 +78,20 @@ class PettyCashExpenseLine(models.Model):
     amount = fields.Float(string="Amount", required=True)
     reference = fields.Char(string="REF", required=True)
     date = fields.Date(string="Date", required=True)
+    from odoo import models, fields, api
+
+    account_code = fields.Char(string="A/C Code", store=True, required=True)
     account = fields.Many2one(
         comodel_name='account.account',
         string="A/C Name",
         store=True, readonly=True,
         compute="_compute_account_name",
-        domain="[('account_type', 'in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card')), ('company_id', '=', company_id)]", required=True
     )
-    account_code = fields.Char(string="A/C Code", store=True , required=True)
 
-
-    @api.depends('account_code' , 'account' )
+    @api.depends('account_code')
     def _compute_account_name(self):
         for rec in self:
-            if rec.account_code :
-                rec.account = self.env['account.account'].search([('code', '=', rec.account_code)], limit=1)
+            if rec.account_code:
+                # Search for the account with the given code
+                account = self.env['account.account'].search([('code', '=', rec.account_code)], limit=1)
+                rec.account = account if account else False  # Set account or leave it empty if not found

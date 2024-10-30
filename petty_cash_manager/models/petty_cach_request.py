@@ -14,7 +14,6 @@ class PettyCashRequest(models.Model):
     user_approval = fields.Many2one('res.users', string="User Approval", required=True)
     employee_petty = fields.Many2one(string="Employee Approval", related="petty_card.employee_id")
     petty_card = fields.Many2one('petty.cash.card', string="Petty Card", store=True)
-    petty_code = fields.Char(string="Petty Code", required=True)
     account_id = fields.Many2one(string="Account", related="petty_card.account_id")
     request_amount = fields.Float(string="Amount", required=True)
     amount_in_words = fields.Char(string="Amount in Words", compute="_compute_amount_in_words")
@@ -36,16 +35,24 @@ class PettyCashRequest(models.Model):
         ('reimbursed', 'Reimbursed')
     ], default='draft', string="Status", tracking=True)
 
-    @api.onchange('petty_code')
-    def _onchange_petty(self):
-        self.write({
-            'petty_card': self.env['petty.cash.card'].search([('name', '=', self.petty_code)], limit=1),
-        })
+    # @api.onchange('petty_code')
+    # def _onchange_petty(self):
+    #     self.write({
+    #         'petty_card': self.env['petty.cash.card'].search([('name', '=', self.petty_code)], limit=1),
+    #     })
 
     @api.depends('request_amount')
     def _compute_amount_in_words(self):
         for record in self:
-            record.amount_in_words = num2words(record.request_amount, to='currency', lang='en').capitalize()
+            if record.request_amount:
+                # Convert amount to words, specifying "dirham" and "fils"
+                amount_in_words = num2words(record.request_amount, to='currency', lang='en')
+                # Replace "euro" with "dirham" and "cents" with "fils"
+                amount_in_words = amount_in_words.replace('euro', 'dirham').replace('cents', 'fils')
+                # Capitalize the result and assign it
+                record.amount_in_words = amount_in_words.capitalize()
+            else:
+                record.amount_in_words = ''
 
     @api.depends('account_id')
     def _compute_account_code(self):
@@ -58,7 +65,6 @@ class PettyCashRequest(models.Model):
             'user_approval': self.user_approval.id,
             'account_id': self.account_id.id,
             'amount': self.request_amount,
-            'petty_code': self.petty_code,
             'payment_type': self.payment_type,
             'employee_petty': self.employee_petty.id,
             'employee_request': self.id,
@@ -83,8 +89,8 @@ class PettyCashRequest(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get('petty_code'):
-                existing_requests = self.search([('petty_code', '=', vals.get('petty_code'))])
+            if vals.get('name'):
+                existing_requests = self.search([('name', '=', vals.get('name'))])
                 if existing_requests:
                     raise ValidationError(_("A Petty Cash Request with this Petty Code already exists."))
             if vals.get('name', _('New')) == _('New'):

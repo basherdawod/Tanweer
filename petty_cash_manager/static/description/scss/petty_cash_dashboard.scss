@@ -1,0 +1,97 @@
+/** petty_cash_dashboard.scss **/
+
+.petty_cash_dashboard {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        font-size: 1.8em;
+        font-weight: 600;
+        color: #4a4a4a;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .table {
+        width: 100%;
+        background-color: white;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        thead {
+            background-color: #007bff;
+            color: #ffffff;
+
+            th {
+                padding: 15px;
+                font-size: 0.9em;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                text-align: left;
+            }
+        }
+
+        tbody {
+            tr {
+                &:nth-child(even) {
+                    background-color: #f8f9fa;
+                }
+
+                td {
+                    padding: 15px;
+                    font-size: 0.9em;
+                    color: #333;
+
+                    &:first-child {
+                        font-weight: 600;
+                        color: #007bff;
+                    }
+
+                    &:last-child {
+                        text-align: center;
+                    }
+                }
+
+                &:hover {
+                    background-color: #e9ecef;
+                }
+            }
+        }
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f7f7f7;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8em;
+        font-weight: 500;
+        text-align: center;
+        color: #ffffff;
+
+        &.draft {
+            background-color: #6c757d;
+        }
+
+        &.approved {
+            background-color: #28a745;
+        }
+
+        &.paid {
+            background-color: #007bff;
+        }
+
+        &.reimbursed {
+            background-color: #ffc107;
+        }
+    }
+}
