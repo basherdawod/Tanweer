@@ -63,9 +63,9 @@ class PettyCashSubmission(models.Model):
             'currency_id': self.currency_id.id,
             'employee_request': self.petty_cash_request_id.id,
             'employee_petty': self.petty_cash_request_id.employee_petty.id,
-            'petty_code': self.petty_cash_request_id.name,
             'employee_submission': self.id,
         })
+
 
 
 class PettyCashExpenseLine(models.Model):
@@ -73,18 +73,16 @@ class PettyCashExpenseLine(models.Model):
     _description = 'Petty Cash Expense Line'
 
     submission_id = fields.Many2one('petty.cash.submission', string="Submission Reference")
-    # code_petty_cash = fields.Char(string="Petty Cash Code", related="petty_cash_request_id.request_code")
     description = fields.Char(string="Description", required=True)
     amount = fields.Float(string="Amount", required=True)
     reference = fields.Char(string="REF", required=True)
     date = fields.Date(string="Date", required=True)
-    from odoo import models, fields, api
+    account_code = fields.Char(string="A/C Code", required=True)
 
-    account_code = fields.Char(string="A/C Code", store=True, required=True)
     account = fields.Many2one(
         comodel_name='account.account',
         string="A/C Name",
-        store=True, readonly=True,
+        readonly=True,
         compute="_compute_account_name",
     )
 
@@ -95,3 +93,5 @@ class PettyCashExpenseLine(models.Model):
                 # Search for the account with the given code
                 account = self.env['account.account'].search([('code', '=', rec.account_code)], limit=1)
                 rec.account = account if account else False  # Set account or leave it empty if not found
+            else:
+                rec.account = False  # Reset account if no code is provided

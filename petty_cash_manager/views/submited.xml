@@ -20,8 +20,8 @@
             <form string="Petty Cash Submission" >
                 <header>
                     <field name="state" widget="statusbar" />
-                      <button string="Submit" type="object" name="action_submit" class="btn-primary" invisible="state not in  ('draft')" />
-                    <button string="Approve" type="object" name="action_submit_payment" class="btn-success" invisible="state not in  ('submitted')"/>
+                      <button string="Submit" type="object" name="action_submit_payment" class="btn-primary" invisible="state not in  ('draft')" />
+<!--                    <button string="Approve" type="object" name="action_submit_payment" class="btn-success" invisible="state in  ('submitted' ,'approved')"/>-->
                 </header>
                 <sheet>
                     <div class="row">

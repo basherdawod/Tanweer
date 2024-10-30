@@ -15,5 +15,29 @@
         <field name="groups" eval="[(4, ref('petty_cash_manager.group_petty_cash_manager'))]"/>
     </record>
 
+  <!-- Record Rule for Users to See Only Their submit -->
+    <record id="rule_petty_cash_payment_user" model="ir.rule">
+        <field name="name">Petty Cash payment User Rule</field>
+        <field name="model_id" ref="model_petty_cash_payment"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('petty_cash_manager.group_petty_cash_user'))]"/>
+    </record>
+
+    <!-- Record Rule for Managers to See All Requests -->
+    <record id="rule_petty_cash_payment_managers" model="ir.rule">
+        <field name="name">Petty Cash payment Manager Rule</field>
+        <field name="model_id" ref="model_petty_cash_payment"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('petty_cash_manager.group_petty_cash_manager'))]"/>
+    </record>
+
+    <record id="rule_account_access_for_petty_cash_manager" model="ir.rule">
+    <field name="name">Account Access for Petty Cash Managers</field>
+    <field name="model_id" ref="account.model_account_account"/>
+    <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', user.company_ids.ids)]</field>
+    <field name="groups" eval="[(4, ref('petty_cash_manager.group_petty_cash_manager'))]"/>
+</record>
+
+
     <!-- Similar record rules can be created for each model as required. -->
 </odoo>
