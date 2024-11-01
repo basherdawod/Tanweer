@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="vat_declaration_line_demo1" model="vat.declaration.line">
+            <field name="description">Description001</field>
+            <field name="line_type">sales</field>
+        </record>
+
+        <record id="vat_declaration_line_demo2" model="vat.declaration.line">
+            <field name="description">Description002</field>
+            <field name="line_type">sales</field>
+        </record>
+
+        <record id="vat_declaration_line_demo3" model="vat.declaration.line">
+            <field name="description">Description003</field>
+            <field name="line_type">expenses</field>
+        </record>
+    </data>
+</odoo>

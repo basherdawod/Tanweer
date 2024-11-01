@@ -5,6 +5,13 @@
         <field name="model">vat.declaration</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                        <field name="status" widget="statusbar"/>
+                        <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                                invisible="status in  ('draft')" />
+                        <button string="Done" name="set_to_done" type="object" class="oe_highlight"
+                                invisible="status in  ('done')"/>
+                </header>
                 <sheet>
                     <div class="oe_title">
                         <h1>
@@ -21,8 +28,11 @@
                         <group>
                             <field name="due_date"/>
                             <field name="legal_name"/>
-                            <field name="basic_rate_supplies_emirate" readonly="1"/>
+                            <field name="basic_rate_supplies_emirate"/>
                         </group>
+                    </group>
+                    <group>
+                        <field name="signatore_id"/>
                     </group>
                     <notebook>
                         <page string="VAT on Sales and Outputs">
@@ -31,7 +41,7 @@
                                     <field name="description" widget="text"/>
                                     <field name="amount"/>
                                     <field name="vat_amount"/>
-                                    <field name="line_type" invisible="1"/>
+                                    <field name="line_type"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer">
@@ -42,10 +52,11 @@
                         <page string="VAT on Expenses and Inputs">
                             <field name="vat_expenses_inputs" nolabel="1">
                                 <tree editable="bottom">
-                                    <field name="description"/>
+                                    <field name="description" widget="text"/>
                                     <field name="amount"/>
                                     <field name="vat_amount"/>
-                                    <field name="line_type" invisible="1"/>
+                                    <field name="line_type"/>
+
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer">

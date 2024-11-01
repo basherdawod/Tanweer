@@ -32,22 +32,30 @@ class VatRegistration(models.Model):
     vat_due_date_q3 = fields.Date(string='VAT Due Date Q3')
     vat_due_date_q4 = fields.Date(string='VAT Due Date Q4')
     corporate_tax_due_date = fields.Date(string='Corporate Tax Due Date')
-    
+    status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status',default='draft')
+    tax_id = fields.Many2one('account.tax',string="Tax")
+
+    def set_to_draft(self):
+        self.status = 'draft'
+
+    def set_to_done(self):
+        self.status = 'done'
+
     def _get_year_selection(self):
         current_year = datetime.now().year
         return [(str(year), str(year)) for year in range(current_year - 5, current_year + 6)]
 
     year = fields.Selection(selection=_get_year_selection, string='Year', required=True)
 
-    @api.onchange('year')
-    def _onchange_year(self):
-        if self.year:
-            year = int(self.year)
-            self.vat_due_date_q1 = fields.Date.from_string(f'{year}-01-31')
-            self.vat_due_date_q2 = fields.Date.from_string(f'{year}-04-30')
-            self.vat_due_date_q3 = fields.Date.from_string(f'{year}-07-31')
-            self.vat_due_date_q4 = fields.Date.from_string(f'{year}-10-31')
-            self.corporate_tax_due_date = fields.Date.from_string(f'{year}-09-30')
+    # @api.onchange('year')
+    # def _onchange_year(self):
+    #     if self.year:
+    #         year = int(self.year)
+    #         self.vat_due_date_q1 = fields.Date.from_string(f'{year}-01-31')
+    #         self.vat_due_date_q2 = fields.Date.from_string(f'{year}-04-30')
+    #         self.vat_due_date_q3 = fields.Date.from_string(f'{year}-07-31')
+    #         self.vat_due_date_q4 = fields.Date.from_string(f'{year}-10-31')
+    #         self.corporate_tax_due_date = fields.Date.from_string(f'{year}-09-30')
 
     @api.onchange('legal_name_english')
     def _onchange_legal_name_english(self):
@@ -80,3 +88,15 @@ class VatRegistration(models.Model):
         for record in self:
             if self.search_count([('trn', '=', record.trn)]) > 1:
                 raise ValidationError(_("This TRN already exists!"))
+
+    @api.constrains('legal_name_english')
+    def _check_legal_name_english(self):
+        for record in self:
+            if not re.match(r'^[A-Za-z\s]+$', record.legal_name_english):
+                raise ValidationError("The Legal Name of Entity (English) must contain only English letters. Please modify the name.")
+
+    @api.constrains('legal_name_arabic')
+    def _check_legal_name_arabic(self):
+        for record in self:
+            if not re.match(r'^[\u0600-\u06FF\s]+$', record.legal_name_arabic):
+                raise ValidationError("The Legal Name of Entity (Arabic) must contain only Arabic letters. Please modify the name.")

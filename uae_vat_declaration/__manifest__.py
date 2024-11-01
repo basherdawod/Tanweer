@@ -15,15 +15,20 @@ It includes:
     'data': [
         'data/vat_declaration_sequence.xml',
         'data/vat_registration_sequence.xml',
+        'data/cron_job.xml',
+        # 'data/demo_data.xml',
         'views/vat_declaration_views.xml',
         'views/vat_registration_views.xml',
+        'views/authorised_signatory.xml',
         'security/security.xml',
         'security/ir.model.access.csv',
         'report/vat_report_action.xml',
         'report/vat_report.xml',
+        
     ],
     'demo': [
         'demo/vat_declaration_demo.xml',
+        'data/demo_data.xml',
     ],
     'installable': True,
     'application': True,

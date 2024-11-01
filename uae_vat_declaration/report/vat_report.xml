@@ -4,15 +4,20 @@
         <t t-call="web.html_container">
             <t t-call="web.html_container">
                 <t t-call="web.external_layout">
-                    <div class="page">
+                     <table border="3" style="width: 100%;padding: 10px;border-color: #d3d3d3;">
+                    <div class="page" style="padding:10px;">
                     <!-- <t t-foreach="docs" t-as="o"> -->
-                            <div style="font-weight: bold; color: #000000; text-align: center;">
+                   
+                        <td>
+                            <div style="font-weight: bold; color: #000000; direction:ltr; text-align: center;">
                                 <h4 style="margin: 0; padding: 10px;">
-                                    VAT 201 Return - <span style="direction: rtl; unicode-bidi: embed;">إقرار ضريبة القيمة المضافة</span> - 230006435114
+                                    VAT 201 Return - 
+                                    إقرار ضريبة القيمة المضافة -
+                                     <span style="direction:ltr">230006435114</span>
                                 </h4>
                             </div>
 
-                            <hr style="border: 1px solid black; margin: 10px 0;" />
+                            <hr style="border: 2px solid black; width: 90%; margin: 10px 0;" />
                             
                             <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 10px ">
                                 <span>Taxpayer Information</span>
@@ -21,107 +26,485 @@
                             </div>
 
                             <div class="row" style="width: 100%; font-weight: bold; display: flex;">
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
-                                            TRN<br/>رقم تسجيل الضريبة
-                                        </span>
-                                        <span style="text-align: right;">
-                                            100423863800003
-                                        </span>
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                             <span>
+                                                TRN<br/>رقم تسجيل الضريبة
+                                            </span>
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span>
+                                                100423863800003
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
-                                             VAT Return Period 
-                                            <br/>فترة الإقرار الضريبي لضريبة القيمة المضافة
-                                        </span>
-                                        <span style="text-align: right;">
-                                             01/12/2023 - 29/02/2024
-                                        </span>
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
+                                                 VAT Return Period 
+                                                <br/>فترة الإقرار الضريبي لضريبة القيمة المضافة
+                                            </span>
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span>
+                                                 01/12/2023 - 29/02/2024
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row" style="width: 100%; font-weight: bold; display: flex;">
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
-                                            Legal Name of 
-                                            Entity(English)<br/> الإسم القانوني للكيان باللغة الإنجايزية
-                                        </span>
-                                        <span style="text-align: right;">
-                                            Al Mayadi Enterprises
-                                        </span>
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
+                                                Legal Name of 
+                                                Entity(English)<br/> الإسم القانوني للكيان باللغة الإنجايزية
+                                            </span>
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span>
+                                                Al Mayadi Enterprises
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
                                              VAT Stagger 
                                             <br/>فالفترة الضريبية لضريبة القيمة المضافة
                                         </span>
-                                        <span style="text-align: right;">
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                           <span>
                                               Stagger 2 – Quarterly (Mar to Feb
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row" style="width: 100%; font-weight: bold; display: flex;">
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
                                              Legal Name of Entity (Arabic) <br/> الإسم القانوني للكيان باللغة العربية
-                                        </span>
-                                        <span style="text-align: right;">
+                                            </span>
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span style="text-align: right;">
                                             مشاريع الميادي
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
                                              VAT Return Due Date
                                             <br/>تاريخ إستحقاق إقرار ضريبة القيمة المضافة
-                                        </span>
-                                        <span style="text-align: right;">
+                                            </span>
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span>
                                               28/03/2024
-                                        </span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row" style="width: 100%; font-weight: bold; display: flex;">
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
-                                            Address <br/> العنوان
-                                        </span>
-                                        <span style="text-align: right;">
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
+                                                Address <br/> العنوان
+                                            </span>
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span>
                                             Abdullah belhab building no. <br/>
                                             596, Damascus street corner <br/>
                                             halab street, Al qusais industrial<br/> 
                                             area, 84611, Dubai, <br/>
                                             +97142678922
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div style="width: 50%; padding: 10px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <span style="text-align: left;">
+                                <div class="col-6">
+                                    <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                        <div class="col-6" style="text-align: left;">
+                                            <span>
                                               Tax Year End
                                             <br/>نهاية السنة الضريبية
                                         </span>
-                                        <span style="text-align: right;">
+                                        </div>
+                                        <div class="col-6" style="text-align: right;">
+                                            <span style="text-align: right;">
                                               29/02/2024
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align:left; padding: 10px ">
+                                <span>VAT on Sales and All Other outputs</span>
+                                <br/>
+                                <span >ضريبة القيمة المضافة علي المبيعات وجميع المخرجات الأخرى</span>
+                            </div>
+                            <br/>
+                            <table border="2" style="width: 100%;padding: 10px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40%; text-align:left;padding: 10px;">Description<br/>وصف</th>
+                                        <th style="width: 20%; text-align:right;padding: 10px;">Amount(AED)<br/>المبلغ درهم</th>
+                                        <th style="width: 20%;text-align:right;padding: 10px;">VAT Amount(AED)<br/>قسمة ضريبة القيمة المضافة (درهم)</th>
+                                        <th style="width: 20%;text-align:right;padding: 10px;">Adjstment(AED)<br/>تسوية(درهم )</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">1a Standerd Rated Supplies in Abu Dhabi<br/>
+                                        أ التوريدات الخاضعة للنسبة الأساسية في أبوظبي
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">1b Standerd Rated Supplies in Dubai
+                                            <br/>
+                                        ب  التوريدات الخاضعة للنسبة الأساسية في دبي
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">346,739.04</td>
+                                        <td style="text-align:right;padding: 10px;">17,336.95</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px">1c Standerd Rated Supplies in Sharjah<br/>
+                                        ج التوريدات الخاضعة للنسبة الأساسية في  الشارقة 
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">1d Standerd Rated Supplies in Ajman<br/>
+                                        د  التوريدات الخاضعة للنسبة الأساسية في  عجملن
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">1e Standerd Rated Supplies in Umm AL Quwain<br/>
+                                        ه  التوريدات الخاضعة للنسبة الأساسية في  ام القوين
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">1f Standerd Rated Supplies in Ras Al Khaimah<br/>
+                                        و التوريدات الخاضعة للنسبة الأساسية في  رأس الخيمة
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">1g Standerd Rated Supplies in Fujairah<br/>
+                                        و التوريدات الخاضعة للنسبة الأساسية في  الفجيره
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">2 Tax Refunds Provided to Touyists under the Tax Refunds for Tourists Scheme<br/>
+                                        المبالغ التي تم ردها للسياح بناء علي نظام رد الضريبة للسياح
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">3 Supplies Subject to the reverse charge provisions <br/>
+                                        تخضع التوريدات لأحكام الاحتساب العكسي
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">4 Zero Rated Supplies<br/>
+                                            توريدات خاضعة للنسبة الصفرية
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">5 Exempt Supplies<br/>
+                                            التوريدات المعفاة
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">6 Goods imported into the UAE<br/>
+                                          البضائع الواردة الي الدولة
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">74,560.74</td>
+                                        <td style="text-align:right;padding: 10px;">3,728.04</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">7 Adjustment to goods imported into the UAE<br/>
+                                       تسوية علي البضائع المستوردة إلي دولة الإمارات العربية المتحدة
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;padding: 10px;">8 Total<br/>
+                                       تالمجموع
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">421,299.78</td>
+                                        <td style="text-align:right;padding: 10px;">21,064.99</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align:left; padding: 10px ">
+                                <span>VAT on Expenses and All Other outputs</span>
+                                <br/>
+                                <span >ضريبة القيمة المضافة علي المبيعات وجميع المخرجات الأخرى</span>
+                            </div>
+                            <table border="2" style="width: 100%; text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40%;text-align:left;padding: 10px;">Description<br/>وصف</th>
+                                        <th style="width: 20%;text-align:right;padding: 10px;">Amount(AED)<br/>المبلغ درهم</th>
+                                        <th style="width: 20%;text-align:right;padding: 10px;">VAT Amount(AED)<br/>قسمة ضريبة القيمة المضافة (درهم)</th>
+                                        <th style="width: 20%;text-align:right;padding: 10px;">Adjstment(AED)<br/>تسوية(درهم )</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align:left;padding: 10px;">9 Standard Rated Expenses<br/>
+                                        النفقات الخاضعة للنسبة الأساسية
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">523,578.08</td>
+                                        <td style="text-align:right;padding: 10px;">26,178.90</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;padding: 10px;">10 Standard Rated Expenses<br/>
+                                        تخضع التوريدات لإحكام الاحتساب العكسي
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;padding: 10px;">11 Totals<br/>
+                                        المجموع
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">523,578.08</td>
+                                        <td style="text-align:right;padding: 10px;">26,178.90</td>
+                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/><br/>
+                            <br/><br/>
+                            <br/><br/>
+                            <table border="2" style="width: 70%;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40%; text-align: left;padding: 10px;">Net VAT Due<br/>صافي ضريبة القيمة المضافة المستحقة</th>
+                                        <th style="width: 20%;text-align:right;padding: 10px;">Amount(AED)<br/>المبلغ درهم</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style=" text-align: left;padding: 10px;">12 Total Value of due tax for the period <br/> إجمالي قيمة الضريبة المستحقة عن الفترة بالدرهم</td>
+                                        <td style=" text-align: right;padding: 10px;">21,064.99</td>
+                                    </tr>
+                                    <tr>
+                                        <td style=" text-align: left;padding: 10px;">13 Total Value of recoverable0 tax for the period <br/> إجمالي قيمة الضريبة القابلة عن الفترة بالدرهم</td>
+                                        <td style=" text-align: right;padding: 10px;">26,178.90</td>
+                                    </tr>
+                                    <tr>
+                                        <td style=" text-align: left;padding: 10px;">14 Payable tax for the period<br/> 
+                                        الضريبة مستحقة الدفع عن الفترة (دىرهمك)
+                                        </td>
+                                        <td style=" text-align: right;padding: 10px;">-5,113.91</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr style="border: 1px solid black; margin: 10px 0;" />
+                            <div>
+                                <span> Do you wish to request a refund for the above amount of excess recoverable tax ?</span>
+                                <br/>
+                                <span>هل ترغب في طلب استرداد المبلغ المذكور اعلاه من الضريبة الزائدة القاابلة للاسترداد؟</span>
+                                <br/>
+                                Yes
+                            </div>
+                            <hr style="border: 1px solid black; margin: 10px 0;" />
+                            <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align:left; padding: 10px ">
+                                <span>Profile Margin Schema</span>
+                                <br/>
+                                <span>هامش الربح</span>
+                            </div>
+                            <div>
+                                <span> Did you apply the profit margin scheme in respect of any supplies made during the tax period?</span>
+                                <br/>
+                                <span>هل قمت بتطبيق نظام هامش الربح فيما يتعلق بأي توريدات تم إجراؤها خلال الفترة الضريبية ؟</span>
+                                <br/>
+                                Yes
+                            </div>
+
+                            <hr style="border: 1px solid black; margin: 10px 0;" />
+                            
+                            <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 10px ">
+                                <span>Authorised Signatory</span>
+                                <br/>
+                                <span >المفوض بالتوقيع</span>
+                            </div>
+
+                                <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                    <div class="col-6">
+                                        <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                            <div class="col-6" style="text-align: left;">
+                                                <span>
+                                                 Name in  
+                                                English<br/> الإسم بالإنجليزية
+                                                </span>
+                                            </div>
+                                            <div class="col-6" style="text-align: right;">
+                                                <span>
+                                                EYAD ADEL ABDULMUNEM KHANFAR
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                            <div class="col-6" style="text-align: left;">
+                                                <span>
+                                                Name in Arabic 
+                                                <br/>الإسم بالعربي
+                                                </span>
+                                            </div>
+                                            <div class="col-6" style="text-align: right;">
+                                                <span>
+                                                 إياد عادل عبدالمنعم
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                    <div class="col-6">
+                                        <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                            <div class="col-6" style="text-align: left;">
+                                                <span>
+                                                    Mobile Country Code <br/> رمز الدولة
+                                                </span>
+                                            </div>
+                                            <div class="col-6" style="text-align: right;">
+                                                <span>
+                                                    +971
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                            <div class="col-6" style="text-align: left;">
+                                                <span>
+                                                    Mobile Number
+                                                    <br/>رقم الهاتف
+                                                </span>
+                                            </div>
+                                            <div class="col-6" style="text-align: right;">
+                                                <span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="width: 100%; font-weight: bold; display: flex;">
+                                    <div class="col-6">
+                                        <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                            <div class="col-6" style="text-align: left;">
+                                                <span>
+                                                    Date of Submissione <br/> تاريخ التقديم
+                                                </span>
+                                            </div>
+                                            <div class="col-6" style="text-align: right;">
+                                               <span>
+                                                    27/03/2024
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row" style="font-weight: bold; display: flex;padding: 10px;">
+                                            <div class="col-6" style="text-align: left;">
+                                                <span>
+                                                    Email Address
+                                                    <br/>رالبريد الإلكتروني
+                                                </span>
+                                            </div>
+                                            <div class="col-6" style="text-align: right;">
+                                                <span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            
+                            <hr style="border: 2px solid black; margin: 10px 0;" />
+                            
+
+                            <div class="row" style="padding: 10px;">
+                                <div class="col-6">
+                                    <span style="font-weight: bold; color: #000000; font-size: 12pt; text-align: left;"> Date and Time When this Document Was Generated
+                                            <br/>تاريخ والوقت الذي تم فيه انشاء هذا المستند</span>
+                                </div>
+                                <div class="col-6" style="text-align: right;">
+                                    <span style="font-weight: bold; color: #000000; font-size: 12pt"> 12/06/2024 09:53:29</span>
+                                </div>
+                            </div>
+
+
+
+                            </td>
+                       
                     <!-- </t> -->
                   </div>
+                   </table>
                 </t>
             </t>
         </t>

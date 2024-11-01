@@ -38,6 +38,16 @@ class VatDeclaration(models.Model):
     total_expenses = fields.Float(string='Total Expenses', compute='_compute_totals', store=True)
     total_expenses_vat = fields.Float(string='Total Expenses VAT', compute='_compute_totals', store=True)
     net_vat = fields.Float(string='Net VAT Due', compute='_compute_totals', store=True)
+    status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status',default='draft')
+    signatore_id = fields.Many2one('authorised.signatory', string="Authorised Signatory")
+
+    tax_id = fields.Many2one('account.tax',string="Tax")
+
+    def set_to_draft(self):
+        self.status = 'draft'
+
+    def set_to_done(self):
+        self.status = 'done'
 
     @api.depends('vat_sales_outputs', 'vat_expenses_inputs')
     def _compute_totals(self):
@@ -68,24 +78,20 @@ class VatDeclaration(models.Model):
             
             sales_line.write({
                 'description': f"""
-                Standard Rated Supplies in {emirate_name}
-                TRN: {self.vat_registration_id.trn}
-                Legal Name: {self.vat_registration_id.legal_name_english}
-                Tax Type: {self.vat_registration_id.tax_type}
                 Emirate: {emirate_name}
-                Period: {self.date_from} to {self.date_to}
+                Country ID: {self.tax_id.country_id.id}
                 """
             })
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
-        record = super(VatDeclaration, self).create(vals)
-        record._onchange_vat_registration_emirate()
-        return record
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', 'New') == 'New':
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
+    #     record = super(VatDeclaration, self).create(vals)
+    #     record._onchange_vat_registration_emirate()
+    #     return record
 
-    def write(self, vals):
-        result = super(VatDeclaration, self).write(vals)
-        self._onchange_vat_registration_emirate()
-        return result
+    # def write(self, vals):
+    #     result = super(VatDeclaration, self).write(vals)
+    #     self._onchange_vat_registration_emirate()
+    #     return result
