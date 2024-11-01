@@ -44,6 +44,10 @@ class VatDeclaration(models.Model):
 
     tax_id = fields.Many2one('account.tax',string="Tax")
 
+    recoverable_tax = fields.Boolean(string="Do you Wish to Request a Refund for the Above Amount of Exesst Recoverable Tax")
+    during_tax = fields.Boolean(string="Did you Apply the Profit Margin Scheme in Respect of Any Supplies Made During The Tax Period")
+
+
     def set_to_draft(self):
         self.status = 'draft'
 
@@ -79,8 +83,8 @@ class VatDeclaration(models.Model):
             
             sales_line.write({
                 'description': f"""
-                Emirate: {emirate_name}
-                Country ID: {self.tax_id.country_id.id}
+                 Emirate: {emirate_name}
+                 Country ID: {self.tax_id.country_id.id}
                 """
             })
 

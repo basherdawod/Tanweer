@@ -32,7 +32,17 @@
                         </group>
                     </group>
                     <group>
-                        <field name="signatore_id"/>
+                        <group>
+                            <field name="signatore_id"/>
+                        </group>
+                    </group>
+                    <group>
+                         <group>
+                            <field name="recoverable_tax"/>
+                        </group>
+                        <group>
+                            <field name="during_tax"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="VAT on Sales and Outputs">
