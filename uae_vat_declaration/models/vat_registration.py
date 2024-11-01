@@ -1,5 +1,6 @@
+import re
 from odoo import models, fields, api, _
-from datetime import datetime
+from datetime import datetime , date
 from odoo.exceptions import ValidationError
 
 class VatRegistration(models.Model):
@@ -100,3 +101,23 @@ class VatRegistration(models.Model):
         for record in self:
             if not re.match(r'^[\u0600-\u06FF\s]+$', record.legal_name_arabic):
                 raise ValidationError("The Legal Name of Entity (Arabic) must contain only Arabic letters. Please modify the name.")
+
+
+    @api.model
+    def check_vat_due_dates(self):
+        today = date.today()
+        records = self.search([])
+
+        for record in records:
+            if (record.vat_due_date_q1 == today or
+                record.vat_due_date_q2 == today or
+                record.vat_due_date_q3 == today or
+                record.vat_due_date_q4 == today):
+                
+                message = f"VAT Due Date {record.trn}."
+                record.message_post(
+                    body=message,
+                    message_type='notification',
+                    subtype_id=self.env.ref('mail.mt_note').id,
+                    partner_ids=[self.env.user.partner_id.id]
+                )

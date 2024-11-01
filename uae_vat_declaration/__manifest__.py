@@ -28,7 +28,7 @@ It includes:
     ],
     'demo': [
         'demo/vat_declaration_demo.xml',
-        'data/demo_data.xml',
+        # 'data/demo_data.xml',
     ],
     'installable': True,
     'application': True,

@@ -1,3 +1,4 @@
+import re
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
@@ -83,15 +84,15 @@ class VatDeclaration(models.Model):
                 """
             })
 
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get('name', 'New') == 'New':
-    #         vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
-    #     record = super(VatDeclaration, self).create(vals)
-    #     record._onchange_vat_registration_emirate()
-    #     return record
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
+        record = super(VatDeclaration, self).create(vals)
+        record._onchange_vat_registration_emirate()
+        return record
 
-    # def write(self, vals):
-    #     result = super(VatDeclaration, self).write(vals)
-    #     self._onchange_vat_registration_emirate()
-    #     return result
+    def write(self, vals):
+        result = super(VatDeclaration, self).write(vals)
+        self._onchange_vat_registration_emirate()
+        return result

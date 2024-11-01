@@ -6,7 +6,7 @@
                 <t t-call="web.external_layout">
                      <table border="3" style="width: 100%;padding: 10px;border-color: #d3d3d3;">
                     <div class="page" style="padding:10px;">
-                    <!-- <t t-foreach="docs" t-as="o"> -->
+                    <t t-foreach="docs" t-as="o">
                    
                         <td>
                             <div style="font-weight: bold; color: #000000; direction:ltr; text-align: center;">
@@ -34,9 +34,9 @@
                                             </span>
                                         </div>
                                         <div class="col-6" style="text-align: right;">
-                                            <span>
-                                                100423863800003
-                                            </span>
+                                            
+                                               <span t-esc="o.trn"/>
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +50,7 @@
                                         </div>
                                         <div class="col-6" style="text-align: right;">
                                             <span>
-                                                 01/12/2023 - 29/02/2024
+                                                 <span t-esc="o.date_from"/> - <span t-esc="o.date_to"/>
                                             </span>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         </div>
                                         <div class="col-6" style="text-align: right;">
                                             <span>
-                                                Al Mayadi Enterprises
+                                               <span t-esc="o.vat_registration_id.legal_name_english"/>
                                             </span>
                                         </div>
                                     </div>
@@ -99,9 +99,9 @@
                                             </span>
                                         </div>
                                         <div class="col-6" style="text-align: right;">
-                                            <span style="text-align: right;">
-                                            مشاريع الميادي
-                                        </span>
+                                             <span>
+                                               <span t-esc="o.vat_registration_id.legal_name_arabic"/>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -114,9 +114,7 @@
                                             </span>
                                         </div>
                                         <div class="col-6" style="text-align: right;">
-                                            <span>
-                                              28/03/2024
-                                            </span>
+                                           <span t-esc="o.vat_registration_id.corporate_tax_due_date"/>
                                         </div>
                                     </div>
                                 </div>
@@ -150,9 +148,7 @@
                                         </span>
                                         </div>
                                         <div class="col-6" style="text-align: right;">
-                                            <span style="text-align: right;">
-                                              29/02/2024
-                                        </span>
+                                            <span t-esc="o.vat_registration_id.vat_due_date_q4"/>
                                         </div>
                                     </div>
                                 </div>
@@ -397,9 +393,7 @@
                                                 </span>
                                             </div>
                                             <div class="col-6" style="text-align: right;">
-                                                <span>
-                                                EYAD ADEL ABDULMUNEM KHANFAR
-                                                </span>
+                                                <span t-esc="o.signatore_id.name_english"/>
                                             </div>
                                         </div>
                                     </div>
@@ -413,7 +407,7 @@
                                             </div>
                                             <div class="col-6" style="text-align: right;">
                                                 <span>
-                                                 إياد عادل عبدالمنعم
+                                                    <span t-esc="o.signatore_id.name_arabic"/>
                                                 </span>
                                             </div>
                                         </div>
@@ -431,7 +425,7 @@
                                             </div>
                                             <div class="col-6" style="text-align: right;">
                                                 <span>
-                                                    +971
+                                                   <span t-esc="o.signatore_id.mobile_country_code"/>
                                                 </span>
                                             </div>
                                         </div>
@@ -445,8 +439,7 @@
                                                 </span>
                                             </div>
                                             <div class="col-6" style="text-align: right;">
-                                                <span>
-                                                </span>
+                                                <span t-esc="o.signatore_id.mobile_number"/>
                                             </div>
                                         </div>
                                     </div>
@@ -461,9 +454,7 @@
                                                 </span>
                                             </div>
                                             <div class="col-6" style="text-align: right;">
-                                               <span>
-                                                    27/03/2024
-                                                </span>
+                                              <span t-esc="o.signatore_id.date_of_submission"/>
                                             </div>
                                         </div>
                                     </div>
@@ -476,8 +467,7 @@
                                                 </span>
                                             </div>
                                             <div class="col-6" style="text-align: right;">
-                                                <span>
-                                                </span>
+                                               <span t-esc="o.signatore_id.email"/>
                                             </div>
                                         </div>
                                     </div>
@@ -502,7 +492,7 @@
 
                             </td>
                        
-                    <!-- </t> -->
+                    </t>
                   </div>
                    </table>
                 </t>
