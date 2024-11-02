@@ -15,7 +15,7 @@ It includes:
     'data': [
         'data/vat_declaration_sequence.xml',
         'data/vat_registration_sequence.xml',
-        'data/cron_job.xml',
+        # 'data/cron_job.xml',
         # 'data/demo_data.xml',
         'views/vat_declaration_views.xml',
         'views/vat_registration_views.xml',

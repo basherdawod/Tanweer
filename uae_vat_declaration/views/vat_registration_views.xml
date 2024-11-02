@@ -15,7 +15,7 @@
         <sheet>
             <div class="oe_title">
                 <h1>
-                    <field name="trn" readonly="1"/>
+                    <field name="company_vat" readonly="1"/>
                 </h1>
             </div>
         <group>
@@ -26,8 +26,10 @@
             </group>
             <group>
                 <field name="reverse_charge_mechanism"/>
-                <field name="year"/>
+                <!-- <field name="year"/> -->
                 <field name="tax_type"/>
+                <field name="company_vat"/>
+                <field name="creation_date"/>
             </group>
         </group>
         <group>

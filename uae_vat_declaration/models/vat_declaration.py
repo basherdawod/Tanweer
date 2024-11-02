@@ -1,6 +1,8 @@
 import re
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date ,timedelta
 
 class VatDeclarationLine(models.Model):
     _name = 'vat.declaration.line'
@@ -11,6 +13,7 @@ class VatDeclarationLine(models.Model):
     amount = fields.Float(string='Amount')
     vat_amount = fields.Float(string='VAT Amount')
     line_type = fields.Selection([('sales', 'Sales'), ('expenses', 'Expenses')], string='Line Type')
+    
 
 class VatDeclaration(models.Model):
     _name = 'vat.declaration'
@@ -21,8 +24,8 @@ class VatDeclaration(models.Model):
     date_from = fields.Date(string='From Date')
     date_to = fields.Date(string='To Date')
     vat_registration_id = fields.Many2one('vat.registration', string='VAT Registration', required=True)
-    trn = fields.Char(string='TRN', related='vat_registration_id.trn', readonly=True, store=True)
-    due_date = fields.Date(string='Due Date')
+    trn = fields.Char(string='TRN', related='vat_registration_id.company_vat', readonly=True, store=True)
+    due_date = fields.Date(string='Due Date',related='vat_registration_id.corporate_tax_due_date', readonly=True, store=True)
     legal_name = fields.Char(string='Legal Name of Entity', related='vat_registration_id.legal_name_english', readonly=True, store=True)
 
     basic_rate_supplies_emirate = fields.Selection(
@@ -43,9 +46,43 @@ class VatDeclaration(models.Model):
     signatore_id = fields.Many2one('authorised.signatory', string="Authorised Signatory")
 
     tax_id = fields.Many2one('account.tax',string="Tax")
+    account_id = fields.Many2one('account.account',string="Account")
 
     recoverable_tax = fields.Boolean(string="Do you Wish to Request a Refund for the Above Amount of Exesst Recoverable Tax")
     during_tax = fields.Boolean(string="Did you Apply the Profit Margin Scheme in Respect of Any Supplies Made During The Tax Period")
+
+    q_dates = fields.Selection([
+        ('q1', 'Q1 Date'),
+        ('q2', 'Q2 Date'),
+        ('q3', 'Q3 Date'),
+        ('q4', 'Q4 Date')
+    ], string='Quarter Dates')
+
+    @api.onchange('vat_registration_id', 'q_dates')
+    def _onchange_dates(self):
+        if self.vat_registration_id and self.q_dates:
+            q1_date = self.vat_registration_id.vat_due_date_q1
+            q2_date = self.vat_registration_id.vat_due_date_q2
+            q3_date = self.vat_registration_id.vat_due_date_q3
+            q4_date = self.vat_registration_id.vat_due_date_q4
+            
+
+            if self.q_dates == 'q1':
+                self.date_from = q1_date 
+                self.date_to = q1_date + relativedelta(months=3) 
+            elif self.q_dates == 'q2':
+                self.date_from = q2_date   
+                self.date_to = q2_date  + relativedelta(months=3)
+            elif self.q_dates == 'q3':
+                self.date_from = q3_date   
+                self.date_to = q3_date + relativedelta(months=3)
+            elif self.q_dates == 'q4':
+                self.date_from = q4_date  
+                self.date_to = q4_date + relativedelta(months=3,)
+            self.due_date = self.date_to - timedelta(days=2)
+        else:
+            self.date_from = False 
+            self.date_to = False
 
 
     def set_to_draft(self):
