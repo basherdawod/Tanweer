@@ -21,13 +21,31 @@ class VatDeclarationLine(models.Model):
 
     @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount','declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
     def _compute_tax_amount(self):
+
         for line in self:
             if line.line_type == 'sales':
+                jurnal_itiems =[]
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
                     ('move_type', '=', 'out_invoice'),
                     ])
-                line.amount = sum(tax_lines.mapped('credit'))  
+                # sale_lines = self.env['account.move'].search([
+                #     ('tax_ids', 'in', line.tax_id.ids),
+                #     ('move_type', '=', 'out_invoice'),
+                #     ])
+                # sale_lines = self.env['account.move.line'].search([
+                #     ('name', 'in', emirate),
+                #     ('move_type', '=', 'out_invoice'),
+                #     ])
+                for lines in tax_lines:
+                    jurnal_itiems= self.env['account.move.line'].search([
+                    ('move_name', '=', tax_lines.move_name),
+                    ('move_type', '=', 'out_invoice'),
+                    ])
+
+
+
+                line.amount = sum(jurnal_itiems.mapped('balance'))  
                 line.taxamount = sum(tax_lines.mapped('credit')) 
             elif line.line_type == 'expenses':
                 tax_lines = self.env['account.move.line'].search([
