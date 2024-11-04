@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="audit_program_sequence" model="ir.sequence">
+            <field name="name">audit.item Name</field>
+            <field name="code">audit.item</field>
+            <field name="prefix">AU/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

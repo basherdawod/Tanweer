@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_audit_item_tree" model="ir.ui.view">
+        <field name="name">audit.item.tree</field>
+        <field name="model">audit.item</field>
+        <field name="arch" type="xml">
+            <tree string="Audit Items">
+                <field name="partner_id"/>
+                <field name="responsible_person"/>
+                <field name="last_updated_by"/>
+                <field name="status"/>
+                <field name="date"/>
+                <field name="review_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_audit_item_form" model="ir.ui.view">
+        <field name="name">audit.item.form</field>
+        <field name="model">audit.item</field>
+        <field name="arch" type="xml">
+            <form string="Audit Item">
+                <header>
+                    <field name="status" widget="statusbar"/>
+                    <button name="action_create_program_line" type="object" string="Data Review"/>
+                    <button name="action_create_program_line" type="object" string="Confirm"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="period"/>
+                            <field name="responsible_person"/>
+                            <field name="last_updated_by"/>
+                        </group>
+                        <group>
+                            <field name="category"/>
+                             <field name="date"/>
+                            <field name="review_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <notebook>
+                        <page name="audit_program_ids" string="Audit Program Line">
+                            <field name="audit_program_ids" >
+                                <tree editable="bottom" limit="200" options="{'no_create': True}">
+                                    <field name="program_audit" options="{'no_create': True}"/>
+                                    <field name="code"/>
+                                    <field name="subject"/>
+                                    <field name="employee"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_audit_items" name="Audit Items" parent="account.menu_finance" action="action_audit_items"/>
+
+    <record id="action_audit_items" model="ir.actions.act_window">
+        <field name="name">Audit Items</field>
+        <field name="res_model">audit.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

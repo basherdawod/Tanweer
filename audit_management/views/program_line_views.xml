@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_program_line_audit_tree" model="ir.ui.view">
+        <field name="name">program.line.tree</field>
+        <field name="model">program.line</field>
+        <field name="arch" type="xml">
+            <tree string="Program Line">
+                <field name="number"/>
+                <field name="subject"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_program_line_form" model="ir.ui.view">
+        <field name="name">program.line.form</field>
+        <field name="model">program.line</field>
+        <field name="arch" type="xml">
+            <form string="Program Line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="number"/>
+                        </group>
+                        <group>
+                            <field name="subject"/>
+                        </group>
+                    </group>
+                    <group string="Audit test - Nature, Timing and Extent">
+                        <group>
+                            <field name="discription_english"/>
+                            <field name="discription_arabic"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="audit_program_line_search_view" model="ir.ui.view">
+        <field name="name">program.line.search.view</field>
+        <field name="model">program.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <group string="Group By">
+                    <filter name="subject" string="Audit" context="{'group_by': 'subject'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_program_line_audit" name="Program Line" parent="account.menu_finance" action="action_program_line"/>
+
+    <record id="action_program_line" model="ir.actions.act_window">
+        <field name="name">Program Line</field>
+        <field name="res_model">program.line</field>
+        <field name="view_mode">tree,form,search</field>
+            <field name="context">{'search_default_subject': 1}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_audit_item_manager,audit.item manager,model_audit_item,base.group_user,1,1,1,1
+access_audit_program_line_manager,access_audit_program_line manager,model_audit_program_line,base.group_user,1,1,1,1
+access_audit_program_manager,access_audit_program_manager,model_audit_program,base.group_user,1,1,1,1
+access_program_line_test_manager,access_program_line_test_manager,model_program_line_test,base.group_user,1,1,1,1
+access_program_line_manager,access_program_line_manager,model_program_line,base.group_user,1,1,1,1
+

@@ -1,0 +1,193 @@
+<!-- program_line_demo.xml -->
+<odoo>
+
+    <record id="demo_program_line_gap_1" model="program.line">
+        <field name="number">1</field>
+        <field name="discription_arabic">طابق الرصيد الافتتاحى للأرباح المبقاة مع أوراق عمل العام الماضى</field>
+        <field name="discription_english">Reconcile opening retained earnings from previous years working papers to general ledger.</field>
+         <field name="subject">gap</field>
+    </record>
+
+    <record id="program_line_F1_2" model="program.line">
+        <field name="number">2</field>
+        <field name="discription_arabic">احصل على بيان بالأطراف ذات العلاقة وقم بتوثيق طبيعة التعاملات وسلطات الاعتماد</field>
+        <field name="discription_english">Obtain list of related parties and document nature of related party transactions and approval levels</field>
+        <field name="subject">gap</field>
+    </record>
+
+    <record id="program_line_F1_3" model="program.line">
+        <field name="number">3</field>
+        <field name="discription_arabic">افحص الملف الدائم وقم بتحديثه</field>
+        <field name="discription_english">Review the permanent audit documentation and update as necessary.</field>
+        <field name="subject">gap</field>
+    </record>
+
+    <record id="program_line_F1_4" model="program.line">
+        <field name="number">4</field>
+        <field name="discription_arabic">افحص التغطية التأمينية واستكمل الاستقصاء الخاص بها</field>
+        <field name="discription_english">Review insurance cover and complete insurance cover checklist.</field>
+        <field name="subject">gap</field>
+    </record>
+
+    <record id="program_line_F1_5" model="program.line">
+        <field name="number">5</field>
+        <field name="discription_arabic">قم بتحديث البحث عن الأطراف ذات العلاقة واستكمل الاستقصاء الخاص بها للتأكد من كفاية الافصاح.</field>
+        <field name="discription_english">Update search for related party transactions and complete check list to ensure appropriate disclosure..</field>
+        <field name="subject">gap</field>
+    </record>
+
+    <record id="program_line_F1_6" model="program.line">
+        <field name="number">6</field>
+        <field name="discription_arabic">
+             احصل على ميزان المراجعة &#10;
+            أ) اختبر الاستاذ العام &#10;
+            ب) طابقه لأوراق العمل بملف المراجعة
+        </field>
+        <field name="discription_english">
+            Obtain copy of trial balance and &#10;
+            a) test to general ledger &#10;
+            b) agree to schedules in respective sections of current audit file.
+        </field>
+        <field name="subject">gap</field>
+    </record>
+
+
+    <record id="program_line_F1_7" model="program.line">
+        <field name="number">7</field>
+        <field name="discription_arabic">تحقق من سلامة ترجمة الأرصدة والتعاملات بالعملات الأجنبية
+        </field>
+        <field name="discription_english">
+           Ensure foreign currency balances and transactions are correctly translated.
+        </field>
+        <field name="subject">gap</field>
+    </record>
+
+
+    <record id="program_line_F1_8" model="program.line">
+        <field name="number">8</field>
+        <field name="discription_arabic">استكمل استقصاء الأحداث بعد تاريخ القوائم المالية
+        </field>
+        <field name="discription_english">
+           Complete the post balance sheet events review checklist.
+        </field>
+        <field name="subject">gap</field>
+    </record>
+
+    <record id="program_line_F1_9" model="program.line">
+        <field name="number">9</field>
+        <field name="discription_arabic">استكمل استقصاء الارتباطات والالتزامات المحتملة
+        </field>
+        <field name="discription_english">
+           Complete the contingencies and commitment checklist.
+        </field>
+        <field name="subject">gap</field>
+    </record>
+    <!--    ##################  Demo Data For F2  ###############   -->
+    <record id="program_line_F2_1" model="program.line">
+        <field name="number">1</field>
+        <field name="discription_arabic">مطابقة أرصدة الحسابات في ميزان المراجعة مع الأرصدة في دفتر الأستاذ ودفاتر الأستاذ المساعدة
+        </field>
+        <field name="discription_english">
+           Reconcile account balances in the trial balance with balances of general ledger and sub ledgers
+        </field>
+        <field name="subject">nlap</field>
+    </record>
+
+    <record id="program_line_F2_2" model="program.line">
+        <field name="number">2</field>
+        <field name="discription_arabic">اختيار عينة من المعاملات من دفتر الأستاذ والدفاتر المساعدة ومطابقتها مع اليومية العامة
+        </field>
+        <field name="discription_english">
+           Verify a sample of transactions in the general ledger and sub ledgers with records in Journal entries
+        </field>
+        <field name="subject">nlap</field>
+    </record>
+ <!--    ##################  Demo Data For GP  ###############   -->
+    <record id="program_line_GP_1" model="program.line">
+        <field name="number">1</field>
+        <field name="discription_arabic">احصل على تحليل بالمبيعات للفترة محل المراجعة وطابقه مع الأستاذ العام وميزان المراجعة
+        </field>
+        <field name="discription_english">
+           Obtain a breakdown of sales for the current period and verify amounts with general ledger and trial balance
+        </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_2" model="program.line">
+        <field name="number">2</field>
+        <field name="discription_arabic">قم بإعداد بيانا مقارنا للمبيعات للفترة الحالية والمقارنة وتحقق من التغيرات وادرس أسباب ومعقولية الفروق
+        </field>
+        <field name="discription_english">
+           Prepare a comparative analysis of sales for the current and previous year/period and investigate variations in the accounts and study the reasonability of differences
+        </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_3" model="program.line">
+        <field name="number">3</field>
+        <field name="discription_arabic">حدد عينة من فواتير المبيعات وتأكد من تسجيلها بالدفاتر وصحة ترحيلها لحسابات المبيعات والعملاء
+        </field>
+        <field name="discription_english">
+            Select a sample of sales invoices and verify them with books to assure they have been recorded correctly, and posted to Sales and A/R ledgers        </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_4" model="program.line">
+        <field name="number">4</field>
+        <field name="discription_arabic">اختبر تسلسل بعض فواتير المبيعات فى يومية المبيعات، وقارنها مع أوامر تسليم البضاعة للتحقق من تسجيل كافة المبيعات.
+        </field>
+        <field name="discription_english">
+            Check the numerical sequence of some sales invoices recorded in the sales daybook and compare it with that noted in the delivery order register to confirm that all deliveries have been invoiced.         </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_5" model="program.line">
+        <field name="number">5</field>
+        <field name="discription_arabic">تحقق من الأسعار الواردة بالفواتير مع قوائم الأسعار المعتمدة
+        </field>
+        <field name="discription_english">
+            Verify the prices in the sales invoices with that mentioned in the approved price list.. </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_6" model="program.line">
+        <field name="number">6</field>
+        <field name="discription_arabic">اختر بعضا من أوامر تسليم البضاعة وتحقق من أنها مطابقة للفواتير، وأنه تم التسليم وفقا لأوامر الشراء الواردة من العميل.
+        </field>
+        <field name="discription_english">
+            Select some delivery orders and confirm that these have been properly invoiced, delivery orders have been acknowledged and that deliveries have been made in accordance with customers LPOs’. </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_7" model="program.line">
+        <field name="number">7</field>
+        <field name="discription_arabic">
+            اختر عينة من الفواتير وقم باختبار الالتزام باجراءات الرقابة واللوائح المعتمدة
+        </field>
+        <field name="discription_english">
+           Select a sample of some invoices and carry out walk through procedures to test the documented systems.
+        </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_8" model="program.line">
+        <field name="number">8</field>
+        <field name="discription_arabic">
+قم بإجراء اختبارات القطع للفواتير والاشعارات الدائنة        </field>
+        <field name="discription_english">
+            Perform procedures relating to test of cut-of-sales invoices and credit memos.
+        </field>
+        <field name="subject">saop</field>
+    </record>
+
+    <record id="program_line_GP_9" model="program.line">
+        <field name="number">9</field>
+        <field name="discription_arabic">
+تأكد من سلامة تبويب والعرض فى القوائم المالية         </field>
+        <field name="discription_english">
+            Verify the proper classification and disclosure of sales
+        </field>
+        <field name="subject">saop</field>
+    </record>
+
+</odoo>
