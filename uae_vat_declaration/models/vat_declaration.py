@@ -19,44 +19,75 @@ class VatDeclarationLine(models.Model):
     amount = fields.Float(string='Amount' ,compute='_compute_tax_amount',store=True)
     taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True) 
 
-    @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount','declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
+    @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount',
+                 'declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
     def _compute_tax_amount(self):
-
         for line in self:
+            line.amount = 0.0
+            line.taxamount = 0.0
+
             if line.line_type == 'sales':
-                jurnal_itiems =[]
+                # Search for tax lines related to sales
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
                     ('move_type', '=', 'out_invoice'),
-                    ])
-                # sale_lines = self.env['account.move'].search([
-                #     ('tax_ids', 'in', line.tax_id.ids),
-                #     ('move_type', '=', 'out_invoice'),
-                #     ])
-                # sale_lines = self.env['account.move.line'].search([
-                #     ('name', 'in', emirate),
-                #     ('move_type', '=', 'out_invoice'),
-                #     ])
-                for lines in tax_lines:
-                    jurnal_itiems= self.env['account.move.line'].search([
-                    ('move_name', '=', tax_lines.move_name),
+                ])
+                # Get a list of all 'ref' values from tax_lines
+                refs = tax_lines.mapped('ref')
+
+                # Use the refs list to find additional lines
+                tax_line = self.env['account.move.line'].search([
+                    ('ref', 'in', refs),
                     ('move_type', '=', 'out_invoice'),
-                    ])
+                ])
+                line.amount = sum(tax_line.mapped('credit')[0] if tax_line else 0.0)
 
+                # line.amount = tax_line.mapped('credit') 
+                line.taxamount = sum(tax_lines.mapped('credit'))
 
-
-                line.amount = sum(jurnal_itiems.mapped('balance'))  
-                line.taxamount = sum(tax_lines.mapped('credit')) 
             elif line.line_type == 'expenses':
+                # Search for tax lines related to expenses
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
                     ('move_type', '=', 'in_invoice'),
-                    ])
-                line.amount = sum(tax_lines.mapped('debit'))  
-                line.taxamount = sum(tax_lines.mapped('debit'))  
-            else:
-                line.amount = 0.0
-                line.taxamount = 0.0
+                ])
+                # Aggregate amounts
+                line.amount = sum(tax_lines.mapped('debit'))
+                # Assuming tax amount can be calculated from the tax percentage
+                line.taxamount = sum(tax_lines.mapped('tax_ids.amount'))  # Adjust as needed
+     # Adjust as necessary
+
+
+    # @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount','declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
+    # def _compute_tax_amount(self):
+
+    #     for line in self:
+    #         if line.line_type == 'sales':
+    #             jurnal_itiems =[]
+    #             tax_lines = self.env['account.move.line'].search([
+    #                 ('tax_ids', 'in', line.tax_id.ids),
+    #                 ('move_type', '=', 'out_invoice'),
+    #                 ])
+    #             # for lines in tax_lines:
+    #             #     jurnal_itiems= self.env['account.move.line'].search([
+    #             #     ('move_name', '=', tax_lines.move_name),
+    #             #     ('move_type', '=', 'out_invoice'),
+    #             #     ])
+
+
+
+    #             line.amount = sum(tax_lines.mapped('balance'))  
+    #             line.taxamount = sum(tax_lines.mapped('credit')) 
+    #         elif line.line_type == 'expenses':
+    #             tax_lines = self.env['account.move.line'].search([
+    #                 ('tax_ids', 'in', line.tax_id.ids),
+    #                 ('move_type', '=', 'in_invoice'),
+    #                 ])
+    #             line.amount = sum(tax_lines.mapped('debit'))  
+    #             line.taxamount = sum(tax_lines.mapped('debit'))  
+    #         else:
+    #             line.amount = 0.0
+    #             line.taxamount = 0.0
 
 
 
