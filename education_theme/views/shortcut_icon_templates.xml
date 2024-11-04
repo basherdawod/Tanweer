@@ -3,10 +3,14 @@
     <!--Template is for adding favicon icon of education erp-->
     <template id="education_layout" inherit_id="web.layout"
               name="Education layout" priority="17">
+
         <xpath expr="//link[@rel='shortcut icon']" position="replace">
             <link rel="favicon icon"
-                  href="/education_theme/static/src/img/favicon.ico"
+                  href="/education_theme/static/src/img/ribat.png"
                   type="image/x-icon"/>
+        </xpath>
+        <xpath expr="//title" position="replace">
+            <title t-esc="title or 'Tanweer'"/>
         </xpath>
     </template>
 </odoo>
