@@ -48,9 +48,4 @@
               action="action_vat_declaration_line"
               parent="menu_vat_declaration_parent"
               sequence="2"/>
-<!-- <record id="action_vat_declaration_line" model="ir.actions.act_window">
-        <field name="name">VAT Declarations Line</field>
-        <field name="res_model">vat.declaration.line</field>
-        <field name="view_mode">tree,form</field>
-    </record>-->
 </odoo>

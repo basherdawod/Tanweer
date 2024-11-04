@@ -17,31 +17,25 @@ class VatDeclarationLine(models.Model):
     tax_id = fields.Many2one('account.tax', string='Tax', required=True)
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
     amount = fields.Float(string='Amount')
-    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True)
-
-    # @api.depends('amount', 'tax_id')
-    # def _compute_tax_amount(self):
-    #     for line in self:
-    #         if line.tax_id:
-    #             line.taxamount = (line.amount * line.tax_id.amount) / 100 
-    #         else:
-    #             line.taxamount = 0.0
+    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True) 
 
     # @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount')
     # def _compute_tax_amount(self):
     #     for line in self:
     #         if line.line_type == 'sales':
     #             tax_lines = self.env['account.move.line'].search([
-    #                 ('sale', 'in', [line.tax_id.type_tax_use]),
+    #                 ('tax_ids', 'in', line.tax_id.ids),
+    #                 ('move_type', '=', 'out_invoice'),  
     #             ])
-    #             line.taxamount = sum(tax_lines.mapped('credit'))  
+    #             line.taxamount = sum(tax_lines.mapped('credit'))
     #         elif line.line_type == 'expenses':
     #             tax_lines = self.env['account.move.line'].search([
-    #             ('purchase', 'in', [line.tax_id.type_tax_use]),
-    #         ])
-    #             line.taxamount = sum(tax_lines.mapped('debit')) 
+    #                 ('tax_ids', 'in', line.tax_id.ids),
+    #                 ('move_type', '=', 'in_invoice'),  
+    #             ])
+    #             line.taxamount = sum(tax_lines.mapped('debit'))
     #         else:
-    #             line.taxamount = 0.0  
+    #             line.taxamount = 0.0
 
     @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount')
     def _compute_tax_amount(self):
@@ -49,17 +43,21 @@ class VatDeclarationLine(models.Model):
             if line.line_type == 'sales':
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
-                    ('move_type', '=', 'out_invoice'),  
+                    ('move_type', '=', 'out_invoice'),
                 ])
-                line.taxamount = sum(tax_lines.mapped('credit'))
+                line.amount = sum(tax_lines.mapped('credit'))  
+                line.taxamount = sum(tax_lines.mapped('credit')) 
             elif line.line_type == 'expenses':
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
-                    ('move_type', '=', 'in_invoice'),  
+                    ('move_type', '=', 'in_invoice'),
                 ])
-                line.taxamount = sum(tax_lines.mapped('debit'))
+                line.amount = sum(tax_lines.mapped('debit'))  
+                line.taxamount = sum(tax_lines.mapped('debit'))  
             else:
+                line.amount = 0.0
                 line.taxamount = 0.0
+
 
 
 class VatDeclaration(models.Model):
@@ -112,49 +110,6 @@ class VatDeclaration(models.Model):
             record.total_expenses_vat = sum(record.vat_expenses_inputs.mapped('taxamount'))
             record.net_vat = record.total_sales_vat - record.total_expenses_vat
 
-
-    # @api.onchange('vat_registration_id', 'basic_rate_supplies_emirate', 'date_from', 'date_to')
-    # def _onchange_vat_registration_emirate(self):
-    #     self.ensure_one()
-    #     if self.vat_registration_id and self.basic_rate_supplies_emirate:
-    #         # Get the selection from the original field in VatRegistration model
-    #         emirate_selection = self.env['vat.registration']._fields['basic_rate_supplies_emirate'].selection
-    #         emirate_dict = dict(emirate_selection)
-    #         emirate_name = emirate_dict.get(self.basic_rate_supplies_emirate, '')
-            
-    #         # Create or update the sales output line
-    #         sales_line = self.vat_sales_outputs.filtered(lambda l: l.line_type == 'sales')
-    #         if not sales_line:
-    #             sales_line = self.env['vat.declaration.line'].create({
-    #                 'declaration_id': self.id,
-    #                 'line_type': 'sales',
-    #             })
-    #             self.vat_sales_outputs = [(4, sales_line.id)]
-            
-    #         sales_line.write({
-    #             'description': f"""
-    #             Standard Rated Supplies in {emirate_name}
-    #             TRN: {self.vat_registration_id.trn}
-    #             Legal Name: {self.vat_registration_id.legal_name_english}
-    #             Tax Type: {self.vat_registration_id.tax_type}
-    #             Emirate: {emirate_name}
-    #             Period: {self.date_from} to {self.date_to}
-    #             """
-    #         })
-
-
-    # @api.model
-    # def create(self, vals):
-    #     if vals.get('name', 'New') == 'New':
-    #         vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
-    #     record = super(VatDeclaration, self).create(vals)
-    #     record._onchange_vat_registration_emirate()
-    #     return record
-
-    # def write(self, vals):
-    #     result = super(VatDeclaration, self).write(vals)
-    #     self._onchange_vat_registration_emirate()
-    #     return result
 
     def set_to_draft(self):
         self.status = 'draft'
