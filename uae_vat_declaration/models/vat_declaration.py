@@ -16,42 +16,24 @@ class VatDeclarationLine(models.Model):
 
     tax_id = fields.Many2one('account.tax', string='Tax', required=True)
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
-    amount = fields.Float(string='Amount')
+    amount = fields.Float(string='Amount' ,compute='_compute_tax_amount',store=True)
     taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True) 
 
-    # @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount')
-    # def _compute_tax_amount(self):
-    #     for line in self:
-    #         if line.line_type == 'sales':
-    #             tax_lines = self.env['account.move.line'].search([
-    #                 ('tax_ids', 'in', line.tax_id.ids),
-    #                 ('move_type', '=', 'out_invoice'),  
-    #             ])
-    #             line.taxamount = sum(tax_lines.mapped('credit'))
-    #         elif line.line_type == 'expenses':
-    #             tax_lines = self.env['account.move.line'].search([
-    #                 ('tax_ids', 'in', line.tax_id.ids),
-    #                 ('move_type', '=', 'in_invoice'),  
-    #             ])
-    #             line.taxamount = sum(tax_lines.mapped('debit'))
-    #         else:
-    #             line.taxamount = 0.0
-
-    @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount')
+    @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount','declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
     def _compute_tax_amount(self):
         for line in self:
             if line.line_type == 'sales':
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
                     ('move_type', '=', 'out_invoice'),
-                ])
+                    ])
                 line.amount = sum(tax_lines.mapped('credit'))  
                 line.taxamount = sum(tax_lines.mapped('credit')) 
             elif line.line_type == 'expenses':
                 tax_lines = self.env['account.move.line'].search([
                     ('tax_ids', 'in', line.tax_id.ids),
                     ('move_type', '=', 'in_invoice'),
-                ])
+                    ])
                 line.amount = sum(tax_lines.mapped('debit'))  
                 line.taxamount = sum(tax_lines.mapped('debit'))  
             else:
