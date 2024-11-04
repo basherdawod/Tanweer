@@ -8,12 +8,59 @@ class VatDeclarationLine(models.Model):
     _name = 'vat.declaration.line'
     _description = 'VAT Declaration Line'
 
-    declaration_id = fields.Many2one('vat.declaration', string='VAT Declaration')
-    description = fields.Text(string='Description')
+    declaration_id = fields.Many2one('vat.declaration', string='VAT Declaration', required=True)
+    line_type = fields.Selection([
+        ('sales', 'Sales'),
+        ('expenses', 'Expenses')
+    ], string='Line Type', required=True)
+
+    tax_id = fields.Many2one('account.tax', string='Tax', required=True)
+    description = fields.Char(string='Description', related='tax_id.description', readonly=True)
     amount = fields.Float(string='Amount')
-    vat_amount = fields.Float(string='VAT Amount')
-    line_type = fields.Selection([('sales', 'Sales'), ('expenses', 'Expenses')], string='Line Type')
-    
+    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True)
+
+    # @api.depends('amount', 'tax_id')
+    # def _compute_tax_amount(self):
+    #     for line in self:
+    #         if line.tax_id:
+    #             line.taxamount = (line.amount * line.tax_id.amount) / 100 
+    #         else:
+    #             line.taxamount = 0.0
+
+    # @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount')
+    # def _compute_tax_amount(self):
+    #     for line in self:
+    #         if line.line_type == 'sales':
+    #             tax_lines = self.env['account.move.line'].search([
+    #                 ('sale', 'in', [line.tax_id.type_tax_use]),
+    #             ])
+    #             line.taxamount = sum(tax_lines.mapped('credit'))  
+    #         elif line.line_type == 'expenses':
+    #             tax_lines = self.env['account.move.line'].search([
+    #             ('purchase', 'in', [line.tax_id.type_tax_use]),
+    #         ])
+    #             line.taxamount = sum(tax_lines.mapped('debit')) 
+    #         else:
+    #             line.taxamount = 0.0  
+
+    @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount')
+    def _compute_tax_amount(self):
+        for line in self:
+            if line.line_type == 'sales':
+                tax_lines = self.env['account.move.line'].search([
+                    ('tax_ids', 'in', line.tax_id.ids),
+                    ('move_type', '=', 'out_invoice'),  
+                ])
+                line.taxamount = sum(tax_lines.mapped('credit'))
+            elif line.line_type == 'expenses':
+                tax_lines = self.env['account.move.line'].search([
+                    ('tax_ids', 'in', line.tax_id.ids),
+                    ('move_type', '=', 'in_invoice'),  
+                ])
+                line.taxamount = sum(tax_lines.mapped('debit'))
+            else:
+                line.taxamount = 0.0
+
 
 class VatDeclaration(models.Model):
     _name = 'vat.declaration'
@@ -24,11 +71,12 @@ class VatDeclaration(models.Model):
     date_from = fields.Date(string='From Date')
     date_to = fields.Date(string='To Date')
     vat_registration_id = fields.Many2one('vat.registration', string='VAT Registration', required=True)
-    trn = fields.Char(string='TRN', related='vat_registration_id.company_vat', readonly=True, store=True)
-    due_date = fields.Date(string='Due Date',related='vat_registration_id.corporate_tax_due_date', readonly=True, store=True)
+    trn = fields.Char(string='TRN', related='vat_registration_id.trn', readonly=True, store=True)
+    due_date = fields.Date(string='Due Date')
     legal_name = fields.Char(string='Legal Name of Entity', related='vat_registration_id.legal_name_english', readonly=True, store=True)
+    signatore_id = fields.Many2one('authorised.signatory', string="Authorised Signatory")
 
-    basic_rate_supplies_emirate = fields.Selection(
+    basic_rate_supplies_emirate = fields.Many2one(
         related='vat_registration_id.basic_rate_supplies_emirate',
         string='The supplies subject to the basic rate in',
         readonly=True
@@ -42,14 +90,10 @@ class VatDeclaration(models.Model):
     total_expenses = fields.Float(string='Total Expenses', compute='_compute_totals', store=True)
     total_expenses_vat = fields.Float(string='Total Expenses VAT', compute='_compute_totals', store=True)
     net_vat = fields.Float(string='Net VAT Due', compute='_compute_totals', store=True)
-    status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status',default='draft')
-    signatore_id = fields.Many2one('authorised.signatory', string="Authorised Signatory")
 
     tax_id = fields.Many2one('account.tax',string="Tax")
-    account_id = fields.Many2one('account.account',string="Account")
 
-    recoverable_tax = fields.Boolean(string="Do you Wish to Request a Refund for the Above Amount of Exesst Recoverable Tax")
-    during_tax = fields.Boolean(string="Did you Apply the Profit Margin Scheme in Respect of Any Supplies Made During The Tax Period")
+    status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status',default='draft')
 
     q_dates = fields.Selection([
         ('q1', 'Q1 Date'),
@@ -57,6 +101,106 @@ class VatDeclaration(models.Model):
         ('q3', 'Q3 Date'),
         ('q4', 'Q4 Date')
     ], string='Quarter Dates')
+
+
+    @api.depends('vat_sales_outputs', 'vat_expenses_inputs')
+    def _compute_totals(self):
+        for record in self:
+            record.total_sales = sum(record.vat_sales_outputs.mapped('amount'))
+            record.total_sales_vat = sum(record.vat_sales_outputs.mapped('taxamount'))
+            record.total_expenses = sum(record.vat_expenses_inputs.mapped('amount'))
+            record.total_expenses_vat = sum(record.vat_expenses_inputs.mapped('taxamount'))
+            record.net_vat = record.total_sales_vat - record.total_expenses_vat
+
+
+    # @api.onchange('vat_registration_id', 'basic_rate_supplies_emirate', 'date_from', 'date_to')
+    # def _onchange_vat_registration_emirate(self):
+    #     self.ensure_one()
+    #     if self.vat_registration_id and self.basic_rate_supplies_emirate:
+    #         # Get the selection from the original field in VatRegistration model
+    #         emirate_selection = self.env['vat.registration']._fields['basic_rate_supplies_emirate'].selection
+    #         emirate_dict = dict(emirate_selection)
+    #         emirate_name = emirate_dict.get(self.basic_rate_supplies_emirate, '')
+            
+    #         # Create or update the sales output line
+    #         sales_line = self.vat_sales_outputs.filtered(lambda l: l.line_type == 'sales')
+    #         if not sales_line:
+    #             sales_line = self.env['vat.declaration.line'].create({
+    #                 'declaration_id': self.id,
+    #                 'line_type': 'sales',
+    #             })
+    #             self.vat_sales_outputs = [(4, sales_line.id)]
+            
+    #         sales_line.write({
+    #             'description': f"""
+    #             Standard Rated Supplies in {emirate_name}
+    #             TRN: {self.vat_registration_id.trn}
+    #             Legal Name: {self.vat_registration_id.legal_name_english}
+    #             Tax Type: {self.vat_registration_id.tax_type}
+    #             Emirate: {emirate_name}
+    #             Period: {self.date_from} to {self.date_to}
+    #             """
+    #         })
+
+
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', 'New') == 'New':
+    #         vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
+    #     record = super(VatDeclaration, self).create(vals)
+    #     record._onchange_vat_registration_emirate()
+    #     return record
+
+    # def write(self, vals):
+    #     result = super(VatDeclaration, self).write(vals)
+    #     self._onchange_vat_registration_emirate()
+    #     return result
+
+    def set_to_draft(self):
+        self.status = 'draft'
+
+    def set_to_done(self):
+        self.status = 'done'
+
+    @api.model
+    def create(self, vals):
+        record = super(VatDeclaration, self).create(vals)
+        record.with_context(skip_generate_lines=True)._generate_lines()
+        return record
+
+    def write(self, vals):
+        if not self.env.context.get('skip_generate_lines'):
+            self.with_context(skip_generate_lines=True)._generate_lines()
+        return super(VatDeclaration, self).write(vals)
+
+    def _generate_lines(self):
+        vat_sales_lines = []
+        vat_expense_lines = []
+
+        for tax in self.env['account.tax'].search([]):
+            vat_sales_lines.append((0, 0, {
+            'declaration_id': self.id,
+            'line_type': 'sales',
+            'tax_id': tax.id,
+            'description': tax.description,
+            'amount': 0.0,
+            'taxamount': 0.0,
+        }))
+
+        for tax in self.env['account.tax'].search([]):
+            vat_expense_lines.append((0, 0, {
+            'declaration_id': self.id,
+            'line_type': 'expenses',
+            'tax_id': tax.id,
+            'description': tax.description,
+            'amount': 0.0,
+            'taxamount': 0.0,
+        }))
+
+        self.with_context(skip_generate_lines=True).write({
+        'vat_sales_outputs': vat_sales_lines,
+        'vat_expenses_inputs': vat_expense_lines,
+    })
 
     @api.onchange('vat_registration_id', 'q_dates')
     def _onchange_dates(self):
@@ -83,57 +227,3 @@ class VatDeclaration(models.Model):
         else:
             self.date_from = False 
             self.date_to = False
-
-
-    def set_to_draft(self):
-        self.status = 'draft'
-
-    def set_to_done(self):
-        self.status = 'done'
-
-    @api.depends('vat_sales_outputs', 'vat_expenses_inputs')
-    def _compute_totals(self):
-        for record in self:
-            record.total_sales = sum(record.vat_sales_outputs.mapped('amount'))
-            record.total_sales_vat = sum(record.vat_sales_outputs.mapped('vat_amount'))
-            record.total_expenses = sum(record.vat_expenses_inputs.mapped('amount'))
-            record.total_expenses_vat = sum(record.vat_expenses_inputs.mapped('vat_amount'))
-            record.net_vat = record.total_sales_vat - record.total_expenses_vat
-
-    @api.onchange('vat_registration_id', 'basic_rate_supplies_emirate', 'date_from', 'date_to')
-    def _onchange_vat_registration_emirate(self):
-        self.ensure_one()
-        if self.vat_registration_id and self.basic_rate_supplies_emirate:
-            # Get the selection from the original field in VatRegistration model
-            emirate_selection = self.env['vat.registration']._fields['basic_rate_supplies_emirate'].selection
-            emirate_dict = dict(emirate_selection)
-            emirate_name = emirate_dict.get(self.basic_rate_supplies_emirate, '')
-            
-            # Create or update the sales output line
-            sales_line = self.vat_sales_outputs.filtered(lambda l: l.line_type == 'sales')
-            if not sales_line:
-                sales_line = self.env['vat.declaration.line'].create({
-                    'declaration_id': self.id,
-                    'line_type': 'sales',
-                })
-                self.vat_sales_outputs = [(4, sales_line.id)]
-            
-            sales_line.write({
-                'description': f"""
-                 Emirate: {emirate_name}
-                 Country ID: {self.tax_id.country_id.id}
-                """
-            })
-
-    @api.model
-    def create(self, vals):
-        if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('vat.declaration') or 'New'
-        record = super(VatDeclaration, self).create(vals)
-        record._onchange_vat_registration_emirate()
-        return record
-
-    def write(self, vals):
-        result = super(VatDeclaration, self).write(vals)
-        self._onchange_vat_registration_emirate()
-        return result

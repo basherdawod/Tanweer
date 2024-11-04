@@ -20,11 +20,12 @@
                     </div>
                     <group>
                         <group>
+                            <field name="vat_registration_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="q_dates"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
-                            <field name="vat_registration_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="trn"/>
+                            <!-- <field name="total_amount_s"/> -->
                         </group>
                         <group>
                             <field name="due_date"/>
@@ -37,26 +38,16 @@
                             <field name="signatore_id"/>
                         </group>
                     </group>
-                  
-                    <group>
-                        <group>
-                            <field name="recoverable_tax"/>
-                        </group>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="during_tax"/>
-                        </group>
-                    </group>
-                 
+                
                     <notebook>
                         <page string="VAT on Sales and Outputs">
-                            <field name="vat_sales_outputs" nolabel="1">
+                            <field name="vat_sales_outputs">
                                 <tree editable="bottom">
                                     <field name="description" widget="text"/>
                                     <field name="amount"/>
-                                    <field name="vat_amount"/>
-                                    <field name="line_type"/>
+                                    <field name="taxamount"/>
+                                    <!-- <field name="adjestment"/> -->
+                                    <field name='line_type'/>
                                     <!-- <field name="tax_ids" widget="many2many_tags"/> -->
 
                                 </tree>
@@ -67,11 +58,11 @@
                             </group>
                         </page>
                         <page string="VAT on Expenses and Inputs">
-                            <field name="vat_expenses_inputs" nolabel="1">
+                            <field name="vat_expenses_inputs">
                                 <tree editable="bottom">
                                     <field name="description" widget="text"/>
                                     <field name="amount"/>
-                                    <field name="vat_amount"/>
+                                    <field name="taxamount"/>
                                     <field name="line_type"/>
 
                                 </tree>
@@ -155,7 +146,9 @@
     <record id="action_vat_registration" model="ir.actions.act_window">
         <field name="name">VAT Registration</field>
         <field name="res_model">vat.registration</field>
+        <field name="context">{'default_create_lines': True}</field>
         <field name="view_mode">tree,form</field>
+
     </record>
 
     <menuitem id="menu_vat_registration"

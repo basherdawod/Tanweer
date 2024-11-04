@@ -170,22 +170,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- <t t-foreach="o.declaration_line_ids" t-as="line"> -->
                                     <tr>
                                         <td style="text-align: left;padding: 10px;">1a Standerd Rated Supplies in Abu Dhabi<br/>
                                         أ التوريدات الخاضعة للنسبة الأساسية في أبوظبي
                                         </td>
-                                        <td style="text-align:right;padding: 10px;">0.00</td>
-                                        <td style="text-align:right;padding: 10px;">0.00</td>
-                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">
+                                            <span t-esc="o.amount_db"/>
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">
+                                            <span t-esc="o.amount_db"/>
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">
+                                            <span t-esc="o.amount_db"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: left;padding: 10px;">1b Standerd Rated Supplies in Dubai
                                             <br/>
                                         ب  التوريدات الخاضعة للنسبة الأساسية في دبي
                                         </td>
-                                        <td style="text-align:right;padding: 10px;">346,739.04</td>
-                                        <td style="text-align:right;padding: 10px;">17,336.95</td>
-                                        <td style="text-align:right;padding: 10px;">0.00</td>
+                                        <td style="text-align:right;padding: 10px;">
+                                            <span t-esc="o.amount_db"/>
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">
+                                            <span t-esc="o.amount_db"/>
+                                        </td>
+                                        <td style="text-align:right;padding: 10px;">
+                                           <span t-esc="o.amount_db"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: left;padding: 10px">1c Standerd Rated Supplies in Sharjah<br/>
@@ -283,6 +296,7 @@
                                         <td style="text-align:right;padding: 10px;">21,064.99</td>
                                         <td style="text-align:right;padding: 10px;">0.00</td>
                                     </tr>
+                                <!-- </t> -->
                                 </tbody>
                             </table>
                             <div style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align:left; padding: 10px ">
@@ -300,6 +314,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     <tr>
                                         <td style="text-align:left;padding: 10px;">9 Standard Rated Expenses<br/>
                                         النفقات الخاضعة للنسبة الأساسية

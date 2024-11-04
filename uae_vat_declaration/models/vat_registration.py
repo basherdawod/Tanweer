@@ -13,27 +13,34 @@ class VatRegistration(models.Model):
 
     trn = fields.Char(string='TRN', readonly=True, copy=False, default=lambda self: _('New'), unique=True)
     legal_name_english = fields.Char(string='Legal Name of Entity (English)',related='company_id.name')
-    legal_name_arabic = fields.Char(string='Legal Name of Entity (Arabic)')
+    legal_name_arabic = fields.Char(string='Legal Name of Entity (Arabic)',related='company_id.name_ar')
+    # st = fields.Char(string='State',related='company_id.state_id')
     tax_type = fields.Selection([
         ('vat', 'Vat'),
         ('corporate_tax', 'Corporate Tax')
     ], string='Tax Type', required=True)
 
-    basic_rate_supplies_emirate = fields.Selection([
-        ('abu_dhabi', 'Abu Dhabi'),
-        ('dubai', 'Dubai'),
-        ('sharjah', 'Sharjah'),
-        ('ajman', 'Ajman'),
-        ('umm_al_quwain', 'Umm Al Quwain'),
-        ('ras_al_khaimah', 'Ras Al Khaimah'),
-        ('fujairah', 'Fujairah')
-    ], string='The supplies subject to the basic rate in', required=True)
+    # basic_rate_supplies_emirate = fields.Selection([
+    #     ('abu_dhabi', 'Abu Dhabi'),
+    #     ('dubai', 'Dubai'),
+    #     ('sharjah', 'Sharjah'),
+    #     ('ajman', 'Ajman'),
+    #     ('umm_al_quwain', 'Umm Al Quwain'),
+    #     ('ras_al_khaimah', 'Ras Al Khaimah'),
+    #     ('fujairah', 'Fujairah')
+    # ], string='The supplies subject to the basic rate in', required=True)
 
     # basic_rate_supplies_emirate = fields.Many2one(
     #     'res.country.state',  
     #     string='Basic Rate Supplies Emirate',
     #     related='company_id.state_id',
     #     store=True)
+
+    basic_rate_supplies_emirate = fields.Many2one(
+        'res.country.state', 
+        string='State', 
+        domain="[('country_id.code', '=', 'AE')]"
+    )
 
     reverse_charge_mechanism = fields.Boolean(string='Reverse Charge Mechanism Applicable')
     vat_due_date_q1 = fields.Date(string='VAT Due Date Q1', compute='_compute_vat_due_dates', store=True)
@@ -165,24 +172,24 @@ class VatRegistration(models.Model):
     #         self.vat_due_date_q4 = fields.Date.from_string(f'{date}-10-31')
     #         self.corporate_tax_due_date = fields.Date.from_string(f'{date}-09-30')
 
-    @api.onchange('legal_name_english')
-    def _onchange_legal_name_english(self):
-        if self.legal_name_english:
-            emirate = 'dubai'  # Default to Dubai if no match is found
-            name_lower = self.legal_name_english.lower()
-            if 'abu dhabi' in name_lower:
-                emirate = 'abu_dhabi'
-            elif 'sharjah' in name_lower:
-                emirate = 'sharjah'
-            elif 'ajman' in name_lower:
-                emirate = 'ajman'
-            elif 'umm al quwain' in name_lower:
-                emirate = 'umm_al_quwain'
-            elif 'ras al khaimah' in name_lower:
-                emirate = 'ras_al_khaimah'
-            elif 'fujairah' in name_lower:
-                emirate = 'fujairah'
-            self.basic_rate_supplies_emirate = emirate
+    # @api.onchange('legal_name_english')
+    # def _onchange_legal_name_english(self):
+    #     if self.legal_name_english:
+    #         emirate = 'dubai'  # Default to Dubai if no match is found
+    #         name_lower = self.legal_name_english.lower()
+    #         if 'abu dhabi' in name_lower:
+    #             emirate = 'abu_dhabi'
+    #         elif 'sharjah' in name_lower:
+    #             emirate = 'sharjah'
+    #         elif 'ajman' in name_lower:
+    #             emirate = 'ajman'
+    #         elif 'umm al quwain' in name_lower:
+    #             emirate = 'umm_al_quwain'
+    #         elif 'ras al khaimah' in name_lower:
+    #             emirate = 'ras_al_khaimah'
+    #         elif 'fujairah' in name_lower:
+    #             emirate = 'fujairah'
+    #         self.basic_rate_supplies_emirate = emirate
 
     @api.model_create_multi
     def create(self, vals_list):
