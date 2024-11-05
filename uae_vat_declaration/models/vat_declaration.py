@@ -17,94 +17,69 @@ class VatDeclarationLine(models.Model):
     tax_id = fields.Many2one('account.tax', string='Tax', required=True)
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
     amount = fields.Float(string='Amount' ,compute='_compute_tax_amount',store=True)
-    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True) 
+    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True)
+
+    def _sql_from_amls_one(self, start_date, end_date):
+        sql = """SELECT "account_move_line".tax_line_id, 
+                 COALESCE(SUM("account_move_line".debit - "account_move_line".credit), 0)
+                 FROM %s
+                 WHERE %s AND "account_move_line".date >= %s AND "account_move_line".date <= %s
+                 GROUP BY "account_move_line".tax_line_id"""
+        return sql
+
+    def _sql_from_amls_two(self, start_date, end_date):
+        sql = """SELECT r.account_tax_id,
+                 COALESCE(SUM("account_move_line".debit - "account_move_line".credit), 0)
+                 FROM %s
+                 INNER JOIN account_move_line_account_tax_rel r ON ("account_move_line".id = r.account_move_line_id)
+                 INNER JOIN account_tax t ON (r.account_tax_id = t.id)
+                 WHERE %s AND "account_move_line".date >= %s AND "account_move_line".date <= %s
+                 GROUP BY r.account_tax_id"""
+        return sql
 
     @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount',
                  'declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
     def _compute_tax_amount(self):
+        # Get start_date and end_date
+
+        start_date =self.declaration_id.date_from
+        end_date = self.declaration_id.date_to
+
+        taxes = {}
         for line in self:
-            line.amount = 0.0
-            line.taxamount = 0.0
-
             if line.line_type == 'sales':
-                # Search for tax lines related to sales
-                tax_lines = self.env['account.move.line'].search([
-                    ('tax_ids', 'in', line.tax_id.ids),
-                    ('move_type', '=', 'out_invoice'),
-                ])
-                # Get a list of all 'ref' values from tax_lines
-                refs = tax_lines.mapped('ref')
+                taxes[line.tax_id.id] = {'taxamount': 0.0, 'amount': 0.0}
 
-                # Use the refs list to find additional lines
-                tax_line = self.env['account.move.line'].search([
-                    ('ref', 'in', refs),
-                    ('move_type', '=', 'out_invoice'),
-                ])
+        # Generate SQL with date filters
+        tables, where_clause, where_params = self.env['account.move.line']._query_get()
 
-                # Aggregate amounts
-                # line.amount = sum(credit for credit in tax_line.mapped('credit') if credit > 0)
+        # Add start_date and end_date to where_params
+        where_params += [start_date, end_date]
 
-                # line.amount = sum(tax_line.mapped('credit'))  
-                # line.amount = sum(tax_line.mapped('credit')) if tax_line else 0.0
-                # line.amount = sum(credit for credit in tax_line.mapped('credit') if credit > 0) if tax_line else 0.0
-                # line.amount = sum(credit for credit in tax_line.mapped('credit') if credit) if tax_line else 0.0
-                # credit_values = [credit for credit in tax_line.mapped('credit') if credit]
-                # line.amount = sum(credit_values) if credit_values else 0.0
-                # Initialize amount to 0.0
-                line.amount = 0.0
+        # Tax amount calculation
+        sql = self._sql_from_amls_one(start_date, end_date)
+        query = sql % (tables, where_clause, '%s', '%s')
+        self.env.cr.execute(query, where_params)
+        results = self.env.cr.fetchall()
+        for result in results:
+            tax_line_id, tax_amount = result
+            if tax_line_id in taxes:
+                taxes[tax_line_id]['taxamount'] = abs(tax_amount)
 
-                # Iterate through each tax line's credit and add to amount if it meets the condition
-                for credit in tax_line.mapped('credit'):
-                    if credit:  # Add condition as needed, e.g., if credit is non-zero
-                        line.amount += credit
+        sql2 = self._sql_from_amls_two(start_date, end_date)
+        query = sql2 % (tables, where_clause ,'%s', '%s')
+        self.env.cr.execute(query, where_params)
+        results = self.env.cr.fetchall()
+        for result in results:
+            account_tax_id, net_amount = result
+            if account_tax_id in taxes:
+                taxes[account_tax_id]['amount'] = abs(net_amount)
 
-
-                line.taxamount = sum(tax_lines.mapped('credit'))
-
-            elif line.line_type == 'expenses':
-                # Search for tax lines related to expenses
-                tax_lines = self.env['account.move.line'].search([
-                    ('tax_ids', 'in', line.tax_id.ids),
-                    ('move_type', '=', 'in_invoice'),
-                ])
-                # Aggregate amounts
-                line.amount = sum(tax_lines.mapped('debit'))
-                # Assuming tax amount can be calculated from the tax percentage
-                line.taxamount = sum(tax_lines.mapped('tax_ids.amount'))  # Adjust as needed
-     # Adjust as necessary
-
-
-    # @api.depends('declaration_id.vat_sales_outputs.amount', 'declaration_id.vat_expenses_inputs.amount','declaration_id.vat_sales_outputs.taxamount', 'declaration_id.vat_expenses_inputs.taxamount')
-    # def _compute_tax_amount(self):
-
-    #     for line in self:
-    #         if line.line_type == 'sales':
-    #             jurnal_itiems =[]
-    #             tax_lines = self.env['account.move.line'].search([
-    #                 ('tax_ids', 'in', line.tax_id.ids),
-    #                 ('move_type', '=', 'out_invoice'),
-    #                 ])
-    #             # for lines in tax_lines:
-    #             #     jurnal_itiems= self.env['account.move.line'].search([
-    #             #     ('move_name', '=', tax_lines.move_name),
-    #             #     ('move_type', '=', 'out_invoice'),
-    #             #     ])
-
-
-
-    #             line.amount = sum(tax_lines.mapped('balance'))  
-    #             line.taxamount = sum(tax_lines.mapped('credit')) 
-    #         elif line.line_type == 'expenses':
-    #             tax_lines = self.env['account.move.line'].search([
-    #                 ('tax_ids', 'in', line.tax_id.ids),
-    #                 ('move_type', '=', 'in_invoice'),
-    #                 ])
-    #             line.amount = sum(tax_lines.mapped('debit'))  
-    #             line.taxamount = sum(tax_lines.mapped('debit'))  
-    #         else:
-    #             line.amount = 0.0
-    #             line.taxamount = 0.0
-
+        # Update the amount and taxamount fields
+        for line in self:
+            if line.tax_id.id in taxes:
+                line.amount = taxes[line.tax_id.id]['amount']
+                line.taxamount = taxes[line.tax_id.id]['taxamount']
 
 
 class VatDeclaration(models.Model):
