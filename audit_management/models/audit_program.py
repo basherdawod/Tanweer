@@ -19,7 +19,7 @@ class AuditProgram(models.Model):
         ('RP1', 'RP1'), ('RP2', 'RP2'), ('RP3', 'RP3'), ('SP1', 'SP1'), ('SP2', 'SP2'), ('SP3', 'SP3'), ('SP4', 'SP4'),
         ('TP1', 'TP1'), ('TP2', 'TP2'), ('TP3', 'TP3'), ('UP1', 'UP1'),
         ('UP2', 'UP2'), ('UP3', 'UP3'), ('UP4', 'UP4'), ('UP5', 'UP5'), ('VP1', 'VP1'), ('VP2', 'VP2'), ('WP1', 'WP1'),
-        ('WP2', 'WP2'), ('XP', 'YP')], string='code')
+        ('WP2', 'WP2'), ('YP', 'YP'),('XP', 'XP')], string='code')
 
     date = fields.Date(string='Date')
     review_date = fields.Date(string='Date Review')
@@ -46,22 +46,22 @@ class AuditProgram(models.Model):
                    ('coic', 'Costs in industrial companies'),('purchases', 'Purchases'),
                    ('direct_costs', 'Direct costs'),('salaries_wages', 'Salaries and wages'),
                    ('i_f_investments', 'Income from investments'),('miscellaneous_revenues', 'Miscellaneous revenues'),
-                   ('loans', 'Loans'),('intangible_assets_goodwill)', 'Intangible assets (goodwill - equity)'),
-                   ('fixed_assets', 'Fixed assets'),('establishment_expenses)', 'Establishment expenses'),
-                   ('Projects_under_implementation', 'Projects under implementation'),('related_parties)', 'Related Parties'),
-                   ('investments', 'Investments'),('i_a_related_companies)', 'Investments in affiliated and related companies'),
-                   ('stocks_mutual_funds', 'Investments in stocks and mutual funds'),('stock)', 'Stock'),
-                   ('documentary_credits', 'Documentary credits'),('trade_debtors)', 'Trade debtors'),
-                   ('provision_doubtful_debts', 'Provision for doubtful debts'),('advance_payment_suppliers)', 'Advance Payment Suppliers'),
-                   ('cash_in_hand_trust', 'Cash in hand and trust'),('cash_in_banks)', 'Cash in Banks'),
-                   ('bank_deposits', 'Bank Deposits'),('checks_under_collection)', 'Checks under collection'),
-                   ('accrued_expenses', 'Accrued Expenses'),('s_t_c_notes_payable)', 'Suppliers, Trade Creditors and Notes Payable'),
-                   ('r_r_a_from_customers', 'Revenue received in advance from customers'),('prepaid_expenses)', 'prepaid expenses'),
-                   ('other_debit_balances_m', 'Other Debit Balances - Miscellaneous Debtors'),('accrued_revenue)', 'Accrued revenue'),
-                   ('bounced_checks', 'Bounced checks'),('third_party_insurance)', 'Third party Insurance'),
-                   ('allocations', 'Allocations'),('miscellaneous_creditors)', 'Miscellaneous Creditors'),
-                   ('capital', 'Capital'),('retained_earnings)', 'Retained Earnings'),
-                   ('contingent_liabilities_commitments', 'Contingent Liabilities and Contingent Commitments'),('subsequent_events)', 'Subsequent events'),
+                   ('loans', 'Loans'),('intangible_assets_goodwill', 'Intangible assets (goodwill - equity)'),
+                   ('fixed_assets', 'Fixed assets'),('establishment_expenses', 'Establishment expenses'),
+                   ('Projects_under_implementation', 'Projects under implementation'),('related_parties', 'Related Parties'),
+                   ('investments', 'Investments'),('i_a_related_companies', 'Investments in affiliated and related companies'),
+                   ('stocks_mutual_funds', 'Investments in stocks and mutual funds'),('stock', 'Stock'),
+                   ('documentary_credits', 'Documentary credits'),('trade_debtors', 'Trade debtors'),
+                   ('provision_doubtful_debts', 'Provision for doubtful debts'),('advance_payment_suppliers', 'Advance Payment Suppliers'),
+                   ('cash_in_hand_trust', 'Cash in hand and trust'),('cash_in_banks', 'Cash in Banks'),
+                   ('bank_deposits', 'Bank Deposits'),('checks_under_collection', 'Checks under collection'),
+                   ('accrued_expenses', 'Accrued Expenses'),('s_t_c_notes_payable', 'Suppliers, Trade Creditors and Notes Payable'),
+                   ('r_r_a_from_customers', 'Revenue received in advance from customers'),('prepaid_expenses', 'prepaid expenses'),
+                   ('other_debit_balances_m', 'Other Debit Balances - Miscellaneous Debtors'),('accrued_revenue', 'Accrued revenue'),
+                   ('bounced_checks', 'Bounced checks'),('third_party_insurance', 'Third party Insurance'),
+                   ('allocations', 'Allocations'),('miscellaneous_creditors', 'Miscellaneous Creditors'),
+                   ('capital', 'Capital'),('retained_earnings', 'Retained Earnings'),
+                   ('contingent_liabilities_commitments', 'Contingent Liabilities and Contingent Commitments'),('subsequent_events', 'Subsequent events'),
                    ],required=False ,readonly=True )
 
     prepared_by = fields.Many2one('res.users', string='Prepared By')
