@@ -40,9 +40,25 @@ class VatDeclarationLine(models.Model):
                     ('ref', 'in', refs),
                     ('move_type', '=', 'out_invoice'),
                 ])
-                line.amount = sum(tax_line.mapped('credit')[0] if tax_line else 0.0)
 
-                # line.amount = tax_line.mapped('credit') 
+                # Aggregate amounts
+                # line.amount = sum(credit for credit in tax_line.mapped('credit') if credit > 0)
+
+                # line.amount = sum(tax_line.mapped('credit'))  
+                # line.amount = sum(tax_line.mapped('credit')) if tax_line else 0.0
+                # line.amount = sum(credit for credit in tax_line.mapped('credit') if credit > 0) if tax_line else 0.0
+                # line.amount = sum(credit for credit in tax_line.mapped('credit') if credit) if tax_line else 0.0
+                # credit_values = [credit for credit in tax_line.mapped('credit') if credit]
+                # line.amount = sum(credit_values) if credit_values else 0.0
+                # Initialize amount to 0.0
+                line.amount = 0.0
+
+                # Iterate through each tax line's credit and add to amount if it meets the condition
+                for credit in tax_line.mapped('credit'):
+                    if credit:  # Add condition as needed, e.g., if credit is non-zero
+                        line.amount += credit
+
+
                 line.taxamount = sum(tax_lines.mapped('credit'))
 
             elif line.line_type == 'expenses':
