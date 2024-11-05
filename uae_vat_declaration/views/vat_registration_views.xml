@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_vat_registration_form" model="ir.ui.view">
+    <field name="name">vat.registration.form</field>
+    <field name="model">vat.registration</field>
+    <field name="arch" type="xml">
+    <form>
+        <header>
+                <field name="status" widget="statusbar"/>
+                <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                    invisible="status  in  ('draft')" />
+                <button string="Done" name="set_to_done" type="object" class="oe_highlight"
+                    invisible="status  in  ('done')"/>
+        </header>
+        <sheet>
+            <div class="oe_title">
+                <h1>
+                    <field name="company_vat" readonly="1"/>
+                </h1>
+            </div>
+        <group>
+            <group>
+                <field name="legal_name_english"/>
+                <field name="legal_name_arabic"/>
+                <field name="basic_rate_supplies_emirate"/>
+            </group>
+            <group>
+                <field name="reverse_charge_mechanism"/>
+                <!-- <field name="year"/> -->
+                <field name="tax_type"/>
+                <field name="company_vat"/>
+                <field name="creation_date"/>
+                <!-- <field name="st"/> -->
+            </group>
+        </group>
+        <group>
+            <group string="Date Due Return VAT">
+                <field name="vat_due_date_q1"/>
+                <field name="vat_due_date_q2"/>
+                <field name="vat_due_date_q3"/>
+                <field name="vat_due_date_q4"/>
+            </group>
+        
+            <group string="Corporate Tax Due Date">
+                <field name="corporate_tax_due_date"/>
+            </group>
+        </group>
+    </sheet>
+      <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+</form>
+    </field>
+</record>
+
+    <record id="view_vat_registration_tree" model="ir.ui.view">
+        <field name="name">vat.registration.tree</field>
+        <field name="model">vat.registration</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="trn"/>
+                <field name="legal_name_english"/>
+                <field name="tax_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_vat_registration" model="ir.actions.act_window">
+        <field name="name">VAT Registration</field>
+        <field name="res_model">vat.registration</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_vat_registration"
+              name="VAT Registration"
+              action="action_vat_registration"
+              parent="menu_vat_declaration_parent"
+              sequence="10"/>
+</odoo>
