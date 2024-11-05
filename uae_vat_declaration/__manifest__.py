@@ -11,14 +11,14 @@ It includes:
 - Calculation of VAT on sales and expenses
 - Summary of VAT due
     """,
-    'depends': ['base', 'account','l10n_ae'],
+    'depends': ['base', 'account'],
     'data': [
         'data/vat_declaration_sequence.xml',
         'data/vat_registration_sequence.xml',
         'report/vat_report_action.xml',
         'report/vat_report.xml',
         'data/cron_job.xml',
-        'data/tax_lines.xml',
+        
         'views/vat_declaration_views.xml',
         'views/vat_registration_views.xml',
         'views/authorised_signatory.xml',
@@ -27,6 +27,7 @@ It includes:
         'security/ir.model.access.csv',
         'report/vat_report_action.xml',
         'report/vat_report.xml',
+        'data/tax_lines.xml',
         
     ],
     'demo': [

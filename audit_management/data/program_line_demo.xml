@@ -1,193 +1,1964 @@
 <!-- program_line_demo.xml -->
 <odoo>
+<record id="demo_program_line_gap_1" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">طابق الرصيد الافتتاحى للأرباح المبقاة مع أوراق عمل العام الماضى</field>
+ <field name="discription_english">Reconcile opening retained earnings from previous years working papers to general ledger.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_2" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">احصل على بيان بالأطراف ذات العلاقة وقم بتوثيق طبيعة التعاملات وسلطات الاعتماد</field>
+ <field name="discription_english">Obtain list of related parties and document nature of related party transactions and approval levels</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_3" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">افحص الملف الدائم وقم بتحديثه</field>
+ <field name="discription_english">Review the permanent audit documentation and update as necessary.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_4" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">افحص التغطية التأمينية واستكمل الاستقصاء الخاص بها</field>
+ <field name="discription_english">Review insurance cover and complete insurance cover checklist.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_5" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">قم بتحديث البحث عن الأطراف ذات العلاقة واستكمل الاستقصاء الخاص بها للتأكد من كفاية الافصاح.</field>
+ <field name="discription_english">Update search for related party transactions and complete check list to ensure appropriate disclosure.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_6" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">احصل على ميزان المراجعة أ) اختبر الاستاذ العام  ب) طابقه لأوراق العمل بملف المراجعة</field>
+ <field name="discription_english">Obtain copy of trial balance and a) test to general ledger b) agree to schedules in respective sections of current audit file.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_7" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">تحقق من سلامة ترجمة الأرصدة والتعاملات بالعملات الأجنبية</field>
+ <field name="discription_english">Ensure foreign currency balances and transactions are correctly translated.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_8" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">استكمل استقصاء الأحداث بعد تاريخ القوائم المالية</field>
+ <field name="discription_english">Complete the post balance sheet events review checklist.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_9" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">استكمل استقصاء الارتباطات والالتزامات المحتملة</field>
+ <field name="discription_english">Complete the contingencies and commitment checklist.</field>
+ <field name="subject">gap</field>
+</record>
+<record id="demo_program_line_gap_10" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">مطابقة أرصدة الحسابات في ميزان المراجعة مع الأرصدة في دفتر الأستاذ ودفاتر الأستاذ المساعدة</field>
+ <field name="discription_english">Reconcile account balances in the trial balance with balances of general ledger and sub ledgers</field>
+ <field name="subject">nlap</field>
+</record>
+<record id="demo_program_line_gap_11" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">اختيار عينة من المعاملات من دفتر الأستاذ والدفاتر المساعدة ومطابقتها مع اليومية العامة</field>
+ <field name="discription_english">Verify a sample of transactions in the general ledger and sub ledgers with records in Journal entries</field>
+ <field name="subject">nlap</field>
+</record>
+<record id="demo_program_line_gap_12" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على تحليل بالمبيعات للفترة محل المراجعة وطابقه مع الأستاذ العام وميزان المراجعة</field>
+ <field name="discription_english">Obtain a breakdown of sales for the current period and verify amounts with general ledger and trial balance</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_13" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بإعداد بيانا مقارنا للمبيعات للفترة الحالية والمقارنة وتحقق من التغيرات وادرس أسباب ومعقولية الفروق</field>
+ <field name="discription_english">Prepare a comparative analysis of sales for the current and previous year/period and investigate variations in the accounts and study the reasonability of differences</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_14" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">حدد عينة من فواتير المبيعات وتأكد من تسجيلها بالدفاتر وصحة ترحيلها لحسابات المبيعات والعملاء</field>
+ <field name="discription_english">Select a sample of sales invoices and verify them with books to assure they have been recorded correctly, and posted to Sales and A/R ledgers</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_15" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">اختبر تسلسل بعض فواتير المبيعات فى يومية المبيعات، وقارنها مع أوامر تسليم البضاعة للتحقق من تسجيل كافة المبيعات.</field>
+ <field name="discription_english">Check the numerical sequence of some sales invoices recorded in the sales daybook and compare it with that noted in the delivery order register to confirm that all deliveries have been invoiced. </field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_16" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تحقق من الأسعار الواردة بالفواتير مع قوائم الأسعار المعتمدة</field>
+ <field name="discription_english">Verify the prices in the sales invoices with that mentioned in the approved price list.</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_17" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">اختر بعضا من أوامر تسليم البضاعة وتحقق من أنها مطابقة للفواتير، وأنه تم التسليم وفقا لأوامر الشراء الواردة من العميل.</field>
+ <field name="discription_english">Select some delivery orders and confirm that these have been properly invoiced, delivery orders have been acknowledged and that deliveries have been made in accordance with customers LPOs’.</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_18" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">اختر عينة من الفواتير وقم باختبار الالتزام باجراءات الرقابة واللوائح المعتمدة </field>
+ <field name="discription_english">Select a sample of some invoices and carry out walk through procedures to test the documented systems.</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_19" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">قم بإجراء اختبارات القطع للفواتير والاشعارات الدائنة</field>
+ <field name="discription_english">Perform procedures relating to test of cut-of-sales invoices and credit memos.</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_20" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">تأكد من سلامة تبويب والعرض فى القوائم المالية </field>
+ <field name="discription_english">Verify the proper classification and disclosure of sales</field>
+ <field name="subject">saop</field>
+</record>
+<record id="demo_program_line_gap_21" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على أوأعد جدول تحليلي بالمصروفات العمومية والادارية للفترة الحالية والفترة المقارنة</field>
+ <field name="discription_english"></field>
+ <field name="subject">gaex</field>
+</record>
+<record id="demo_program_line_gap_22" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">طابق التحليل بالدفاتر وميزان المراجعة فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">gaex</field>
+</record>
+<record id="demo_program_line_gap_23" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">حلل المصروفات على مستوى البنود وعلى مستوى شهور السنة واستفسر عن اسباب الاختلاف بين الشهور للبنود المختلفة</field>
+ <field name="discription_english"></field>
+ <field name="subject">gaex</field>
+</record>
+<record id="demo_program_line_gap_24" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">د- قم بالتأكد من أن هذة المبالغ تخص الفترة المحاسبية</field>
+ <field name="discription_english"></field>
+ <field name="subject">gaex</field>
+</record>
+<record id="demo_program_line_gap_25" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">فى حالة وجود اختلافات غير مبررة ، قم باختيار عينة من تلك البنود
+وافحصها مستندياً كالتالى:
+أ- قم بالاطلاع على المستندات المؤيدة
+ب- تأكد من صحة العمليات الحسابية للمرفقات
+ج- قم بالتأكد من صحة التوجيه المحاسبى وصحة الترحيل وملائمة
+تبويب المصروف
+هـ- قم بالتأكد من أن هذة المصروفات معتمدة من ذوي السلطة</field>
+ <field name="discription_english"></field>
+ <field name="subject">gaex</field>
+</record>
+<record id="demo_program_line_gap_26" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تأكد من صحة العرض والافصاح بالقوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">gaex</field>
+</record>
+<record id="demo_program_line_gap_27" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">المواد الخام:
 
-    <record id="demo_program_line_gap_1" model="program.line">
-        <field name="number">1</field>
-        <field name="discription_arabic">طابق الرصيد الافتتاحى للأرباح المبقاة مع أوراق عمل العام الماضى</field>
-        <field name="discription_english">Reconcile opening retained earnings from previous years working papers to general ledger.</field>
-         <field name="subject">gap</field>
-    </record>
+(1)    المراجعة التحليلية:
+التاكد من مدى تناسب تطور نسب مجمل الربح لكل من أنشطة الشركة على مدار السنوات السابقة.
+(2) يتم اخذ عينة من مشتريات المواد الخام الرئيسية للمواد من خلال حركة اضافة المخازن وتنفيذ التالي:
+الاطلاع على المستندات المؤيدة.
+التحقق من صحة التوجية المحاسبى.
+التحقق من انها تخص الفترة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">coic</field>
+</record>
+<record id="demo_program_line_gap_28" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">التحقق من صحة معادلة الكمية
 
-    <record id="program_line_F1_2" model="program.line">
-        <field name="number">2</field>
-        <field name="discription_arabic">احصل على بيان بالأطراف ذات العلاقة وقم بتوثيق طبيعة التعاملات وسلطات الاعتماد</field>
-        <field name="discription_english">Obtain list of related parties and document nature of related party transactions and approval levels</field>
-        <field name="subject">gap</field>
-    </record>
+المعادلات المقترحة:
+كمية المنصرف للانتاج = رصيد أول الفترة + كمية  المشتريات -  رصيد اَخر الفترة.
+كمية الانتاج التام خلال الفترة = انتاج تحت التنفيذ أول الفترة+ كمية المنصرف للانتاج خلال العام – إنتاج تحت التنفيذ في نهاية الفترة.
+كمية الانتاج التام المباع والمحول = الانتاج التام في أول الفترة + كمية الانتاج التام خلال الفترة – الانتاج التام اَخر الفترة
+كمية الانتاج التام المحول للمصانع = كمية الانتاج التام المباع والمحول -  كمية الانتاج المباع.
+</field>
+ <field name="discription_english"></field>
+ <field name="subject">coic</field>
+</record>
+<record id="demo_program_line_gap_29" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">إختبارات تحليلية:
+متوسط التكلفة المتوقع =
+متوسط تكلفة الانتاج التام خلال الفترة x  كمية الانتاج المباع
+ومقارنة  الناتج مع  تكلفة البضاعة المباعة خلال الفترة
+   ـ  يتم مطابقة التحويلات من المصانع  مع بنود التكلفة الواردة ضمن مذكرة التكلفة.
+(1)  يتم مقارنة المنصرف الفعلى من الانتاج الفعلى والخامات خلال الفترة مع التكلفة المحملة بالدفاتر والمحسوبة معيارياً على اساس تعظيم الوزن القياسى للانتاج التام لكل امر انتاجى وتحديد مدى معقولية الفروق.
+(2)    التاكد من ان تحميل مخصص فروق تكلفة (معيارى عن فعلى) محصور فى التكاليف الفعلية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">coic</field>
+</record>
+<record id="demo_program_line_gap_30" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">تكلفة العمالة:
+(1) التحقق من توقيع مندوب الادارة المالية على كشف الاجور والمرتبات بما يفيد المراجعة التحقق من صحة تفريغ كروت الدوام وكذلك صحة الاستقطاعات والاضافى وخلافه.
+(2) مطابقة اجمالى صافى الاجور والمرتبات المحولة الى حسابات البنوك لصالح الموظفين مع اجمالى صافى المستحق للعاملين من واقع كشوف الاجور والمرتبات.
+(3) التحقق من صحة ادخال القيد الشهرى للاجور والمرتبات طبقا للكشوف المعدة والمعتمدة.
+(4) التحقق من ان إجمالى الاجور والمرتبات المحملة على التكاليف الصناعية المعاد توزيعها مضاف اليها الاجور والمرتبات الادارية مطابقة الى اجمالى كشف الاجور والمرتبات الشهرى المعد من قبل شئون الموظفين.
+(5) أخذ عينة من ملفات الموظفين والتحقق من إكتمالها.</field>
+ <field name="discription_english"></field>
+ <field name="subject">coic</field>
+</record>
+<record id="demo_program_line_gap_31" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">المصروفات الصناعية
 
-    <record id="program_line_F1_3" model="program.line">
-        <field name="number">3</field>
-        <field name="discription_arabic">افحص الملف الدائم وقم بتحديثه</field>
-        <field name="discription_english">Review the permanent audit documentation and update as necessary.</field>
-        <field name="subject">gap</field>
-    </record>
-
-    <record id="program_line_F1_4" model="program.line">
-        <field name="number">4</field>
-        <field name="discription_arabic">افحص التغطية التأمينية واستكمل الاستقصاء الخاص بها</field>
-        <field name="discription_english">Review insurance cover and complete insurance cover checklist.</field>
-        <field name="subject">gap</field>
-    </record>
-
-    <record id="program_line_F1_5" model="program.line">
-        <field name="number">5</field>
-        <field name="discription_arabic">قم بتحديث البحث عن الأطراف ذات العلاقة واستكمل الاستقصاء الخاص بها للتأكد من كفاية الافصاح.</field>
-        <field name="discription_english">Update search for related party transactions and complete check list to ensure appropriate disclosure..</field>
-        <field name="subject">gap</field>
-    </record>
-
-    <record id="program_line_F1_6" model="program.line">
-        <field name="number">6</field>
-        <field name="discription_arabic">
-             احصل على ميزان المراجعة &#10;
-            أ) اختبر الاستاذ العام &#10;
-            ب) طابقه لأوراق العمل بملف المراجعة
-        </field>
-        <field name="discription_english">
-            Obtain copy of trial balance and &#10;
-            a) test to general ledger &#10;
-            b) agree to schedules in respective sections of current audit file.
-        </field>
-        <field name="subject">gap</field>
-    </record>
-
-
-    <record id="program_line_F1_7" model="program.line">
-        <field name="number">7</field>
-        <field name="discription_arabic">تحقق من سلامة ترجمة الأرصدة والتعاملات بالعملات الأجنبية
-        </field>
-        <field name="discription_english">
-           Ensure foreign currency balances and transactions are correctly translated.
-        </field>
-        <field name="subject">gap</field>
-    </record>
-
-
-    <record id="program_line_F1_8" model="program.line">
-        <field name="number">8</field>
-        <field name="discription_arabic">استكمل استقصاء الأحداث بعد تاريخ القوائم المالية
-        </field>
-        <field name="discription_english">
-           Complete the post balance sheet events review checklist.
-        </field>
-        <field name="subject">gap</field>
-    </record>
-
-    <record id="program_line_F1_9" model="program.line">
-        <field name="number">9</field>
-        <field name="discription_arabic">استكمل استقصاء الارتباطات والالتزامات المحتملة
-        </field>
-        <field name="discription_english">
-           Complete the contingencies and commitment checklist.
-        </field>
-        <field name="subject">gap</field>
-    </record>
-    <!--    ##################  Demo Data For F2  ###############   -->
-    <record id="program_line_F2_1" model="program.line">
-        <field name="number">1</field>
-        <field name="discription_arabic">مطابقة أرصدة الحسابات في ميزان المراجعة مع الأرصدة في دفتر الأستاذ ودفاتر الأستاذ المساعدة
-        </field>
-        <field name="discription_english">
-           Reconcile account balances in the trial balance with balances of general ledger and sub ledgers
-        </field>
-        <field name="subject">nlap</field>
-    </record>
-
-    <record id="program_line_F2_2" model="program.line">
-        <field name="number">2</field>
-        <field name="discription_arabic">اختيار عينة من المعاملات من دفتر الأستاذ والدفاتر المساعدة ومطابقتها مع اليومية العامة
-        </field>
-        <field name="discription_english">
-           Verify a sample of transactions in the general ledger and sub ledgers with records in Journal entries
-        </field>
-        <field name="subject">nlap</field>
-    </record>
- <!--    ##################  Demo Data For GP  ###############   -->
-    <record id="program_line_GP_1" model="program.line">
-        <field name="number">1</field>
-        <field name="discription_arabic">احصل على تحليل بالمبيعات للفترة محل المراجعة وطابقه مع الأستاذ العام وميزان المراجعة
-        </field>
-        <field name="discription_english">
-           Obtain a breakdown of sales for the current period and verify amounts with general ledger and trial balance
-        </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_2" model="program.line">
-        <field name="number">2</field>
-        <field name="discription_arabic">قم بإعداد بيانا مقارنا للمبيعات للفترة الحالية والمقارنة وتحقق من التغيرات وادرس أسباب ومعقولية الفروق
-        </field>
-        <field name="discription_english">
-           Prepare a comparative analysis of sales for the current and previous year/period and investigate variations in the accounts and study the reasonability of differences
-        </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_3" model="program.line">
-        <field name="number">3</field>
-        <field name="discription_arabic">حدد عينة من فواتير المبيعات وتأكد من تسجيلها بالدفاتر وصحة ترحيلها لحسابات المبيعات والعملاء
-        </field>
-        <field name="discription_english">
-            Select a sample of sales invoices and verify them with books to assure they have been recorded correctly, and posted to Sales and A/R ledgers        </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_4" model="program.line">
-        <field name="number">4</field>
-        <field name="discription_arabic">اختبر تسلسل بعض فواتير المبيعات فى يومية المبيعات، وقارنها مع أوامر تسليم البضاعة للتحقق من تسجيل كافة المبيعات.
-        </field>
-        <field name="discription_english">
-            Check the numerical sequence of some sales invoices recorded in the sales daybook and compare it with that noted in the delivery order register to confirm that all deliveries have been invoiced.         </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_5" model="program.line">
-        <field name="number">5</field>
-        <field name="discription_arabic">تحقق من الأسعار الواردة بالفواتير مع قوائم الأسعار المعتمدة
-        </field>
-        <field name="discription_english">
-            Verify the prices in the sales invoices with that mentioned in the approved price list.. </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_6" model="program.line">
-        <field name="number">6</field>
-        <field name="discription_arabic">اختر بعضا من أوامر تسليم البضاعة وتحقق من أنها مطابقة للفواتير، وأنه تم التسليم وفقا لأوامر الشراء الواردة من العميل.
-        </field>
-        <field name="discription_english">
-            Select some delivery orders and confirm that these have been properly invoiced, delivery orders have been acknowledged and that deliveries have been made in accordance with customers LPOs’. </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_7" model="program.line">
-        <field name="number">7</field>
-        <field name="discription_arabic">
-            اختر عينة من الفواتير وقم باختبار الالتزام باجراءات الرقابة واللوائح المعتمدة
-        </field>
-        <field name="discription_english">
-           Select a sample of some invoices and carry out walk through procedures to test the documented systems.
-        </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_8" model="program.line">
-        <field name="number">8</field>
-        <field name="discription_arabic">
-قم بإجراء اختبارات القطع للفواتير والاشعارات الدائنة        </field>
-        <field name="discription_english">
-            Perform procedures relating to test of cut-of-sales invoices and credit memos.
-        </field>
-        <field name="subject">saop</field>
-    </record>
-
-    <record id="program_line_GP_9" model="program.line">
-        <field name="number">9</field>
-        <field name="discription_arabic">
-تأكد من سلامة تبويب والعرض فى القوائم المالية         </field>
-        <field name="discription_english">
-            Verify the proper classification and disclosure of sales
-        </field>
-        <field name="subject">saop</field>
-    </record>
-
+مصروفات نقدية:
+(1)   الحصول على تحليل بالمصروفات.
+(2)   مطابقة إجمالى التحليل على مستوى كل بند مع الميزان التحليلى للمصروفات.
+(3)   مقارنة إجمالى المصروفات على مستوى الفترة مع الفترة المثيلة ودراسة اسباب الفروقات الجوهرية وتحديد مدى معقوليتها.
+(4)   إختيار عينة من المعاملات وفحصها مستندياً كالتالى:
+الاطلاع على المستندات المؤيدة.
+التحقق من صحة التوجية المحاسبى.
+التحقق من أنها تخص الفترة المالية محل المراجعة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">coic</field>
+</record>
+<record id="demo_program_line_gap_32" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على  جدول للمشتريات عن السنة</field>
+ <field name="discription_english">Obtain a lead schedule in Companies Act format for purchases and for the year. </field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_33" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">راجع عينة من قيود المشتريات مع حركة الصندوق ومع المستندات المؤيدة ومع كشف البنك ان أمكن ذلك</field>
+ <field name="discription_english">Vouch a sample of purchase ledger entries in the cash book and petty cash book to supporting documentation and agree to bank statements.</field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_34" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">دقق عينة مشتريات من الاستاذ للمشتريات مع الفواتير والاشعارات الدائنة لتأكيد : (أ) انها تخص الشركة    (ب) انها عن بضائع وخدمات مستخدمة عادة فى عمليات الشركة    (ج) انها معتمدة </field>
+ <field name="discription_english">Vouch a sample of purchases from the nominal ledger/purchase day book to invoices/credit notes ensuring: (i) they are addressed to the company   (ii) they are for goods/services normally used by the company  (iii) they have been properly approved</field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_35" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">دقق عينة مشتريات من الاستاذ للمشتريات مع الفواتير والاشعارات الدائنة لتأكيد
+1- انها تخص الشركة
+2- انها عن بضائع وخدمات مستخدمة عادة فى عمليات الشركة
+3- انها معتمدة </field>
+ <field name="discription_english">Vouch a sample of purchases from the nominal ledger/purchase day book to invoices/credit notes ensuring:
+1- they are addressed to the company
+2- they are for goods/services normally used by the company
+3- they have been properly approved</field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_36" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">طابق عينة من مدفوعات البنك على استاذ مساعد المشتريات  </field>
+ <field name="discription_english">Vouch a sample of bank payments to the purchase ledger.</field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_37" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">قم بمطابقة عينة مشتريات من دفتر النقدية على الفواتير والاشعارات الدائنة للتأكد من أنها تخص الشركة</field>
+ <field name="discription_english">Vouch a sample of purchases from the cash book to invoices/credit notes ensuring they are addressed to the company</field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_38" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic"> اختر عينة من أصناف البضاعة المستلمة فى سجل المخزون وطابقها
+على الفواتير والعكس / للتأكد أن الكميات والتسعير صحيحة </field>
+ <field name="discription_english">Vouch sample of items from goods received records/stock records or other source data to invoices and vice versa ensuring quantities, pricing etc are correct.</field>
+ <field name="subject">purchases</field>
+</record>
+<record id="demo_program_line_gap_39" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">راجع عمليات المشتريات الشهرية للبحث عن تذبذبات غير عادية (تحليل على مستوى القسم أو خط الانتاج إن أمكن). قارن التفاصيل مع قيم الفترة السابقة </field>
+ <field name="discription_english">Review purchases activity by month for unusual fluctuations (consider breakdown by product line or division, if available).  Compare the details to prior year/period amounts.</field>
+ <field name="subject">direct_costs</field>
+</record>
+<record id="demo_program_line_gap_40" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بإجراءات القطع لفواتير الشراء والاسعارات المدينة والدائنة المتعلقة</field>
+ <field name="discription_english">Perform procedures relating to test of cut-off for purchase invoices and debit/credit memos.</field>
+ <field name="subject">direct_costs</field>
+</record>
+<record id="demo_program_line_gap_41" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">افحص قيود المشتريات ، واستفسر عن أى بنود غير عادية </field>
+ <field name="discription_english">Review the purchases journal for unusual items and investigate any such items observed</field>
+ <field name="subject">direct_costs</field>
+</record>
+<record id="demo_program_line_gap_42" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">اختر عينة من فواتير المشتريات وقم بإجراء اختبارات الالتزام بالنظم الموثقة للعميل</field>
+ <field name="discription_english">Select a sample of some purchase invoices and carry out walk through procedures to test the documented systems. </field>
+ <field name="subject">direct_costs</field>
+</record>
+<record id="demo_program_line_gap_43" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">احصل على بيان تحليلى لنتائج كل قسم أو خط انتاج (إن أمكن) وقارن نسبة مجمل الربح المحققة خلال الفترة مع مثيلاتها، واستفسر عن أى انحرافات غير عادية</field>
+ <field name="discription_english">Obtain a list of operating results (consider breakdown by product line or division, if available) Compare gross margins with prior year/ period. Investigate any material variances</field>
+ <field name="subject">direct_costs</field>
+</record>
+<record id="demo_program_line_gap_44" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">تأكد من دقة النظام المحاسبى واجراءات الاجور والرواتب وافحص الاجور من خلال اختبارات فى مواقع العمل </field>
+ <field name="discription_english">Confirm accuracy of overview of accounting systems and procedures regarding payroll and pension transaction applications and verify by undertaking walk-through tests</field>
+ <field name="subject">salaries_wages</field>
+</record>
+<record id="demo_program_line_gap_45" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">احصل على أو أعد جدولا للرواتب وعن عدد العاملين فى السنة</field>
+ <field name="discription_english">Obtain or prepare a lead schedule in Companies Act format for payroll and pensions expenses and number of employees for the year</field>
+ <field name="subject">salaries_wages</field>
+</record>
+<record id="demo_program_line_gap_46" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">طابق عينة من السجل على ملخص حساب الرواتب وشيكات الدفع</field>
+ <field name="discription_english">Vouch sample of nominal ledger or payment summary entries to payroll summaries and cheque payments</field>
+ <field name="subject">salaries_wages</field>
+</record>
+<record id="demo_program_line_gap_47" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">افحص عينة من رواتب الموظفين الجدد وكذلك الذين انتهت خدمتهم. تأكد من تفصيلات الرواتب والاستقطاعات وصحة تاريخ الاضافة أو الحذف</field>
+ <field name="discription_english">Check a sample of starters and leavers ensure payroll details and cut off are correct.</field>
+ <field name="subject">salaries_wages</field>
+</record>
+<record id="demo_program_line_gap_48" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">• راجع عينة من قيود المصروفات الأخرى مع حركة الصندوق ومع المستندات المؤيدة ومع كشف البنك ان أمكن ذلك</field>
+ <field name="discription_english">Vouch a sample of non-purchase ledger entries in the cash book and petty cash book to supporting documentation and agree to bank statements.</field>
+ <field name="subject">salaries_wages</field>
+</record>
+<record id="demo_program_line_gap_49" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">تأكد من أن الأرباح والخسائر للاستثمارات قد تم حسابها بدقة</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_f_investments</field>
+</record>
+<record id="demo_program_line_gap_50" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">تأكد من أن الدخل من الاستثمارات قد أخذ فى الاعتبار بشكل مناسب وعلى اساس ثابت</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_f_investments</field>
+</record>
+<record id="demo_program_line_gap_51" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">راعى تاريخ القطع فى نهاية السنة المالية وفصل الإيرادات والخسائر التي تخص الفترة الحالية عن الفترة اللاحقة</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_f_investments</field>
+</record>
+<record id="demo_program_line_gap_52" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">افحص كافة الايرادات والخسائر بالرجوع الى المستندات والمصادر الخارجية</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_f_investments</field>
+</record>
+<record id="demo_program_line_gap_53" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على بيان بالايرادات المتنوعة وتحقق من طبيعة وحساب كل ايراد</field>
+ <field name="discription_english">Obtain list of other income and verify nature of income, and calculation</field>
+ <field name="subject">miscellaneous_revenues</field>
+</record>
+<record id="demo_program_line_gap_54" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">افحص المستندات المؤيدة </field>
+ <field name="discription_english">Verify documents to support items included in other income</field>
+ <field name="subject">miscellaneous_revenues</field>
+</record>
+<record id="demo_program_line_gap_55" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">اختبر المستندات المؤيدة للإيرادات من المعاملات بعملات أجنبية، وتحقق من مطابقة المعالجة للمعيار وللسياسة المعلنة </field>
+ <field name="discription_english">For gains in foreign exchange transactions, test check with source documents to ensure that the treatment is in accordance with the stated accounting policy.</field>
+ <field name="subject">miscellaneous_revenues</field>
+</record>
+<record id="demo_program_line_gap_56" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">loans</field>
+</record>
+<record id="demo_program_line_gap_57" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للقروض مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">loans</field>
+</record>
+<record id="demo_program_line_gap_58" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">أحصل على شهادة البنك بأرصدة القروض في تاريخ المركز المالي  </field>
+ <field name="discription_english"></field>
+ <field name="subject">loans</field>
+</record>
+<record id="demo_program_line_gap_59" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">افحص عقود القروض للتعرف على الضمانات وكيفية السداد وكيفية الإفصاح عنها </field>
+ <field name="discription_english"></field>
+ <field name="subject">loans</field>
+</record>
+<record id="demo_program_line_gap_60" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تابع سداد أقساط القروض في الفترة التالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">loans</field>
+</record>
+<record id="demo_program_line_gap_61" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تحقق من صحة الفصل بين أقساط القروض قصير الأجل وطويلة الأجل وسلامة العرض بالقوائم المالية </field>
+ <field name="discription_english"></field>
+ <field name="subject">loans</field>
+</record>
+<!-- <record id="demo_program_line_gap_62" model="program.line">-->
+<!--  <field name="number">1</field>-->
+<!--  <field name="discription_arabic">أعد بيانا بالموجودات غير الملموسة، وقم:-->
+<!-- أ) بمطابقة الإجمالى للأستاذ العام.-->
+<!-- ب) افحص المستندات الأصلية.-->
+<!--  </field>-->
+<!--  <field name="discription_english">Obtain or prepare an analysis of intangible assets and:-->
+<!-- a) agree total to general ledger-->
+<!-- b) check items with source documents.-->
+<!--  </field>-->
+<!--  <field name="subject">intangible_assets_goodwill</field>-->
+<!-- </record>-->
+<record id="demo_program_line_gap_63" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قارن الرصيد مع الفترات السابقة لوجود أية تغيرات هامة أوافتقاد تغيرات هامة كان ينبغى وجودها.</field>
+ <field name="discription_english">Compare the balance with prior periods for any significant changes or lack of expected significant changes, if any.</field>
+ <field name="subject">intangible_assets_goodwill</field>
+</record>
+<record id="demo_program_line_gap_64" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">تحقق من كون المبلغ يصلح كموجودات غير ملموسة طويلة الأجل وفقا للمعيار السعودى، وتحقق من صحة التبويب.</field>
+ <field name="discription_english">Ensure that the amount qualifies as intangible assets as per provisions of the Saudi standard for intangible assets and ensure correct classification of intangible assets.</field>
+ <field name="subject">intangible_assets_goodwill</field>
+</record>
+<record id="demo_program_line_gap_65" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">تحقق من معقولية فترة الاطفاء وتحقق من صحة حساب اطفاء الموجودات غير الملموسة</field>
+ <field name="discription_english">Verify reasonableness of the period of amortisation and check calculation of amortisation of intangible assets.</field>
+ <field name="subject">intangible_assets_goodwill</field>
+</record>
+<record id="demo_program_line_gap_66" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالاصول الثابتة واستهلاكتها موضحا رصيد اول الفترة من تكلفة واستهلاك لكل بند وحركة الاضافات والاستبعادات على كلا من التكلفة والاستهلاك وكذلك رصيد اخر الفترة لكلا من التكلفة والاستهلاكات</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_67" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التكلفة ومجمع الاستهلاك اول الفترة من واقع التحليل مع ميزانية واوراق عمل العام السابق.</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_68" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة التكلفة ومجمع الاستهلاك اخر الفترة من واقع التحليل مع الميزان والدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_69" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التاكد من ان المؤسسة تطبق نفس معدلات الإهلاك للعام السابق
+التحقق من صحة احتساب الاهلاك عن الفترة المالية وذلك
+• أما مستخدما الاجراءات التحليلية للتحقق من مدى معقولية الاهلاك المعلّى بالدفاتر
+• أوبالحصول على طباعة سجل الاصول الثابتة ومطابقة الاهلاك المحتسب من واقع السجل مع الاهلاك المعلى بالدفاتر ودراسة اسباب اى فروق ان وجدت</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_70" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">الفحص المستندى لعينة من الاضافات واجراء ما يلى علي هذة العينة:
+•  المطابقة مع محضر الفحص والاستلام للأصل الثابت
+• التأكد من اثبات الاضافات بسجل الاصول الثابتة
+• الاطلاع على المستندات المؤيدة لعملية الشراء
+• صحة تاريخ الاضافة الى السجل والدفاتر المالية
+• صحة التكلفة المسجلة بسجل الاصول والدفاتر المالية
+• صحة التبويب لتلك الاضافات وعدم وجود بنود غير رأسمالية </field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_71" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">الفحص المستندى لعينة من الاستبعادات للتحقق من استيفاء كافة الاجراءات اللازمة لاتخاذ قرار البيع واتباع الاجراءات المعمول بها فى هذاالصدد. وكذلك الاطلاع على المستندات المؤيدة لتلك المعاملات
+• التأكد من استبعاد الأصل من سجل الأصول الثابتة</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_72" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">التاكد من صحة الارباح والخسائر الراسمالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_73" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">الحصول على جرد معتمد من المؤسسة للاصول الثابتة</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_74" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">طابق بين محاضر جرد الأصول الثابتة والمثبت بالدفاتر </field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_75" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">فحص المصروفات وخاصة مصروفات الصيانة للتأكد من عدم وجود أى نفقات رأسمالية محملة على المصروفات</field>
+ <field name="discription_english"></field>
+ <field name="subject">fixed_assets</field>
+</record>
+<record id="demo_program_line_gap_76" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">establishment_expenses</field>
+</record>
+<record id="demo_program_line_gap_77" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للأصول الأخرى مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">establishment_expenses</field>
+</record>
+<record id="demo_program_line_gap_78" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">تحقق من صحة المعالجة المحاسبية للأصول الأخرى طبقاً للمعايير المحاسبة وفي ضوء المستندات المؤيدة لها </field>
+ <field name="discription_english"></field>
+ <field name="subject">establishment_expenses</field>
+</record>
+<record id="demo_program_line_gap_79" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">تحقق من صحة العرض والإفصاح للبند بالقوائم المالية </field>
+ <field name="discription_english"></field>
+ <field name="subject">establishment_expenses</field>
+</record>
+<record id="demo_program_line_gap_80" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة مع أوراق عمل وميزانية لعام الماضى</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_81" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">التأكد من أن المبلغ مؤيد مستندياً والمستندات باسم الشركة</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_82" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">التأكد من صحة وثبات سياسة الرسملة ومدى ملائمتها </field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_83" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التأكد من صحة التوجيه المحاسبى والصحة الحسابية للمستندات المؤيدة</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_84" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">مطابقة المستخلصات مع العقود والتحقق من استلام الأعمال التى تمت</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_85" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">افحص الارصدة المدينة وتأكد من عدم وجود دفعات للموردين تخص المشروعات تحت التنفيذ</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_86" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">افحص المصروفات وتأكد من عدم وجود أى نفقات رأسمالية محملة على المصروفات</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_87" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">تحقق من سلامة العرض والافصاح للبند بالقوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">Projects_under_implementation</field>
+</record>
+<record id="demo_program_line_gap_88" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على جدول تحليلى لأرصدة الأطراف ذات العلاقة والشركات الشقيقة</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_89" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">طابق التحليل بميزان المراجعة والدفاتر فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_90" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">قارن الرصيد مع الفترات السابقة للبحث عن أى تغيرات هامة أو افتقاد تغيرات هامة كان ينبغى وجودها</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_91" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">إفحص المعاملات مع الاطراف ذات العلاقة وقم بتقييم مدى كفاية الافصاح عن تلك المعاملات والسياسات المدرجة ضمن الايضاحات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_92" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تحقق من صحة العرض فى القوائم المالية طبقا لما نص عليه معيار العرض والافصاح فى هذا الصدد.</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_93" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">صادق على أرصدة الشركات ( الوحدات ) الشقيقة المدينة والدائنة في تاريخ المركز المالي </field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_94" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">قم بالاطلاع على المستندات المؤيدة لعينة من المعاملات مع الاطراف ذات العلاقة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_95" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">قم بتقييم الارصدة بالعملات اجنبية مع الاطراف ذات العلاقة فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_96" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">قم بمتابعة المعاملات خلال الفترة الكاشفة للتحقق من عدم وجود اى التزامات غير مسجلة بالدفاتر لمتابعة التحصيل اوالاستنزال.</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_97" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">افحص أعمار الديون وتحقق من التحصيل فى الفترة اللاحقة وتحقق من مدى الحاجة إلى تكوين مخصصات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">related_parties</field>
+</record>
+<record id="demo_program_line_gap_98" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">أحصل على قائمة بالاستثمارات لدى المنشأة موقع عليها من المسئولين وطابق اجمالى القائمة مع الحساب الاجمالى بالأستاذ العام والميزانية في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_99" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_100" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">اختبر بعض عمليات شراء وبيع الاستثمارات فى ضوء نظام الرقابة الداخلية</field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_101" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">أفحص مستندياً إضافات الاستثمارات وتحقق من وجود شهادات ملكية الأسهم </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_102" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">أجرد الاستثمارات التى فى حوزة الشركة فى وجود المسئولين ويراعى أن يتم جردها مرة واحدة مع باقى النقدية وأوراق القبض</field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_103" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">فى حالة الجرد قبل تاريخ القوائم المالية تأكد من أنها لم تودع فى البنك حتى لا يتكرر اثباتها مرتين</field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_104" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">أطلع على صكوك الاستثمارات وتأكد من أنها باسم المنشأة وأنه لايوجد تنازل للغير عليها وأنها ليست مقدمة للشركة كضمان من الغير </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_105" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">اطلب شهادة من البنوك المحتفظ بالاستثمارات لديها موضحا بها أية حقوق أو رهونات عليها</field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_106" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">أدرس أسباب احتفاظ المنشأة بالاستثمارات هل هى بصفة مؤقتة أو بصفة دائمة للسيطرة وحدد أسس المعالجة المتبعة مع معايير المحاسبة وعرضها بالقوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_107" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">راجع عينة من فواتير شهادة الأوراق المالية ونوعها وقيمتها وتاريخ الشراء وتقارن مع نشرة أسعار البورصة </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_108" model="program.line">
+ <field name="number">11</field>
+ <field name="discription_arabic">قم بالإطلاع على القوائم المالية المتعلقة للشركات المستثمر فيها للتحقق من صحة واكتمال إثبات الاستثمارات بالدفاتر  </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_109" model="program.line">
+ <field name="number">12</field>
+ <field name="discription_arabic">أحصل على القوائم المالية للشركات المستثمر فيها وادرس وجود أنخفاض دائم أو مؤقت فى قيمة الأستثمار أو وجود زيادة فى قيمة الاستثمار وتأكد أن المعالجة تمت وفقا للمعيار السعودى </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_110" model="program.line">
+ <field name="number">13</field>
+ <field name="discription_arabic">تحقق من طريقة معالجة الأنخفاض فى الأستثمارات ( ان وجدت ) وتعرف على طبيعة الانخفاض مؤقت أو دائم </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_111" model="program.line">
+ <field name="number">14</field>
+ <field name="discription_arabic">أدرس مدى الحاجة إلى تكوين مخصص هبوط استثمارات في ضوء القيمة السوقية لأسهم الشركات المستثمر فيها في تاريخ الأقفال </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_112" model="program.line">
+ <field name="number">15</field>
+ <field name="discription_arabic">تحقق من اثبات جميع ايرادات الاستثمارات وأنها تم تسجيلها بطريقة سليمة </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_113" model="program.line">
+ <field name="number">16</field>
+ <field name="discription_arabic">تحقق من التزام وثبات الشركة على سياسة تقييم الاستثمارات المتبعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_114" model="program.line">
+ <field name="number">17</field>
+ <field name="discription_arabic">تحقق من صحة تقييم الاستثمارات وفقاً لسياسة التقييم المتبعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">investments</field>
+</record>
+<record id="demo_program_line_gap_115" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالشركات الشقيقة المستثمر فيها موضحا ارصدة اول المدة والحركة المدينة والحركة الدائنة والرصيد فى اخر الفترة</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_116" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة ارصدة الشركات الواردة بالتحليل مع الميزان الفرعى والدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_117" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">الحصول على صور الميزانيات للشركات المستثمر فيها فى تاريخ اعداد القوائم المالية اواقرب تاريخ لتاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_118" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">احتساب حصة الشركة فى الملكية طبقا لنسبة المساهمة مضروبا فى صافى حقوق الملكية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_119" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">الاطلاع على مستندات التوزيعات ( نشرة التوزيع) والتحقق من صحة إستنزالها من الاستثمارات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_120" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">الاطلاع على مستندات المساهمات والتحقق من ان الغرض من السداد هوالمساهمة فى الشركة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_121" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">التحقق من نية الادارة من حيازة الاستثمار.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_122" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">التحقق من صحة التبويب طبقا لنسبة الملكية والسيطرة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">i_a_related_companies</field>
+</record>
+<record id="demo_program_line_gap_123" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالاستثمارات يتضمن عدد الاسهم وسعر السهم فى تاريخ اعداد القوائم المالية وكذلك عدد الاسهم وسعر السهم فى اول الفترة والحركة خلال الفترة محدد فيها تكلفة الشراء.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_124" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة القيم الواردة فى التحليل مع الميزان والدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_125" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة اسعار تقييم الاسهم وصناديق الاستثمار بالاسعار المعلنة من قبل البورصة فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_126" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">الاطلاع على الشهادات الصادرة من البنوك بالاسهم والصكوك المملوكة والمودعة لدى البنوك اوشهادات وصكوك الملكية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_127" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">التحقق من صحة الاحتساب.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_128" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">التحقق من صحة تطبيق السياسات المحاسبية المتعلقة بالاستثمارات مثل كيفية الاعتراف بالارباح غير المحققة من تقييم الاستثمارات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_129" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">التعرف على نية الادارة من حيازة كل استثمار.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_130" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">التحقق من مدى كفاية الافصاح عن الاستثمارات وبخاصة فى حالة وجود اى قيود بالرهن اوخلافة على الاستثمارات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_131" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">تقييم الاستثمارات بالعملات الاجنبية بأسعار الاقفال لتلك العملات فى تاريخ اعداد تلك القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stocks_mutual_funds</field>
+</record>
+<record id="demo_program_line_gap_132" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_133" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للمخزون مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_134" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">أحضر جرد المخزون في تاريخ المركز المالي وطابق مسودات الجرد والعينة المعدة بمعرفة مندوب المكتب مع محاضر الجرد النهائية وأبحث أسباب الفروق آن وجدت </field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_135" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">احصل على محاضر الجرد الفعلى وكشوف الجرد المقيم.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_136" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">الاجراءات التى يتم تطبيقها على محاضر الجرد الفعلى وكشوف الجرد المقيم
+• مطابقة عينة من الكميات الواردة بكشوف الجرد المقيّم مع الكميات الواردة بمحاضر الجرد الفعلى.
+• مطابقة عينة من الكميات الواردة بمحاضر الجرد الفعلى مع الكميات الواردة بكشوف الجرد الفعلى.
+• التحقق من الصحة الحسابية لكشوف الجرد المقيم.
+• مطابقة إجمالى كشوف الجرد المقيم مع الميزان فى تاريخ اعداد القوائم المالية.
+• التحقق من مطابقة الاسعار الواردة بكشوف الجرد المقيم مع اسعار الكروت.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_137" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">يتم طباعة كرت صنف والتحقق من صحة التسعير طبقا للسياسة المطبقة</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_138" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">الاطلاع على حركة عينة من اصناف المخزون لمعرفة اعمارها وتحديد ما اذا كانت بطيئة الحركة ام لا وذلك بالاطلاع على الكارتات الخاصة بها</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_139" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">الاطلاع على كشوف المخزون للاصناف بطيئة الحركة لتحديد ما اذا كانت هناك اصناف تالفة وغير ممكن استخدامها</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_140" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">التحقق من عدم وجود اصناف راكدة اوبطيئة الحركة غير مكون لها مخصصات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_141" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">تحقق من صحة إجراءات القطع بالنسبة لأذون استلام وصرف المخازن في تاريخ المركز المالي وتسجيلها بصورة سليمة </field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_142" model="program.line">
+ <field name="number">11</field>
+ <field name="discription_arabic">أحصل على شهادة من الشركة بأرصدة المخزون في تاريخ المركز المالي وطابقها مع أرصدة  الدفاتر في تاريخ المركز المالي </field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_143" model="program.line">
+ <field name="number">12</field>
+ <field name="discription_arabic">أحصل على شهادة من الجهات الخارجية والتي تحتفظ الشركة لديهم بمخزونها أو جزء منه موضحاً بها الكمية والنوع والحالة التي عليها المخزون</field>
+ <field name="discription_english"></field>
+ <field name="subject">stock</field>
+</record>
+<record id="demo_program_line_gap_144" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على بيان بالاعتمادات المستندية المفتوحة فى نهاية الفترة وقم بالآتى :
+1- افحص المستندات المؤيدة للاعتمادات المستندية
+2- المطابقة مع شهادات البنوك</field>
+ <field name="discription_english"></field>
+ <field name="subject">documentary_credits</field>
+</record>
+<record id="demo_program_line_gap_145" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">تأكد من صحة عرض الاعتمادات المستندية بالقوائم المالية </field>
+ <field name="discription_english"></field>
+ <field name="subject">documentary_credits</field>
+</record>
+<record id="demo_program_line_gap_146" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">التأكد من ان طلب فتح الاعتماد المستندى معتمد وموافق عليه من الجهة ذات الصلاحية .</field>
+ <field name="discription_english"></field>
+ <field name="subject">documentary_credits</field>
+</record>
+<record id="demo_program_line_gap_147" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التأكد من أن القيود المحاسبية المتعلقة بالاعتماد المستندى قد نفذت وحفظت نسخ منها فى الملف .</field>
+ <field name="discription_english"></field>
+ <field name="subject">documentary_credits</field>
+</record>
+<record id="demo_program_line_gap_148" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">التأكد من صلاحية تاريخ الاعتماد المستندي وعدم إنتهاؤه</field>
+ <field name="discription_english"></field>
+ <field name="subject">documentary_credits</field>
+</record>
+<record id="demo_program_line_gap_149" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالمدينون التجاريون فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_150" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_151" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">قم مطابقة أرصدة الميزان المساعد للمدينون التجاريون مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة  </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_152" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">عمل ملخص بالمصادقات الواردة من المدينون التجاريون ومطابقة تلك المصادقات بالتحليل الوارد بة تلك الارصدة , تحديد الفروق المبررة زمنيا والفروق والاختلافات غير المبررة وحصرها ودراسة اسبابها وتحديد مدى الحاجة الى تكوين مخصص ديون مشكوك فى تحصيلها وتقديرة بما يتناسب مع تلك الديون المشكوك فى تحصيلها</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_153" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">خذ عينة من حسابات المدينون التجاريون وتحقق من صحة تحليل أعمار أرصدة العملاء المعد عن طريق الشركة </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_154" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">طابق أرصدة المصادقات الواردة من المدينون التجاريون مع أرصدة المدينون التجاريون في الظاهرة في ميزان مساعد المدينون التجاريون في تاريخ المركز المالي وأفحص أسابب الفروق أن وجدت  </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_155" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">أفحص مستندياً عينة من أرصدة المدينون التجاريون في نهاية الفترة وتحقق من الأتي :
+▪  استلام العميل للبضاعة
+▪  وجود مستندات مؤيدة للمتحصلات من المدينون التجاريون</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_156" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">أفحص مستندياً عينة من الحركة التي تمت على حساب العميل وتحقق من الأتي :
+▪ تحقق من صحة تسعير الفاتورة طبقاً للعقود المبرمة مع المدينون التجاريون الشركة
+▪ تحقق من إثبات الفاتورة على حساب العميل وإظهارها ضمن أعمار الديون </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_157" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">أفحص التسويات المدينة والدائنة على عينة من حسابات المدينون التجاريون وتحقق من سلامتها</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_158" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">أدرس موقف العملاء من واقع تحليل أعمار الديون لأرصدة المدينون التجاريون ومدى الاحتياج إلى تدعيم مخصص الديون المشكوك فيها </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_159" model="program.line">
+ <field name="number">11</field>
+ <field name="discription_arabic">متابعة المعاملات خلال الفترة الكاشفة مع المدينون التجاريون للتحقق من عدم وجود اى ديون ضعيفة اومشكوك فى تحصيلها وكذلك التحقق من صحة اجراءات القطع للمبيعات</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_160" model="program.line">
+ <field name="number">12</field>
+ <field name="discription_arabic">فى حالة عدم امكانية الاعتماد على الفترة الكاشفة بشكل منفرد يتم الاتجاة الى الفحص المستندى لعينة من ارصدة المدينون التجاريون القائمة فى تاريخ اعداد القوائم المالية وتطبق عليها الاجراءات التالية:
+       أ- الاطلاع على المستندات المؤيدة
+       ب- التحقق من انها تخص الفترة
+       ج- التحقق من صحة التبويب</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_161" model="program.line">
+ <field name="number">13</field>
+ <field name="discription_arabic">تحقق من صحة تقييم الأرصدة المدينون التجاريون بالعملات الأجنبية وفقاً لاسعار العملات المعلنة في البنوك التي يتم التعامل معها </field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_162" model="program.line">
+ <field name="number">14</field>
+ <field name="discription_arabic">فصل الارصدة المدينة عن الارصدة الدائنة كدفعات اوخلافة واظهارها ضمن الارصدة الدائنة</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_163" model="program.line">
+ <field name="number">15</field>
+ <field name="discription_arabic">تحقق من صحة عرض أرصدة العملاء بالقوائم المالية للعام الحالي والأعوام السابقة</field>
+ <field name="discription_english"></field>
+ <field name="subject">trade_debtors</field>
+</record>
+<record id="demo_program_line_gap_164" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">provision_doubtful_debts</field>
+</record>
+<record id="demo_program_line_gap_165" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بدراسة أرصدة الديون غير الجيدة والمشكوك فيها وتحقق من مدى كفاية المخصص المكون دفترياً </field>
+ <field name="discription_english"></field>
+ <field name="subject">provision_doubtful_debts</field>
+</record>
+<record id="demo_program_line_gap_166" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">تحقق من مدى الحاجة إلى تكوين أو تدعيم المخصص</field>
+ <field name="discription_english"></field>
+ <field name="subject">provision_doubtful_debts</field>
+</record>
+<record id="demo_program_line_gap_167" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">تحقق من عرض البند والإفصاح عنه </field>
+ <field name="discription_english"></field>
+ <field name="subject">provision_doubtful_debts</field>
+</record>
+<record id="demo_program_line_gap_168" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">advance_payment_suppliers</field>
+</record>
+<record id="demo_program_line_gap_169" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للموردين دفعات مقدمة مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">advance_payment_suppliers</field>
+</record>
+<record id="demo_program_line_gap_170" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">تحقق من الدفعات المقدمة بالرجوع إلى العقود والاتفاقيات إلخ </field>
+ <field name="discription_english"></field>
+ <field name="subject">advance_payment_suppliers</field>
+</record>
+<record id="demo_program_line_gap_171" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">مطابقة الأرصدة الظاهرة بالدفاتر مع المصادقات </field>
+ <field name="discription_english"></field>
+ <field name="subject">advance_payment_suppliers</field>
+</record>
+<record id="demo_program_line_gap_172" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تابع التسوية والدفعات المقدمة في الفترة اللاحقة </field>
+ <field name="discription_english"></field>
+ <field name="subject">advance_payment_suppliers</field>
+</record>
+<record id="demo_program_line_gap_173" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تحقق من صحة عرض البند بالقوائم المالية بالمقارنة للأعوام السابقة </field>
+ <field name="discription_english"></field>
+ <field name="subject">advance_payment_suppliers</field>
+</record>
+<record id="demo_program_line_gap_174" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالنقدية , وكذلك الحصول على محاضر الجرد في تاريخ المركز المالي</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_175" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">التحقق من الصحة الحسابية للتحليل ومحاضر الجرد.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_176" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة الأرصدة في محاضر الجرد مع التحليل والدفاتر</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_177" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">مطابقة التحليل بميزان المراجعة والدفاتر فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_178" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_179" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تحقق من صحة إجراءات القطع بالنسبة لأذون استلام وصرف النقدية في تاريخ المركز المالي وتسجيلها بصورة سليمة </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_180" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">إعادة تقييم العملات الاجنبية طبقا لاسعار الإقفال فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_181" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">الحصول على مصادقات من أصحاب العهد.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_182" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">تحقق من صحة عرض أرصدة النقدية بالصندوق والعهد بالقوائم المالية بالمقارنة للأعوام السابقة </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_hand_trust</field>
+</record>
+<record id="demo_program_line_gap_183" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بأرصدة كل بنك على حدة وكذلك الحصــول على كشوف حسابات البنوك ومذكرات التسوية لكل حساب بنكى وشهادات البنوك وصورة الحساب من الدفاتر. </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_184" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التحليل بميزان المراجعة والدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_185" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_186" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">حدد عينة من الشيكات الصادرة والايداعات وتحقق منها مستندياً وكيفية تسجيلها</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_187" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">التحقق من الصحة الحسابية لمذكرات التسوية البنكية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_188" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">مطابقة مذكرة التسوية لكل حساب بنك مع رصيد الدفاتر وكشف حساب البنك وشهادة البنك فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_189" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">راجع المعلقات بمذكرة التسوية وتابعها في الفترة التالية وذلك بالنسبة للإيداعات والمدفوعات أو أي معلقات أخرى </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_190" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">تحقق من صحة تقييم الأرصدة  بالعملات الأجنبية وإعادة ترجمتها الى عملة الدفاتر طبقا لاسعار الإقفال فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_191" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">تحقق من صحة عرض أرصدة النقدية بالبنوك بالقوائم المالية بالمقارنة للأعوام السابقة </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_192" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">التحقق من صحة التبويب والتبويب المقارن بين الارصدة النقدية التى تغيرت طبيعتها عن الفترة المقارنة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_193" model="program.line">
+ <field name="number">11</field>
+ <field name="discription_arabic">تحقق من فصل الشيكات تحت التحصيل ومؤجلة السداد والشيكات المسحوبة على حسابات البنوك التي لم تسلم لأصحابها في تاريخ المركز المالي من مذكرة التسوية ألي الحسابات الخاصة بها </field>
+ <field name="discription_english"></field>
+ <field name="subject">cash_in_banks</field>
+</record>
+<record id="demo_program_line_gap_194" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بأرصدة الودائع لدى البنوك وكذلك حسابات البنوك وشهادات البنوك واشعارات الربط للودائع المربوطة فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_195" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التحليل بميزان المراجعة والدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_196" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة التحليل مع حسابات البنوك فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_197" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_198" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">مطابقة التحليل مع شهادة البنك فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_199" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">ترجمة ارصدة الودائع بالعملات الاجنبية الى عملة الدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_200" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">التحقق من صحة احتساب عوائد الودائع المستحقة طبقا لاشعارات الربط لكل وديعة على حدة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_201" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">مراجعة عقود واشعارات الربط لهذه الودائع والتحقق من الرصيد وسعر العمولة (الفائدة) وتاريخ الاستحقاق .</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_202" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">يتم التأكد من الصلاحيات اللازمة للايداع والتحويل والسحب من الارصدة لدى البنوك وفقا لما اعتمدته الإدارة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">bank_deposits</field>
+</record>
+<record id="demo_program_line_gap_203" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">checks_under_collection</field>
+</record>
+<record id="demo_program_line_gap_204" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للشيكات تحت التحصيل مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">checks_under_collection</field>
+</record>
+<record id="demo_program_line_gap_205" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">أجرد الشيكات تحت التحصيل في تاريخ المركز المالي والموجودة طرف الشركة</field>
+ <field name="discription_english"></field>
+ <field name="subject">checks_under_collection</field>
+</record>
+<record id="demo_program_line_gap_206" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">أحصل على شهادات من البنوك بالشيكات الموجودة طرفها في تاريخ المركز المالي </field>
+ <field name="discription_english"></field>
+ <field name="subject">checks_under_collection</field>
+</record>
+<record id="demo_program_line_gap_207" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تابع تحصيل تلك الأرصدة خلال الفترة التالية من واقع إشعارات البنوك أو سندات قبض الخزينة</field>
+ <field name="discription_english"></field>
+ <field name="subject">checks_under_collection</field>
+</record>
+<record id="demo_program_line_gap_208" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تحقق من صحة عرض أرصدة الشيكات بالقوائم المالية بالمقارنة للأعوام السابقة  </field>
+ <field name="discription_english"></field>
+ <field name="subject">checks_under_collection</field>
+</record>
+<record id="demo_program_line_gap_209" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالمصروفات المستحقة للفترة الحالية وكذلك الفترة المقارنة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_210" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التحليل مع الميزان والدفاتر فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_211" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_212" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">إجراء دراسة تحليلية مقارنة بين مستحقات الفترة ومستحقات الفترة المقارنة ودراسة الاختلافات الجوهرية والتعرف على اسبابها ومبرراتها</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_213" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">التحقق من صحة المصروفات المستحقة بالرجوع الى الفواتير والاتفاقيات والعقود .</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_214" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">ملاحظة أسلوب المعالجة المحاسبية واستمرارية المصروفات التي تسدد على أساس سنوي مثل ( الإيجارات ، التأمين ، الاشتراكات)</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_215" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">دراسة الأسس التى اعتمدتها الادارة فى تقدير المستحقات وتقييم مدى امكانية الاعتماد على تلك الاسس فى عملية التقييم</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_216" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">التحقق من الصحة الحسابية للمصروفات المستحقة المقدرة وإجراء القيود التعديلية عند الضرورة </field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_217" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">مراجعة حركة المدفوعات خلال الفترة الكاشفة لمتابعة السداد للمستحقات والاطلاع على مستنداتها. وكذلك التحقق من عدم وجود اى مستحقات على الفترة لم يتم تحميلها  بالبحث عن المدفوعات للمبالغ التي لم تؤخذ في الحسبان عند حصر المستحقات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_218" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">تحقق من صحة عرض المصروفات المستحقة بالقوائم المالية مقارنة بالأعوام السابقة  </field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_expenses</field>
+</record>
+<record id="demo_program_line_gap_219" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالموردين والدائنين التجاريين وأوراق الدفع في تاريخ إعداد القوائم المالية في نهاية الفترة</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_220" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">طابق التحليل بالدفاتر وميزان المراجعة فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_221" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_222" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">إعداد بيان بالمصادقات المستلمة ومطابقتها بالتحليل وأرصدة الميزان في نهاية الفترة وتحديد الاختلافات غير المبررة وحصرها ودراسة أسبابها.</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_223" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تحديد مدى الحاجة الى تكوين مخصص التزامات محتملة وتقديره بما يتناسب مع تلك الالتزامات المحتملة</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_224" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">متابعة السداد خلال الفترة اللاحقة والتحقق من عدم وجود اى التزامات غير مسجلة بالدفاتر وكذلك التحقق من صحة اجراءات القطع.</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_225" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">إختيار عينة من ارصدة الدائنون التجاريون القائمة فى تاريخ اعداد القوائم المالية ويتم فحصها مستندياً والتحقق مما يلى:
+أ- الاطلاع على المستندات المؤيدة
+ب- التحقق من انها تخص الفترة
+ج- التحقق من صحة التبويب والعرض</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_226" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">التحقق من ختم الفواتير بخاتم الدفع PAID للتأكد من عدم تكرار الدفع</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_227" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">الاطلاع على عقود التوريدات للتأكد من سلامة تنفيذ شروط التوريد</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_228" model="program.line">
+ <field name="number">10</field>
+ <field name="discription_arabic">تحديد عينة من أوراق الدفع وفحصها مستندياً والتحقق من صحة تواريخها وتسليمها إلى مستحقيها</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_229" model="program.line">
+ <field name="number">11</field>
+ <field name="discription_arabic">تقييم أرصدة الموردين والدائنين التجاريين وأوراق الدفع بالعملات الأجنبية في تاريخ إعداد ااقوائم المالية طبقاً لأسعار الإقفال وتحديد مدى جوهرية الفروق إن وجدت</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_230" model="program.line">
+ <field name="number">12</field>
+ <field name="discription_arabic">الإطلاع على عينة من سندات سداد الشيكات والنقدية للموردين والدائنين التجاريين وأوراق الدفع في الفترة التالية للتحقق من صحة القطع.</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_231" model="program.line">
+ <field name="number">13</field>
+ <field name="discription_arabic">فصل الأرصدة المدينة للدائنين كدفعات وعرضها ضمن الأرصدة المدينة كموردين أرصدة مدينة</field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_232" model="program.line">
+ <field name="number">14</field>
+ <field name="discription_arabic">تحقق من صحة عرض أرصدة الموردين وأوراق الدفع والدائنين بالقوائم المالية بالمقارنة للأعوام السابقة </field>
+ <field name="discription_english"></field>
+ <field name="subject">s_t_c_notes_payable</field>
+</record>
+<record id="demo_program_line_gap_233" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على أوأعد جدول تحليلي بالإيرادات المقبوضة مقدماً من العملاء</field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_234" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">طابق التحليل بالدفاتر وميزان المراجعة فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_235" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_236" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التحقق من صحة اختبارات القطع التى تم اجراءاها عند فحص الايرادات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_237" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">قم بالإطلاع على المستندات المؤيدة</field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_238" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">قم بالتحقق من صحة التوجيه المحاسبي</field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_239" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">قم بمتابعة الفترة الكاشفة للتحقق من الاعتراف بالايراد ان كان قد استحق تاريخ الاعتراف بالايراد.</field>
+ <field name="discription_english"></field>
+ <field name="subject">r_r_a_from_customers</field>
+</record>
+<record id="demo_program_line_gap_240" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالمصروفات المدفوعة مقدماً</field>
+ <field name="discription_english"></field>
+ <field name="subject">prepaid_expenses</field>
+</record>
+<record id="demo_program_line_gap_241" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">التحقق من الصحة الحسابية للتحليل</field>
+ <field name="discription_english"></field>
+ <field name="subject">prepaid_expenses</field>
+</record>
+<record id="demo_program_line_gap_242" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة التحليل بالدفاتر وميزان المراجعة فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">prepaid_expenses</field>
+</record>
+<record id="demo_program_line_gap_243" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق والبحث عن وجود أية تغيرات هامة أوافتقاد تغيرات هامة كان ينبغى وجودها</field>
+ <field name="discription_english"></field>
+ <field name="subject">prepaid_expenses</field>
+</record>
+<record id="demo_program_line_gap_244" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">التحقق من صحة تحميل الفترة بما يخصها من المصروفات المدفوعة مقدماً وذلك بالرجوع للمستندات الفعلية المؤيدة للسداد والتحقق من الفترة المدفوع عنها المصروف ومطابقة القيم والتواريخ الواردة بالتحليل مع القيم والتواريخ الواردة فى المستندات والتحقق من صحتها</field>
+ <field name="discription_english"></field>
+ <field name="subject">prepaid_expenses</field>
+</record>
+<record id="demo_program_line_gap_245" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">التحقق من صحة التوجيه المحاسبي والعرض والإفصاح بالقوائم المالية وصحة تبويب الرصيد طبقا لطبيعته  </field>
+ <field name="discription_english"></field>
+ <field name="subject">prepaid_expenses</field>
+</record>
+<record id="demo_program_line_gap_246" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالأرصدة المدينة الأخرى</field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_247" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_248" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة التحليل بالدفاتر وميزان المراجعة فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_249" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">افحص عينة من المستندات المؤيدة للأرصدة المدينة</field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_250" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تابع الأرصدة المدينة فى الفترة اللاحقة من حيث التحصيلات أو التسويات</field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_251" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">صادق على الأرصدة التى يمكن الحصول على مصادقة بأرصدتها </field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_252" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">ادرس المبالغ المشكوك فى تحصيلها ومدى امكانية تكوين مخصص لها </field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_253" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">تأكد من صحة تقييم الأرصدة بالعملات الأجنبية</field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_254" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">تأكد من سلامة العرض والافصاح العام للبند فى القوائم المالية وتحقق من الأرصدة غير الطبيعية، والأرصدة الدائنة أوالتى قد لا تكون "مدينون" أوالتى قد لا تكون مبوبة بطريقة سليمة (كالأطراف ذات العلاقة أو أرصدة الموظفين).</field>
+ <field name="discription_english"></field>
+ <field name="subject">other_debit_balances_m</field>
+</record>
+<record id="demo_program_line_gap_255" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالايرادات المستحقة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_revenue</field>
+</record>
+<record id="demo_program_line_gap_256" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التحليل بميزان المراجعة والدفاتر فى تاريخ اعداد القوائم المالية.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_revenue</field>
+</record>
+<record id="demo_program_line_gap_257" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">التحقق من صحة إجراءات القطع التى تمت عند مراجعة الايرادات.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_revenue</field>
+</record>
+<record id="demo_program_line_gap_258" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">الاطلاع على المستندات المؤيدة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_revenue</field>
+</record>
+<record id="demo_program_line_gap_259" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">التحقق من صحة الاساس الذى تم الاعتماد عليه وتوافق ذلك مع سياسة تحقق الايراد.</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_revenue</field>
+</record>
+<record id="demo_program_line_gap_260" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">متابعة تحصيل تلك الايرادات المستحقة خلال الفترةالكاشفة</field>
+ <field name="discription_english"></field>
+ <field name="subject">accrued_revenue</field>
+</record>
+<record id="demo_program_line_gap_261" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">bounced_checks</field>
+</record>
+<record id="demo_program_line_gap_262" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للشيكات المرتدة مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">bounced_checks</field>
+</record>
+<record id="demo_program_line_gap_263" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">أجرد الشيكات المرتدة في تاريخ المركز المالي وأحصل على شهادات بالشيكات الموجودة طرف الغير </field>
+ <field name="discription_english"></field>
+ <field name="subject">bounced_checks</field>
+</record>
+<record id="demo_program_line_gap_264" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">تابع تحصيل تلك الأرصدة خلال الفترة التالية من واقع إشعارات البنوك </field>
+ <field name="discription_english"></field>
+ <field name="subject">bounced_checks</field>
+</record>
+<record id="demo_program_line_gap_265" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">أدرس موقف الشيكات المرتدة وتحقق من عدم وجود أرصدة مرحلة منذ فترة وتحديد مدى الاحتياج لتدعيم مخصص الديون المشكوك فيها </field>
+ <field name="discription_english"></field>
+ <field name="subject">bounced_checks</field>
+</record>
+<record id="demo_program_line_gap_266" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تحقق من صحة عرض أرصدة الشيكات المرتدة بالقوائم المالية بالمقارنة للأعوام السابقة </field>
+ <field name="discription_english"></field>
+ <field name="subject">bounced_checks</field>
+</record>
+<record id="demo_program_line_gap_267" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">third_party_insurance</field>
+</record>
+<record id="demo_program_line_gap_268" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للمصروفات المدفوعة مقدماً مع أرصدة هذه البنود في ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">third_party_insurance</field>
+</record>
+<record id="demo_program_line_gap_269" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">تحقق من التأمين لدى الغير بالرجوع إلى العقود  والاتفاقيات أو المستندات المؤيدة والحصول على المصادقات أو الشهادات المؤيدة لذلك </field>
+ <field name="discription_english"></field>
+ <field name="subject">third_party_insurance</field>
+</record>
+<record id="demo_program_line_gap_270" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">تحقق من صحة التوجيه المحاسبي والعرض والافصاح بالقوائم المالية </field>
+ <field name="discription_english"></field>
+ <field name="subject">third_party_insurance</field>
+</record>
+<record id="demo_program_line_gap_271" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالمخصصات يوضح ارصدة المخصصات اول المدة والمكوّن لحساب كل مخصص والمستخدم من رصيد كل مخصص</field>
+ <field name="discription_english"></field>
+ <field name="subject">allocations</field>
+</record>
+<record id="demo_program_line_gap_272" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التحليل بميزان المراجعة والدفاتر فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">allocations</field>
+</record>
+<record id="demo_program_line_gap_273" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">ربط كل مخصص بالرصيد الذى كون من اجله والتحقق من مدى الحاجة الى تلك المخصصات وكذلك مدى كفاية تلك المخصصات للغرض الذى كونت من اجله
+أ- إما بالاجراءات التحليلية للتحقق من معقولية المخصص اللازم ومقارنته بالمخصص القائم فى تاريخ اعداد القوائم المالية
+ب- أوبدراسة الاساس الذى اعتمدت عليه الادارة عند تقدير المخصص وتحديد وتقويم مدى امكانية الاعتماد على هذا الاساس وقبولة كأساس لتقدير المخصص اللازم فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">allocations</field>
+</record>
+<record id="demo_program_line_gap_274" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التحقق من صحة العرض فى القوائم المالية طبقا لما نص عليه معيار العرض والافصاح فى هذا الصدد سواء فى قائمة الميزانية أوقائمة الدخل أوقائمة التدفقات النقدية</field>
+ <field name="discription_english"></field>
+ <field name="subject">allocations</field>
+</record>
+<record id="demo_program_line_gap_275" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">الحصول على تحليل بالدائنون المتنوعون</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_276" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">مطابقة التحليل بالدفاتر وميزان المراجعة فى تاريخ اعداد القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_277" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">مطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_278" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">اعداد إحصائية المصادقات وتقييم مدى امكانية الاعتماد على المصادقات كدليل إثبات كافي</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_279" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">مطابقة أرصدة الدائنون المتنوعون والأرصدة الدائنة الظاهرة بكشوف الحساب أو المصادقات مع الأرصدة الدفترية وبحث أسباب الاختلاف أن وجدت  </field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_280" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">فى حالة عدم كفاية المصادقات الواردة يتم متابعة السداد فى الفترة التالية (الكاشفة) للتحقق من سداد الدائنيات الواردة بالتحليل والاطلاع على مستندات السداد</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_281" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">فى حالة عدم كفاية الفترة الكاشفة للاعتماد عليها يتم إختيار عينة من المعاملات للفترة محل المراجعة ويتم فحصها مستندياً والتحقق مما يلى:
+أ- الاطلاع على المستندات المؤيدة
+ب- التحقق من انها تخص الفترة
+ج- التحقق من صحة التبويب والعرض</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_282" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">ادرس مدى الحاجة لتكوين مخصص للالتزامات المحتملة</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_283" model="program.line">
+ <field name="number">9</field>
+ <field name="discription_arabic">تحقق من صحة عرض الدائنون المتنوعون والأرصدة الدائنة الأخرى  بالقوائم المالية بالمقارنة للأعوام السابقة  وتحقق من الأرصدة غير الطبيعية، والأرصدة المدينة أوالتى لا تبوب كدائنون بطريقة سليمة (كالأطراف ذات العلاقة أوالمستحقات).</field>
+ <field name="discription_english"></field>
+ <field name="subject">miscellaneous_creditors</field>
+</record>
+<record id="demo_program_line_gap_284" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_285" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للرأس المال مع  ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_286" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">الإطلاع علي السجل التجاري للشركة والتحقق من مطابقة رأس المال بالسجل مع المثبت بدفاتر الشركة</field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_287" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التحقق من الإفصاح عن كافة فروع الشركة بالقوائم المالية من واقع السجلات الفرعية الصادرة لها</field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_288" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تحقق من سداد رأس المال بالإطلاع على اشعاراته للبنك </field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_289" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">تحقق من قيام الشركة بأثبات حركة الأسهم بسجل المساهمين </field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_290" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">أفحص محاضر الجلسات للتعرف على أيه قرارات قد تؤثر على رأس المال </field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_291" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">تحقق من صحة عرض البند والإفصاح عند القوائم المالية</field>
+ <field name="discription_english"></field>
+ <field name="subject">capital</field>
+</record>
+<record id="demo_program_line_gap_292" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة أول المدة بالدفاتر مع أوراق عمل العام السابق أو القوائم المالية المعتمدة للعام السابق </field>
+ <field name="discription_english"></field>
+ <field name="subject">retained_earnings</field>
+</record>
+<record id="demo_program_line_gap_293" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">قم بمطابقة أرصدة الميزان المساعد للأرباح المبقاة مع  ميزان المراجعة النهائي للشركة في نهاية الفترة محل المراجعة </field>
+ <field name="discription_english"></field>
+ <field name="subject">retained_earnings</field>
+</record>
+<record id="demo_program_line_gap_294" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">أفحص أي تسويات أو تعديلات تمت على الحساب خلال العام </field>
+ <field name="discription_english"></field>
+ <field name="subject">retained_earnings</field>
+</record>
+<record id="demo_program_line_gap_295" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">التحقق من صحة العرض والإفصاح للبند بالقوائم المالية </field>
+ <field name="discription_english"></field>
+ <field name="subject">retained_earnings</field>
+</record>
+<record id="demo_program_line_gap_296" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">استفسر عن الإلتزامات المحتملة المتوقع حدوثها خلال الفترة التالية والمطالبات الهامة، والأمور المتعلقة بالخلافات والمنازعات القضائية (الفعلية والمعلقة)</field>
+ <field name="discription_english"></field>
+ <field name="subject">contingent_liabilities_commitments</field>
+</record>
+<record id="demo_program_line_gap_297" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">اطلب من الإدارة القيام بارسال خطاب استفسارات المراجعة إلى كل محامى أومستشار قانونى تمت استشارته فى قضايا أومطالبات أوتقديرات هامة (إذا لم يتم الاستعانة بمحامى أومستشار فتأكد من تغطية الأمر بخطاب التأكيدات)</field>
+ <field name="discription_english"></field>
+ <field name="subject">contingent_liabilities_commitments</field>
+</record>
+<record id="demo_program_line_gap_298" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">احصل على قائمة وقم بتوثيق الأمور التالية من الإدارة:
+ارتباط لشراء عقارات أومعدات
+أى ارتباطات أخرى للشراء أوالبيع
+ارتباطات لتبادل عملات أجنبية
+ارتباطات إيجارات
+خطابات ضمان أواعتمادات مستندية
+أرصدة مدينة مخصومة
+أى التزامات تعاقدية أخرى</field>
+ <field name="discription_english"></field>
+ <field name="subject">contingent_liabilities_commitments</field>
+</record>
+<record id="demo_program_line_gap_299" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">راجع عقود الإيجار ومحاضر مجلس الإدارة والموازنات التقديرية والمراسلات القانونية والقضايا وردود المحامين والشهادات البنكية والشهادات الأخرى التي يتم استلامها من الجهات المسئولة  (على سبيل المثال وليس الحصر مؤسسة النقد ومصلحة الزكاة والضرائب والحكومات المحلية) وحدد أي التزامات او ارتباطات تعاقدية تنوي المنشاة القيام بها الفترة التالية  </field>
+ <field name="discription_english"></field>
+ <field name="subject">contingent_liabilities_commitments</field>
+</record>
+<record id="demo_program_line_gap_300" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">تأكد من أن كل الارتباطات والالتزامات المحتملة الهامة قد تمت معالجتها محاسبيا والافصاح عنها بطريقة صحيحة وعدم إسقاط أي إلتزامات خاصة بالفترة محل المراجعة</field>
+ <field name="discription_english"></field>
+ <field name="subject">contingent_liabilities_commitments</field>
+</record>
+<record id="demo_program_line_gap_301" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">خذ بالاعتبار أثر تقييم مدى كفاية الافصاح على تقرير المراجعة</field>
+ <field name="discription_english"></field>
+ <field name="subject">contingent_liabilities_commitments</field>
+</record>
+<record id="demo_program_line_gap_302" model="program.line">
+ <field name="number">1</field>
+ <field name="discription_arabic">احصل على آخر معلومات مالية متاحة وقارنها بالمعلومات الواردة بالقوائم المالية التي يكتب التقرير عنها وقم بعمل مقارنات أخرى تعتبر مناسبة.</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_303" model="program.line">
+ <field name="number">2</field>
+ <field name="discription_arabic">افحص موقف الأمور التالية، لتحديد مدى الحاجة لتعديل القوائم المالية فى ضوء المعلومات والأحداث بعد تاريخ المركز المالى:
+الأرباح (الموجودات) المحتملة
+الخسائر (المطلوبات) المحتملة
+الديون المشكوك فى تحصيلها
+المطالبات والالتزامات الأخرى
+تقويم المخزون
+قيمة الاستثمارات
+مبدأ الاستمرارية</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_304" model="program.line">
+ <field name="number">3</field>
+ <field name="discription_arabic">افحص الأمور التالية لتحديد مدى وجود أحداث هامة بعد تاريخ القوائم المالية:
+محاضر اجتماعات لجان أوالإدارة التنفيذية أومجلس الإدارة أوالجمعية العمومية للشركاء.
+أحدث قوائم مالية (فى حالة توافرها) أوميزان مراجعة ودفاتر مالية.
+أحدث ميزان مراجعة وقيود تسويات هامة ودفتر النقدية</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_305" model="program.line">
+ <field name="number">4</field>
+ <field name="discription_arabic">خذ باعتبارك التغيرات ذات الطبيعة غير المؤقتة فى أسعار العملات الأجنبية</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_306" model="program.line">
+ <field name="number">5</field>
+ <field name="discription_arabic">استسفر من المديرين المسئولين عن الأمور المالية والمحاسبية حول:
+الالتزامات المحتملة والارتباطات فى تاريخ القوائم المالية وتاريخ الاستسفار
+أى تغيرات هامة فى الملكية أوالقروض طويلة الأجل أورأس المال العامل حتى تاريخ الاستفسار
+أى تسويات غير طبيعية تم إجراؤها بعد تاريخ القوائم المالية
+موقف ارتباطات الشراء أوالبيع ذات الطبيعة غير العادية
+أى أمور هامة أخرى (منازعات قضائية، أثر تغير تشريعات)</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_307" model="program.line">
+ <field name="number">6</field>
+ <field name="discription_arabic">احصل على خطاب تأكيدات محدث (متى كان ذلك ضروريا)</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_308" model="program.line">
+ <field name="number">7</field>
+ <field name="discription_arabic">قم بتقويم الأحداث بعد تاريخ القوائم المالية التى تم تحديدها عن طريق مراجعى الشركات التابعة والزميلة</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
+<record id="demo_program_line_gap_309" model="program.line">
+ <field name="number">8</field>
+ <field name="discription_arabic">قم بحصر الأحداث التالية التي تتطلب تعديل القوائم المالية (النوع الأول من الأحداث التالية) والأحداث التالية التي تتطلب إفصاح (النوع الثاني من الأحداث التالية).</field>
+ <field name="discription_english"></field>
+ <field name="subject">subsequent_events</field>
+</record>
 </odoo>

@@ -10,9 +10,10 @@ class VatDeclarationLine(models.Model):
 
     declaration_id = fields.Many2one('vat.declaration', string='VAT Declaration', required=True)
     line_type = fields.Selection([
-        ('sales', 'Sales'),
-        ('expenses', 'Expenses')
-    ], string='Line Type', required=True)
+        ('sale', 'Sales'),
+        ('purchase', 'purchase'),
+         ('none', 'none')
+    ], string='Line Type' ,related="tax_id.type_tax_use")
 
     tax_id = fields.Many2one('account.tax', string='Tax', required=True)
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
@@ -50,6 +51,10 @@ class VatDeclarationLine(models.Model):
             if line.line_type == 'sales':
                 taxes[line.tax_id.id] = {'taxamount': 0.0, 'amount': 0.0}
 
+        # purchase_taxes = {}
+        # for line in self:
+        #     if line.line_type == 'purchase':
+        #         purchase_taxes[line.tax_id.id] = {'taxamount': 0.0, 'amount': 0.0}
         # Generate SQL with date filters
         tables, where_clause, where_params = self.env['account.move.line']._query_get()
 
@@ -102,8 +107,8 @@ class VatDeclaration(models.Model):
         readonly=True
     )
 
-    vat_sales_outputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Sales and Outputs', domain=[('line_type', '=', 'sales')])
-    vat_expenses_inputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Expenses and Inputs', domain=[('line_type', '=', 'expenses')])
+    vat_sales_outputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Sales and Outputs')
+    vat_expenses_inputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Expenses and Inputs')
 
     total_sales = fields.Float(string='Total Sales', compute='_compute_totals', store=True)
     total_sales_vat = fields.Float(string='Total Sales VAT', compute='_compute_totals', store=True)
@@ -157,7 +162,7 @@ class VatDeclaration(models.Model):
         for tax in self.env['account.tax'].search([]):
             vat_sales_lines.append((0, 0, {
             'declaration_id': self.id,
-            'line_type': 'sales',
+            # 'line_type': 'sales',
             'tax_id': tax.id,
             'description': tax.description,
             'amount': 0.0,
@@ -167,7 +172,7 @@ class VatDeclaration(models.Model):
         for tax in self.env['account.tax'].search([]):
             vat_expense_lines.append((0, 0, {
             'declaration_id': self.id,
-            'line_type': 'expenses',
+            # 'line_type': 'expenses',
             'tax_id': tax.id,
             'description': tax.description,
             'amount': 0.0,
