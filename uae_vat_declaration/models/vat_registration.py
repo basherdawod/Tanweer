@@ -34,7 +34,7 @@ class VatRegistration(models.Model):
     vat_due_date_q4 = fields.Date(string='VAT Due Date Q4', compute='_compute_vat_due_dates', store=True)
     corporate_tax_due_date = fields.Date(string='Corporate Tax Due Date', compute='_compute_due_date', store=True)
     status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status', default='draft')
-    creation_date = fields.Date(string='Creation Date')
+    creation_date = fields.Date(string='Creation Date',required=True)
 
 
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)

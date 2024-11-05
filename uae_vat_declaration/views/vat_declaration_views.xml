@@ -30,7 +30,9 @@
                         <group>
                             <field name="due_date"/>
                             <field name="legal_name"/>
-                            <field name="basic_rate_supplies_emirate"/>
+                            <!-- <field name="basic_rate_supplies_emirate"/> -->
+                            <field name="line_type"/>
+
                         </group>
                     </group>
                     <group>
@@ -40,7 +42,7 @@
                     </group>
                 
                     <notebook>
-                        <page string="VAT on Sales and Outputs">
+                        <page string="VAT Information">
                             <field name="vat_sales_outputs">
                                 <tree editable="bottom">
                                     <field name="description" widget="text"/>
@@ -57,7 +59,7 @@
                                 <field name="total_sales_vat" class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
-                        <page string="VAT on Expenses and Inputs">
+                      <!--   <page string="VAT on Expenses and Inputs">
                             <field name="vat_expenses_inputs">
                                 <tree editable="bottom">
                                     <field name="description" widget="text"/>
@@ -80,7 +82,7 @@
                                 <field name="total_expenses_vat"/>
                                 <field name="net_vat" class="oe_subtotal_footer_separator"/>
                             </group>
-                        </page>
+                        </page> -->
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

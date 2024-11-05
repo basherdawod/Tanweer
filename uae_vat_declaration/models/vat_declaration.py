@@ -11,9 +11,9 @@ class VatDeclarationLine(models.Model):
     declaration_id = fields.Many2one('vat.declaration', string='VAT Declaration', required=True)
     line_type = fields.Selection([
         ('sale', 'Sales'),
-        ('purchase', 'purchase'),
-         ('none', 'none')
-    ], string='Line Type' ,related="tax_id.type_tax_use")
+        ('purchase', 'Purchase'),
+        ('none','None')
+    ], string='Line Type', related="tax_id.type_tax_use")
 
     tax_id = fields.Many2one('account.tax', string='Tax', required=True)
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
@@ -48,13 +48,8 @@ class VatDeclarationLine(models.Model):
 
         taxes = {}
         for line in self:
-            if line.line_type == 'sales':
-                taxes[line.tax_id.id] = {'taxamount': 0.0, 'amount': 0.0}
+            taxes[line.tax_id.id] = {'taxamount': 0.0, 'amount': 0.0}
 
-        # purchase_taxes = {}
-        # for line in self:
-        #     if line.line_type == 'purchase':
-        #         purchase_taxes[line.tax_id.id] = {'taxamount': 0.0, 'amount': 0.0}
         # Generate SQL with date filters
         tables, where_clause, where_params = self.env['account.move.line']._query_get()
 
@@ -126,6 +121,11 @@ class VatDeclaration(models.Model):
         ('q3', 'Q3 Date'),
         ('q4', 'Q4 Date')
     ], string='Quarter Dates')
+    line_type = fields.Selection([
+        ('sale', 'Sales'),
+        ('purchase', 'Purchase'),
+        ('none','All')
+    ], string='Line Type',required=True)
 
 
     @api.depends('vat_sales_outputs', 'vat_expenses_inputs')
@@ -157,31 +157,21 @@ class VatDeclaration(models.Model):
 
     def _generate_lines(self):
         vat_sales_lines = []
-        vat_expense_lines = []
 
         for tax in self.env['account.tax'].search([]):
-            vat_sales_lines.append((0, 0, {
-            'declaration_id': self.id,
-            # 'line_type': 'sales',
-            'tax_id': tax.id,
-            'description': tax.description,
-            'amount': 0.0,
-            'taxamount': 0.0,
-        }))
+            if tax.type_tax_use == self.line_type :
+                vat_sales_lines.append((0, 0, {
+                'declaration_id': self.id,
+                'tax_id': tax.id,
+                'description': tax.description,
+                'amount': 0.0,
+                'taxamount': 0.0,
+            }))
 
-        for tax in self.env['account.tax'].search([]):
-            vat_expense_lines.append((0, 0, {
-            'declaration_id': self.id,
-            # 'line_type': 'expenses',
-            'tax_id': tax.id,
-            'description': tax.description,
-            'amount': 0.0,
-            'taxamount': 0.0,
-        }))
 
         self.with_context(skip_generate_lines=True).write({
         'vat_sales_outputs': vat_sales_lines,
-        'vat_expenses_inputs': vat_expense_lines,
+        # 'vat_expenses_inputs': vat_expense_lines,
     })
 
     @api.onchange('vat_registration_id', 'q_dates')

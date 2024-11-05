@@ -61,7 +61,7 @@
 
 
 
-    <menuitem id="menu_authorised_signatory_parent"
+<!--     <menuitem id="menu_authorised_signatory_parent"
               name="Authorised Signatory"
               parent="menu_uae_vat_main"
               sequence="2"/>
@@ -70,6 +70,6 @@
               name="Authorised Signatory"
               action="action_authorised_signatory"
               parent="menu_authorised_signatory_parent"
-              sequence="1"/>
+              sequence="1"/> -->
 
 </odoo>

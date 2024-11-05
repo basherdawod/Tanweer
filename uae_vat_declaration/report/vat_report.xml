@@ -176,13 +176,13 @@
                                         أ التوريدات الخاضعة للنسبة الأساسية في أبوظبي
                                         </td>
                                         <td style="text-align:right;padding: 10px;">
-                                            <!-- <span t-esc="o.amount_db"/> -->
+                                       
                                         </td>
                                         <td style="text-align:right;padding: 10px;">
-                                            <!-- <span t-esc="o.amount_db"/> -->
+                                           
                                         </td>
                                         <td style="text-align:right;padding: 10px;">
-                                            <!-- <span t-esc="o.amount_db"/> -->
+                                            
                                         </td>
                                     </tr>
                                     <tr>
@@ -191,13 +191,13 @@
                                         ب  التوريدات الخاضعة للنسبة الأساسية في دبي
                                         </td>
                                         <td style="text-align:right;padding: 10px;">
-                                            <span t-esc="o.amount_db"/>
+                                            
                                         </td>
                                         <td style="text-align:right;padding: 10px;">
-                                            <span t-esc="o.amount_db"/>
+                                         
                                         </td>
                                         <td style="text-align:right;padding: 10px;">
-                                           <span t-esc="o.amount_db"/>
+                                          
                                         </td>
                                     </tr>
                                     <tr>

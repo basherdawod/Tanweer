@@ -20,16 +20,17 @@
             </div>
         <group>
             <group>
-                <field name="legal_name_english"/>
-                <field name="legal_name_arabic"/>
-                <field name="basic_rate_supplies_emirate"/>
-            </group>
-            <group>
-                <field name="reverse_charge_mechanism"/>
-                <!-- <field name="year"/> -->
                 <field name="tax_type"/>
                 <field name="company_vat"/>
+                <field name="legal_name_english"/>
+                <field name="legal_name_arabic"/>
                 <field name="creation_date"/>
+                <!-- <field name="basic_rate_supplies_emirate"/> -->
+            </group>
+            <group>
+                <!-- <field name="reverse_charge_mechanism"/> -->
+                <!-- <field name="year"/> -->
+                
                 <!-- <field name="st"/> -->
             </group>
         </group>
