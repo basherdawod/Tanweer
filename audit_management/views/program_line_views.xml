@@ -48,7 +48,7 @@
         </field>
     </record>
 
-    <menuitem id="menu_program_line_audit" name="Program Line" parent="account.menu_finance" action="action_program_line"/>
+   
 
     <record id="action_program_line" model="ir.actions.act_window">
         <field name="name">Program Line</field>
@@ -57,4 +57,5 @@
             <field name="context">{'search_default_subject': 1}</field>
     </record>
 
+     <menuitem id="menu_program_line_audit" name="Program Line" parent="account.menu_finance" action="action_program_line"/>
 </odoo>

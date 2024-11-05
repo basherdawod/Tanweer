@@ -11,15 +11,27 @@ class AuditProgram(models.Model):
 
     name = fields.Char(string='Audit Program Name', required=True)
     code = fields.Selection([
-        ('F1', 'F1'), ('F2', 'F2'), ('GP', 'GP'), ('h_p_1', 'HP1'), ('h_p_2', 'HP2'), ('h_p_3', 'HP3'),
-        ('h_p_4', 'HP4'),
-        ('h_p_5', 'HP5'), ('i_p', 'IP'), ('j_p', 'JP'), ('l_p', 'LP'),
-        ('MP', 'MP'), ('NP1', 'NP1'), ('NP2', 'NP2'), ('NP3', 'NP3'), ('OP', 'OP'), ('PP1', 'PP1'), ('PP2', 'PP2'),
-        ('PP3', 'PP3'), ('QP1', 'QP1'), ('QP2', 'QP2'),
-        ('RP1', 'RP1'), ('RP2', 'RP2'), ('RP3', 'RP3'), ('SP1', 'SP1'), ('SP2', 'SP2'), ('SP3', 'SP3'), ('SP4', 'SP4'),
-        ('TP1', 'TP1'), ('TP2', 'TP2'), ('TP3', 'TP3'), ('UP1', 'UP1'),
-        ('UP2', 'UP2'), ('UP3', 'UP3'), ('UP4', 'UP4'), ('UP5', 'UP5'), ('VP1', 'VP1'), ('VP2', 'VP2'), ('WP1', 'WP1'),
-        ('WP2', 'WP2'), ('XP', 'YP')], string='code')
+        ('F1', 'F1'), ('F2', 'F2'), # 1 ,2
+        ('GP', 'GP'), ('h_p_1', 'HP1'),  # 3 ,4
+        ('h_p_2', 'HP2'), ('h_p_3', 'HP3'),  # 5 ,6
+        ('h_p_4', 'HP4'),('h_p_5', 'HP5'),  # 7 ,8
+        ('i_p', 'IP'), ('j_p', 'JP'),  # 9 ,10
+        ('l_p', 'LP'),('MP', 'MP'),      # 11 ,12
+        ('NP1', 'NP1'), ('NP2', 'NP2'),  # 13 ,14
+        ('NP3', 'NP3'), ('OP', 'OP'),    # 15 ,16
+        ('PP1', 'PP1'), ('PP2', 'PP2'),  # 17 ,18
+        ('PP3', 'PP3'), ('QP1', 'QP1'),      # 19 ,20
+        ('QP2', 'QP2'), ('RP1', 'RP1'),      # 21 ,22
+        ('RP2', 'RP2'), ('RP3', 'RP3'),      # 23 ,24
+        ('SP1', 'SP1'), ('SP2', 'SP2'),      # 25 ,26
+        ('SP3', 'SP3'), ('SP4', 'SP4'),      # 27 ,28
+        ('TP1', 'TP1'), ('TP2', 'TP2'),      # 29 ,30
+        ('TP3', 'TP3'), ('UP1', 'UP1'),      # 31 ,32
+        ('UP2', 'UP2'), ('UP3', 'UP3'),      # 33 ,34
+        ('UP4', 'UP4'), ('UP5', 'UP5'),      # 35 ,36
+        ('VP1', 'VP1'), ('VP2', 'VP2'),      # 37 ,38
+        ('WP1', 'WP1'),('WP2', 'WP2'),       # 39 ,40
+        ('XP', 'XP'),('YP', 'YP')], string='code')        # 41 ,42
 
     date = fields.Date(string='Date')
     review_date = fields.Date(string='Date Review')
@@ -41,27 +53,27 @@ class AuditProgram(models.Model):
         required=True)
     subject = fields.Selection(
         string='Subject',
-        selection=[('gap', 'General Audit Procedures'),('nlap', 'Nominal Ledger Audit Program'),
-                   ('saop', 'Sales and operating income'),('gaex', 'General and administrative expenses'),
-                   ('coic', 'Costs in industrial companies'),('purchases', 'Purchases'),
-                   ('direct_costs', 'Direct costs'),('salaries_wages', 'Salaries and wages'),
-                   ('i_f_investments', 'Income from investments'),('miscellaneous_revenues', 'Miscellaneous revenues'),
-                   ('loans', 'Loans'),('intangible_assets_goodwill)', 'Intangible assets (goodwill - equity)'),
-                   ('fixed_assets', 'Fixed assets'),('establishment_expenses)', 'Establishment expenses'),
-                   ('Projects_under_implementation', 'Projects under implementation'),('related_parties)', 'Related Parties'),
-                   ('investments', 'Investments'),('i_a_related_companies)', 'Investments in affiliated and related companies'),
-                   ('stocks_mutual_funds', 'Investments in stocks and mutual funds'),('stock)', 'Stock'),
-                   ('documentary_credits', 'Documentary credits'),('trade_debtors)', 'Trade debtors'),
-                   ('provision_doubtful_debts', 'Provision for doubtful debts'),('advance_payment_suppliers)', 'Advance Payment Suppliers'),
-                   ('cash_in_hand_trust', 'Cash in hand and trust'),('cash_in_banks)', 'Cash in Banks'),
-                   ('bank_deposits', 'Bank Deposits'),('checks_under_collection)', 'Checks under collection'),
-                   ('accrued_expenses', 'Accrued Expenses'),('s_t_c_notes_payable)', 'Suppliers, Trade Creditors and Notes Payable'),
-                   ('r_r_a_from_customers', 'Revenue received in advance from customers'),('prepaid_expenses)', 'prepaid expenses'),
-                   ('other_debit_balances_m', 'Other Debit Balances - Miscellaneous Debtors'),('accrued_revenue)', 'Accrued revenue'),
-                   ('bounced_checks', 'Bounced checks'),('third_party_insurance)', 'Third party Insurance'),
-                   ('allocations', 'Allocations'),('miscellaneous_creditors)', 'Miscellaneous Creditors'),
-                   ('capital', 'Capital'),('retained_earnings)', 'Retained Earnings'),
-                   ('contingent_liabilities_commitments', 'Contingent Liabilities and Contingent Commitments'),('subsequent_events)', 'Subsequent events'),
+        selection=[('gap', 'General Audit Procedures'),('nlap', 'Nominal Ledger Audit Program'),   # 1,2 
+                   ('saop', 'Sales and operating income'),('gaex', 'General and administrative expenses'),# 3,4 
+                   ('coic', 'Costs in industrial companies'),('purchases', 'Purchases'),# 5,6 
+                   ('direct_costs', 'Direct costs'),('salaries_wages', 'Salaries and wages'),# 7,8 
+                   ('i_f_investments', 'Income from investments'),('miscellaneous_revenues', 'Miscellaneous revenues'),# 9,10 
+                   ('loans', 'Loans'),('intangible_assets_goodwill', 'Intangible assets (goodwill - equity)'),# 11,12 
+                   ('fixed_assets', 'Fixed assets'),('establishment_expenses', 'Establishment expenses'),# 13,14 
+                   ('Projects_under_implementation', 'Projects under implementation'),('related_parties', 'Related Parties'),# 15,16 
+                   ('investments', 'Investments'),('i_a_related_companies', 'Investments in affiliated and related companies'),# 17,18 
+                   ('stocks_mutual_funds', 'Investments in stocks and mutual funds'),('stock', 'Stock'),# 19,20 
+                   ('documentary_credits', 'Documentary credits'),('trade_debtors)', 'Trade debtors'),# 21,22 
+                   ('provision_doubtful_debts', 'Provision for doubtful debts'),('advance_payment_suppliers', 'Advance Payment Suppliers'),# 23,24 
+                   ('cash_in_hand_trust', 'Cash in hand and trust'),('cash_in_banks)', 'Cash in Banks'),# 25,26 
+                   ('bank_deposits', 'Bank Deposits'),('checks_under_collection)', 'Checks under collection'),# 27,28 
+                   ('accrued_expenses', 'Accrued Expenses'),('s_t_c_notes_payable', 'Suppliers, Trade Creditors and Notes Payable'),# 29,30 
+                   ('r_r_a_from_customers', 'Revenue received in advance from customers'),('prepaid_expenses', 'prepaid expenses'),# 31,32 
+                   ('other_debit_balances_m', 'Other Debit Balances - Miscellaneous Debtors'),('accrued_revenue', 'Accrued revenue'),# 33,34 
+                   ('bounced_checks', 'Bounced checks'),('third_party_insurance', 'Third party Insurance'),# 35,36 
+                   ('allocations', 'Allocations'),('miscellaneous_creditors', 'Miscellaneous Creditors'),# 37,38 
+                   ('capital', 'Capital'),('retained_earnings', 'Retained Earnings'),# 39,40 
+                   ('contingent_liabilities_commitments', 'Contingent Liabilities and Contingent Commitments'),('subsequent_events)', 'Subsequent events'),# 41,42 
                    ],required=False ,readonly=True )
 
     prepared_by = fields.Many2one('res.users', string='Prepared By')

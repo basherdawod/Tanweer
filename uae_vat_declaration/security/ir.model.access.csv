@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_vat_declaration_user,vat.declaration.user,model_vat_declaration,account.group_account_user,1,1,1,1
-access_vat_declaration_manager,vat.declaration.manager,model_vat_declaration,account.group_account_manager,1,1,1,1
-access_vat_registration_user,vat.registration.user,model_vat_registration,account.group_account_user,1,1,1,1
-access_vat_registration_manager,vat.registration.manager,model_vat_registration,account.group_account_manager,1,1,1,1
-access_vat_declaration_line_user,vat.declaration.line.user,model_vat_declaration_line,account.group_account_user,1,1,1,1
-access_vat_declaration_line_manager,vat.declaration.line.manager,model_vat_declaration_line,account.group_account_manager,1,1,1,1
-access_authorised_signatory_user,authorised.signatory.user,model_authorised_signatory,account.group_account_user,1,1,1,1
-access_authorised_signatory_manager,authorised.signatory.manager,model_authorised_signatory,account.group_account_manager,1,1,1,1
