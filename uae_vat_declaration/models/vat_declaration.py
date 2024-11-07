@@ -19,12 +19,13 @@ class VatDeclarationLine(models.Model):
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
     amount = fields.Float(string='Amount' ,compute='_compute_tax_amount',store=True)
     taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True)
+    # adjustment = fields.Float(string='Adjustment')
 
     def _sql_from_amls_one(self, start_date, end_date):
         sql = """SELECT "account_move_line".tax_line_id, 
                  COALESCE(SUM("account_move_line".debit - "account_move_line".credit), 0)
-                 FROM %s
-                 WHERE %s AND "account_move_line".date >= %s AND "account_move_line".date <= %s
+                 FROM %s 
+                 WHERE %s AND "account_move_line".date >= %s AND"account_move_line".date <= %s
                  GROUP BY "account_move_line".tax_line_id"""
         return sql
 
@@ -90,7 +91,7 @@ class VatDeclaration(models.Model):
     name = fields.Char(string='Reference', readonly=True, default='New')
     date_from = fields.Date(string='From Date')
     date_to = fields.Date(string='To Date')
-    vat_registration_id = fields.Many2one('vat.registration', string='VAT Registration', required=True)
+    vat_registration_id = fields.Many2one('vat.registration', string='VAT Registration', required=True,domain="[('tax_type', '=', 'vat')]")
     trn = fields.Char(string='TRN', related='vat_registration_id.trn', readonly=True, store=True)
     due_date = fields.Date(string='Due Date')
     legal_name = fields.Char(string='Legal Name of Entity', related='vat_registration_id.legal_name_english', readonly=True, store=True)
@@ -160,6 +161,14 @@ class VatDeclaration(models.Model):
 
         for tax in self.env['account.tax'].search([]):
             if tax.type_tax_use == self.line_type :
+                vat_sales_lines.append((0, 0, {
+                'declaration_id': self.id,
+                'tax_id': tax.id,
+                'description': tax.description,
+                'amount': 0.0,
+                'taxamount': 0.0,
+            }))
+            else:
                 vat_sales_lines.append((0, 0, {
                 'declaration_id': self.id,
                 'tax_id': tax.id,

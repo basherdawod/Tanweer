@@ -4,7 +4,7 @@
      <record id="action_vat_report" model="ir.actions.report">
         <field name="name">VAT 201 Return Report</field> 
         <field name="model">vat.declaration</field>
-        <field name="report_type">qweb-html</field>
+        <field name="report_type">qweb-pdf</field>
         <field name="report_name">uae_vat_declaration.report_contract_template</field>
         <field name="report_file">uae_vat_declaration.report_contract_template</field> 
         <field name="binding_model_id" ref="model_vat_declaration"/> 

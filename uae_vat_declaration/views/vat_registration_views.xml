@@ -15,16 +15,18 @@
         <sheet>
             <div class="oe_title">
                 <h1>
-                    <field name="company_vat" readonly="1"/>
+                    <!-- <field name="company_vat" readonly="1"/> -->
                 </h1>
             </div>
         <group>
             <group>
+                 <field name="creation_date"/>
                 <field name="tax_type"/>
                 <field name="company_vat"/>
+                <field name="company_corprate_tax"/>
                 <field name="legal_name_english"/>
                 <field name="legal_name_arabic"/>
-                <field name="creation_date"/>
+               
                 <!-- <field name="basic_rate_supplies_emirate"/> -->
             </group>
             <group>

@@ -4,7 +4,7 @@
         <field name="name">vat.declaration.form</field>
         <field name="model">vat.declaration</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Vat Declaration">
                 <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
@@ -25,22 +25,14 @@
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="trn"/>
-                            <!-- <field name="total_amount_s"/> -->
                         </group>
                         <group>
                             <field name="due_date"/>
                             <field name="legal_name"/>
-                            <!-- <field name="basic_rate_supplies_emirate"/> -->
                             <field name="line_type"/>
 
                         </group>
                     </group>
-                    <group>
-                        <group>
-                            <field name="signatore_id"/>
-                        </group>
-                    </group>
-                
                     <notebook>
                         <page string="VAT Information">
                             <field name="vat_sales_outputs">
@@ -48,10 +40,7 @@
                                     <field name="description" widget="text"/>
                                     <field name="amount"/>
                                     <field name="taxamount"/>
-                                    <!-- <field name="adjestment"/> -->
                                     <field name='line_type'/>
-                                    <!-- <field name="tax_ids" widget="many2many_tags"/> -->
-
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer">

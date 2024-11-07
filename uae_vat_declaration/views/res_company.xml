@@ -7,6 +7,9 @@
             <xpath expr="//field[@name='name']" position="after">
                 <field name="name_ar" placeholder="Name In Arabic"/>
             </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="corporate_tax"/>
+            </xpath>
         </field>
     </record>
 </odoo>

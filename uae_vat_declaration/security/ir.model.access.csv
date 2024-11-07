@@ -7,3 +7,5 @@ access_vat_declaration_line_user,vat.declaration.line.user,model_vat_declaration
 access_vat_declaration_line_manager,vat.declaration.line.manager,model_vat_declaration_line,account.group_account_manager,1,1,1,1
 access_authorised_signatory_user,authorised.signatory.user,model_authorised_signatory,account.group_account_user,1,1,1,1
 access_authorised_signatory_manager,authorised.signatory.manager,model_authorised_signatory,account.group_account_manager,1,1,1,1
+access_corporate_tax_user,corporate.tax.user,model_corporate_tax,account.group_account_user,1,1,1,1
+access_corporate_tax_manager,corporate.tax.manager,model_corporate_tax,account.group_account_manager,1,1,1,1

@@ -39,6 +39,7 @@ class VatRegistration(models.Model):
 
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
     company_vat = fields.Char(string='Company VAT', related='company_id.vat', store=True, readonly=True)
+    company_corprate_tax = fields.Char(string='Corporate Tax', related='company_id.corporate_tax', store=True, readonly=True)
 
 
 
