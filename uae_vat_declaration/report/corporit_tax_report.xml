@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_corporit_template">
+        <t t-call="web.html_container">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    
+                    <div class="page" style="padding:10px;">
+                    <t t-foreach="docs" t-as="o">
+                   
+                       
+                            <div style="font-weight: bold; color: #000000; text-align: center;">
+                                <h4 style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 10px ">
+                                   Corporte Tax - ضريبة الشركات 
+                                </h4>
+                            </div>
+
+                            <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
+                        <div style="width: 100%;text-align: right;margin-right:20px;direction:rtl;">
+                            <br/><br/>
+                            <br/><br/>
+                            <div>  TRN: <t t-esc="o.vat_registration_id.company_corprate_tax"/> </div>
+                            <br/><br/>
+                            <div>الاسم القانوني للكيان باللغة الإنجليزية: <t t-esc="o.legal_name"/></div>
+                        </div>
+                                <br/><br/>
+                                <hr style="border: 2px solid black;margin: 20px;" />
+                                <br/><br/>
+                            <table border="2" style="width: 40;padding: 10px;">
+                                <thead style="background-color: #d3d3d3;">
+                                    <tr>
+                                        <th style="width:40%; text-align:left;padding: 10px;">Corporte Tax <br/> ضريبة الشركات </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                            
+                                    
+                                            <tr>
+                                                <td style="text-align: left; padding: 10px;">
+                                                    <t t-esc="o.income_total"/>
+                                                </td>
+                                
+                                            </tr>
+
+                                     
+                           
+                                   
+                                </tbody>
+                            </table>
+                    </t>
+                  </div>
+            
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

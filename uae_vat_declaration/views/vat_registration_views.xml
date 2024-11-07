@@ -20,33 +20,30 @@
             </div>
         <group>
             <group>
-                 <field name="creation_date"/>
-                <field name="tax_type"/>
+                 <field name="creation_date" readonly="status != 'draft'"/>
+                <field name="tax_type" readonly="status != 'draft'"/>
                 <field name="company_vat"/>
+                
+                <!-- <field name="basic_rate_supplies_emirate"/> -->
+            </group>
+            <group>
                 <field name="company_corprate_tax"/>
                 <field name="legal_name_english"/>
                 <field name="legal_name_arabic"/>
                
-                <!-- <field name="basic_rate_supplies_emirate"/> -->
-            </group>
-            <group>
-                <!-- <field name="reverse_charge_mechanism"/> -->
-                <!-- <field name="year"/> -->
-                
-                <!-- <field name="st"/> -->
             </group>
         </group>
         <group>
             <group string="Date Due Return VAT">
-                <field name="vat_due_date_q1"/>
-                <field name="vat_due_date_q2"/>
-                <field name="vat_due_date_q3"/>
-                <field name="vat_due_date_q4"/>
+                <field name="vat_due_date_q1" readonly="status != 'draft'"/>
+                <field name="vat_due_date_q2" readonly="status != 'draft'"/>
+                <field name="vat_due_date_q3" readonly="status != 'draft'"/>
+                <field name="vat_due_date_q4" readonly="status != 'draft'"/>
             </group>
         
-            <group string="Corporate Tax Due Date">
+          <!--   <group string="Corporate Tax Due Date">
                 <field name="corporate_tax_due_date"/>
-            </group>
+            </group> -->
         </group>
     </sheet>
       <div class="oe_chatter">

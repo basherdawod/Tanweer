@@ -108,6 +108,8 @@ class VatDeclaration(models.Model):
 
     total_sales = fields.Float(string='Total Sales', compute='_compute_totals', store=True)
     total_sales_vat = fields.Float(string='Total Sales VAT', compute='_compute_totals', store=True)
+    total_purchase = fields.Float(compute="_compute_totals", string="Total Purchase", store=True)
+    total_purchase_vat = fields.Float(compute="_compute_totals", string="Total Purchase VAT", store=True)
     total_expenses = fields.Float(string='Total Expenses', compute='_compute_totals', store=True)
     total_expenses_vat = fields.Float(string='Total Expenses VAT', compute='_compute_totals', store=True)
     net_vat = fields.Float(string='Net VAT Due', compute='_compute_totals', store=True)
@@ -129,14 +131,24 @@ class VatDeclaration(models.Model):
     ], string='Line Type',required=True)
 
 
-    @api.depends('vat_sales_outputs', 'vat_expenses_inputs')
+    # @api.depends('vat_sales_outputs')
+    # def _compute_totals(self):
+    #     for record in self:
+    #         record.total_sales = sum(record.vat_sales_outputs.mapped('amount'))
+    #         record.total_sales_vat = sum(record.vat_sales_outputs.mapped('taxamount'))
+    
+    @api.depends('vat_sales_outputs')
     def _compute_totals(self):
         for record in self:
-            record.total_sales = sum(record.vat_sales_outputs.mapped('amount'))
-            record.total_sales_vat = sum(record.vat_sales_outputs.mapped('taxamount'))
-            record.total_expenses = sum(record.vat_expenses_inputs.mapped('amount'))
-            record.total_expenses_vat = sum(record.vat_expenses_inputs.mapped('taxamount'))
-            record.net_vat = record.total_sales_vat - record.total_expenses_vat
+            # اجمالي المبيعات
+            sales_lines = record.vat_sales_outputs.filtered(lambda line: line.line_type == 'sale')
+            record.total_sales = sum(sales_lines.mapped('amount'))
+            record.total_sales_vat = sum(sales_lines.mapped('taxamount'))
+            
+            # اجمالي المشتريات
+            purchase_lines = record.vat_sales_outputs.filtered(lambda line: line.line_type == 'purchase')
+            record.total_purchase = sum(purchase_lines.mapped('amount'))
+            record.total_purchase_vat = sum(purchase_lines.mapped('taxamount'))
 
 
     def set_to_draft(self):

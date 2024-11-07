@@ -40,10 +40,13 @@
                                 <field name="costs"/>
                                 <field name="taxes"/>
                                 <field name="exemptions"/> -->
+                                <field name="income_total"/>
+                       <!--          <field name="net_profit"/>
+                                <field name="corporate_tax"/>
                                 <field name="amount"/>
                                 <field name="total_credit"/>
                                 <field name="total_debit"/>
-                                <field name="total_current_balance"/>
+                                <field name="total_current_balance"/> -->
                             </group>
                         </group>
                     </page>

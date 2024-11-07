@@ -21,21 +21,21 @@
                     <group>
                         <group>
                             <field name="vat_registration_id" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="q_dates"/>
+                            <field name="q_dates" />
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="trn"/>
                         </group>
                         <group>
-                            <field name="due_date"/>
+                            <field name="due_date" readonly="status != 'draft'"/>
                             <field name="legal_name"/>
-                            <field name="line_type"/>
+                            <field name="line_type" readonly="status != 'draft'"/>
 
                         </group>
                     </group>
                     <notebook>
                         <page string="VAT Information">
-                            <field name="vat_sales_outputs">
+                            <field name="vat_sales_outputs" readonly="status != 'draft'">
                                 <tree editable="bottom">
                                     <field name="description" widget="text"/>
                                     <field name="amount"/>
@@ -46,6 +46,8 @@
                             <group class="oe_subtotal_footer">
                                 <field name="total_sales" class="oe_subtotal_footer_separator"/>
                                 <field name="total_sales_vat" class="oe_subtotal_footer_separator"/>
+                                <field name="total_purchase" class="oe_subtotal_footer_separator"/>
+                                <field name="total_purchase_vat" class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
                       <!--   <page string="VAT on Expenses and Inputs">

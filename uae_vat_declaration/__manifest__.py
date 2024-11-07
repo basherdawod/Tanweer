@@ -29,6 +29,8 @@ It includes:
         'report/vat_report.xml',
         'data/tax_lines.xml',
         'views/corporate_tax.xml',
+        'report/corporit_tax_action.xml',
+        'report/corporit_tax_report.xml'
         
     ],
     'demo': [
