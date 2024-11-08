@@ -23,24 +23,26 @@
                           <!--   <field name="q_dates"/>
                             <field name="date_from"/>
                             <field name="date_to"/> -->
-                            <field name="trn"/>
+                            <field name="corporate_tax_number"/>
+                    
                         </group>
                         <group>
                             <!-- <field name="due_date"/> -->
                             <field name="legal_name"/>
+                            
                             <!-- <field name="line_type"/> -->
 
                         </group>
                     </group>
                     <notebook>
-                        <page>
+                        <page string="Information">
                         <group>
                             <group>
-                          <!--       <field name="revenue"/>
-                                <field name="costs"/>
-                                <field name="taxes"/>
-                                <field name="exemptions"/> -->
-                                <field name="income_total"/>
+                                <field name="income" readonly='1'/>
+                                <field name="other_income" readonly='1'/>
+                                <field name="expense" readonly='1'/>
+                                <field name="other_expense" readonly='1'/>
+                                <field name="income_total" readonly='1'/>
                        <!--          <field name="net_profit"/>
                                 <field name="corporate_tax"/>
                                 <field name="amount"/>

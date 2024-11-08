@@ -40,6 +40,7 @@ class VatRegistration(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.company)
     company_vat = fields.Char(string='Company VAT', related='company_id.vat', store=True, readonly=True)
     company_corprate_tax = fields.Char(string='Corporate Tax', related='company_id.corporate_tax', store=True, readonly=True)
+    effective_reg_date = fields.Date(string='Effective Regesrtation Date', related='company_id.effective_reg_date', store=True, readonly=True)
 
 
 
@@ -103,7 +104,10 @@ class VatRegistration(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('trn', _('New')) == _('New'):
-                vals['trn'] = self.env['ir.sequence'].next_by_code('vat.trn.sequence') or _('New')
+                sequence_code = 'vat.trn.sequence'
+                reg_sequence = self.env['ir.sequence'].next_by_code(sequence_code) or _('New')
+                vals['trn'] = f"{reg_sequence}/{fields.Date.today().strftime('%Y/%m/%d')}"
+                
         return super(VatRegistration, self).create(vals_list)
 
     @api.constrains('trn')

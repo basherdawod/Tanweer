@@ -3,12 +3,16 @@
         <field name="name">5% - Abu Dhabi</field>
         <field name="description">1a Standard Rated Supplies in Abu Dhabi 
                      أ التوريدات الخاضعة للنسبة الأساسية في ابوظبي</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>             
     </record>
 
     <record id="custom_tax_2" model="account.tax">
         <field name="name">5%  - Dubai</field>
         <field name="description"> 1b Standard Rated Supplies in Dubai
                      ب التوريدات الخاضعة للنسبة الأساسية في دبي</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_3" model="account.tax">
@@ -17,30 +21,40 @@
             1c Standard Rated Supplies in Sharjah 
                      التوريدات الخاضعة للنسبة الأساسية في الشارقة
         </field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_4" model="account.tax">
         <field name="name">5%  - Ajman</field>
         <field name="description">  1d Standard Rated Supplies in Ajman 
                      التوريدات الخاضعة للنسبة الأساسية في عجمان</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_5" model="account.tax">
         <field name="name">5%  - Umm Al Quwain</field>
         <field name="description">1e Standard Rated Supplies in Umm Al Quwain 
                      التوريدات الخاضعة للنسبة الأساسية في ام القوين</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_6" model="account.tax">
         <field name="name">5% - Ras Al Khaimah</field>
         <field name="description">1f Standard Rated Supplies in Ras Al Khaimah 
                      التوريدات الخاضعة للنسبة الأساسية في رأس الخيمة</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_7" model="account.tax">
         <field name="name">5%  - Fujairah</field>
         <field name="description">  1g Standard Rated Supplies in Fujairah 
                      التوريدات الخاضعة للنسبة الأساسية في الفجيرة</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_8" model="account.tax">
@@ -48,18 +62,24 @@
         <field name="description"> 2 Tax Refunds provided to Tourists under the Tax 
                         Refunds for Tourists Scheme
                         المبالغ التي تم ردها للسياح بناء علي نظام رد الضريبة للسياح</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_9" model="account.tax">
         <field name="name">5%  - Reverse Charge</field>
         <field name="description">3 Supplies subject to the reverse charge provisions
                     تخضع التوريدات لأحكام الإحتساب العكسي</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_10" model="account.tax">
         <field name="name">5%  - Zero Rated</field>
         <field name="description">4 Zero Rated Supplies 
                      توريدات خاضعة للنسبة الصفرية</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_11" model="account.tax">
@@ -68,12 +88,16 @@
             5 Exempt Supplies 
                      التوريدات المعفاة
         </field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_12" model="account.tax">
         <field name="name">5%  - Imported Goods</field>
         <field name="description">6 Goods imported into the UAE  
                     البضائع الواردة إلي الدولة</field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_13" model="account.tax">
@@ -82,6 +106,8 @@
             7 Adjustments to goods imported into the UAE 
                    تسوية علي البضائع المتوردة إالي دولة الإمارات العربية المتحدة
         </field>
+        <field name="type_tax_use">sale</field>
+        <field name="amount">5.0</field>
     </record>
 
    <!--  <record id="custom_tax_14" model="account.tax">
@@ -96,6 +122,8 @@
             9 Standard Rated Expenses  
                     النفقات الخاضعة للنسبة الأساسية
         </field>
+        <field name="type_tax_use">purchase</field>
+        <field name="amount">5.0</field>
     </record>
 
     <record id="custom_tax_16" model="account.tax">
@@ -103,6 +131,8 @@
         <field name="description">10 Supplies subject to the reverse charge provisions
                     تخضع التوريدات لأحكام الإحتساب العكسي 
         </field>
+        <field name="type_tax_use">purchase</field>
+        <field name="amount">5.0</field>
     </record>
 
    <!--  <record id="custom_tax_17" model="account.tax">

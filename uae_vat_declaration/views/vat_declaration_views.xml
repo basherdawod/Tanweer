@@ -27,19 +27,19 @@
                             <field name="trn"/>
                         </group>
                         <group>
-                            <field name="due_date" readonly="status != 'draft'"/>
+                            <field name="effective_reg_date"/>
                             <field name="legal_name"/>
-                            <field name="line_type" readonly="status != 'draft'"/>
+                            <!-- <field name="line_type" readonly="status != 'draft'"/> -->
 
                         </group>
                     </group>
                     <notebook>
                         <page string="VAT Information">
-                            <field name="vat_sales_outputs" readonly="status != 'draft'">
-                                <tree editable="bottom">
+                            <field name="vat_sales_outputs" widget="one2many_list" editable="bottom">
+                                <tree>
                                     <field name="description" widget="text"/>
-                                    <field name="amount"/>
-                                    <field name="taxamount"/>
+                                    <field name="amount" editable="true"/>
+                                    <field name="taxamount" editable="true"/>
                                     <field name='line_type'/>
                                 </tree>
                             </field>
@@ -125,10 +125,15 @@
               parent="account.menu_finance"
               sequence="10"/>
 
+    <menuitem id="menu_corporate_tax_parent"
+              name="Corporate Tax"
+              parent="menu_uae_vat_main"
+              sequence="1"/>
+
     <menuitem id="menu_vat_declaration_parent"
               name="VAT Declarations"
               parent="menu_uae_vat_main"
-              sequence="1"/>
+              sequence="2"/>
 
     <menuitem id="menu_vat_declaration_list"
               name="Declaration List"
@@ -147,6 +152,6 @@
     <menuitem id="menu_vat_registration"
               name="VAT Registration"
               action="action_vat_registration"
-              parent="menu_uae_vat_main"
-              sequence="2"/>
+              parent="menu_corporate_tax_parent"
+              sequence="1"/>
 </odoo>

@@ -15,6 +15,7 @@ It includes:
     'data': [
         'data/vat_declaration_sequence.xml',
         'data/vat_registration_sequence.xml',
+        'data/corporate_tax_sequance.xml',
         'report/vat_report_action.xml',
         'report/vat_report.xml',
         'data/cron_job.xml',

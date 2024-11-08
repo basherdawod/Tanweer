@@ -7,15 +7,15 @@
     <form>
         <header>
                 <field name="status" widget="statusbar"/>
-                <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
-                    invisible="status  in  ('draft')" />
+               <!--  <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
+                    invisible="status  in  ('draft')" /> -->
                 <button string="Done" name="set_to_done" type="object" class="oe_highlight"
                     invisible="status  in  ('done')"/>
         </header>
         <sheet>
             <div class="oe_title">
                 <h1>
-                    <!-- <field name="company_vat" readonly="1"/> -->
+                    <field name="trn" readonly="1"/>
                 </h1>
             </div>
         <group>
@@ -30,6 +30,7 @@
                 <field name="company_corprate_tax"/>
                 <field name="legal_name_english"/>
                 <field name="legal_name_arabic"/>
+                <field name="effective_reg_date"/>
                
             </group>
         </group>
@@ -76,6 +77,6 @@
     <menuitem id="menu_vat_registration"
               name="VAT Registration"
               action="action_vat_registration"
-              parent="menu_vat_declaration_parent"
-              sequence="10"/>
+              parent="menu_corporate_tax_parent"
+              sequence="1"/>
 </odoo>

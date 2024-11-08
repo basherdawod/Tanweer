@@ -17,9 +17,9 @@ class VatDeclarationLine(models.Model):
 
     tax_id = fields.Many2one('account.tax', string='Tax', required=True)
     description = fields.Char(string='Description', related='tax_id.description', readonly=True)
-    amount = fields.Float(string='Amount' ,compute='_compute_tax_amount',store=True)
-    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True)
-    # adjustment = fields.Float(string='Adjustment')
+    amount = fields.Float(string='Amount' ,compute='_compute_tax_amount',store=True, readonly=False)
+    taxamount = fields.Float(string='Tax Amount', compute='_compute_tax_amount', store=True, readonly=False)
+    adjustment = fields.Float(string='Adjustment',default="0.0")
 
     def _sql_from_amls_one(self, start_date, end_date):
         sql = """SELECT "account_move_line".tax_line_id, 
@@ -83,12 +83,16 @@ class VatDeclarationLine(models.Model):
                 line.taxamount = taxes[line.tax_id.id]['taxamount']
 
 
+    @api.onchange('amount')
+    def _onchange_amount(self):
+        pass
+
 class VatDeclaration(models.Model):
     _name = 'vat.declaration'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'VAT Declaration 201'
 
-    name = fields.Char(string='Reference', readonly=True, default='New')
+    name = fields.Char(string='Reference', readonly=True, copy=False, default=lambda self: _('New'), unique=True)
     date_from = fields.Date(string='From Date')
     date_to = fields.Date(string='To Date')
     vat_registration_id = fields.Many2one('vat.registration', string='VAT Registration', required=True,domain="[('tax_type', '=', 'vat')]")
@@ -103,9 +107,8 @@ class VatDeclaration(models.Model):
         readonly=True
     )
 
-    vat_sales_outputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Sales and Outputs')
+    vat_sales_outputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Sales and Expenses')
     vat_expenses_inputs = fields.One2many('vat.declaration.line', 'declaration_id', string='VAT Expenses and Inputs')
-
     total_sales = fields.Float(string='Total Sales', compute='_compute_totals', store=True)
     total_sales_vat = fields.Float(string='Total Sales VAT', compute='_compute_totals', store=True)
     total_purchase = fields.Float(compute="_compute_totals", string="Total Purchase", store=True)
@@ -113,6 +116,7 @@ class VatDeclaration(models.Model):
     total_expenses = fields.Float(string='Total Expenses', compute='_compute_totals', store=True)
     total_expenses_vat = fields.Float(string='Total Expenses VAT', compute='_compute_totals', store=True)
     net_vat = fields.Float(string='Net VAT Due', compute='_compute_totals', store=True)
+    effective_reg_date = fields.Date(string='Effective Regesrtation Date', related='vat_registration_id.effective_reg_date', store=True, readonly=True)
 
     tax_id = fields.Many2one('account.tax',string="Tax")
 
@@ -129,6 +133,8 @@ class VatDeclaration(models.Model):
         ('purchase', 'Purchase'),
         ('none','All')
     ], string='Line Type',required=True)
+
+    current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
 
 
     # @api.depends('vat_sales_outputs')
@@ -157,43 +163,82 @@ class VatDeclaration(models.Model):
     def set_to_done(self):
         self.status = 'done'
 
+
+    def _compute_current_datetime(self):
+        for record in self:
+            record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y, %I:%M %p")
+
+    # @api.model
+    # def create(self, vals):
+
+    #     record = super(VatDeclaration, self).create(vals)
+    #     record.with_context(skip_generate_lines=True)._generate_lines()
+    #     return record
+
     @api.model
     def create(self, vals):
+        if vals.get('name', _('New')) == _('New'):
+            sequence_code = 'vat.declaration'
+            trn_sequence = self.env['ir.sequence'].next_by_code(sequence_code) or _('New')
+            vals['name'] = f"{trn_sequence}/{fields.Date.today().strftime('%Y/%m/%d')}"
+
         record = super(VatDeclaration, self).create(vals)
-        record.with_context(skip_generate_lines=True)._generate_lines()
+        if not record.vat_sales_outputs:
+            record.with_context(skip_generate_lines=True)._generate_lines()
         return record
 
     def write(self, vals):
-        if not self.env.context.get('skip_generate_lines'):
+        if not self.env.context.get('skip_generate_lines') and not self.vat_sales_outputs:
             self.with_context(skip_generate_lines=True)._generate_lines()
         return super(VatDeclaration, self).write(vals)
 
+
     def _generate_lines(self):
+        existing_tax_ids = self.vat_sales_outputs.mapped('tax_id').ids
         vat_sales_lines = []
 
         for tax in self.env['account.tax'].search([]):
-            if tax.type_tax_use == self.line_type :
+            if tax.id not in existing_tax_ids:
                 vat_sales_lines.append((0, 0, {
-                'declaration_id': self.id,
-                'tax_id': tax.id,
-                'description': tax.description,
-                'amount': 0.0,
-                'taxamount': 0.0,
-            }))
-            else:
-                vat_sales_lines.append((0, 0, {
-                'declaration_id': self.id,
-                'tax_id': tax.id,
-                'description': tax.description,
-                'amount': 0.0,
-                'taxamount': 0.0,
-            }))
+                    'declaration_id': self.id,
+                    'tax_id': tax.id,
+                    'description': tax.description,
+                    'amount': 0.0,
+                    'taxamount': 0.0,
+                }))
+
+        if vat_sales_lines:
+            self.with_context(skip_generate_lines=True).write({
+                'vat_sales_outputs': vat_sales_lines,
+            })
 
 
-        self.with_context(skip_generate_lines=True).write({
-        'vat_sales_outputs': vat_sales_lines,
-        # 'vat_expenses_inputs': vat_expense_lines,
-    })
+    # def _generate_lines(self):
+    #     vat_sales_lines = []
+
+    #     for tax in self.env['account.tax'].search([]):
+    #         if tax.type_tax_use == self.line_type :
+    #             vat_sales_lines.append((0, 0, {
+    #             'declaration_id': self.id,
+    #             'tax_id': tax.id,
+    #             'description': tax.description,
+    #             'amount': 0.0,
+    #             'taxamount': 0.0,
+    #         }))
+    #         else:
+    #             vat_sales_lines.append((0, 0, {
+    #             'declaration_id': self.id,
+    #             'tax_id': tax.id,
+    #             'description': tax.description,
+    #             'amount': 0.0,
+    #             'taxamount': 0.0,
+    #         }))
+
+
+    #     self.with_context(skip_generate_lines=True).write({
+    #     'vat_sales_outputs': vat_sales_lines,
+    #     # 'vat_expenses_inputs': vat_expense_lines,
+    # })
 
     @api.onchange('vat_registration_id', 'q_dates')
     def _onchange_dates(self):

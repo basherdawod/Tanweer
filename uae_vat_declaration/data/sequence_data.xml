@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="seq_vat_trn" model="ir.sequence">
-            <field name="name">VAT TRN</field>
-            <field name="code">vat.trn.sequence</field>
-            <field name="prefix">TRN</field>
-            <field name="padding">9</field>
+        <record id="seq_vat_declaration" model="ir.sequence">
+            <field name="name">VAT Declaration</field>
+            <field name="code">corporste.tax</field>
+            <field name="prefix">COT/</field>
+            <field name="padding">3</field>
             <field name="company_id" eval="False"/>
         </record>
     </data>
