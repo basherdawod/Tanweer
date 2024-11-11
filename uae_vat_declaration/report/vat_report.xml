@@ -15,19 +15,27 @@
                                     إقرار ضريبة القيمة المضافة 
                                 </h4>
                             </div>
+                                            <button type="button" onclick="window.print();" class="print-button">طباعة</button>
+
 
                             <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
-                        <div style="width: 100%;text-align: right;margin-right:20px;direction:rtl;">
+                        <div style="width: 100%;text-align: right;margin-right:20px;direction:ltr;">
+                            <div class="row">
+                               
+                                <div class="col-6" style="text-align: left;">Ref <t t-esc="o.name"/></div>
+                                <div class="col-6" style="text-align: right;">الفترة من: <t t-esc="o.date_from.strftime('%d %b %Y')"/> إلى: <t t-esc="o.date_to.strftime('%d %b %Y')"/></div>
+                            </div>
                             <br/><br/>
-                            <div>الفترة من: <t t-esc="o.date_from.strftime('%d %b %Y')"/> إلى: <t t-esc="o.date_to.strftime('%d %b %Y')"/></div>
-                            <br/><br/>
-                            <div style='text-align: right'>TRN   <span style='text-align: right;direction:rtl;'><t t-esc="o.vat_registration_id.company_vat"/></span></div>
+                            <div class="row">
+                                <div class="col-6" style='width: 100%;text-align: left;'>TRN <span style='text-align: right;direction:rtl;'><t t-esc="o.vat_registration_id.company_vat"/></span></div>
+                                <div class="col-6" style="font-weight: bold; color: #000000;">تاريخ التسجيل الفعلي :  <t t-esc="o.effective_reg_date"/></div>
+                            </div>
                             <br/><br/>
                             <div style="font-weight: bold; color: #000000;">الاسم القانوني للكيان باللغة الإنجليزية: <t t-esc="o.legal_name"/></div>
                             <br/><br/>
                             <div style="font-weight: bold; color: #000000;">الاسم القانوني للكيان باللغة  العربية : <t t-esc="o.vat_registration_id.legal_name_arabic"/></div>
                             <br/><br/>
-                            <div style="font-weight: bold; color: #000000;">تاريخ التسجيل الفعلي :  <t t-esc="o.effective_reg_date"/></div>
+                            
                         </div>
                                 <br/><br/>
                                 <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
@@ -146,7 +154,9 @@
                                         <td style=" text-align: left;padding: 10px;">14 Payable tax for the period<br/> 
                                         الضريبة مستحقة الدفع عن الفترة (دىرهم)
                                         </td>
-                                        <td style=" text-align: right;padding: 10px;"><t t-esc="('({})'.format(due) if 0 > due else due)"/></td>
+                                        <!-- <td style=" text-align: right;padding: 10px;"><t t-esc="('({})'.format(due) if 0 > due else due)"/></td> -->
+                                        <td style="text-align: right; padding: 10px;"><t t-esc="('({})'.format(abs(due)) if due &lt; 0 else due)"/></td>
+
                                     </tr>
                                 </tbody>
                             </table>

@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-   <template id="report_product">
+   <template id="petty_cash_payment_report">
        <t t-call="web.html_container">
            <t t-foreach="docs" t-as="o">
                <t t-call="web.external_layout">
                    <div class="page" style="padding:20px;">
                        <div class="oe_structure"/>
-                       <h2 style="font-weight: bold; color: #FFFFFF; text-align: center;background-color: #0064c3;">PETTY CASH REQUEST REPORT</h2>
-                       <br></br>
+                       <h2 style="font-weight: bold; color: #FFFFFF; text-align: center;background-color: #0064c3;">PETTY CASH PAYMENTS REPORT</h2>
+                        <br></br>
                        <div class="row" style="padding:20px;">
                            <div class="col-6">
-                             Name :  <span t-field="o.name"/>
+                             REF :  <span t-field="o.name"/>
                            </div>
                            <div class="col-6">
-                             Requset Date : <span t-field="o.date"/>
+                             Payment Date : <span t-field="o.payment_date"/>
                            </div>
                        </div>
+
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
                        <div style="padding:20px;">
-                        Petty Card : <span t-field="o.petty_card"/>
+                        Employee : <span t-field="o.employee_petty"/>
                        </div>
-                       <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
+                       <div style="padding:20px;">
+                        Employee Submission : <span t-field="o.employee_submission"/>
+                       </div>
                        <div style="padding:20px;">
                         User Approval : <span t-field="o.user_approval"/>
                        </div>
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
-                       <div class="row" style="padding:20px;">
-                           <div class="col-6">
-                            Account  : <span t-field="o.account_id"/>
-                           </div>
-                           <div class="col-6">
-                            Account Code  : <span t-field="o.account_code"/>
-                           </div>
+                       <div style="padding:20px;">
+                        Petty Card : <span t-field="o.employee_card.name"/>
+                       </div>
+                       <div style="padding:20px;">
+                        Payment Type : <span t-field="o.payment_type"/>
                        </div>
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
                        <div class="row" style="padding:20px;">
                            <div class="col-6">
-                            Amount : <span t-field="o.request_amount"/>
+                            Currency : <span t-field="o.currency_id.name"/>
                            </div>
                            <div class="col-6">
-                            Amount : <span t-field="o.amount_in_words"/>
+                            Account  : <span t-field="o.account_id.name"/>
                            </div>
                        </div>
+                       <div class="row" style="padding:20px;">
+                           <div class="col-6">
+                            Amount : <span t-field="o.amount"/>
+                           </div>
+                       </div>
+                       <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
+                       <br/><br/>
+                       
+                       
+                       
                    </div>
                </t>
            </t>

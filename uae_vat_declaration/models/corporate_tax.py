@@ -1,5 +1,10 @@
 from odoo import models, fields, api , _
+import io
+import xlsxwriter
+from odoo.http import content_disposition, request
+from odoo import http
 import logging
+
 _logger = logging.getLogger(__name__)
 # _logger.info("Starting _compute_account_balance")
 class CorporateTax(models.Model):
@@ -105,8 +110,60 @@ class CorporateTax(models.Model):
             self.income_total = (income_total - 357000) * 0.9
         else:
             self.income_total = income_total
-        
 
+
+        # def action_export_excel(self):
+        #     output = io.BytesIO()
+        #     workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        #     worksheet = workbook.add_worksheet('Corporate Tax')
+
+        #     worksheet.write(0, 0, 'Example Data')
+
+
+        #     workbook.close()
+        #     output.seek(0)
+
+        #     return http.send_file(output, filename="Corporate_Tax_Report.xlsx",
+        #                           as_attachment=True, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+        # def action_export_excel(self):
+        #     return {
+        #         'type': 'ir.actions.report',
+        #         'report_name': 'uae_vat_declaration.report_corporit_template_xlsx',
+        #         'report_type': 'xlsx',
+        #         'data': {
+                  
+        #         }
+        #     }
+
+
+
+    def action_export_excel(self):
+        output = io.BytesIO()
+        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+        worksheet = workbook.add_worksheet('Corporate Tax Report')
+
+        worksheet.write(0, 0, 'name')
+        worksheet.write(0, 1, 'status')
+
+        row = 1
+        for record in self:
+            worksheet.write(row, 0, record.name or '')
+            worksheet.write(row, 1, record.status or '')
+            row += 1
+
+        workbook.close()
+        output.seek(0)
+        response = request.make_response(
+            output.getvalue(),
+            headers=[
+                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+                ('Content-Disposition', content_disposition('Corporate_Tax_Report.xlsx'))
+            ]
+        )
+        return {
+            'type': 'ir.actions.act_window_close',  # غلق النافذة بعد التصدير
+        }
             
     # def _compute_net_profit(self):
     #     """

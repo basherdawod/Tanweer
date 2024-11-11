@@ -20,10 +20,6 @@ class InsReportAnalyticReport(models.AbstractModel):
         return data
 
     def _get_filters(self, wiz_id):
-        '''
-        :param wiz_id: object of wizard
-        :return:
-        '''
         filters = wiz_id.prepare_values_for_component()
         return filters
 

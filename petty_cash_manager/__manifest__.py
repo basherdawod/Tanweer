@@ -21,8 +21,13 @@
         'views/payment.xml',
         'views/submited.xml',
         'views/petty_cach_request_form.xml',
-        # 'views/petty_cash_dashboard_template.xml',
+        'views/petty_cash_dashboard_template.xml',
         'report/pety_cash_template.xml',
+        'report/petty_cash_action_report.xml',
+        'report/petty_cash_submission_template.xml',
+        'report/petty_cash_submission_action.xml',
+        'report/petty_cash_payments_action.xml',
+        'report/petty_cash_payments.xml',
     ],
     'assets': {
         'web.assets_backend': [

@@ -4,12 +4,19 @@
         <field name="model">corporate.tax</field>
         <field name="arch" type="xml">
             <form string="Corporate Tax">
+                <footer>
+                <!-- زر لاستدعاء تقرير Excel -->
+                
+            </footer>
                 <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
                                 invisible="status in  ('draft')" />
                         <button string="Done" name="set_to_done" type="object" class="oe_highlight"
-                                invisible="status in  ('done')"/>
+                                invisible="status in  ('draft')"/>
+                        <button name="%(action_corporate_tax_report_excel)d"
+                                type="action"
+                                string="Excel Report"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

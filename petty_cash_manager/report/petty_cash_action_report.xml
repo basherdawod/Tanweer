@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
    <record id="action_report_petty_cash" model="ir.actions.report">
-       <field name="name">Product Report</field>
+       <field name="name">Petty Cash Report</field>
        <field name="model">petty.cash.request</field>
        <field name="report_type">qweb-pdf</field>
        <field name="report_name">petty_cash_manager.report_product</field>
        <field name="report_file">petty_cash_manager.report_product</field>
-       <field name="print_report_name">'Product Report - %s' % (object.name)</field>
-       <field name="binding_model_id" ref="product.model_product_template"/>
+       <!-- <field name="print_report_name">'Product Report - %s' % (object.name)</field> -->
+       <field name="binding_model_id" ref="model_petty_cash_request"/>
        <field name="binding_type">report</field>
    </record>
 </odoo>

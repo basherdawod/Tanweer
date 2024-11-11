@@ -3,6 +3,10 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date ,timedelta
+import io
+import xlsxwriter
+from odoo import models
+from odoo.http import content_disposition, request
 
 class VatDeclarationLine(models.Model):
     _name = 'vat.declaration.line'
@@ -166,7 +170,7 @@ class VatDeclaration(models.Model):
 
     def _compute_current_datetime(self):
         for record in self:
-            record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y, %I:%M %p")
+            record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
 
     # @api.model
     # def create(self, vals):
