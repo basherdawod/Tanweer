@@ -46,7 +46,7 @@
                     <notebook>
                         <page string="Expense Lines">
                             <field name="line_ids">
-                                <tree editable="bottom">
+                                <tree create="false">
                                     <field name="name"/>
                                     <field name="date"/>
                                     <field name="days"/>

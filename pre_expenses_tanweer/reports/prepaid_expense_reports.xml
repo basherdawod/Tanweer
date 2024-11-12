@@ -4,8 +4,8 @@
         <field name="name">Prepaid Expense Report</field>
         <field name="model">pre.exp.test.model</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">pre_exp_testa.report_prepaid_expense</field>
-        <field name="report_file">pre_exp_testa.report_prepaid_expense</field>
+        <field name="report_name">pre_expenses_tanweer.report_prepaid_expense</field>
+        <field name="report_file">pre_expenses_tanweer.report_prepaid_expense</field>
         <field name="binding_model_id" ref="model_pre_exp_test_model"/>
         <field name="binding_type">report</field>
     </record>
