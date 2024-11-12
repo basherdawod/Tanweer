@@ -270,6 +270,41 @@ class PreExpTestModel(models.Model):
 
         return True
 
+    def action_post_journal_entries(self):
+        for record in self:
+            move_lines = []
+            for line in record.line_ids:
+                move_lines.append(Command.create({
+                    'name': f"Prepaid Expense - {line.name}",
+                    'account_id': record.account_id.id,
+                    'debit': line.amount,
+                    'credit': 0.0,
+                }))
+                
+                move_lines.append(Command.create({
+                    'name': f"Payment for {line.name}",
+                    'account_id': record.journal_id.default_account_id.id,
+                    'debit': 0.0,
+                    'credit': line.amount,
+                }))
+
+            journal_entry = self.env['account.move'].create({
+                'journal_id': record.journal_id.id,
+                'date': fields.Date.today(),
+                'ref': f"Prepaid Expense - {record.name}",
+                'line_ids': move_lines,
+                'prepaid_expense_id': record.id,
+            })
+
+            try:
+                journal_entry.action_post()
+            except Exception as e:
+                raise UserError(_("Error posting journal entry: %s") % str(e))
+
+    def action_generate_report(self):
+        self.ensure_one()
+        return self.env.ref('pre_exp_testa.action_report_prepaid_expense_old').report_action(self)
+
 
 class PreExpTestReport(models.Model):
     _name = 'pre.exp.test.report'
@@ -495,37 +530,3 @@ class PreExpTestModelOld(models.Model):
             
        
 
-    def action_post_journal_entries(self):
-        for record in self:
-            move_lines = []
-            for line in record.line_ids:
-                move_lines.append(Command.create({
-                    'name': f"Prepaid Expense - {line.name}",
-                    'account_id': record.account_id.id,
-                    'debit': line.amount,
-                    'credit': 0.0,
-                }))
-                
-                move_lines.append(Command.create({
-                    'name': f"Payment for {line.name}",
-                    'account_id': record.journal_id.default_account_id.id,
-                    'debit': 0.0,
-                    'credit': line.amount,
-                }))
-
-            journal_entry = self.env['account.move'].create({
-                'journal_id': record.journal_id.id,
-                'date': fields.Date.today(),
-                'ref': f"Prepaid Expense - {record.name}",
-                'line_ids': move_lines,
-                'prepaid_expense_id': record.id,
-            })
-
-            try:
-                journal_entry.action_post()
-            except Exception as e:
-                raise UserError(_("Error posting journal entry: %s") % str(e))
-
-    def action_generate_report(self):
-        self.ensure_one()
-        return self.env.ref('pre_exp_testa.action_report_prepaid_expense_old').report_action(self)

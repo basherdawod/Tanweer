@@ -36,13 +36,12 @@
                        <div style="padding:20px;">
                         Account : <span t-field="o.account_id.name"/>
                        </div>
-                       <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
                        <div style="padding:20px;">
                         Open Balance : <span t-field="o.open_balance"/>
                        </div>
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
 
-                       <t t-set="related_records" t-value="o.env['petty.cash.request'].search([('petty_card', '=', o.name)])"/>
+                     <!--   <t t-set="related_records" t-value="o.env['petty.cash.request'].search([('petty_card', '=', o.name)])"/>
                        
                        <t t-if="related_records">
                            <h4 style="text-align: left;">Requests :</h4>
@@ -97,7 +96,7 @@
                                    </t>
                                </tbody>
                            </table>
-                       </t>
+                       </t> -->
 
                        <t t-set="related_records" t-value="o.env['petty.cash.payment'].search([('employee_card', '=', o.name)])"/>
                        
@@ -106,23 +105,17 @@
                            <table class="table table-bordered expense-table" style="width: 100%; margin-top: 20px;">
                                <thead>
                                    <tr>
-                                       <th>REF</th>
-                                       <th>Payment Date</th>
-                                       <th>Account Receive</th>
-                                       <th>Amount</th>
-                                       <th>States</th>
+                                       <th>Send</th>
+                                       <th>Receive</th>
                                    </tr>
                                </thead>
                                <tbody>
-                                   <t t-foreach="related_records" t-as="related">
+                                  <!--  <t t-foreach="related_records" t-as="related">
                                        <tr>
-                                           <td><span t-field="related.name"/></td>
-                                           <td><span t-field="related.payment_date"/></td>
-                                           <td><span t-field="related.account_receive"/></td>
-                                           <td><span t-field="related.amount"/></td>
-                                           <td><span t-field="related.state"/></td>
+                                           <td><span t-field="related.total_send"/></td>
+                                           <td><span t-field="related.total_receive"/></td>
                                        </tr>
-                                   </t>
+                                   </t> -->
                                </tbody>
                            </table>
                        </t>
