@@ -28,6 +28,8 @@
         'report/petty_cash_submission_action.xml',
         'report/petty_cash_payments_action.xml',
         'report/petty_cash_payments.xml',
+        'report/pcmc_template_report.xml',
+        'report/pcmc_action_report.xml',
     ],
     'assets': {
         'web.assets_backend': [

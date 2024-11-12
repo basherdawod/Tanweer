@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="action_report_petty_cash_card" model="ir.actions.report">
+       <field name="name">Petty Cash Card Report</field>
+       <field name="model">petty.cash.card</field>
+       <field name="report_type">qweb-pdf</field>
+       <field name="report_name">petty_cash_manager.petty_cash_payment_report</field>
+       <field name="report_file">petty_cash_manager.petty_cash_payment_report</field>
+       <!-- <field name="print_report_name">'Product Report - %s' % (object.name)</field> -->
+       <field name="binding_model_id" ref="model_petty_cash_card"/>
+       <field name="binding_type">report</field>
+   </record>
+</odoo>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="petty_cash_payment_report">
+       <t t-call="web.html_container">
+           <t t-foreach="docs" t-as="o">
+               <t t-call="web.external_layout">
+                   <div class="page" style="padding:20px;">
+                       <div class="oe_structure"/>
+                       <h2 style="font-weight: bold; color: #FFFFFF; text-align: center;background-color: #0064c3;">PETTY CASH PCMP REPORT</h2>
+                       <br></br>
+                       <div class="row" style="padding:20px;">
+                           <div class="col-6">
+                             REF :  <span t-field="o.name"/>
+                           </div>
+                           <div class="col-6">
+                             Employee Name : <span t-field="o.employee_id.name"/>
+                           </div>
+                       </div>
+
+                       <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
+                       <div style="padding:20px;">
+                        Employee Name : <span t-field="o.employee_id.name"/>
+                       </div>
+                       <div style="padding:20px;">
+                        Job Title : <span t-field="o.job_title.name"/>
+                       </div>
+                       <div style="padding:20px;">
+                        Account : <span t-field="o.account_id.name"/>
+                       </div>
+                       <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
+                       <div style="padding:20px;">
+                        Open Balance : <span t-field="o.open_balance"/>
+                       </div>
+                       <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
+
+                       <t t-set="related_records" t-value="o.env['petty.cash.request'].search([('petty_card', '=', o.name)])"/>
+                       
+                       <t t-if="related_records">
+                           <h4 style="text-align: left;">Requests :</h4>
+                           <table class="table table-bordered" style="width: 100%; margin-top: 20px;">
+                               <thead>
+                                   <tr>
+                                       <th>REF</th>
+                                       <th>Request Date</th>
+                                       <th>Account</th>
+                                       <th>Amount</th>
+                                       <th>States</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <t t-foreach="related_records" t-as="related">
+                                       <tr>
+                                           <td><span t-field="related.name"/></td>
+                                           <td><span t-field="related.date"/></td>
+                                           <td><span t-field="related.account_id.name"/></td>
+                                           <td><span t-field="related.request_amount"/></td>
+                                           <td><span t-field="related.state"/></td>
+                                       </tr>
+                                   </t>
+                               </tbody>
+                           </table>
+                       </t>
+
+                       <br/><br/>
+                       <t t-set="related_records" t-value="o.env['petty.cash.submission'].search([('petty_cash_id', '=', o.name)])"/>
+                       
+                       <t t-if="related_records">
+                           <h4 style="text-align: left;">Submission :</h4>
+                           <table class="table table-bordered" style="width: 100%; margin-top: 20px;">
+                               <thead>
+                                   <tr>
+                                       <th>REF</th>
+                                       <th>Submission Date</th>
+                                       <th>Total Amount Spent</th>
+                                       <th>Remaining Amount</th>
+                                       <th>States</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <t t-foreach="related_records" t-as="related">
+                                       <tr>
+                                           <td><span t-field="related.name"/></td>
+                                           <td><span t-field="related.submission_date"/></td>
+                                           <td><span t-field="related.total_spent"/></td>
+                                           <td><span t-field="related.remaining_amount"/></td>
+                                           <td><span t-field="related.state"/></td>
+                                       </tr>
+                                   </t>
+                               </tbody>
+                           </table>
+                       </t>
+
+                       <t t-set="related_records" t-value="o.env['petty.cash.payment'].search([('employee_card', '=', o.name)])"/>
+                       
+                       <t t-if="related_records">
+                           <h4 style="text-align: left;">Payments :</h4>
+                           <table class="table table-bordered" style="width: 100%; margin-top: 20px;">
+                               <thead>
+                                   <tr>
+                                       <th>REF</th>
+                                       <th>Payment Date</th>
+                                       <th>Account Receive</th>
+                                       <th>Amount</th>
+                                       <th>States</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <t t-foreach="related_records" t-as="related">
+                                       <tr>
+                                           <td><span t-field="related.name"/></td>
+                                           <td><span t-field="related.payment_date"/></td>
+                                           <td><span t-field="related.account_receive"/></td>
+                                           <td><span t-field="related.amount"/></td>
+                                           <td><span t-field="related.state"/></td>
+                                       </tr>
+                                   </t>
+                               </tbody>
+                           </table>
+                       </t>
+                   </div>
+               </t>
+           </t>
+       </t>
+   </template>
+</odoo>
