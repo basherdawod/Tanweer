@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="account_reports_ins_wiz" sequence="15"
+                      name="Accounting Reports" parent="account.menu_finance_reports"/>
+
+        <record id="view_account_type_audit_form" model="ir.ui.view">
+            <field name="name">audit.financial.program.form</field>
+            <field name="model">audit.financial.program</field>
+            <field name="arch" type="xml">
+                <form string="Account Report">
+                    <sheet>
+                         <group col="4">
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="data_fis_years_end"/>
+                        <field name="data_last_years_end"/>
+                    </group>
+                   <notebook>
+    <page string="Levels">
+        <field name="audit_lines_ids" widget="section_and_note_one2many">
+            <tree string="Levels" editable="bottom" class="level-1">
+                <field name="name" string="Level Name" />
+                <!-- Nested One2many for Account Level Types -->
+                <field name="account_level_type_ids" widget="section_and_note_one2many">
+                    <tree editable="bottom" string="Account Level Types" class="level-2">
+                        <field name="name" string="Account Level Type Name" />
+                        <!-- Nested One2many for Type Lines within Account Level Types -->
+                        <field name="type_line_ids" widget="section_and_note_one2many">
+                            <tree editable="bottom" string="Type Lines" class="level-3">
+                                <field name="name" string="Type Line Name" />
+                            </tree>
+                        </field>
+                    </tree>
+                </field>
+            </tree>
+        </field>
+    </page>
+</notebook>
+
+
+
+                    </sheet>
+
+
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_type_audit_tree" model="ir.ui.view">
+            <field name="name">audit.financial.program.tree</field>
+            <field name="model">audit.financial.program</field>
+            <field name="arch" type="xml">
+                <tree string="Account Report">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_type_audit_search" model="ir.ui.view">
+            <field name="name">audit.financial.program.search</field>
+            <field name="model">audit.financial.program</field>
+            <field name="arch" type="xml">
+                <search string="Account Report">
+                    <field name="name" string="Account Report"/>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="action_account_type_audit_tree" model="ir.actions.act_window">
+            <field name="name">Financial Reports</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">audit.financial.program</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id"
+                   ref="view_account_type_audit_search"/>
+            <field name="view_id" ref="view_account_type_audit_tree"/>
+        </record>
+
+        <menuitem id="ins_account_type_audit_report"
+                  name="Financial Reports"
+                  action="action_account_type_audit_tree"
+                  sequence="500"
+                  parent="audit_management.menu_audit_management_Configuration"/>
+    </data>
+</odoo>

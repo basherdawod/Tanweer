@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="main_audit_management_sys" name="Audit Management"/>
+        <menuitem id="menu_audit_management_systems"
+              name="Audit"
+              parent="main_audit_management_sys"
+              sequence="1"/>
+        <menuitem id="menu_audit_management_systems_report"
+              name="Reporting"
+              parent="main_audit_management_sys"
+              sequence="2"/>
+        <menuitem id="menu_audit_management_Configuration"
+              name="Configuration"
+              parent="main_audit_management_sys"
+              sequence="3"/>
+        <menuitem id="menu_audit_items_system"
+              name="Audit Items"
+              action="action_audit_items"
+              parent="menu_audit_management_systems"
+              sequence="1"/>
+        <menuitem id="menu_audit_Programs_system"
+              name="Audit Programs"
+              action="action_audit_program"
+              parent="menu_audit_management_systems"
+              sequence="2"/>
+        <menuitem id="menu_audit_Programs_line_system"
+              name="Audit line"
+              action="action_program_line"
+              parent="menu_audit_management_Configuration"
+              sequence="1"/>
+
+    </data>
+</odoo>

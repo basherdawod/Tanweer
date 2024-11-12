@@ -1,0 +1,8 @@
+<!-- templates.xml -->
+<templates id="template" xml:space="preserve">
+    <t t-name="audit_management.AddAuditLineButton">
+        <button type="button" t-on-click="addAuditLine" class="btn btn-primary">
+            Add Audit Line
+        </button>
+    </t>
+</templates>

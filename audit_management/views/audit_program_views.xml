@@ -121,7 +121,10 @@
         </record>
 
 
+<<<<<<< HEAD
    
+=======
+>>>>>>> 07e22b3 (audit report)
 
     <record id="action_audit_program" model="ir.actions.act_window">
         <field name="name">Audit Program</field>

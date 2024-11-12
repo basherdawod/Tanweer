@@ -9,7 +9,7 @@ class AuditProgram(models.Model):
     _name = 'audit.program'
     _description = 'Audit Program'
 
-    name = fields.Char(string='Audit Program Name', required=True)
+    name = fields.Char(string='Audit Program Name')
     code = fields.Selection([
 <<<<<<< HEAD
         ('F1', 'F1'), ('F2', 'F2'), # 1 ,2
@@ -228,4 +228,11 @@ class ProgramLineTest(models.Model):
             arabic_text = record.program_line_id.discription_arabic or ""
             # Using \n for line breaks in text fields
             record.name = f"{english_text}\n{arabic_text}"
+
+
+class Auditaccountprogramreport(models.Model):
+    _name = 'audit.account.program.report'
+    _description = 'audit.account.program.report'
+
+    name = fields.Char()
 

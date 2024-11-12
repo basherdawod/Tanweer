@@ -413,55 +413,55 @@
  <field name="discription_english"></field>
  <field name="subject">loans</field>
 </record>
-<!-- <record id="demo_program_line_gap_62" model="program.line">-->
-<!--  <field name="number">1</field>-->
-<!--  <field name="discription_arabic">أعد بيانا بالموجودات غير الملموسة، وقم:-->
-<!-- أ) بمطابقة الإجمالى للأستاذ العام.-->
-<!-- ب) افحص المستندات الأصلية.-->
-<!--  </field>-->
-<!--  <field name="discription_english">Obtain or prepare an analysis of intangible assets and:-->
-<!-- a) agree total to general ledger-->
-<!-- b) check items with source documents.-->
-<!--  </field>-->
-<!--  <field name="subject">intangible_assets_goodwill</field>-->
-<!-- </record>-->
-<record id="demo_program_line_gap_63" model="program.line">
+ <record id="demo_program_line_gap_62_line" model="program.line">
+  <field name="number">1</field>
+  <field name="discription_arabic">أعد بيانا بالموجودات غير الملموسة، وقم:
+ أ) بمطابقة الإجمالى للأستاذ العام.
+ ب) افحص المستندات الأصلية.
+  </field>
+  <field name="discription_english">Obtain or prepare an analysis of intangible assets and:
+ a) agree total to general ledger
+ b) check items with source documents.
+  </field>
+  <field name="subject">intangible_assets_goodwill</field>
+ </record>
+<record id="demo_program_line_gap_63_line" model="program.line">
  <field name="number">2</field>
  <field name="discription_arabic">قارن الرصيد مع الفترات السابقة لوجود أية تغيرات هامة أوافتقاد تغيرات هامة كان ينبغى وجودها.</field>
  <field name="discription_english">Compare the balance with prior periods for any significant changes or lack of expected significant changes, if any.</field>
  <field name="subject">intangible_assets_goodwill</field>
 </record>
-<record id="demo_program_line_gap_64" model="program.line">
+<record id="demo_program_line_gap_64_line" model="program.line">
  <field name="number">3</field>
  <field name="discription_arabic">تحقق من كون المبلغ يصلح كموجودات غير ملموسة طويلة الأجل وفقا للمعيار السعودى، وتحقق من صحة التبويب.</field>
  <field name="discription_english">Ensure that the amount qualifies as intangible assets as per provisions of the Saudi standard for intangible assets and ensure correct classification of intangible assets.</field>
  <field name="subject">intangible_assets_goodwill</field>
 </record>
-<record id="demo_program_line_gap_65" model="program.line">
+<record id="demo_program_line_gap_65_line" model="program.line">
  <field name="number">4</field>
  <field name="discription_arabic">تحقق من معقولية فترة الاطفاء وتحقق من صحة حساب اطفاء الموجودات غير الملموسة</field>
  <field name="discription_english">Verify reasonableness of the period of amortisation and check calculation of amortisation of intangible assets.</field>
  <field name="subject">intangible_assets_goodwill</field>
 </record>
-<record id="demo_program_line_gap_66" model="program.line">
+<record id="demo_program_line_gap_66_line" model="program.line">
  <field name="number">1</field>
  <field name="discription_arabic">الحصول على تحليل بالاصول الثابتة واستهلاكتها موضحا رصيد اول الفترة من تكلفة واستهلاك لكل بند وحركة الاضافات والاستبعادات على كلا من التكلفة والاستهلاك وكذلك رصيد اخر الفترة لكلا من التكلفة والاستهلاكات</field>
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_67" model="program.line">
+<record id="demo_program_line_gap_67_line" model="program.line">
  <field name="number">2</field>
  <field name="discription_arabic">مطابقة التكلفة ومجمع الاستهلاك اول الفترة من واقع التحليل مع ميزانية واوراق عمل العام السابق.</field>
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_68" model="program.line">
+<record id="demo_program_line_gap_68_line" model="program.line">
  <field name="number">3</field>
  <field name="discription_arabic">مطابقة التكلفة ومجمع الاستهلاك اخر الفترة من واقع التحليل مع الميزان والدفاتر فى تاريخ اعداد القوائم المالية.</field>
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_69" model="program.line">
+<record id="demo_program_line_gap_69_line" model="program.line">
  <field name="number">4</field>
  <field name="discription_arabic">التاكد من ان المؤسسة تطبق نفس معدلات الإهلاك للعام السابق
 التحقق من صحة احتساب الاهلاك عن الفترة المالية وذلك
@@ -470,7 +470,7 @@
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_70" model="program.line">
+<record id="demo_program_line_gap_70_line" model="program.line">
  <field name="number">5</field>
  <field name="discription_arabic">الفحص المستندى لعينة من الاضافات واجراء ما يلى علي هذة العينة:
 •  المطابقة مع محضر الفحص والاستلام للأصل الثابت
@@ -482,26 +482,26 @@
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_71" model="program.line">
+<record id="demo_program_line_gap_71_line" model="program.line">
  <field name="number">6</field>
  <field name="discription_arabic">الفحص المستندى لعينة من الاستبعادات للتحقق من استيفاء كافة الاجراءات اللازمة لاتخاذ قرار البيع واتباع الاجراءات المعمول بها فى هذاالصدد. وكذلك الاطلاع على المستندات المؤيدة لتلك المعاملات
 • التأكد من استبعاد الأصل من سجل الأصول الثابتة</field>
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_72" model="program.line">
+<record id="demo_program_line_gap_72_line" model="program.line">
  <field name="number">7</field>
  <field name="discription_arabic">التاكد من صحة الارباح والخسائر الراسمالية</field>
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_73" model="program.line">
+<record id="demo_program_line_gap_73_line" model="program.line">
  <field name="number">8</field>
  <field name="discription_arabic">الحصول على جرد معتمد من المؤسسة للاصول الثابتة</field>
  <field name="discription_english"></field>
  <field name="subject">fixed_assets</field>
 </record>
-<record id="demo_program_line_gap_74" model="program.line">
+<record id="demo_program_line_gap_74_line" model="program.line">
  <field name="number">9</field>
  <field name="discription_arabic">طابق بين محاضر جرد الأصول الثابتة والمثبت بالدفاتر </field>
  <field name="discription_english"></field>

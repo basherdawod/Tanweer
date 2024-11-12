@@ -7,3 +7,17 @@
     color: green;
     font-weight: bold;
 }
+
+.level-1 > tbody > tr {
+    border-left: 3px solid #3498db; /* Blue line for the top level */
+}
+
+.level-2 > tbody > tr {
+    border-left: 3px solid #2ecc71; /* Green line for the second level */
+    margin-left: 20px; /* Indent to indicate hierarchy */
+}
+
+.level-3 > tbody > tr {
+    border-left: 3px solid #e74c3c; /* Red line for the third level */
+    margin-left: 40px; /* Further indent for third level */
+}
