@@ -138,32 +138,32 @@ class CorporateTax(models.Model):
 
 
 
-    def action_export_excel(self):
-        output = io.BytesIO()
-        workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet('Corporate Tax Report')
+    # def action_export_excel(self):
+    #     output = io.BytesIO()
+    #     workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    #     worksheet = workbook.add_worksheet('Corporate Tax Report')
 
-        worksheet.write(0, 0, 'name')
-        worksheet.write(0, 1, 'status')
+    #     worksheet.write(0, 0, 'name')
+    #     worksheet.write(0, 1, 'status')
 
-        row = 1
-        for record in self:
-            worksheet.write(row, 0, record.name or '')
-            worksheet.write(row, 1, record.status or '')
-            row += 1
+    #     row = 1
+    #     for record in self:
+    #         worksheet.write(row, 0, record.name or '')
+    #         worksheet.write(row, 1, record.status or '')
+    #         row += 1
 
-        workbook.close()
-        output.seek(0)
-        response = request.make_response(
-            output.getvalue(),
-            headers=[
-                ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
-                ('Content-Disposition', content_disposition('Corporate_Tax_Report.xlsx'))
-            ]
-        )
-        return {
-            'type': 'ir.actions.act_window_close',  # غلق النافذة بعد التصدير
-        }
+    #     workbook.close()
+    #     output.seek(0)
+    #     response = request.make_response(
+    #         output.getvalue(),
+    #         headers=[
+    #             ('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+    #             ('Content-Disposition', content_disposition('Corporate_Tax_Report.xlsx'))
+    #         ]
+    #     )
+    #     return {
+    #         'type': 'ir.actions.act_window_close',
+    #     }
             
     # def _compute_net_profit(self):
     #     """

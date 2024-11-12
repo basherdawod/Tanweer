@@ -80,10 +80,10 @@
             <field name="view_id" ref="view_account_type_audit_tree"/>
         </record>
 
-        <menuitem id="ins_account_type_audit_report"
+      <!--   <menuitem id="ins_account_type_audit_report"
                   name="Financial Reports"
                   action="action_account_type_audit_tree"
                   sequence="500"
-                  parent="audit_management.menu_audit_management_Configuration"/>
+                  parent="audit_management.menu_audit_management_Configuration"/> -->
     </data>
 </odoo>

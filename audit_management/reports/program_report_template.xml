@@ -28,7 +28,7 @@
     <template id="report_audit_program_line_template">
         <t t-call="web.html_container">
             <style>
-                .border-table {
+             <!--    .border-table {
                 display: flex;
                 flex-direction: column;
                 }
@@ -79,20 +79,28 @@
                 .objective-label {
                 font-weight: bold;
                 text-align: center;
-                }
+                } -->
+                .report-header { background-color: #87CEEB; color: white; padding: 10px; margin-bottom: 20px; }
+                .info-box { background-color: #E6F3FF; border: 1px solid #87CEEB; padding: 10px; margin-bottom: 15px; }
+                .info-box strong { color: #d3d3d3; }
+                .expense-table th { background-color: #c7c7c7; color: white; }
+                .expense-table tr:nth-child(even) { background-color: #ededed; }
+                .total-table { background-color: #E6F3FF; }
+                .total-table .border-black { border-top: 2px solid #c7c7c7; }
 
             </style>
 
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <h4>Audit Program:
+                        <h4 style="background-color: #c7c7c7;width=100%;padding:20px">Audit Program:
                             <t t-esc="doc.name"/>
                         </h4>
+                        <br/>
 
                         <div class="row">
                             <!-- Left Column -->
-                            <div class="col-6 border-table" style="border: 2px solid; padding: 8px;">
+                            <div class="col-6 border-table " style="border: 2px solid; padding: 10px;">
                                 <div class="row">
                                     <div class="col-4 cell">Client Name:</div>
                                     <div class="col-4 cell">
@@ -100,6 +108,7 @@
                                     </div>
                                     <div class="col-4 cell" dir="rtl">إسم العميل</div>
                                 </div>
+                                <br/>
                                 <div class="row">
                                     <div class="col-4 cell">Period:</div>
                                     <div class="col-4 cell">
@@ -107,6 +116,7 @@
                                     </div>
                                     <div class="col-4 cell" dir="rtl">الفترة المحاسبية</div>
                                 </div>
+                                <br/>
                                 <div class="row">
                                     <div class="col-4 cell">Subject:</div>
                                     <div class="col-4 cell">
@@ -117,7 +127,7 @@
                             </div>
 
                             <!-- Right Column -->
-                            <div class="col-6 border-table" style="border: 2px solid; padding: 8px;">
+                            <div class="col-6 border-table" style="border: 2px solid; padding: 10px;">
                                 <div class="row">
                                     <div class="col-4 cell">Date:</div>
                                     <div class="col-4 cell">
@@ -125,6 +135,7 @@
                                     </div>
                                     <div class="col-4 cell" dir="rtl">التاريخ</div>
                                 </div>
+                                <br/>
                                 <div class="row">
                                     <div class="col-4 cell">Prepared By:</div>
                                     <div class="col-4 cell">
@@ -132,6 +143,7 @@
                                     </div>
                                     <div class="col-4 cell" dir="rtl">أعد بواسطة</div>
                                 </div>
+                                <br/>
                                 <div class="row">
                                     <div class="col-4 cell">Reviewed By:</div>
                                     <div class="col-4 cell">
@@ -141,71 +153,96 @@
                                 </div>
                             </div>
                         </div>
+                        <br/>
                         <div class="row" t-if="doc.code not in ('h_p_3', 'h_p_5', 'i_p')">
                             <!-- English Objectives Section -->
                             <div class="col-6 objective-section">
                                 <p class="objectives-header">Objectives: To verify the following:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">A</div>
+                                  
                                     <div class="col-10">
                                         <t t-esc="doc.objective_accuracy"/>
                                     </div>
+                                    
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">P</div>
+                
                                     <div class="col-10">
                                         <t t-esc="doc.objective_presentation"/>
                                     </div>
+                                    
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">C</div>
+                               
                                     <div class="col-10">
                                         <t t-esc="doc.objective_completion"/>
                                     </div>
+                                    
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">E</div>
+                                  
                                     <div class="col-10">
                                         <t t-esc="doc.objective_existence"/>
                                     </div>
+                                    
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">O</div>
+                               
                                     <div class="col-10">
                                         <t t-esc="doc.objective_ownership"/>
                                     </div>
+                                   
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">V</div>
+                                    
                                     <div class="col-10">
                                         <t t-esc="doc.objective_valuation"/>
                                     </div>
                                 </div>
                             </div>
+                            <br/>
 
                             <!-- Arabic Objectives Section -->
                             <div class="col-6 objective-section" style="text-align:right;">
                                 <p class="objectives-header">الأهداف : لتكوين رأى عن الاَتي:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">صحة ودقة قيم المبالغ</div>
                                     <div class="col-2 objective-label">A</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">العرض والإفصاح السليم</div>
                                     <div class="col-2 objective-label">P</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">إكتمال تسجيل كافة المبالغ في الدفاتر</div>
                                     <div class="col-2 objective-label">C</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">الوجود الحقيقي للمبالغ وتأييدها بالمستندات</div>
                                     <div class="col-2 objective-label">E</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">المبالغ تخص الشركة ومعتمدة من الإدارة</div>
                                     <div class="col-2 objective-label">O</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">الأساس الذي يستند عليه تقييم المبالغ التقديرية هو أساس صحيح
                                     </div>
@@ -213,34 +250,40 @@
                                 </div>
                             </div>
                         </div>
+                        <br/>
                         <div class="row" t-if="doc.code  in ('h_p_3')">
                             <!-- English Objectives Section -->
                             <div class="col-6 objective-section">
                                 <p class="objectives-header">Objectives: To verify the following:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">A</div>
                                     <div class="col-10">
                                         <t t-esc="doc.credit_received_related"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">B</div>
                                     <div class="col-10">
                                         <t t-esc="doc.received_all_good"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">C</div>
                                     <div class="col-10">
                                         <t t-esc="doc.purchase_other_invoices"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">D</div>
                                     <div class="col-10">
                                         <t t-esc="doc.purchase_other_recorded"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">E</div>
                                     <div class="col-10">
@@ -248,29 +291,35 @@
                                     </div>
                                 </div>
                             </div>
+                            <br/>
 
                             <!-- Arabic Objectives Section -->
                             <div class="col-6 objective-section" style="text-align:right;">
                                 <p class="objectives-header">الأهداف : لتكوين رأى عن الاَتي:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">الفواتير والاشعارات الدائنة المستلمة قد أدخلت بالكامل وبدقة فى
                                         السجلات الحسابية
                                     </div>
                                     <div class="col-2 objective-label">A</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">أن الفواتير قد استلمت لجميع البضائع والخدمات المستلمة</div>
                                     <div class="col-2 objective-label">B</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">فواتير المشتريات والمصروفات الأخرى والاشعارات الدائنة صحيحة
                                     </div>
                                     <div class="col-2 objective-label">C</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">المشتريات والمصروفات الأخرى التى تم تسجيلها هى حقيقية</div>
                                     <div class="col-2 objective-label">D</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">التسديدات قد تم ادخالها بدقة فى السجلات الحسابية</div>
                                     <div class="col-2 objective-label">E</div>
@@ -281,42 +330,49 @@
                             <!-- English Objectives Section -->
                             <div class="col-6 objective-section">
                                 <p class="objectives-header">Objectives: To verify the following:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">A</div>
                                     <div class="col-10">
                                         <t t-esc="doc.financial_statements_payroll"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">B</div>
                                     <div class="col-10">
                                         <t t-esc="doc.preparation_of_payroll_current"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">C</div>
                                     <div class="col-10">
                                         <t t-esc="doc.payroll_correctly_calculated"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">D</div>
                                     <div class="col-10">
                                         <t t-esc="doc.payroll_correctly_account"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">E</div>
                                     <div class="col-10">
                                         <t t-esc="doc.payment_salaries_controlled"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">F</div>
                                     <div class="col-10">
                                         <t t-esc="doc.payment_recorded_nominal_account"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">G</div>
                                     <div class="col-10">
@@ -328,35 +384,42 @@
                             <!-- Arabic Objectives Section -->
                             <div class="col-6 objective-section" style="text-align:right;">
                                 <p class="objectives-header">الأهداف : لتكوين رأى عن الاَتي:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">ان الأعباء فى القوائم المالية عن الرواتب صحيحة وتم الافصاح
                                         عنها
                                     </div>
                                     <div class="col-2 objective-label">A</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">البيانات المستخدمة فى اعداد الرواتب معتمدة ومحدثة</div>
                                     <div class="col-2 objective-label">B</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">مفردات الرواتب يتم احتسابها بدقة</div>
                                     <div class="col-2 objective-label">C</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">تم عمل حساب الرواتب بدقة</div>
                                     <div class="col-2 objective-label">D</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">مدفوعات الأجور والرواتب (النقدية والشيكات والتحويلات الى
                                         الحسابات) خاضعة لرقابة كافية
                                     </div>
                                     <div class="col-2 objective-label">E</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">الرواتب والأجور المدفوعة التى تم تسجيلها في الدفاتر هى حقيقية
                                     </div>
                                     <div class="col-2 objective-label">F</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">التسديدات قد تم ادخالها بدقة فى السجلات الحسابية</div>
                                     <div class="col-2 objective-label">G</div>
@@ -367,12 +430,14 @@
                             <!-- English Objectives Section -->
                             <div class="col-6 objective-section">
                                 <p class="objectives-header">Objectives: To verify the following:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">A</div>
                                     <div class="col-10">
                                         <t t-esc="doc.investment_gains_losses"/>
                                     </div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-2 objective-label">B</div>
                                     <div class="col-10">
@@ -383,10 +448,12 @@
                             <!-- Arabic Objectives Section -->
                             <div class="col-6 objective-section" style="text-align:right;">
                                 <p class="objectives-header">الأهداف : لتكوين رأى عن الاَتي:</p>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">أرباح وخسائر الاستثمارات قد تم احتسابها بدقة</div>
                                     <div class="col-2 objective-label">A</div>
                                 </div>
+                                <br/>
                                 <div class="row objective-row">
                                     <div class="col-10">أرباح وخسائر الاستثمارات قد تم تسجيلها بوضوح ودقة وبصورة ثابتة
                                         من سنة لأخرى
@@ -404,9 +471,10 @@
                                     <div class="col-6">Risk Assessment</div>
                                 <div class="col-6">تقييم المخاطر </div>
                                 </div>
+                        
 
-                                <table class="table table-sm">
-                                    <thead>
+                                <table class="table table-bordered expense-table">
+                                    <thead style="background-color: #c7c7c7;">
                                         <tr>
                                             <th></th>
                                             <th class="text-right">Preliminary</th>
@@ -415,24 +483,24 @@
                                     </thead>
                                     <tbody style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                         <tr>
-                                            <td style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
+                                            <td style="padding:10px;background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                                 Inherent
                                             </td>
-                                            <td style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
+                                            <td style="padding:10px;background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                                 <t t-esc="doc.preliminary_inherent"/>
                                             </td>
-                                            <td style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
+                                            <td style="padding:10px;background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                                 <t t-esc="doc.final_inherent"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
+                                            <td style="padding:10px;background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                                 Control
                                             </td>
-                                            <td style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
+                                            <td style="padding:10px;background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                                 <t t-esc="doc.preliminary_control"/>
                                             </td>
-                                            <td style="background-color: #ffffff !important; color: #000; border: 1px solid #000;">
+                                            <td style="padding:10px;background-color: #ffffff !important; color: #000; border: 1px solid #000;">
                                                 <t t-esc="doc.final_control"/>
                                             </td>
                                         </tr>
@@ -442,37 +510,38 @@
 
                             </div>
                         </div>
+                        <br/>
 
-                        <table class="table table-sm">
-                            <thead>
+                        <table class="table table-bordered expense-table" style="padding:20px;width:100%;">
+                            <thead style="background-color: #c7c7c7;">
                                 <tr>
-                                    <th>Number</th>
-                                    <th>Name</th>
-                                    <th>Objectives</th>
-                                    <th>Reference</th>
-                                    <th>Work P</th>
-                                    <th>Notes</th>
+                                    <th style="padding:10px;width:2%;">Number</th>
+                                    <th style="padding:10px;width:33%;">Name</th>
+                                    <th style="padding:10px;width:5%;">Objectives</th>
+                                    <th style="padding:10px;width:5%;">Reference</th>
+                                    <th style="padding:10px;width:15%;">Work P</th>
+                                    <th style="padding:10px;width:40%;">Notes</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-foreach="doc.program_test_ids" t-as="test">
                                     <tr>
-                                        <td>
+                                        <td style="padding:10px;width:2%;">
                                             <t t-esc="test.number"/>
                                         </td>
-                                        <td>
+                                        <td style="padding:10px;width:33%;">
                                             <t t-esc="test.name"/>
                                         </td>
-                                        <td>
+                                        <td style="padding:10px;width:5%">
                                             <t t-esc="test.objectives"/>
                                         </td>
-                                        <td>
+                                        <td style="padding:10px;width:5%;">
                                             <t t-esc="test.reference"/>
                                         </td>
-                                        <td>
+                                        <td style="padding:10px;width:15%;">
                                             <t t-esc="test.work_p.name"/>
                                         </td>
-                                        <td>
+                                        <td style="padding:10px;width:40%;">
                                             <t t-esc="test.notes"/>
                                         </td>
                                     </tr>

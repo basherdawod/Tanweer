@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, Command, _
-from odoo.exceptions import UserError , 
+from odoo.exceptions import UserError 
 from dateutil.relativedelta import relativedelta
 import base64
 import logging
@@ -319,7 +319,7 @@ class PreExpTestLine(models.Model):
             expensed_amount = sum(previous_lines.mapped('amount'))
             record.month_remaining_amount = record.expense_id.total_amount - expensed_amount
 
-        raise UserError(_("You Can't Add Another Line."))
+        # raise UserError(_("You Can't Add Another Line."))
 
 class AccountMove(models.Model):
     _inherit = 'account.move'

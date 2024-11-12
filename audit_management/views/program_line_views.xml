@@ -48,11 +48,7 @@
         </field>
     </record>
 
-<<<<<<< HEAD
-   
 
-=======
->>>>>>> 07e22b3 (audit report)
     <record id="action_program_line" model="ir.actions.act_window">
         <field name="name">Program Line</field>
         <field name="res_model">program.line</field>
@@ -60,9 +56,7 @@
             <field name="context">{'search_default_subject': 1}</field>
     </record>
 
-<<<<<<< HEAD
-     <menuitem id="menu_program_line_audit" name="Program Line" parent="account.menu_finance" action="action_program_line"/>
-=======
 
->>>>>>> 07e22b3 (audit report)
+     <!-- <menuitem id="menu_program_line_audit" name="Program Line" parent="account.menu_finance" action="action_program_line"/> -->
+
 </odoo>
