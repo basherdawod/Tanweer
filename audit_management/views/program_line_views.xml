@@ -48,6 +48,10 @@
         </field>
     </record>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 686e7c8970d40d50cff8073b4824b675d0e85508
     <record id="action_program_line" model="ir.actions.act_window">
         <field name="name">Program Line</field>
         <field name="res_model">program.line</field>
@@ -55,4 +59,10 @@
             <field name="context">{'search_default_subject': 1}</field>
     </record>
 
+<<<<<<< HEAD
+=======
+
+     <!-- <menuitem id="menu_program_line_audit" name="Program Line" parent="account.menu_finance" action="action_program_line"/> -->
+
+>>>>>>> 686e7c8970d40d50cff8073b4824b675d0e85508
 </odoo>

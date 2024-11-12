@@ -11,6 +11,10 @@ class AuditProgram(models.Model):
 
     name = fields.Char(string='Audit Program Name')
     code = fields.Selection([
+<<<<<<< HEAD
+=======
+
+>>>>>>> 686e7c8970d40d50cff8073b4824b675d0e85508
         ('F1', 'F1'), ('F2', 'F2'), ('GP', 'GP'), ('h_p_1', 'HP1'), ('h_p_2', 'HP2'), ('h_p_3', 'HP3'),
         ('h_p_4', 'HP4'),
         ('h_p_5', 'HP5'), ('i_p', 'IP'), ('j_p', 'JP'), ('l_p', 'LP'),

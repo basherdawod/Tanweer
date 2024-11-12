@@ -36,6 +36,17 @@ class PettyCashPayment(models.Model):
     company_id = fields.Many2one('res.company', default=lambda self: self.env.user.company_id.id, string="Company")
     currency_id = fields.Many2one('res.currency', string="Currency", required=True , default=lambda self: self.env.ref('base.AED'))
 
+    # total_send = fields.Float(string="Total Send", compute="_compute_totals")
+    # total_receive = fields.Float(string="Total Receive", compute="_compute_totals")
+
+    # @api.depends('related_records')
+    # def _compute_totals(self):
+    #     for record in self:
+    #         send_records = record.related_records.filtered(lambda r: r.type == 'Send')
+    #         receive_records = record.related_records.filtered(lambda r: r.type == 'receive')
+    #         record.total_send = sum(send_records.mapped('amount'))
+    #         record.total_receive = sum(receive_records.mapped('amount'))
+
     @api.depends('account_id')
     def _compute_account_code(self):
         for rec in self:

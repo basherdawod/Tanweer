@@ -5,8 +5,17 @@
            <t t-foreach="docs" t-as="o">
                <t t-call="web.external_layout">
                    <div class="page" style="padding:20px;">
+                    <style>
+                            .report-header { background-color: #87CEEB; color: white; padding: 10px; margin-bottom: 20px; }
+                            .info-box { background-color: #E6F3FF; border: 1px solid #87CEEB; padding: 10px; margin-bottom: 15px; }
+                            .info-box strong { color: #d3d3d3; }
+                            .expense-table th { background-color: #c7c7c7; color: white; }
+                            .expense-table tr:nth-child(even) { background-color: #ededed; }
+                            .total-table { background-color: #E6F3FF; }
+                            .total-table .border-black { border-top: 2px solid #c7c7c7; }
+                    </style>
                        <div class="oe_structure"/>
-                       <h2 style="font-weight: bold; color: #FFFFFF; text-align: center;background-color: #0064c3;">PETTY CASH SUBMISSION REPORT</h2>
+                       <h2 style="font-weight: bold; color: #FFFFFF; text-align: center;padding:20px; background-color: #c7c7c7;">PETTY CASH SUBMISSION REPORT</h2>
                         <br></br>
                        <div class="row" style="padding:20px;">
                            <div class="col-6">
@@ -36,7 +45,7 @@
                        </div>
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
                        <br/><br/>
-                            <table border="2" style="width: 100%;padding: 10px;">
+                            <table border="2" class="expense-table" style="width: 100%;padding: 10px;">
                                 <thead style="background-color: #0064c3;color: #FFFFFF;">
                                     <tr>
                                         <th style="width: 15%; text-align:left;padding: 10px;">Date</th>
