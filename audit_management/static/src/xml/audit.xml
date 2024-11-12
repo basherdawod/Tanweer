@@ -1,8 +1,18 @@
-<!-- templates.xml -->
-<templates id="template" xml:space="preserve">
-    <t t-name="audit_management.AddAuditLineButton">
-        <button type="button" t-on-click="addAuditLine" class="btn btn-primary">
-            Add Audit Line
-        </button>
+<?xml version="1.0" encoding="utf-8"?>
+
+<templates xml:space="preserve">
+    <t t-name="audit_management.One2manySectionWidgetTemplate" owl="1">
+        <div class="one2many-section-widget">
+            <t t-foreach="props.records" t-as="record" t-key="record.id">
+                <div class="section-header" t-on-click="() => toggleSection(record.id)">
+                    <strong><t t-esc="record.name" /></strong>
+                </div>
+                <div t-if="state.expanded[record.id]" class="section-body">
+                    <!-- Template structure for nested records -->
+                </div>
+            </t>
+        </div>
+
+
     </t>
 </templates>

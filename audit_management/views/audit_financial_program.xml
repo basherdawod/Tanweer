@@ -2,42 +2,61 @@
 <odoo>
     <data>
 
-        <menuitem id="account_reports_ins_wiz" sequence="15"
-                      name="Accounting Reports" parent="account.menu_finance_reports"/>
-
         <record id="view_account_type_audit_form" model="ir.ui.view">
             <field name="name">audit.financial.program.form</field>
             <field name="model">audit.financial.program</field>
             <field name="arch" type="xml">
                 <form string="Account Report">
                     <sheet>
-                         <group col="4">
-                        <field name="name"/>
-                        <field name="partner_id"/>
-                        <field name="data_fis_years_end"/>
-                        <field name="data_last_years_end"/>
-                    </group>
+                        <group>
+                            <group col="4">
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group >
+                                <field name="data_fis_years_end"/>
+                                <field name="data_last_years_end"/>
+                            </group>
+                        </group>
+                        <group >
+                            <group>
+                                <field name="leval1"/>
+<!--                                <field name="audit_lines1_ids"/>-->
+                            </group>
+                            <group>
+                                <field name="leval2"/>
+                                <field name="audit_lines2_ids"/>
+                            </group>
+                            <group>
+                                <field name="leval3"/>
+                                <field name="audit_lines3_ids"/>
+                            </group>
+                        </group>
+
                    <notebook>
-    <page string="Levels">
-        <field name="audit_lines_ids" widget="section_and_note_one2many">
-            <tree string="Levels" editable="bottom" class="level-1">
-                <field name="name" string="Level Name" />
-                <!-- Nested One2many for Account Level Types -->
-                <field name="account_level_type_ids" widget="section_and_note_one2many">
-                    <tree editable="bottom" string="Account Level Types" class="level-2">
-                        <field name="name" string="Account Level Type Name" />
-                        <!-- Nested One2many for Type Lines within Account Level Types -->
-                        <field name="type_line_ids" widget="section_and_note_one2many">
-                            <tree editable="bottom" string="Type Lines" class="level-3">
-                                <field name="name" string="Type Line Name" />
+                    <page string="Levels">
+                        <field name="type_line_ids" widget="one2many_section_widget"/>
+                    </page>
+                       <page string="Levels">
+                        <field name="audit_lines_ids" widget="one2many_section_widget">
+                            <tree string="Levels" editable="bottom" class="level-1">
+                                <field name="name" string="Level Name" />
+                                <!-- Nested One2many for Account Level Types -->
+                                <field name="account_level_type_ids" widget="one2many_section_widget">
+                                    <tree editable="bottom" string="Account Level Types" class="level-2">
+                                        <field name="name" string="Account Level Type Name" />
+                                        <!-- Nested One2many for Type Lines within Account Level Types -->
+                                        <field name="type_line_ids" widget="one2many_section_widget">
+                                            <tree editable="bottom" string="Type Lines" class="level-3">
+                                                <field name="name" string="Type Line Name" />
+                                            </tree>
+                                        </field>
+                                    </tree>
+                                </field>
                             </tree>
                         </field>
-                    </tree>
-                </field>
-            </tree>
-        </field>
-    </page>
-</notebook>
+                    </page>
+                </notebook>
 
 
 

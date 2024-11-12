@@ -6,6 +6,35 @@ class AuditFinancialReport(models.Model):
     _description = "Audit Report"
 
     name = fields.Char('Report Name', translate=True)
+
+    leval1 = fields.Many2one(
+        comodel_name='type.level.audit',
+        string='Leval 1',
+        required=False)
+    leval2 = fields.Many2one(
+        comodel_name='type.level.audit',
+        string='Leval 2',
+        required=False)
+    leval3 = fields.Many2one(
+        comodel_name='type.level.audit',
+        string='Leval 3',
+        required=False)
+    type_line_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        string='Audit Lines',
+        required=False)
+    audit_lines2_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        string='Audit Lines',
+        required=False)
+    audit_lines3_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        string='Audit Lines',
+        required=False)
+
     partner_id = fields.Many2one('res.partner', string="Customer Name")
     data_fis_years_end = fields.Date(
         string='Fiscal Year End',
@@ -43,6 +72,18 @@ class AccountTypeLevel(models.Model):
     audit_financial_id = fields.Many2one(
         comodel_name='audit.financial.program',
         string='Audit Financial Program')
+
+
+class AccountTypeLevel(models.Model):
+    _name = 'type.level.audit'
+    _description = 'Type Level'
+
+    name = fields.Char(
+        string='Name',
+        required=False)
+    lavel_name = fields.Char(
+        string='Lavel_name', 
+        required=False)
 
 
 class TypeAccount(models.Model):

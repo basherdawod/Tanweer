@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_type_level_audit_form" model="ir.ui.view">
+            <field name="name">account.type.level.form</field>
+            <field name="model">account.type.level</field>
+            <field name="arch" type="xml">
+                <form string="Account Report">
+                    <sheet>
+                         <group col="4">
+                        <field name="name"/>
+                    </group>
+                   <notebook>
+                    <page string="Levels">
+                            <field name="account_level_type_ids" widget="one2many_section_widget"/>
+
+
+
+                    </page>
+                </notebook>
+
+
+
+                    </sheet>
+
+
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_type_level_audit_tree" model="ir.ui.view">
+            <field name="name">account.type.level.tree</field>
+            <field name="model">account.type.level</field>
+            <field name="arch" type="xml">
+                <tree string="Account Report">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_account_type_level_audit_search" model="ir.ui.view">
+            <field name="name">account.type.level.search</field>
+            <field name="model">account.type.level</field>
+            <field name="arch" type="xml">
+                <search string="Account Report">
+                    <field name="name" string="Account Report"/>
+
+                </search>
+            </field>
+        </record>
+
+        <record id="action_account_type_level_audit_tree" model="ir.actions.act_window">
+            <field name="name">Financial Reports</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.type.level</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id"
+                   ref="view_account_type_level_audit_search"/>
+            <field name="view_id" ref="view_account_type_level_audit_tree"/>
+        </record>
+
+        <menuitem id="ins_account_type_level_audit_report"
+                  name="Line Reports"
+                  action="action_account_type_level_audit_tree"
+                  sequence="500"
+                  parent="audit_management.menu_audit_management_Configuration"/>
+    </data>
+</odoo>

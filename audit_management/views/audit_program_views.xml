@@ -121,16 +121,10 @@
         </record>
 
 
-<<<<<<< HEAD
-   
-=======
->>>>>>> 07e22b3 (audit report)
-
     <record id="action_audit_program" model="ir.actions.act_window">
         <field name="name">Audit Program</field>
         <field name="res_model">audit.program</field>
         <field name="view_mode">tree,form</field>
 
     </record>
-     <menuitem id="menu_audit_program" name="Audit Program" parent="account.menu_finance" action="action_audit_program"/>
 </odoo>

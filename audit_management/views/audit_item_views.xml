@@ -66,20 +66,10 @@
         </field>
     </record>
 
-<<<<<<< HEAD
-   
-
-=======
->>>>>>> 07e22b3 (audit report)
     <record id="action_audit_items" model="ir.actions.act_window">
         <field name="name">Audit Items</field>
         <field name="res_model">audit.item</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-<<<<<<< HEAD
-     <menuitem id="menu_audit_items" name="Audit Items" parent="account.menu_finance" action="action_audit_items"/>
-=======
-
->>>>>>> 07e22b3 (audit report)
 </odoo>
