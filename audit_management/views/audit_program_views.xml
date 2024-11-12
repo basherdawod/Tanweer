@@ -121,19 +121,11 @@
         </record>
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 686e7c8970d40d50cff8073b4824b675d0e85508
     <record id="action_audit_program" model="ir.actions.act_window">
         <field name="name">Audit Program</field>
         <field name="res_model">audit.program</field>
         <field name="view_mode">tree,form</field>
 
     </record>
-<<<<<<< HEAD
-=======
-     <!-- <menuitem id="menu_audit_program" name="Audit Program" parent="account.menu_finance" action="action_audit_program"/> -->
->>>>>>> 686e7c8970d40d50cff8073b4824b675d0e85508
+
 </odoo>
