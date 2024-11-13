@@ -28,6 +28,7 @@ class PettyCashMasterCard(models.Model):
         store=True, readonly=False,
         tracking=True,
     )
+    payments_id = fields.Many2one("petty.cash.payment",string="Payments")
 
     def add_amount(self, increment_value):
         for record in self:

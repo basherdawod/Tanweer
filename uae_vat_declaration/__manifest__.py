@@ -11,27 +11,29 @@ It includes:
 - Calculation of VAT on sales and expenses
 - Summary of VAT due
     """,
-    'depends': ['base', 'account'],
+    'depends': ['base', 'account','l10n_ae'],
     'data': [
         'data/vat_declaration_sequence.xml',
         'data/vat_registration_sequence.xml',
         'data/corporate_tax_sequance.xml',
+        'data/cron_job.xml',
         'report/vat_report_action.xml',
         'report/vat_report.xml',
-        'data/cron_job.xml',
+        'report/corporit_tax_action.xml',
+        'report/corporit_tax_report.xml',
+        
         
         'views/vat_declaration_views.xml',
         'views/vat_registration_views.xml',
         'views/authorised_signatory.xml',
+        'views/corporate_tax.xml',
         'views/res_company.xml',
         'security/security.xml',
         'security/ir.model.access.csv',
         'report/vat_report_action.xml',
         'report/vat_report.xml',
         'data/tax_lines.xml',
-        'views/corporate_tax.xml',
-        'report/corporit_tax_action.xml',
-        'report/corporit_tax_report.xml'
+        
         
     ],
     'demo': [

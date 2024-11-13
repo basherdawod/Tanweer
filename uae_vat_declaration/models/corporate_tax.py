@@ -4,6 +4,11 @@ import xlsxwriter
 from odoo.http import content_disposition, request
 from odoo import http
 import logging
+import base64
+from io import BytesIO
+from xlsxwriter import Workbook
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
 
 _logger = logging.getLogger(__name__)
 # _logger.info("Starting _compute_account_balance")
@@ -12,7 +17,7 @@ class CorporateTax(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Corporate Tax'
     
-    name = fields.Char(string='Corporate Tax', readonly=True, copy=False, default=lambda self: _('New'), unique=True)
+    name = fields.Char(string='Corporate Tax', readonly=True, default=lambda self: _('New'), unique=True)
     trn = fields.Char(string='TRN', related='vat_registration_id.trn', readonly=True, store=True)
     legal_name = fields.Char(string='Legal Name of Entity', related='vat_registration_id.legal_name_english', readonly=True, store=True)
     status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status', default='draft')
@@ -109,32 +114,207 @@ class CorporateTax(models.Model):
         if income_total > 357000:
             self.income_total = (income_total - 357000) * 0.9
         else:
-            self.income_total = income_total
+            self.income_total = 0.0
 
 
-        # def action_export_excel(self):
-        #     output = io.BytesIO()
-        #     workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        #     worksheet = workbook.add_worksheet('Corporate Tax')
+    # def action_generate_pdf_report(self):
+    #     report_ref = 'uae_vat_declaration.action_corporate_tax_report_pdf'
 
-        #     worksheet.write(0, 0, 'Example Data')
+    #     # Ensure the report reference is a string, not a list
+    #     if isinstance(report_ref, list):
+    #         raise ValueError("The report reference should be a string, not a list.")
+
+    #     # Now fetch the report
+    #     report = self.env.ref(report_ref)
+
+    #     if not report:
+    #         raise UserError("Report not found.")
+            
+    #     pdf_data = report.sudo()._render_qweb_pdf([self.id])[0]  # Generate the PDF
+
+    #     # Continue with creating the attachment as before
+
+    #     # Correctly reference the report action with a single string xmlid
+    #     # report = self.env.ref('uae_vat_declaration.action_corporate_tax_report_pdf')  # Make sure this is correct
+        
+    #     # if not report:
+    #     #     raise UserError("Report not found.")
+        
+    #     # # Generate PDF using the report action
+    #     # pdf_data = report.sudo()._render_qweb_pdf([self.id])[0]  # The report action renders the PDF
+        
+    #     # Create an attachment for the report
+    #     attachment = self.env['ir.attachment'].create({
+    #         'name': 'corporate_tax_report.pdf',
+    #         'type': 'binary',
+    #         'datas': base64.b64encode(pdf_data),
+    #         'res_model': self._name,
+    #         'res_id': self.id,
+    #         'mimetype': 'application/pdf'
+    #     })
+        
+    #     # Return URL for downloading the report
+    #     return {
+    #         'type': 'ir.actions.act_url',
+    #         'url': f'/web/content/{attachment.id}?download=true',
+    #         'target': 'new',
+    #     }
+
+    # def action_generate_pdf_report(self):
+    #     return self.env.ref('uae_vat_declaration.report_corporit_template').report_action(self)
+
+    # def action_generate_pdf_report(self):
+    #     return self.env['ir.actions.report']._get_report_from_name('uae_vat_declaration.action_corporate_tax_report_pdf').report_action(self)
 
 
-        #     workbook.close()
-        #     output.seek(0)
 
-        #     return http.send_file(output, filename="Corporate_Tax_Report.xlsx",
-        #                           as_attachment=True, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 
-        # def action_export_excel(self):
-        #     return {
-        #         'type': 'ir.actions.report',
-        #         'report_name': 'uae_vat_declaration.report_corporit_template_xlsx',
-        #         'report_type': 'xlsx',
-        #         'data': {
+
+    # def action_generate_excel_report(self):
+    #     # Create a BytesIO buffer to hold the Excel file
+    #     buffer = BytesIO()
+        
+    #     # Create an Excel workbook and worksheet
+    #     workbook = Workbook(buffer)
+    #     worksheet = workbook.add_worksheet("Report")
+        
+    #     # Define header row
+    #     worksheet.write(0, 0, "Name")
+    #     worksheet.write(0, 1, "Total Income")
+    #     worksheet.write(0, 2, "TRN")
+    #     worksheet.write(0, 3, "Legal Name")
+    #     worksheet.write(0, 4, "VAT Registration ID")
+    #     worksheet.write(0, 5, "Income")
+        
+    #     # Ensure the field values are correctly retrieved
+        
+    #     # Write Name field
+    #     worksheet.write(1, 0, self.name if self.name else "N/A")  # If 'name' is None or False, use "N/A"
+        
+    #     # Write Total Income field
+    #     worksheet.write(1, 1, self.income_total if self.income_total is not None else 0.0)  # If 'income_total' is None, use 0.0
+        
+    #     # Write TRN field
+    #     worksheet.write(1, 2, self.trn if self.trn else "N/A")  # If 'trn' is None or False, use "N/A"
+        
+    #     # Write Legal Name field
+    #     worksheet.write(1, 3, self.legal_name if self.legal_name else "N/A")  # If 'legal_name' is None or False, use "N/A"
+        
+    #     # Write VAT Registration ID
+    #     if self.vat_registration_id:
+    #         worksheet.write(1, 4, self.vat_registration_id.name if self.vat_registration_id.name else "N/A")  # Access related field 'name' in res.company
+    #     else:
+    #         worksheet.write(1, 4, "N/A")  # If 'vat_registration_id' is None, use "N/A"
+        
+    #     # Write Income field
+    #     worksheet.write(1, 5, self.income if self.income is not None else 0.0)  # If 'income' is None, use 0.0
+        
+    #     # Close the workbook
+    #     workbook.close()
+        
+    #     # Get the content of the file
+    #     buffer.seek(0)
+    #     file_data = buffer.read()
+        
+    #     # Create the attachment to download the file
+    #     attachment = self.env['ir.attachment'].create({
+    #         'name': "Corporate_Tax_Report.xlsx",
+    #         'type': 'binary',
+    #         'datas': base64.b64encode(file_data),
+    #         'res_model': self._name,
+    #         'res_id': self.id,
+    #         'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    #     })
+        
+    #     # Return the attachment ID so the user can download the file (optional)
+    #     return attachment
+        
+    #     # Return the URL to download the generated file
+    #     # return {
+    #     #     'type': 'ir.actions.act_url',
+    #     #     'url': f'/web/content/{attachment.id}?download=true',
+    #     #     'target': 'new',
+    #     # }
+
+    #     # def action_export_excel(self):
+    #     #     output = io.BytesIO()
+    #     #     workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    #     #     worksheet = workbook.add_worksheet('Corporate Tax')
+
+    #     #     worksheet.write(0, 0, 'Example Data')
+
+
+    #     #     workbook.close()
+    #     #     output.seek(0)
+
+    #     #     return http.send_file(output, filename="Corporate_Tax_Report.xlsx",
+    #     #                           as_attachment=True, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+    #     # def action_export_excel(self):
+    #     #     return {
+    #     #         'type': 'ir.actions.report',
+    #     #         'report_name': 'uae_vat_declaration.report_corporit_template_xlsx',
+    #     #         'report_type': 'xlsx',
+    #     #         'data': {
                   
-        #         }
-        #     }
+    #     #         }
+    #     #     }
+
+
+
+    def action_generate_excel_report(self):
+        # Create a BytesIO buffer to hold the Excel file
+        buffer = BytesIO()
+        
+        # Create an Excel workbook and worksheet
+        workbook = Workbook(buffer)
+        worksheet = workbook.add_worksheet("Report")
+        
+        # Define header row
+        worksheet.write(0, 0, "Name")
+        worksheet.write(1, 0, "TRN")
+        worksheet.write(2, 0, "Legal Name")
+        worksheet.write(3, 0, "Income")
+        worksheet.write(4, 0, "Other Income")
+        worksheet.write(5, 0, "Expense")
+        worksheet.write(6, 0, "Other Expense")
+        worksheet.write(7, 0, "Total Balance")
+
+        worksheet.write(0, 1, self.name)
+        worksheet.write(1, 1, self.trn)
+        worksheet.write(2, 1, self.legal_name)
+        worksheet.write(3, 1, self.income)
+        worksheet.write(4, 1, self.other_income)
+        worksheet.write(5, 1, self.expense)
+        worksheet.write(6, 1, self.other_expense)
+        worksheet.write(7, 1, self.income_total)
+        
+        # Close the workbook
+        workbook.close()
+        
+        # Get the content of the file
+        buffer.seek(0)
+        file_data = buffer.read()
+        
+        # Create the attachment to download the file
+        attachment = self.env['ir.attachment'].create({
+            'name': "Corporate Tax.xlsx",
+            'type': 'binary',
+            'datas': base64.b64encode(file_data),
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
+        
+        # Generate the URL to download the file
+        download_url = "/web/content/{}/?download=true".format(attachment.id)
+        
+        # Return the download URL in an action to prompt the file download
+        return {
+            'type': 'ir.actions.act_url',
+            'url': download_url,
+         
+        }
 
 
 

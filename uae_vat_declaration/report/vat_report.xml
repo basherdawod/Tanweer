@@ -15,7 +15,7 @@
                                     إقرار ضريبة القيمة المضافة 
                                 </h4>
                             </div>
-                                            <button type="button" onclick="window.print();" class="print-button">طباعة</button>
+                                       
 
 
                             <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
