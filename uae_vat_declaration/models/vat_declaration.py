@@ -10,6 +10,8 @@ from xlsxwriter import Workbook
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from odoo.exceptions import AccessError, ValidationError, UserError
+from odoo.tools import date_utils
+
 
 class VatDeclarationLine(models.Model):
     _name = 'vat.declaration.line'
@@ -273,15 +275,10 @@ class VatDeclaration(models.Model):
             self.date_to = False
 
     def action_generate_vat_excel_report(self):
-        # self.ensure_one()
-        # Create a BytesIO buffer to hold the Excel file
         buffer = BytesIO()
-        
-        # Create an Excel workbook and worksheet
         workbook = Workbook(buffer)
         worksheet = workbook.add_worksheet("Report")
         
-        # Define header row
         worksheet.write(0, 0, "Name")
         worksheet.write(1, 0, "Date From")
         worksheet.write(2, 0, "Date To")
@@ -291,15 +288,27 @@ class VatDeclaration(models.Model):
         worksheet.write(1, 1, self.date_from)
         worksheet.write(2, 1, self.date_to)
         worksheet.write(3, 1, self.q_dates)
-        
-        
-        workbook.close()
-        
 
+        worksheet.write(5, 0, "Description")
+        worksheet.write(5, 1, "Amount")
+        worksheet.write(5, 2, "Tax Amount")
+        worksheet.write(5, 3, "Adjustment")
+
+       
+        vat_sales_outputs = self.vat_sales_outputs  
+
+        row = 6 
+
+        for line in vat_sales_outputs:
+            worksheet.write(row, 0, line.description)  
+            worksheet.write(row, 1, line.amount)  
+            worksheet.write(row, 2, line.taxamount)  
+            worksheet.write(row, 3, line.adjustment)  
+            row += 1  
+
+        workbook.close()
         buffer.seek(0)
         file_data = buffer.read()
-        
-        # Create the attachment to download the file
         attachment = self.env['ir.attachment'].sudo().create({
             'name': "VAT Report.xlsx",
             'type': 'binary',
@@ -308,14 +317,9 @@ class VatDeclaration(models.Model):
             'res_id': self.id,
             'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         })
-        
-        # Generate the URL to download the file
         download_url = "/web/content/{}/?download=true".format(attachment.id)
-        
-        # Return the download URL in an action to prompt the file download
         return {
             'type': 'ir.actions.act_url',
             'url': download_url,
             'target': 'new',
         }
-        buffer.close()

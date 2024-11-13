@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="action_print_audit_program" model="ir.actions.report">
+    <record id="action_print_audit_program_report" model="ir.actions.report">
         <field name="name">Audit Program Report</field>
         <field name="model">audit.program</field>
         <field name="report_type">qweb-pdf</field>

@@ -63,7 +63,8 @@ class AuditFinancialReport(models.Model):
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('audit.financial.program') or _('New')
 
-
+        # records = self.with_context(skip_generate_lines=True).action_create_audit_line()
+        
         records = super(AuditFinancialReport, self).create(vals_list)
         records.action_create_audit_line()
         return records # Ensure created records are returned
