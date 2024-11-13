@@ -4,13 +4,12 @@ import { Component, useState } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { registry } from "@web/core/registry";
 
-// Define the component
 class One2manySectionWidget extends Component {
     setup() {
-        this.orm = useService("orm");
+        this.orm = useService("orm");  // Assuming you need orm service here
         this.state = useState({
             expanded: {},
-            recordsWithRelations: {},
+            recordsWithRelations: {}, // Holds all records with fetched nested data
         });
         this.fetchAllRecordsWithRelations();
     }
@@ -35,22 +34,25 @@ class One2manySectionWidget extends Component {
     }
 
     async fetchRelatedRecords(recordId, fieldName) {
-        const record = this.props.records.find((r) => r.id === recordId);
-        if (record && record[fieldName]) {
-            return await this.orm.read(record[fieldName], ["id", "name"]);
+        try {
+            const record = this.props.records.find((r) => r.id === recordId);
+            if (record && record[fieldName]) {
+                const relatedRecords = await this.orm.read(record[fieldName], ["id", "name"]);
+                return relatedRecords;
+            }
+            return [];
+        } catch (error) {
+            console.error("Error fetching related records:", error);
+            return [];
         }
-        return [];
     }
 
-    // Set the template name
     static template = "audit_management.One2manySectionWidgetTemplate";
 }
 
 One2manySectionWidget.props = {
-    records: Array,
+    records: Array, // Expected to receive records as a prop
 };
 
-// Register the component in the registry
 registry.category("fields").add("one2many_section_widget", One2manySectionWidget);
-
 export default One2manySectionWidget;

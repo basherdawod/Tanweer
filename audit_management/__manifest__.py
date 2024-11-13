@@ -6,7 +6,7 @@
     'summary': 'Manage and ',
     'sequence': 1,
     'website': 'https://www.odoo.com/app/purchase',
-    'depends': ['base', 'account'],
+    'depends': ['base', 'account',],
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_views.xml',
@@ -22,8 +22,8 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'audit_management/static/src/js/audit_lines.js',
-            'audit_management/static/src/xml/audit.xml',
+            # 'audit_management/static/src/js/audit_lines.js',
+            # 'audit_management/static/src/xml/audit.xml',
             'audit_management/static/src/css/style.css',
         ],
     },

@@ -8,20 +8,28 @@
             <field name="arch" type="xml">
                 <form string="Account Report">
                     <sheet>
-                         <group col="4">
-                        <field name="name"/>
-                    </group>
-                   <notebook>
-                    <page string="Levels">
-                            <field name="account_level_type_ids" widget="one2many_section_widget"/>
-
-
-
+                        <group>
+                            <field name="number_audit"/>
+                             <field name="name"/>
+                        </group>
+                         <group>
+                             <field name="audit_financial_id"/>
+                             <field name="type"/>
+                        </group>
+                         <notebook>
+                    <page name="account_level_type_ids" string="Account Levels">
+                        <group>
+                            <!-- Make account_type_name field invisible, but it is still used for domain -->
+                            <field name="account_level_type_ids">
+                                <tree editable="bottom">
+                                    <field name="account_ids"/>
+                                    <field name="balance_this"/>
+                                    <field name="balance_last"/>
+                                </tree>
+                            </field>
+                        </group>
                     </page>
                 </notebook>
-
-
-
                     </sheet>
 
 
@@ -61,10 +69,6 @@
             <field name="view_id" ref="view_account_type_level_audit_tree"/>
         </record>
 
-        <menuitem id="ins_account_type_level_audit_report"
-                  name="Line Reports"
-                  action="action_account_type_level_audit_tree"
-                  sequence="500"
-                  parent="audit_management.menu_audit_management_Configuration"/>
+
     </data>
 </odoo>

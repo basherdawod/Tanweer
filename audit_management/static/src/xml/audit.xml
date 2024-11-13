@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- templates.xml -->
 
 <templates xml:space="preserve">
-    <t t-name="audit_management.One2manySectionWidgetTemplate" owl="1">
+    <t t-name="audit_management.One2manySectionWidgetTemplate" >
         <div class="one2many-section-widget">
-            <t t-foreach="props.records" t-as="record" t-key="record.id">
+            <t t-foreach="Object.values(state.recordsWithRelations)" t-as="record" t-key="record.id">
                 <div class="section-header" t-on-click="() => toggleSection(record.id)">
                     <strong><t t-esc="record.name" /></strong>
                 </div>
                 <div t-if="state.expanded[record.id]" class="section-body">
-                    <!-- Template structure for nested records -->
+                    <t t-if="record.account_level_type_ids.length">
+                        <div t-foreach="record.account_level_type_ids" t-as="accountType" t-key="accountType.id">
+                            <div class="account-type-header">
+                                <t t-esc="accountType.name" />
+                            </div>
+                            <div t-if="accountType.type_line_ids.length">
+                                <ul class="type-line-list">
+                                    <li t-foreach="accountType.type_line_ids" t-as="typeLine" t-key="typeLine.id">
+                                        <t t-esc="typeLine.name" />
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
                 </div>
             </t>
         </div>
-
-
     </t>
 </templates>
