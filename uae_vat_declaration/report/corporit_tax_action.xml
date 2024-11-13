@@ -5,7 +5,7 @@
     <record id="action_corporate_tax_report_pdf" model="ir.actions.report">
         <field name="name">Corporate Tax PDF</field>
         <field name="model">corporate.tax</field>
-        <field name="report_type">qweb-html</field>
+        <field name="report_type">qweb-pdf</field>
         <field name="report_name">uae_vat_declaration.report_corporit_template</field>
         <field name="report_file">uae_vat_declaration.report_corporit_template</field>
         <field name="binding_model_id" ref="model_corporate_tax"/>
@@ -13,7 +13,7 @@
     </record>
 
     <!-- Excel Report -->
-   <!--  <record id="action_corporate_tax_report_xlsx" model="ir.actions.report">
+  <!--  <record id="action_corporate_tax_report_xlsx" model="ir.actions.report">
         <field name="name">Corporate Tax Excel</field>
         <field name="model">corporate.tax</field>
         <field name="report_type">xlsx</field>
@@ -21,5 +21,7 @@
         <field name="binding_model_id" ref="model_corporate_tax"/>
         <field name="binding_type">report</field>
     </record> -->
+
+    
 
 </odoo>

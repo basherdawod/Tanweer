@@ -3,10 +3,13 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date ,timedelta
-import io
-import xlsxwriter
-from odoo import models
 from odoo.http import content_disposition, request
+import base64
+from io import BytesIO
+from xlsxwriter import Workbook
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from odoo.exceptions import AccessError, ValidationError, UserError
 
 class VatDeclarationLine(models.Model):
     _name = 'vat.declaration.line'
@@ -136,7 +139,7 @@ class VatDeclaration(models.Model):
         ('sale', 'Sales'),
         ('purchase', 'Purchase'),
         ('none','All')
-    ], string='Line Type',required=True)
+    ], string='Line Type')
 
     current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
 
@@ -150,12 +153,11 @@ class VatDeclaration(models.Model):
     @api.depends('vat_sales_outputs')
     def _compute_totals(self):
         for record in self:
-            # اجمالي المبيعات
+
             sales_lines = record.vat_sales_outputs.filtered(lambda line: line.line_type == 'sale')
             record.total_sales = sum(sales_lines.mapped('amount'))
             record.total_sales_vat = sum(sales_lines.mapped('taxamount'))
             
-            # اجمالي المشتريات
             purchase_lines = record.vat_sales_outputs.filtered(lambda line: line.line_type == 'purchase')
             record.total_purchase = sum(purchase_lines.mapped('amount'))
             record.total_purchase_vat = sum(purchase_lines.mapped('taxamount'))
@@ -269,3 +271,51 @@ class VatDeclaration(models.Model):
         else:
             self.date_from = False 
             self.date_to = False
+
+    def action_generate_vat_excel_report(self):
+        # self.ensure_one()
+        # Create a BytesIO buffer to hold the Excel file
+        buffer = BytesIO()
+        
+        # Create an Excel workbook and worksheet
+        workbook = Workbook(buffer)
+        worksheet = workbook.add_worksheet("Report")
+        
+        # Define header row
+        worksheet.write(0, 0, "Name")
+        worksheet.write(1, 0, "Date From")
+        worksheet.write(2, 0, "Date To")
+        worksheet.write(3, 0, "Quarter Dates")
+
+        worksheet.write(0, 1, self.name)
+        worksheet.write(1, 1, self.date_from)
+        worksheet.write(2, 1, self.date_to)
+        worksheet.write(3, 1, self.q_dates)
+        
+        
+        workbook.close()
+        
+
+        buffer.seek(0)
+        file_data = buffer.read()
+        
+        # Create the attachment to download the file
+        attachment = self.env['ir.attachment'].sudo().create({
+            'name': "VAT Report.xlsx",
+            'type': 'binary',
+            'datas': base64.b64encode(file_data),
+            'res_model': self._name,
+            'res_id': self.id,
+            'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
+        
+        # Generate the URL to download the file
+        download_url = "/web/content/{}/?download=true".format(attachment.id)
+        
+        # Return the download URL in an action to prompt the file download
+        return {
+            'type': 'ir.actions.act_url',
+            'url': download_url,
+            'target': 'new',
+        }
+        buffer.close()

@@ -27,6 +27,7 @@ class PettyCashRequest(models.Model):
     note = fields.Html(string="NOTES", store=True, readonly=False)
     follow = fields.Html(string="FOR THE FOLLOWING REASONS", store=True, readonly=False)
     purpose = fields.Text(string="Purpose")
+    
 
     state = fields.Selection([
         ('draft', 'Draft'),
