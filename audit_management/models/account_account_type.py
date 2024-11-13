@@ -1,4 +1,9 @@
-from odoo import api, models, fields , _
+from odoo import models, fields, api, Command, _
+from odoo.exceptions import UserError
+from dateutil.relativedelta import relativedelta
+import base64
+import logging
+from datetime import datetime, date
 
 class AccountTypeLevel(models.Model):
     _name = 'account.type.level'
@@ -46,7 +51,11 @@ class AccountTypeLevel(models.Model):
     balance_this = fields.Float(
         string='This Year',
         required=False,
-        # compute='_compute_current_balance',
+        compute='_compute_current_balance',
+    )
+    total_balance_this = fields.Float(
+        string='This Year',
+        required=False,
     )
     currency_id = fields.Many2one(
         'res.currency',
@@ -59,8 +68,13 @@ class AccountTypeLevel(models.Model):
         string='Last Year',
         required=False,
         currency_field='currency_id',
-        # compute='_compute_open_balance',
+        compute='_compute_open_balance',
     )
+    total_balance_last = fields.Monetary(
+            string='Last Year',
+            required=False,
+            currency_field='currency_id',
+        )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -70,6 +84,23 @@ class AccountTypeLevel(models.Model):
         records = super(AccountTypeLevel, self).create(vals_list)
         return records  # Ensure created records are returned
 
+    @api.depends('balance_this' , 'account_level_type_ids' ,'account_level_type_ids.balance_this')
+    def _compute_current_balance(self):
+        for record in self:
+            balance = 0.0
+            for line in record.account_level_type_ids :
+                balance += line.balance_this
+            record.balance_this = balance
+
+
+    @api.depends('balance_last' , 'account_level_type_ids' ,'account_level_type_ids.balance_last')
+    def _compute_open_balance(self):
+        for record in self:
+            balance = 0.0
+            for line in record.account_level_type_ids :
+                balance += line.balance_last
+            record.balance_last = balance
+
 
 class AccountAccountTypeAudit(models.Model):
     _name = "account.type.audit"
@@ -78,7 +109,7 @@ class AccountAccountTypeAudit(models.Model):
     balance_this = fields.Float(
         string='This Year',
         required=False,
-        compute='_compute_current_balance',
+        compute='_compute_balance',
     )
     currency_id = fields.Many2one(
         'res.currency',
@@ -93,7 +124,7 @@ class AccountAccountTypeAudit(models.Model):
         string='Last Year',
         required=False ,
         currency_field='currency_id',
-        compute='_compute_open_balance',
+        compute='_compute_balance',
     )
     account_ids = fields.Many2one(
         comodel_name='account.account',
@@ -111,15 +142,33 @@ class AccountAccountTypeAudit(models.Model):
             record.balance_this = total_balance
 
     @api.depends('account_ids')
-    def _compute_open_balance(self):
+    def _compute_balance(self):
         for record in self:
-            total_balance = 0.0
+            total_balance_this = 0.0
+            total_balance_last = 0.0
+
+            # Define the date ranges for the current and previous years
+            current_year_start = date(date.today().year, 1, 1)
+            current_year_end = date(date.today().year, 12, 31)
+            last_year_start = date(date.today().year - 1, 1, 1)
+            last_year_end = date(date.today().year - 1, 12, 31)
+
+            # Calculate balances for each account
             for account in record.account_ids:
-                print(f"Account ID: {account.id}, Current Balance: {account.opening_balance}")
-                total_balance += account.opening_balance
-            record.balance_last = total_balance
+                lines = self.env['account.move.line'].search([
+                    ('account_id', '=', account.id)
+                ])
+                for line in lines:
+                    # Calculate balance for the current year
+                    if current_year_start <= line.date <= current_year_end:
+                        total_balance_this += line.debit - line.credit
+                    # Calculate balance for the previous year
+                    elif last_year_start <= line.date <= last_year_end:
+                        total_balance_last += line.debit - line.credit
 
-
+            # Assign computed balances
+            record.balance_this = total_balance_this
+            record.balance_last = total_balance_last
 
     def _get_account_domain(self):
         if not self.account_type_name:
@@ -143,4 +192,3 @@ class AccountAccountTypeAudit(models.Model):
           # Default handler
     )
 
- # default=lambda self: self._default_account_type()

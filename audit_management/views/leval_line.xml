@@ -16,6 +16,10 @@
                              <field name="audit_financial_id"/>
                              <field name="type"/>
                         </group>
+                        <group>
+                             <field name="total_balance_last"/>
+                             <field name="total_balance_this"/>
+                        </group>
                          <notebook>
                     <page name="account_level_type_ids" string="Account Levels">
                         <group>
