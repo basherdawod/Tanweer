@@ -9,7 +9,7 @@
                     <t t-foreach="docs" t-as="o">
                    
                        
-                            <div style="font-weight: bold; color: #000000; text-align: center;">
+                            <div style=" color: #000000; text-align: center;">
                                 <h4 style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 20px ">
                                    Corporte Tax - ضريبة الشركات 
                                 </h4>
