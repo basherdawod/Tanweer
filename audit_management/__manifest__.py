@@ -19,6 +19,7 @@
         'views/menu.xml',
         'reports/program_report_template.xml',
         'reports/audit_item.xml',
+        'reports/audit_financial_program_report.xml',
     ],
     'assets': {
         'web.assets_backend': [

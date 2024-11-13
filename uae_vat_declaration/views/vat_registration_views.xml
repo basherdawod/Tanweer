@@ -20,14 +20,17 @@
             </div>
         <group>
             <group>
-                 <field name="creation_date" readonly="status != 'draft'"/>
+                 
                 <field name="tax_type" readonly="status != 'draft'"/>
+                <field name="creation_date" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
                 <field name="company_vat"/>
+                <field name="company_corprate_tax"/>
+                
                 
                 <!-- <field name="basic_rate_supplies_emirate"/> -->
             </group>
             <group>
-                <field name="company_corprate_tax"/>
+                
                 <field name="legal_name_english"/>
                 <field name="legal_name_arabic"/>
                 <field name="effective_reg_date"/>
@@ -36,10 +39,10 @@
         </group>
         <group>
             <group string="Date Due Return VAT">
-                <field name="vat_due_date_q1" readonly="status != 'draft'"/>
-                <field name="vat_due_date_q2" readonly="status != 'draft'"/>
-                <field name="vat_due_date_q3" readonly="status != 'draft'"/>
-                <field name="vat_due_date_q4" readonly="status != 'draft'"/>
+                <field name="vat_due_date_q1" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                <field name="vat_due_date_q2" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                <field name="vat_due_date_q3" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                <field name="vat_due_date_q4" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
             </group>
         
           <!--   <group string="Corporate Tax Due Date">

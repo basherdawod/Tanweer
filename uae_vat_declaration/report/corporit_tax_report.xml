@@ -9,25 +9,88 @@
                     <t t-foreach="docs" t-as="o">
                    
                        
-                            <div style="font-weight: bold; color: #000000; text-align: center;">
-                                <h4 style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 10px ">
+                            <div style=" color: #000000; text-align: center;">
+                                <h4 style="width: 100%; height: 30%;background-color: #d3d3d3;font-weight: bold; color: #000; text-align: center; padding: 20px ">
                                    Corporte Tax - ضريبة الشركات 
                                 </h4>
                             </div>
 
                             <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
-                        <div style="width: 100%;text-align: right;margin-right:20px;direction:rtl;">
-                            <br/><br/>
-                            <br/><br/>
-                            <div style='text-align: right'>TRN   <span style='text-align: right;direction:rtl;'><t t-esc="o.vat_registration_id.company_corprate_tax"/></span></div>
-                            <br/><br/>
-                            <div style="font-weight: bold; color: #000000;">الاسم القانوني للكيان باللغة الإنجليزية: <t t-esc="o.legal_name"/></div>
-                            <br/><br/>
-                            <div style="font-weight: bold; color: #000000;">الاسم القانوني للكيان باللغة  العربية : <t t-esc="o.vat_registration_id.legal_name_arabic"/></div>
-                            <br/><br/>
-                            <div style="font-weight: bold; color: #000000;">تاريخ التسجيل الفعلي :  <t t-esc="o.effective_reg_date"/></div>
-                        </div>
-                                <br/><br/>
+                            <div class="row">
+                                <div class="col-4">
+                                    <span style=" color: #000000; font-size: 12pt; text-align: left;">Ref :</span>
+                                </div>
+                                <div class="col-4" style="text-align: center;">
+                                    <span style=" color: #000000; font-size: 12pt;">
+                                    <span t-esc="o.name"/>
+                                </span>
+                                </div>
+                                <div class="col-4" style="text-align: right;">
+                                    <span style=" color: #000000; font-size: 12pt;">رقم المرجع</span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <span style=" color: #000000; font-size: 12pt; text-align: left;">Corporate Tax NO :</span>
+                                </div>
+                                <div class="col-4" style="text-align: center;">
+                                    <span style=" color: #000000; font-size: 12pt;">
+                                    <span t-esc="o.vat_registration_id.company_corprate_tax"/>
+                                </span>
+                                </div>
+                                <div class="col-4" style="text-align: right;">
+                                    <span style=" color: #000000; font-size: 12pt;">رقم ضريبة الشركات</span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <span style=" color: #000000; font-size: 12pt; text-align: left;">Corporate Tax NO :</span>
+                                </div>
+                                <div class="col-4" style="text-align: center;">
+                                    <span style=" color: #000000; font-size: 12pt;">
+                                    <span t-esc="o.vat_registration_id.company_corprate_tax"/>
+                                </span>
+                                </div>
+                                <div class="col-4" style="text-align: right;">
+                                    <span style=" color: #000000; font-size: 12pt;">رقم ضريبة الشركات</span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <span style=" color: #000000; font-size: 12pt; text-align: left;">Legal Name in English :</span>
+                                </div>
+                                <div class="col-4" style="text-align: center;">
+                                    <span style=" color: #000000; font-size: 12pt;">
+                                    <span ><t t-esc="o.vat_registration_id.legal_name_english"/></span>
+                                </span>
+                                </div>
+                                <div class="col-4" style="text-align: right;">
+                                    <span style=" color: #000000; font-size: 12pt;">الاسم القانوني باللغة الانجليزية</span>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <span style=" color: #000000; font-size: 12pt; text-align: left;">Legal Name in Arabic :</span>
+                                </div>
+                                <div class="col-4" style="text-align: center;">
+                                    <span style=" color: #000000; font-size: 12pt;">
+                                    <span ><t t-esc="o.vat_registration_id.legal_name_arabic"/></span>
+                                </span>
+                                </div>
+                                <div class="col-4" style="text-align: right;">
+                                    <span style=" color: #000000; font-size: 12pt;">الاسم  القانوني باللغة العربية</span>
+                                </div>
+                            </div>
+                            <br/>
+                                <br/>
                                 <hr style="border: 2px solid black;margin: 20px;" />
                                 <br/><br/>
                             <table border="2" style="width: 40;padding: 10px;margin: 30px;">
@@ -36,14 +99,14 @@
                                         
                                         <th colspan="2" style="width:30%; text-align:left;padding: 10px;">Operating Income <br/> الدخل التشغيلي </th>
                                         <th colspan="2" style="width:30%; text-align:left;padding: 10px;">Cost of Revenue<br/> تكلفة الإيرادات</th>
-                                        <th style="width:40%; text-align:left;padding: 10px;">Corporte Tax <br/> ضريبة الشركات </th>
+                                        <th rowspan="2" style="width:40%; text-align:left;padding: 10px;">Corporte Tax <br/> ضريبة الشركات </th>
                                     </tr>
                                     <tr>
-                                        <th style="text-align:left;padding: 10px;">Income</th>
-                                        <th style="text-align:left;padding: 10px;">Other Income</th>
-                                        <th style="text-align:left;padding: 10px;">Expencse</th>
-                                        <th style="text-align:left;padding: 10px;">Other Expencse</th>
-                                        <th></th>
+                                        <th style="text-align:left;padding: 10px;">Income<br/>دخل</th>
+                                        <th style="text-align:left;padding: 10px;">Other Income<br/>دخل آخر</th>
+                                        <th style="text-align:left;padding: 10px;">Expencse<br/>تفقات </th>
+                                        <th style="text-align:left;padding: 10px;">Other Expencse<br/>نفقات اخري</th>
+                                        
                                             
                                     </tr>
                                 </thead>
