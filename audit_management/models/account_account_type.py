@@ -76,6 +76,20 @@ class AccountTypeLevel(models.Model):
             currency_field='currency_id',
         )
 
+    def _inverse_balance_last(self):
+        """
+        This method is triggered when 'balance_last' is updated directly.
+        It syncs the balance_last field with the total_balance_last field when appropriate.
+        """
+        for record in self:
+            if record.total_balance_last != 0.0 and record.balance_last == 0.0:
+                # If total_balance_last is set and balance_last is zero, set balance_last to total_balance_last
+                record.balance_last = record.total_balance_last
+            elif record.total_balance_last == 0.0 and record.balance_last != 0.0:
+                # You could add additional logic to reset or manage other fields if needed
+                pass
+
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -84,23 +98,25 @@ class AccountTypeLevel(models.Model):
         records = super(AccountTypeLevel, self).create(vals_list)
         return records  # Ensure created records are returned
 
-    @api.depends('balance_this' , 'account_level_type_ids' ,'account_level_type_ids.balance_this')
+    @api.depends('balance_this' , 'account_level_type_ids' ,'account_level_type_ids.balance_this',)
     def _compute_current_balance(self):
         for record in self:
             balance = 0.0
-            for line in record.account_level_type_ids :
-                balance += line.balance_this
-            record.balance_this = balance
+            if record.type:
+                for line in record.account_level_type_ids:
+                    balance += line.balance_this
+                record.balance_this = balance
+            else:
+                record.balance_this = record.total_balance_this
 
-
-    @api.depends('balance_last' , 'account_level_type_ids' ,'account_level_type_ids.balance_last')
+    @api.depends('account_level_type_ids.balance_last', 'type')
     def _compute_open_balance(self):
         for record in self:
-            balance = 0.0
-            for line in record.account_level_type_ids :
-                balance += line.balance_last
-            record.balance_last = balance
-
+            if record.type:
+                balance = sum(line.balance_last for line in record.account_level_type_ids)
+                record.balance_last = balance
+            else:
+                record.balance_last = record.total_balance_last
 
 class AccountAccountTypeAudit(models.Model):
     _name = "account.type.audit"

@@ -56,6 +56,41 @@ class AuditFinancialReport(models.Model):
         column2='type_level_id',
         string='Level 3 Lines',
     )
+    total_balance_this_lival1 = fields.Float(
+        string='This Year',
+        required=False,
+    )
+    total_balance_this_lival2 = fields.Float(
+            string='This Year',
+            required=False,
+        )
+    total_balance_this_lival3 = fields.Float(
+            string='This Year',
+            required=False,
+        )
+    currency_id = fields.Many2one(
+        'res.currency',
+        string="Currency",
+
+        required=True,
+        default=lambda self: self.env.company.currency_id
+    )
+
+    total_balance_last_lival1 = fields.Monetary(
+        string='Last Year',
+        required=False,
+        currency_field='currency_id',
+    )
+    total_balance_last_lival2 = fields.Monetary(
+        string='Last Year',
+        required=False,
+        currency_field='currency_id',
+    )
+    total_balance_last_lival3 = fields.Monetary(
+        string='Last Year',
+        required=False,
+        currency_field='currency_id',
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -67,132 +102,8 @@ class AuditFinancialReport(models.Model):
         
         records = super(AuditFinancialReport, self).create(vals_list)
 
-        for record in records:
-            try:
-                record.action_create_audit_line()
-                print ()
-            except Exception as e:
-                _logger.error(f"Error creating audit lines for record {record.id}: {e}")
-                raise UserError(_("An error occurred while creating audit lines. Please contact the administrator."))
-
         return records
-    #
-    # def action_create_audit_line(self):
-    #     # Collecting the audit line values to create
-    #     self.write({
-    #         'audit_lines_ids': [(5, 0, 0)]  # This clears all existing records in the field
-    #     })
-    #     line_vals = []
-    #     total_balance_this_lival1 = 0.0
-    #     total_balance_last_lival1  = 0.0
-    #     total_balance_this_lival2 = 0.0
-    #     total_balance_last_lival2  = 0.0
-    #     total_balance_this_lival3 = 0.0
-    #     total_balance_last_lival3  = 0.0
-    #
-    #
-    #     for record in self:
-    #         level_id1 = self.env['account.type.level'].search([('name', '=', record.level1)], limit=1)
-    #         level_id2 = self.env['account.type.level'].search([('name', '=', record.level2)], limit=1)
-    #         level_id3 = self.env['account.type.level'].search([('name', '=', record.level3)], limit=1)
-    #         #
-    #         if level_id1:  # Assuming level1 is a field, if not, adapt the code to your model
-    #             line_vals.append({
-    #                 'level_line_id': level_id1.id,  # Replace 'level1' with the correct field
-    #             })
-    #             # Add the lines associated with 'type_line_L1_ids'
-    #             for line in record.type_line_L1_ids:
-    #                 line_vals.append({
-    #                     'level_line_id': line.id,
-    #                 })
-    #                 total_balance_this_lival1 += line.balance_this
-    #                 total_balance_last_lival1 += line.balance_last
-    #         else:
-    #             li = self.env['account.type.level'].create({'name': record.level1,})
-    #             line_vals.append({
-    #                 'level_line_id': li.id,  # Replace 'level1' with the correct field
-    #             })
-    #             # Add the lines associated with 'type_line_L1_ids'
-    #             for line in record.type_line_L1_ids:
-    #                 line_vals.append({
-    #                     'level_line_id': line.id,
-    #                 })
-    #                 total_balance_this_lival1 += line.balance_this
-    #                 total_balance_last_lival1 += line.balance_last
-    #                 #
-    #         if level_id2:  # Assuming level1 is a field, if not, adapt the code to your model
-    #             line_vals.append({
-    #                 'level_line_id': level_id2.id,  # Replace 'level1' with the correct field
-    #             })
-    #             # Add the lines associated with 'type_line_L1_ids'
-    #             for line in record.type_line_l2_ids:
-    #                 line_vals.append({
-    #                     'level_line_id': line.id,
-    #                 })
-    #                 total_balance_this_lival2 += line.balance_this
-    #                 total_balance_last_lival2 += line.balance_last
-    #         else:
-    #             li = self.env['account.type.level'].create({'name': record.level2,})
-    #             line_vals.append({
-    #                 'level_line_id': li.id,  # Replace 'level1' with the correct field
-    #             })
-    #             # Add the lines associated with 'type_line_L1_ids'
-    #             for line in record.type_line_l2_ids:
-    #                 line_vals.append({
-    #                     'level_line_id': line.id,
-    #                 })
-    #                 total_balance_this_lival2 += line.balance_this
-    #                 total_balance_last_lival2 += line.balance_last
-    #             #
-    #         if level_id3:  # Assuming level1 is a field, if not, adapt the code to your model
-    #             line_vals.append({
-    #                 'level_line_id': level_id3.id,  # Replace 'level1' with the correct field
-    #             })
-    #             # Add the lines associated with 'type_line_L1_ids'
-    #             for line in record.type_line_l3_ids:
-    #                 line_vals.append({
-    #                     'level_line_id': line.id,
-    #                 })
-    #                 total_balance_this_lival3 += line.balance_this
-    #                 total_balance_last_lival3 += line.balance_last
-    #         else:
-    #             li = self.env['account.type.level'].create({'name': record.level3,})
-    #             line_vals.append({
-    #                 'level_line_id': li.id,  # Replace 'level1' with the correct field
-    #             })
-    #             # Add the lines associated with 'type_line_L1_ids'
-    #             for line in record.type_line_l3_ids:
-    #                 line_vals.append({
-    #                     'level_line_id': line.id,
-    #                 })
-    #                 total_balance_this_lival3 += line.balance_this
-    #                 total_balance_last_lival3 += line.balance_last
-    #         self.write({
-    #             'audit_lines_ids': [Command.create(vals) for vals in line_vals]
-    #         })
-    #         print ("Line 1 " ,  total_balance_this_lival1)
-    #         print ("Line 1# " ,  total_balance_last_lival1)
-    #         print ("Line 2 " ,  total_balance_this_lival2)
-    #         print ("Line 2# " ,  total_balance_last_lival2)
-    #         print ("Line 3 " ,  total_balance_this_lival3)
-    #         print ("Line 3# " ,  total_balance_last_lival3)
-    #         for line_id in record.audit_lines_ids:
-    #             if line_id.level_line_id.name == record.level1:
-    #                 line_id.level_line_id.write({
-    #                     'balance_this': total_balance_this_lival1 ,
-    #                     'balance_last': total_balance_last_lival1
-    #                 })
-    #             elif line_id.level_line_id.name == record.level2:
-    #                 line_id.level_line_id.write({
-    #                     'balance_this': total_balance_this_lival2,
-    #                     'balance_last': total_balance_last_lival2
-    #                 })
-    #             elif line_id.level_line_id.name == record.level3:
-    #                 line_id.level_line_id.write({
-    #                     'balance_this': total_balance_this_lival3,
-    #                     'balance_last': total_balance_last_lival3
-    #                 })
-    #
+
     def action_create_audit_line(self):
         # Clear existing audit lines
         self.write({
@@ -247,18 +158,20 @@ class AuditFinancialReport(models.Model):
             self.write({
                 'audit_lines_ids': [Command.create(vals) for vals in line_vals]
             })
-            level_id1.write({
+
+            level_id1.write ({
                 'total_balance_this': total_balance_this_lival1,
                 'total_balance_last': total_balance_last_lival1
             })
-            level_id2.write({
+            level_id2.write ({
                 'total_balance_this': total_balance_this_lival2,
                 'total_balance_last': total_balance_last_lival2
             })
-            level_id3.write({
+            level_id3.write ({
                 'total_balance_this': total_balance_this_lival3,
                 'total_balance_last': total_balance_last_lival3
             })
+
 # Separate models for each level
 class AccountTypeLevelL1(models.Model):
     _name = 'account.type.level.l1'
@@ -347,5 +260,6 @@ class AccountTypeLevel(models.Model):
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
+
 
 

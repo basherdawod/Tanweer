@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="view_account_type_level_audit_form" model="ir.ui.view">
             <field name="name">account.type.level.form</field>
             <field name="model">account.type.level</field>
@@ -15,10 +14,6 @@
                          <group>
                              <field name="audit_financial_id"/>
                              <field name="type"/>
-                        </group>
-                        <group>
-                             <field name="total_balance_last"/>
-                             <field name="total_balance_this"/>
                         </group>
                          <notebook>
                     <page name="account_level_type_ids" string="Account Levels">
@@ -35,8 +30,6 @@
                     </page>
                 </notebook>
                     </sheet>
-
-
 
                 </form>
             </field>
