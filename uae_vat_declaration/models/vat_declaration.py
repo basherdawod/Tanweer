@@ -5,6 +5,8 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime, date ,timedelta
 from odoo.http import content_disposition, request
 import base64
+import io
+import xlsxwriter
 from io import BytesIO
 from xlsxwriter import Workbook
 from reportlab.lib.pagesizes import A4
@@ -144,13 +146,6 @@ class VatDeclaration(models.Model):
     ], string='Line Type')
 
     current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
-
-
-    # @api.depends('vat_sales_outputs')
-    # def _compute_totals(self):
-    #     for record in self:
-    #         record.total_sales = sum(record.vat_sales_outputs.mapped('amount'))
-    #         record.total_sales_vat = sum(record.vat_sales_outputs.mapped('taxamount'))
     
     @api.depends('vat_sales_outputs')
     def _compute_totals(self):
@@ -175,13 +170,6 @@ class VatDeclaration(models.Model):
     def _compute_current_datetime(self):
         for record in self:
             record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
-
-    # @api.model
-    # def create(self, vals):
-
-    #     record = super(VatDeclaration, self).create(vals)
-    #     record.with_context(skip_generate_lines=True)._generate_lines()
-    #     return record
 
     @api.model
     def create(self, vals):
@@ -220,34 +208,6 @@ class VatDeclaration(models.Model):
                 'vat_sales_outputs': vat_sales_lines,
             })
 
-
-    # def _generate_lines(self):
-    #     vat_sales_lines = []
-
-    #     for tax in self.env['account.tax'].search([]):
-    #         if tax.type_tax_use == self.line_type :
-    #             vat_sales_lines.append((0, 0, {
-    #             'declaration_id': self.id,
-    #             'tax_id': tax.id,
-    #             'description': tax.description,
-    #             'amount': 0.0,
-    #             'taxamount': 0.0,
-    #         }))
-    #         else:
-    #             vat_sales_lines.append((0, 0, {
-    #             'declaration_id': self.id,
-    #             'tax_id': tax.id,
-    #             'description': tax.description,
-    #             'amount': 0.0,
-    #             'taxamount': 0.0,
-    #         }))
-
-
-    #     self.with_context(skip_generate_lines=True).write({
-    #     'vat_sales_outputs': vat_sales_lines,
-    #     # 'vat_expenses_inputs': vat_expense_lines,
-    # })
-
     @api.onchange('vat_registration_id', 'q_dates')
     def _onchange_dates(self):
         if self.vat_registration_id and self.q_dates:
@@ -275,40 +235,69 @@ class VatDeclaration(models.Model):
             self.date_to = False
 
     def action_generate_vat_excel_report(self):
-        buffer = BytesIO()
+        print("Name:", self.name)
+        print("Date From:", self.date_from)
+        print("TRN:", self.trn)
+        print("Legal Name:", self.legal_name)
+        buffer = io.BytesIO()
         workbook = Workbook(buffer)
-        worksheet = workbook.add_worksheet("Report")
-        
-        worksheet.write(0, 0, "Name")
-        worksheet.write(1, 0, "Date From")
-        worksheet.write(2, 0, "Date To")
-        worksheet.write(3, 0, "Quarter Dates")
+        worksheet = workbook.add_worksheet("VAT 201 Return Report")
 
-        worksheet.write(0, 1, self.name)
-        worksheet.write(1, 1, self.date_from)
-        worksheet.write(2, 1, self.date_to)
-        worksheet.write(3, 1, self.q_dates)
+        # Define formats for headers and currency
+        bold = workbook.add_format({'bold': True})
+        currency_format = workbook.add_format({'num_format': '#,##0.00'})
 
-        worksheet.write(5, 0, "Description")
-        worksheet.write(5, 1, "Amount")
-        worksheet.write(5, 2, "Tax Amount")
-        worksheet.write(5, 3, "Adjustment")
+        # Header section
+        worksheet.write("A1", "VAT 201 Return", bold)
+        worksheet.write("A2", "Ref:", bold)
+        worksheet.write("B2", self.name if self.name else "N/A")  # Check for empty reference
+        worksheet.write("A3", "Date:", bold)
+        worksheet.write("B3", self.date_from.strftime('%Y-%m-%d') if self.date_from else "N/A")  # Format date if available
+        worksheet.write("A4", "Tax Registration Number (TRN):", bold)
+        worksheet.write("B4", self.trn if self.trn else "N/A")  # Check TRN
+        worksheet.write("A5", "Legal Name in English:", bold)
+        worksheet.write("B5", self.legal_name if self.legal_name else "N/A")  # Check legal name
 
-       
-        vat_sales_outputs = self.vat_sales_outputs  
+        # Column headers for Supplies Section
+        worksheet.write("A7", "Description", bold)
+        worksheet.write("B7", "Amount (AED)", bold)
+        worksheet.write("C7", "VAT Amount (AED)", bold)
+        worksheet.write("D7", "Adjustment (AED)", bold)
 
-        row = 6 
-
+        # Add data rows from `vat_sales_outputs`
+        vat_sales_outputs = self.vat_sales_outputs
+        start_row = 8
+        row = start_row
         for line in vat_sales_outputs:
-            worksheet.write(row, 0, line.description)  
-            worksheet.write(row, 1, line.amount)  
-            worksheet.write(row, 2, line.taxamount)  
-            worksheet.write(row, 3, line.adjustment)  
-            row += 1  
+            worksheet.write(row, 0, line.description or "N/A")  # Provide fallback for empty description
+            worksheet.write(row, 1, line.amount, currency_format)
+            worksheet.write(row, 2, line.taxamount, currency_format)
+            worksheet.write(row, 3, line.adjustment, currency_format)
+            row += 1
 
+        # Totals Row
+        worksheet.write(row, 0, "Total", bold)
+        worksheet.write_formula(row, 1, f"SUM(B{start_row}:B{row})", currency_format)
+        worksheet.write_formula(row, 2, f"SUM(C{start_row}:C{row})", currency_format)
+        worksheet.write_formula(row, 3, f"SUM(D{start_row}:D{row})", currency_format)
+
+        # Footer for Net Tax Summary
+        row += 2
+        worksheet.write(row, 0, "Total Value of Due Tax for the Period", bold)
+        worksheet.write_formula(row, 1, f"C{row-2}", currency_format)  # Use VAT Amount Total
+        row += 1
+        worksheet.write(row, 0, "Total Value of Recoverable Tax for the Period", bold)
+        worksheet.write_formula(row, 1, f"C{start_row}:C{row-3}", currency_format)  # Sum all VAT amounts
+        row += 1
+        worksheet.write(row, 0, "Payable Tax for the Period", bold)
+        worksheet.write_formula(row, 1, f"B{row-2}-B{row-1}", currency_format)
+
+        # Finalize workbook and create attachment
         workbook.close()
         buffer.seek(0)
         file_data = buffer.read()
+
+        # Attach the report
         attachment = self.env['ir.attachment'].sudo().create({
             'name': "VAT Report.xlsx",
             'type': 'binary',
@@ -317,9 +306,96 @@ class VatDeclaration(models.Model):
             'res_id': self.id,
             'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         })
+
+        # Provide a download link
         download_url = "/web/content/{}/?download=true".format(attachment.id)
         return {
             'type': 'ir.actions.act_url',
             'url': download_url,
             'target': 'new',
         }
+
+
+    # def action_generate_vat_excel_report(self):
+    #     buffer = io.BytesIO()  # Create a buffer to hold the data
+    #     workbook = Workbook(buffer)  # Create a workbook with the buffer
+
+    #     worksheet = workbook.add_worksheet("VAT 201 Return Report")
+
+    #     # Define formats for headers and currency
+    #     bold = workbook.add_format({'bold': True})
+    #     currency_format = workbook.add_format({'num_format': '#,##0.00'})
+
+    #     # Add header information to the worksheet (example)
+    #     worksheet.write("A1", "VAT 201 Return", bold)
+    #     worksheet.write("A2", "Ref:", bold)
+    #     worksheet.write("B2", self.name if self.name else "N/A")
+
+    #     # Add other data and calculations as needed (same as your original code)
+    #     # Don't forget to loop through `vat_sales_outputs` and write the data into the worksheet
+
+    #     workbook.close()  # Finalize the workbook
+    #     buffer.seek(0)  # Go back to the start of the buffer
+    #     file_data = buffer.read()  # Read the file content
+
+    #     # Return the content as a base64 encoded file for the controller
+    #     return {
+    #         'file_content': base64.b64encode(file_data),
+    #     }
+
+    # def action_generate_vat_excel_report(self):
+    #     # Create an in-memory buffer to store the Excel file
+    #     buffer = io.BytesIO()
+    #     workbook = Workbook(buffer)  # Create a new Excel workbook using xlsxwriter
+
+    #     worksheet = workbook.add_worksheet("VAT 201 Return Report")
+
+    #     # Define formats for headers and currency
+    #     bold = workbook.add_format({'bold': True})
+    #     currency_format = workbook.add_format({'num_format': '#,##0.00'})
+
+    #     # Add header information to the worksheet
+    #     worksheet.write("A1", "VAT 201 Return", bold)
+    #     worksheet.write("A2", "Ref:", bold)
+    #     worksheet.write("B2", self.name if self.name else "N/A")
+
+    #     worksheet.write("A3", "Date:", bold)
+    #     worksheet.write("B3", self.date_from.strftime('%Y-%m-%d') if self.date_from else "N/A")
+
+    #     worksheet.write("A4", "Tax Registration Number (TRN):", bold)
+    #     worksheet.write("B4", self.trn if self.trn else "N/A")
+
+    #     worksheet.write("A5", "Legal Name in English:", bold)
+    #     worksheet.write("B5", self.legal_name if self.legal_name else "N/A")
+
+    #     # Column headers for Supplies Section
+    #     worksheet.write("A7", "Description", bold)
+    #     worksheet.write("B7", "Amount (AED)", bold)
+    #     worksheet.write("C7", "VAT Amount (AED)", bold)
+    #     worksheet.write("D7", "Adjustment (AED)", bold)
+
+    #     # Add data rows from `vat_sales_outputs`
+    #     vat_sales_outputs = self.vat_sales_outputs
+    #     start_row = 8
+    #     row = start_row
+    #     for line in vat_sales_outputs:
+    #         worksheet.write(row, 0, line.description or "N/A")  # Provide fallback for empty description
+    #         worksheet.write(row, 1, line.amount, currency_format)
+    #         worksheet.write(row, 2, line.taxamount, currency_format)
+    #         worksheet.write(row, 3, line.adjustment, currency_format)
+    #         row += 1
+
+    #     # Totals Row
+    #     worksheet.write(row, 0, "Total", bold)
+    #     worksheet.write_formula(row, 1, f"SUM(B{start_row}:B{row})", currency_format)
+    #     worksheet.write_formula(row, 2, f"SUM(C{start_row}:C{row})", currency_format)
+    #     worksheet.write_formula(row, 3, f"SUM(D{start_row}:D{row})", currency_format)
+
+    #     workbook.close()  # Finalize the workbook
+    #     buffer.seek(0)  # Move the cursor to the start of the buffer
+    #     file_data = buffer.read()  # Read the content of the Excel file
+
+    #     # Return the file content as a base64 encoded string
+    #     return {
+    #         'file_content': base64.b64encode(file_data),  # Encode the content in base64
+    #     }

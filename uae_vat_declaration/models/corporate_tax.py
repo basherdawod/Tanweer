@@ -29,7 +29,7 @@ class CorporateTax(models.Model):
     total_debit = fields.Float(string="Total Debit")
     total_credit = fields.Float(string="Total Credit")
     total_current_balance = fields.Float(string='Total Corporate Tax')
-    corporate_tax_number = fields.Char(string='TRN', related='vat_registration_id.company_corprate_tax', readonly=True, store=True)
+    corporate_tax_number = fields.Char(string='Corporate Tax Number', related='vat_registration_id.company_corprate_tax', readonly=True, store=True)
 
     # New fields for net profit and corporate tax
     net_profit = fields.Float(string="Net Profit",compute="_compute_net_profit", store=True)
