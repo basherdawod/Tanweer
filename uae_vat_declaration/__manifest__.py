@@ -11,7 +11,7 @@ It includes:
 - Calculation of VAT on sales and expenses
 - Summary of VAT due
     """,
-    'depends': ['base', 'account','l10n_ae'],
+    'depends': ['base', 'account','l10n_ae','report_xlsx'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
