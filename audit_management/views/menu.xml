@@ -39,7 +39,7 @@
                   name="Financial Reports"
                   action="action_account_type_audit_tree"
                   sequence="2"
-                  parent="menu_audit_management_Configuration"/>
+                  parent="menu_audit_management_systems_report"/>
 
     </data>
 </odoo>

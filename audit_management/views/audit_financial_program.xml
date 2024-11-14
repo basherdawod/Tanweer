@@ -36,13 +36,15 @@
 
                    <notebook>
                    <page string="Levels">
-                        <field name="audit_lines_ids" widget="section_and_note_one2many">
-                            <tree editable="bottom" >
+                        <field name="audit_lines_ids">
+                            <tree editable="bottom" decoration-info="level1_match == True" colors="green:level1_match == False;">
+                                <field name="level1_match" column_invisible="True"/>
                                 <field name="level_line_id" />
                                 <field name="type" />
                                 <field name="balance_this" />
                                 <field name="balance_last" />
                             </tree>
+
                         </field>
                     </page>
 

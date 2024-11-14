@@ -181,6 +181,8 @@ class AccountTypeLevelL1(models.Model):
     audit_financial_id = fields.Many2one('audit.financial.report', string='Audit Financial Program')
 
 
+
+
 class AccountTypeLevelL2(models.Model):
     _name = 'account.type.level.l2'
     _description = 'Account Type Level for Level 2'
@@ -260,6 +262,23 @@ class AccountTypeLevel(models.Model):
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
+    level1_match = fields.Boolean(string="Level 1 Match", compute="_compute_level1_match")
+
+    @api.depends('audit_financial_id', 'level_line_id')
+    def _compute_level1_match(self):
+        for record in self:
+            # Ensure both fields are set before comparing
+            if record.audit_financial_id.level1 == record.level_line_id.name:
+                record.level1_match = True
+                # record.level1_match = (record.audit_financial_id.level2 == record.level_line_id.name)
+                # record.level1_match = (record.audit_financial_id.level3 == record.level_line_id.name)
+            elif record.audit_financial_id.level2 == record.level_line_id.name:
+                record.level1_match = True
+            elif record.audit_financial_id.level3 == record.level_line_id.name:
+                record.level1_match = True
+            else:
+                record.level1_match = False
+
 
 
 
