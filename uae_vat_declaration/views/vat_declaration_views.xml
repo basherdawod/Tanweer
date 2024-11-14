@@ -22,8 +22,8 @@
                         <button string="Done" name="set_to_done" type="object" class="oe_highlight"
                                 invisible="status in  ('done')"/>
 
-                        <button name="%(uae_vat_declaration.action_vat_report)d" type="action" string="PDF Report" invisible="status in  ('draft')"/>
-                        <button name="%(action_generate_vat_excel_report)d" string="Excel Report" type="action" invisible="status in  ('draft')"/>
+                        <!-- <button name="%(uae_vat_declaration.action_vat_report)d" type="action" string="PDF Report" invisible="status in  ('draft')"/>
+                        <button name="%(action_generate_vat_excel_report)d" string="Excel Report" type="action" invisible="status in  ('draft')"/> -->
                 </header>
                 <sheet>
                     <div class="oe_title">

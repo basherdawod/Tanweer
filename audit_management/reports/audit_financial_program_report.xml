@@ -37,11 +37,11 @@
                             <!-- Left Column -->
                             <div class="col-6 border-table " style="border: 2px solid; padding: 10px;">
                                 <div class="row">
-                                    <div class="col-4 cell">Name:</div>
+                                    <div class="col-4 cell">Ref:</div>
                                     <div class="col-4 cell">
                                         <t t-esc="doc.name"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">إسم العميل</div>
+                                    <div class="col-4 cell" dir="rtl">ارقم المرجع</div>
                                 </div>
                                 <br/>
                                 <div class="row">
@@ -49,7 +49,7 @@
                                     <div class="col-4 cell">
                                         <t t-esc="doc.partner_id.name"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">الفترة المحاسبية</div>
+                                    <div class="col-4 cell" dir="rtl">اسم العميل</div>
                                 </div>
                             </div>
 
@@ -60,7 +60,7 @@
                                     <div class="col-4 cell">
                                         <t t-esc="doc.data_fis_years_end"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">التاريخ</div>
+                                    <div class="col-4 cell" dir="rtl">نهاية السنة المالية</div>
                                 </div>
                                 <br/>
                                 <div class="row">
@@ -68,7 +68,7 @@
                                     <div class="col-4 cell">
                                         <t t-esc="doc.data_last_years_end"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">أعد بواسطة</div>
+                                    <div class="col-4 cell" dir="rtl">أنهاية السنة المالية السابقة</div>
                                 </div>
                         </div>
                     </div>

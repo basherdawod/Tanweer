@@ -7,7 +7,7 @@
         <field name="binding_model_id" ref="model_corporate_tax"/>
     </record> -->
 
-
+<!-- 
     <record id="action_generate_excel_report" model="ir.actions.server">
         <field name="name">Generate Excel Report</field>
         <field name="model_id" ref="model_corporate_tax"/>
@@ -15,7 +15,7 @@
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
         <field name="code">action = model.action_generate_excel_report()</field>
-    </record>
+    </record> -->
 
 
     <record id="view_corporate_tax_form" model="ir.ui.view">
@@ -31,8 +31,8 @@
                         <button string="Done" name="set_to_done" type="object" class="oe_highlight"
                                 invisible="status in  ('done')"/>
 
-                        <button name="%(uae_vat_declaration.action_corporate_tax_report_pdf)d" type="action" string="PDF Report" invisible="status in  ('draft')"/>
-                        <button name="%(action_generate_excel_report)d" string="Excel Report" type="action" invisible="status in  ('draft')"/>
+                    <!--     <button name="%(uae_vat_declaration.action_corporate_tax_report_pdf)d" type="action" string="PDF Report" invisible="status in  ('draft')"/>
+                        <button name="%(action_generate_excel_report)d" string="Excel Report" type="action" invisible="status in  ('draft')"/> -->
                     
                 </header>
                 <sheet>
