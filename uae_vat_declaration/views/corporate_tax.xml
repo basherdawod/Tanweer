@@ -1,23 +1,5 @@
 <odoo>
-<!--     <record id="corporate_tax_report_pdf" model="ir.actions.report">
-        <field name="name">Corporate Tax Report PDF</field>
-        <field name="model">corporate.tax</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">uae_vat_declaration.corporate_tax_template</field>
-        <field name="binding_model_id" ref="model_corporate_tax"/>
-    </record> -->
-
-<!-- 
-    <record id="action_generate_excel_report" model="ir.actions.server">
-        <field name="name">Generate Excel Report</field>
-        <field name="model_id" ref="model_corporate_tax"/>
-        <field name="binding_model_id" ref="model_corporate_tax"/>
-        <field name="binding_view_types">list</field>
-        <field name="state">code</field>
-        <field name="code">action = model.action_generate_excel_report()</field>
-    </record> -->
-
-
+<data>
     <record id="view_corporate_tax_form" model="ir.ui.view">
         <field name="name">corporate.tax.form</field>
         <field name="model">corporate.tax</field>
@@ -30,9 +12,6 @@
                                 invisible="status in  ('draft')" />
                         <button string="Done" name="set_to_done" type="object" class="oe_highlight"
                                 invisible="status in  ('done')"/>
-
-                    <!--     <button name="%(uae_vat_declaration.action_corporate_tax_report_pdf)d" type="action" string="PDF Report" invisible="status in  ('draft')"/>
-                        <button name="%(action_generate_excel_report)d" string="Excel Report" type="action" invisible="status in  ('draft')"/> -->
                     
                 </header>
                 <sheet>
@@ -97,4 +76,5 @@
               action="action_corporate_tax"
               parent="menu_vat_declaration_parent"
               sequence="1"/>
+          </data>
 </odoo>

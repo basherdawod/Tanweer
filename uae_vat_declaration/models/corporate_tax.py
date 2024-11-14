@@ -139,63 +139,6 @@ class CorporateTax(models.Model):
             self.income_total = 0.0
 
 
-
-    def action_generate_excel_report(self):
-        # Create a BytesIO buffer to hold the Excel file
-        buffer = BytesIO()
-        
-        # Create an Excel workbook and worksheet
-        workbook = Workbook(buffer)
-        worksheet = workbook.add_worksheet("Report")
-        
-        # Define header row
-        worksheet.write(0, 0, "Name")
-        worksheet.write(1, 0, "TRN")
-        worksheet.write(2, 0, "Legal Name")
-        worksheet.write(3, 0, "Income")
-        worksheet.write(4, 0, "Other Income")
-        worksheet.write(5, 0, "Expense")
-        worksheet.write(6, 0, "Other Expense")
-        worksheet.write(7, 0, "Total Balance")
-
-        worksheet.write(0, 1, self.name)
-        worksheet.write(1, 1, self.trn)
-        worksheet.write(2, 1, self.legal_name)
-        worksheet.write(3, 1, self.income)
-        worksheet.write(4, 1, self.other_income)
-        worksheet.write(5, 1, self.expense)
-        worksheet.write(6, 1, self.other_expense)
-        worksheet.write(7, 1, self.income_total)
-        
-        # Close the workbook
-        workbook.close()
-        
-        # Get the content of the file
-        buffer.seek(0)
-        file_data = buffer.read()
-        
-        # Create the attachment to download the file
-        attachment = self.env['ir.attachment'].create({
-            'name': "Corporate Tax.xlsx",
-            'type': 'binary',
-            'datas': base64.b64encode(file_data),
-            'res_model': self._name,
-            'res_id': self.id,
-            'mimetype': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        })
-        
-        # Generate the URL to download the file
-        download_url = "/web/content/{}/?download=true".format(attachment.id)
-        
-        # Return the download URL in an action to prompt the file download
-        return {
-            'type': 'ir.actions.act_url',
-            'url': download_url,
-         
-        }
-
-
-
     def set_to_draft(self):
         self.status = 'draft'
 

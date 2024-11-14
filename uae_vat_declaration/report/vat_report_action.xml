@@ -3,7 +3,7 @@
    <data>
 
      <record id="action_vat_report" model="ir.actions.report">
-        <field name="name">VAT 201 Return Report</field> 
+        <field name="name">PDF Report</field> 
         <field name="model">vat.declaration</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">uae_vat_declaration.report_contract_template</field>
@@ -14,7 +14,7 @@
 
      
    <record id="action_vat_declaration_xlsx" model="ir.actions.report">
-        <field name="name">VAT Excel Return Report</field> 
+        <field name="name">Excel Report</field> 
         <field name="model">vat.declaration</field>
         <field name="report_type">xlsx</field>
         <field name="report_name">uae_vat_declaration.vat_declaration_xlsx</field>
