@@ -92,6 +92,11 @@ class AuditFinancialReport(models.Model):
         currency_field='currency_id',
     )
 
+    current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
+    def _compute_current_datetime(self):
+        for record in self:
+            record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

@@ -20,6 +20,7 @@
         'reports/program_report_template.xml',
         'reports/audit_item.xml',
         'reports/audit_financial_program_report.xml',
+        'reports/account_type_level_report.xml',
     ],
     'assets': {
         'web.assets_backend': [

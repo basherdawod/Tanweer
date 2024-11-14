@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="action_print_finincial_report" model="ir.actions.report">
-        <field name="name">Finincial Report</field>
-        <field name="model">audit.financial.program</field>
+    <record id="action_print_account_type_level_report" model="ir.actions.report">
+        <field name="name">Account Type Level Report</field>
+        <field name="model">account.type.level</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">audit_management.report_audit_audit_financial_template</field>
-        <field name="report_file">audit_management.report_audit_audit_financial_template</field>
-        <field name="binding_model_id" ref="model_audit_financial_program"/>
+        <field name="report_name">audit_management.report_audit_Accoutn_type_level_template</field>
+        <field name="report_file">audit_management.report_audit_Accoutn_type_level_template</field>
+        <field name="binding_model_id" ref="model_account_type_level"/>
         <field name="print_report_name">'Financial  - %s' % (object.name).replace('/', '')</field>
         <field name="binding_type">report</field>
     </record>
 
 
-    <template id="report_audit_audit_financial_template">
+    <template id="report_audit_Accoutn_type_level_template">
         <t t-call="web.html_container">
             <style>
                 .report-header { background-color: #87CEEB; color: white; padding: 10px; margin-bottom: 20px; }
@@ -34,49 +34,55 @@
                             STATEMENT OF FINANCIAL POSISITON<br/>
                             FOR THE YEAR ENDED DECEMBER 31, 2014
                         </h6>
-                        <h6 style="width=100%;padding:20px">Finincial Program:
+                        <h6 style="width=100%;padding:5px">Name:
                             <t t-esc="doc.name"/>
+                        </h6>
+                        <h6 style="width=100%;padding:5px">Type:
+                            <t t-esc="doc.type"/>
                         </h6>
                         
                         <table class="table table-bordered expense-table" style="padding:20px;width:100%;">
                             <thead style="background-color: #c7c7c7;">
                                 <tr>
-                                    <th style="padding:10px;width:20%;">Account Type</th>
-                                    <th style="padding:10px;width:10%;">Type</th>
-                                    <th style="padding:10px;width:50%;">This Year</th>
-                                    <th style="padding:10px;width:20%;">Last Year</th>
+                                    <th style="padding:10px;width:20%;">Account</th>
+                                    <th style="padding:10px;width:10%;">This Year</th>
+                                    <th style="padding:10px;width:50%;">Last Year</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="doc.audit_lines_ids" t-as="test">
+                              <t t-foreach="doc.account_level_type_ids" t-as="test">
                                     <tr>
                                         <td style="padding:10px;width:20%;">
-                                            <t t-esc="test.level_line_id.name"/>
+                                            <t t-esc="test.account_ids.name"/>
                                         </td>
                                         <td style="padding:10px;width:10%;">
-                                            <t t-esc="test.type"/>
-                                        </td>
-                                        <td style="padding:10px;width:50%">
                                             <t t-esc="test.balance_this"/>
                                         </td>
-                                        <td style="padding:10px;width:20%;">
+                                        <td style="padding:10px;width:50%">
                                             <t t-esc="test.balance_last"/>
                                         </td>
                                     </tr>
+
                                 </t>
+                                <tr>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td><t t-esc="doc.balance_this"/></td>
+                                    <td><t t-esc="doc.balance_last"/></td>
+                                </tr>
                             </tbody>
                         </table>
                         <br/><br/>
                         <div style="padding:10px;">
-                            The  accompanying  notes form an integral part of these financial statements.<br/>
-                            The report of the auditors is set out on pages 3 and 4.
+                            Some of the above vehicles are hypothecated to the bank against vehicle loan.
                         </div>
                         <br/><br/>
-                        <div style="padding:10px;">
+                    <!--     <div style="padding:10px;">
                             Managing Director<br/>
                             Modular Concepts  L.L.C.<br/>
                             <t t-esc="doc.current_datetime"/>
-                        </div>
+                        </div> -->
                     </div>
             
                 </t>
