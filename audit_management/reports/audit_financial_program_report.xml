@@ -49,7 +49,7 @@
                                     <div class="col-4 cell">
                                         <t t-esc="doc.partner_id.name"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">الفترة المحاسبية</div>
+                                    <div class="col-4 cell" dir="rtl">اسم العميل</div>
                                 </div>
                             </div>
 
@@ -60,7 +60,7 @@
                                     <div class="col-4 cell">
                                         <t t-esc="doc.data_fis_years_end"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">التاريخ</div>
+                                    <div class="col-4 cell" dir="rtl">نهاية السنة المالية</div>
                                 </div>
                                 <br/>
                                 <div class="row">
@@ -68,7 +68,7 @@
                                     <div class="col-4 cell">
                                         <t t-esc="doc.data_last_years_end"/>
                                     </div>
-                                    <div class="col-4 cell" dir="rtl">أعد بواسطة</div>
+                                    <div class="col-4 cell" dir="rtl">أنهاية السنة المالية السابقة</div>
                                 </div>
                         </div>
                     </div>
