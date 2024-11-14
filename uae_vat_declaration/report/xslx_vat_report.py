@@ -45,7 +45,7 @@ from odoo.tools import date_utils
 	        worksheet.write("B7", "Amount (AED)", bold)
 	        worksheet.write("C7", "VAT Amount (AED)", bold)
 	        worksheet.write("D7", "Adjustment (AED)", bold)
-
+ 
 	        # Add data rows from `vat_sales_outputs`
 	        vat_sales_outputs = self.vat_sales_outputs
 	        start_row = 8
@@ -98,3 +98,9 @@ from odoo.tools import date_utils
 	        # }
 
 	        file_name = 'Vat Report.xlsx'
+
+	        return request.make_response(
+
+	        	output.getvalue(),
+
+	        	)
