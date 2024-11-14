@@ -179,13 +179,14 @@
                                                     <t t-esc="line.description"/>
                                                 </td>
                                                 <td style="text-align: right; padding: 10px;">
-                                                    <t t-esc="line.amount"/>
+    
+                                                    <span t-field="line.amount"/>
                                                 </td>
                                                 <td style="text-align: right; padding: 10px;">
-                                                    <t t-esc="line.taxamount"/>
+                                                    <span t-field="line.taxamount"/>
                                                 </td>
                                                 <td style="text-align: right; padding: 10px;">
-                                                    <t t-esc="line.adjustment"/>
+                                                    <span t-field="line.adjustment"/>
                                                 </td>
                                             </tr>
                                             
@@ -201,7 +202,6 @@
                                 </tbody>
                             </table>
                             <br/><br/><br/><br/><br/><br/>
-
                             <table border="2" style="width: 70%;padding: 10px;">
                                 <thead>
                                     <tr>

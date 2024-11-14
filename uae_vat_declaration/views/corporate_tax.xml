@@ -80,7 +80,7 @@
         <field name="arch" type="xml">
             <tree string="Corporate Taxes">
                <field name="name"/>
-               <field name="trn"/>
+               <field name="corporate_tax_number"/>
                <field name="status"/>
             </tree>
         </field>

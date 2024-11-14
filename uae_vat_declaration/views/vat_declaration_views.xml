@@ -63,30 +63,6 @@
                                 <field name="total_purchase_vat" class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
-                      <!--   <page string="VAT on Expenses and Inputs">
-                            <field name="vat_expenses_inputs">
-                                <tree editable="bottom">
-                                    <field name="description" widget="text"/>
-                                    <field name="amount"/>
-                                    <field name="taxamount"/>
-                                    <field name="line_type"/>
-
-                                </tree>
-                            </field>
-                            <group class="oe_subtotal_footer">
-                                <field name="total_expenses" class="oe_subtotal_footer_separator"/>
-                                <field name="total_expenses_vat" class="oe_subtotal_footer_separator"/>
-                            </group>
-                        </page>
-                        <page string="Summary">
-                            <group>
-                                <field name="total_sales"/>
-                                <field name="total_sales_vat"/>
-                                <field name="total_expenses"/>
-                                <field name="total_expenses_vat"/>
-                                <field name="net_vat" class="oe_subtotal_footer_separator"/>
-                            </group>
-                        </page> -->
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -139,12 +115,12 @@
               sequence="10"/>
 
     <menuitem id="menu_corporate_tax_parent"
-              name="Corporate Tax"
+              name="Registration"
               parent="menu_uae_vat_main"
               sequence="1"/>
 
     <menuitem id="menu_vat_declaration_parent"
-              name="VAT Declarations"
+              name="VAT and Corporate Tax"
               parent="menu_uae_vat_main"
               sequence="2"/>
 

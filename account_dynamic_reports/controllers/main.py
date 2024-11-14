@@ -35,3 +35,6 @@ class Binary(http.Controller):
         return request.make_response(filecontent,
                                      [('Content-Type', 'application/octet-stream'),
                                       ('Content-Disposition', content_disposition(filename))])
+
+
+
