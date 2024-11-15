@@ -12,11 +12,12 @@ class VatDeclarationXlsxReport(models.AbstractModel):
         worksheet = workbook.add_worksheet("VAT 201 Return Report")
 
         # Define formats for headers and currency
+        title_format = workbook.add_format({'bold': True, 'bg_color': '#D3D3D3', 'align': 'center', 'font_size': 14})
         bold = workbook.add_format({'bold': True})
         currency_format = workbook.add_format({'num_format': '#,##0.00'})
 
         # Header section
-        worksheet.write("A1", "VAT 201 Return Report", bold)
+        worksheet.merge_range('A1:D1', "VAT 201 Return Report", title_format)
         worksheet.write("A2", "Ref:", bold)
         worksheet.write("B2", records.name if records.name else "N/A")
         worksheet.write("A3", "Date:", bold)
@@ -44,16 +45,27 @@ class VatDeclarationXlsxReport(models.AbstractModel):
             row += 1
 
 
-            if row == 20:
-                worksheet.write(21, 0, "Total Sale", bold)
-                worksheet.write_formula(21, 1, "SUM(B9:B20)", currency_format)
-                worksheet.write_formula(21, 2, "SUM(C9:C20)", currency_format)
-                worksheet.write_formula(21, 3, "SUM(D9:D20)", currency_format)
-                row += 1
+        
+        worksheet.write(24, 0, "Total Sale", bold)
+        worksheet.write_formula(24, 1, "SUM(B9:B21)", currency_format)
+        worksheet.write_formula(24, 2, "SUM(C9:C21)", currency_format)
+        worksheet.write_formula(24, 3, "SUM(D9:D21)", currency_format)
 
         worksheet.write(25, 0, "Total Purchace", bold)
-        worksheet.write_formula(25, 1, "SUM(B21:B22)", currency_format)
-        worksheet.write_formula(25, 2, "SUM(C21:C22)", currency_format)
-        worksheet.write_formula(25, 3, "SUM(D21:D22)", currency_format)
+        worksheet.write_formula(25, 1, "SUM(B22:B23)", currency_format)
+        worksheet.write_formula(25, 2, "SUM(C22:C23)", currency_format)
+        worksheet.write_formula(25, 3, "SUM(D22:D23)", currency_format)
+
+
+        row +=3
+        worksheet.write(row, 0, "Net VAT Due", title_format)
+        worksheet.write(row+1, 0, "Total Value of Due Tax for the Period", bold)
+        worksheet.write_formula(row+1, 1, "C25", currency_format)  
+
+        worksheet.write(row+2, 0, "Total Value of Recoverable Tax for the Period", bold)
+        worksheet.write_formula(row+2, 1, "C26", currency_format)  
+
+        worksheet.write(row+3, 0, "Payable Tax for the Period", bold)
+        worksheet.write_formula(row+3, 1, "C25 - C26", currency_format)
 
         workbook.close()

@@ -124,7 +124,7 @@ class CorporateTax(models.Model):
                 total_expense_direct_cost += line.debit - line.credit 
 
         # Calculate income total
-        income_total = -(total_income_and_expense + other) - (total_expense_direct_cost + exp)
+        income_total = (total_income_and_expense + other) - (total_expense_direct_cost + exp)
 
         # Assign calculated values to fields
         self.income = total_income_and_expense
