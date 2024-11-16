@@ -45,6 +45,8 @@ class PreExpTestModel(models.Model):
     ], string='Status', default='draft', tracking=True)
     line_ids = fields.One2many('pre.exp.test.line', 'expense_id', string='Expense Lines')
 
+    line_id = fields.Many2one('pre.exp.test.line', string='Expense Lines')
+
     @api.depends('account_id')
     def _compute_account_number(self):
         for record in self:
@@ -183,8 +185,8 @@ class PreExpTestModel(models.Model):
     def action_post_journal_entries(self):
         for record in self:
             today = fields.Date.today()
-            move_lines = []
             for line in record.line_ids:
+                move_lines = []
                 if line.date <= today:
                     move_lines.append(Command.create({
                         'name': f"Prepaid Expense - {line.name}",
@@ -200,22 +202,21 @@ class PreExpTestModel(models.Model):
                         'credit': 0.0,
                     }))
 
-            journal_entry = self.env['account.move'].create({
-                'date': fields.Date.today(),
-                'ref': f"Prepaid Expense - {record.name}",
-                'line_ids': move_lines,
-                'prepaid_expense_id': record.id,
-            })
+                    journal_entry = self.env['account.move'].create({
+                        'date': line.date,
+                        'ref': f"Prepaid Expense - {record.name}",
+                        'line_ids': move_lines,
+                        'prepaid_expense_id': record.id,
+                    })
+                    try:
+                        journal_entry.action_post()
+                    except Exception as e:
+                        raise UserError(_("Error posting journal entry: %s") % str(e))
 
-            try:
-                journal_entry.action_post()
-            except Exception as e:
-                raise UserError(_("Error posting journal entry: %s") % str(e))
-
-            record.write({
-                'state': 'validate',
-                'journal_entry_ids': [(4, journal_entry.id)]
-            })
+                    record.write({
+                        'state': 'validate',
+                        'journal_entry_ids': [(4, journal_entry.id)]
+                    })
 
         return True
 
@@ -229,7 +230,6 @@ class PreExpTestModel(models.Model):
     def pre_exp_cron_job_method(self):
         today = fields.Date.today()
         records = self.search([('line_ids.date', '=', today)])
-
         for record in records:
             move_lines = []
             for line in record.line_ids:

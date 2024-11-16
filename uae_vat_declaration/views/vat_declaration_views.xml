@@ -101,7 +101,7 @@
     </record>
 
     <menuitem id="menu_uae_vat_main"
-              name="UAE VAT"
+              name="VAT"
               parent="account.menu_finance"
               sequence="10"/>
 

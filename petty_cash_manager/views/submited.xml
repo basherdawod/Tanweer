@@ -32,14 +32,14 @@
                                 </h1>
                             </group>
                             <group>
-                             <field name="user_approval"/>
-                             <field name="submission_date"/>
+                             <field name="user_approval" readonly="state in ('submitted')"/>
+                             <field name="submission_date" readonly="state in ('submitted')"/>
                             </group>
                         </div>
                     </div>
                      <group string="Petty Cash Details">
                          <group>
-                             <field name="petty_cash_id" options='{"no_open": True, "no_create": True}' />
+                             <field name="petty_cash_id" options='{"no_open": True, "no_create": True}' readonly="state in ('submitted')" />
                             </group>
                          <group>
 <!--                             <field name="code_petty_cash"/>-->

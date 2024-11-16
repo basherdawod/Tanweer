@@ -14,7 +14,9 @@ class PettyCashRequest(models.Model):
     user_approval = fields.Many2one('res.users', string="User Approval", required=True)
     employee_petty = fields.Many2one(string="Employee Approval", related="petty_card.employee_id")
     petty_card = fields.Many2one('petty.cash.card', string="Petty Card", store=True)
-    account_id = fields.Many2one(string="Account", related="petty_card.account_id")
+    account_id = fields.Many2one(string="Account", related="petty_card.account_id",
+        # required=True
+        )
     request_amount = fields.Float(string="Amount", required=True)
     amount_in_words = fields.Char(string="Amount in Words", compute="_compute_amount_in_words")
     petty_cash_account_id = fields.Many2one('petty.cash.account', string="Petty Cash Account")
