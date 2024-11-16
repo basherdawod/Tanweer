@@ -23,36 +23,61 @@
                         </group>
                             <group>
                                 <field name="level1"/>
-                                <field name="type_line_L1_ids" widget="many2many_tags"/>
+                                    <group>
+                                        <field name="level1"/>
+                                        <field name="type_line_l2_ids"/>
+                                    </group>
+                                    <group>
+                                        <field name="level1"/>
+                                        <field name="type_line_L1_ids"/>
+                                    </group>
+
                             </group>
                             <group>
                                 <field name="level2"/>
-                                <field name="type_line_l2_ids" widget="many2many_tags"/>
+
                             </group>
                             <group>
                                 <field name="level3"/>
-                                <field name="type_line_l3_ids" widget="many2many_tags"/>
+                                <field name="type_line_l3_ids"/>
                             </group>
+                           <notebook>
+                           <page string="Levels">
+                                <field name="audit_lines_ids" widget="section_and_note_one2many">
+                                    <form>
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="name" />
+                                        <label for="name" string="Section Name (eg. Products, Services)" invisible="display_type != 'line_section'"/>
+                                         <field name="level1_match"/>
+                                        <field name="level_line_id" />
+                                        <field name="type" />
+                                        <field name="balance_this" />
+                                        <field name="balance_last" />
+                                    </form>
+                                    <tree editable="bottom" decoration-info="level1_match == True" colors="green:level1_match == False;">
+                                        <control>
+                                            <create name="add_product_control" string="Add a Line" />
+                                            <create name="add_section_control" string="Add a Section" context="{'default_display_type': 'line_section'}"/>
+                                        </control>
+                                         <field name="display_type" column_invisible="True"/>
+                                        <field name="name" widget="section_and_note_text"/>
+                                        <field name="level1_match" column_invisible="True"/>
+                                        <field name="type" />
+                                        <field name="level_line_id" />
+                                        <field name="balance_this" />
+                                        <field name="balance_last" />
+                                    </tree>
 
-                   <notebook>
-                   <page string="Levels">
-                        <field name="audit_lines_ids">
-                            <tree editable="bottom" decoration-info="level1_match == True" colors="green:level1_match == False;">
-                                <field name="level1_match" column_invisible="True"/>
-                                <field name="level_line_id" />
-                                <field name="type" />
-                                <field name="balance_this" />
-                                <field name="balance_last" />
-                            </tree>
+                                </field>
+                            </page>
 
-                        </field>
-                    </page>
-
-                </notebook>
-
-
-
+                        </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
 
 
 

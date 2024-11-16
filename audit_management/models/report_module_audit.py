@@ -7,13 +7,14 @@ from datetime import datetime, date
 
 class AuditFinancialReport(models.Model):
     _name = "audit.financial.program"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Audit Report"
 
     name = fields.Char(strring="Number" ,readonly=True, default=lambda self: _('New'), copy=False,
                       translate=True)
-    level1 = fields.Char('Level 1', translate=True)
-    level2 = fields.Char('Level 2', translate=True)
-    level3 = fields.Char('Level 3 ', translate=True)
+    level1 = fields.Char('Main', translate=True)
+    level2 = fields.Char('Main', translate=True)
+    level3 = fields.Char('Main ', translate=True)
 
     partner_id = fields.Many2one('res.partner', string="Customer Name")
     data_fis_years_end = fields.Date(
@@ -139,21 +140,48 @@ class AuditFinancialReport(models.Model):
 
             # Add level lines for L1, L2, L3
             if level_id1:
-                line_vals.append({'level_line_id': level_id1.id})
+                line_vals.append({'display_type': 'line_section', 'name': record.level1, 'seq': '1'})
+                num = 0
+                line_type=[]
+                # for line in record.type_line_L1_ids:
+                #     label = line.type
+                #     if label not in line_type:
+                #         line_type.append(label)
+                #         num +=1
+                # print("###############", line_type , num)
+
                 for line in record.type_line_L1_ids:
-                    line_vals.append({'level_line_id': line.id})
-                    total_balance_this_lival1 += line.balance_this
-                    total_balance_last_lival1 += line.balance_last
+                    selection = line._fields['type'].selection
+                    label = dict(selection).get(line.type, 'Unknown Type')
+
+                    if label not in line_type:
+                        line_type.append(label)
+                        num +=1
+                print("###############", line_type , num)
+                # line_vals.append({'display_type': 'line_sub', 'name': line_type, 'seq': '1'})
+                for i in range(num):
+                    line_vals.append({'display_type': 'line_section', 'name': line_type[i], 'seq': '4'})
+                    # line_vals.append({'level_line_id': level_id2.id})
+                    for line in record.type_line_L1_ids:
+                        selection = line._fields['type'].selection
+                        label = dict(selection).get(line.type, 'Unknown Type')
+                        if label == line_type[i]:
+                            line_vals.append({'level_line_id': line.id})
+                            total_balance_this_lival1 += line.balance_this
+                            total_balance_last_lival1 += line.balance_last
+                    i +=1
 
             if level_id2:
-                line_vals.append({'level_line_id': level_id2.id})
+                line_vals.append({'display_type': 'line_section', 'name': record.level2, 'seq2': '2'})
+                # line_vals.append({'level_line_id': level_id2.id})
                 for line in record.type_line_l2_ids:
                     line_vals.append({'level_line_id': line.id})
                     total_balance_this_lival2 += line.balance_this
                     total_balance_last_lival2 += line.balance_last
 
             if level_id3:
-                line_vals.append({'level_line_id': level_id3.id})
+                line_vals.append({'display_type': 'line_section', 'name': record.level1, 'seq3': '3'})
+                # line_vals.append({'level_line_id': level_id3.id})
                 for line in record.type_line_l3_ids:
                     line_vals.append({'level_line_id': line.id})
                     total_balance_this_lival3 += line.balance_this
@@ -213,6 +241,18 @@ class AccountTypeLevel(models.Model):
         comodel_name='audit.financial.program',
         string='Account Type',
         required=False , readonly=True )
+    name = fields.Char(string="Name")
+
+    seq = fields.Integer(string="seq")
+    seq2 = fields.Integer(string="seq")
+    seq3 = fields.Integer(string="seq")
+
+    display_type = fields.Selection(
+        selection=[
+            ('line_section', "Section"),
+            ('line_sub', "Sub Section "),
+        ],
+        default=False)
 
     level_line_id = fields.Many2one(
         comodel_name='account.type.level',
@@ -275,8 +315,6 @@ class AccountTypeLevel(models.Model):
             # Ensure both fields are set before comparing
             if record.audit_financial_id.level1 == record.level_line_id.name:
                 record.level1_match = True
-                # record.level1_match = (record.audit_financial_id.level2 == record.level_line_id.name)
-                # record.level1_match = (record.audit_financial_id.level3 == record.level_line_id.name)
             elif record.audit_financial_id.level2 == record.level_line_id.name:
                 record.level1_match = True
             elif record.audit_financial_id.level3 == record.level_line_id.name:
@@ -284,6 +322,25 @@ class AccountTypeLevel(models.Model):
             else:
                 record.level1_match = False
 
+    @api.depends('level_line_id')
+    def _compute_name(self):
+        for line in self:
+            # If there's no 'level_line_id', assign a name based on audit_financial_id levels
+            print("Line Fields:", dir(line))
+            if not line.level_line_id:
+                # Handle the case where audit_financial_id is not set
+                if line.name !='' and line.seq == 1:
+                    line.name = line.audit_financial_id.level1
+                elif line.name !='' and line.seq2 == 2:
+                    line.name = line.audit_financial_id.level2
+                elif line.name !='' and line.seq3 == 3:
+                    line.name = line.audit_financial_id.level3
+                else:
+                    print("Name",line.name )
+                    line.name = "No line"
+                continue  # Skip the next logic if no level_line_id
 
 
-
+            # If 'level_line_id' is set, directly use its 'name' or 'type' (depending on the field you want)
+            else:
+                line.name =''  # or use line.level_line_id.type if that's more appropriate
