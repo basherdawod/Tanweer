@@ -123,23 +123,29 @@ class PettyCashPayment(models.Model):
         self.ensure_one()
         self.state = 'done'
 
+        # Ensure cash account exists and belongs to the current user's company
         cash_account = self.env['account.account'].search([('id', '=', self.account_id.id)], limit=1)
-
         if not cash_account or cash_account.company_id != self.env.user.company_id:
             raise UserError("The cash account must belong to the current user's company.")
 
+        # Determine account for payment type
         if self.payment_type == 'send':
             account = cash_account.id
+        else:
+            raise UserError("Unsupported payment type. Only 'send' is implemented.")
 
-        move_line = []
+        # Initialize move line and total amount
+        
         total_amount = 0.0
 
+        # Loop through the expense details
         for record in self.employee_submission.expense_details:
             # Ensure account compatibility
             if record.account.company_id != self.env.user.company_id:
                 raise UserError(f"The account '{record.account.name}' must belong to the current user's company.")
 
-            # Append Debit Line
+            # Append Debit Line (Credit the cash account)
+            move_line = []
             move_line.append(Command.create({
                 'account_id': account,
                 'name': record.description,
@@ -148,7 +154,7 @@ class PettyCashPayment(models.Model):
                 'currency_id': self.currency_id.id,
             }))
 
-            # Append Credit Line
+            # Append Credit Line (Debit the expense account)
             move_line.append(Command.create({
                 'account_id': record.account.id,
                 'name': record.description,
@@ -156,25 +162,33 @@ class PettyCashPayment(models.Model):
                 'debit': record.amount,
                 'currency_id': self.currency_id.id,
             }))
+            
             total_amount += record.amount
 
         # Create the accounting move
-        move = self.env['account.move'].create({
-            'journal_id': self.env['account.journal'].search([('name', '=', 'petty cash')], limit=1).id,
-            'date': self.payment_date,
-            'line_ids': move_line,
-            'company_id': self.env.user.company_id.id,  # Ensure the move is linked to the user's company
-        })
+            petty_cash_journal = self.env['account.journal'].search([('name', '=', 'petty cash')], limit=1)
+            if not petty_cash_journal:
+                raise UserError("Petty Cash journal not found. Please ensure it exists.")
+
+            move = self.env['account.move'].create({
+                'journal_id': petty_cash_journal.id,
+                'date': record.date,
+                'line_ids': move_line,
+                'company_id': self.env.user.company_id.id,  # Ensure the move is linked to the user's company
+            })
 
         # Post the move and handle exceptions
-        try:
-            move.action_post()
-        except Exception as e:
-            raise UserError(f"Failed to post accounting move: {e}")
+            try:
+                move.action_post()
+            except Exception as e:
+                raise UserError(f"Failed to post accounting move: {e}")
 
-
+        # Update the employee card balance
         for card in self.employee_card:
             if card.open_balance is not None:
                 card.open_balance -= total_amount  # Ensure consistent balance updates
             else:
                 raise UserError("The field 'open_balance' is missing in the model.")
+
+
+
