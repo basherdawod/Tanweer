@@ -9,7 +9,7 @@
                 <field name="state" widget="statusbar"/>
                 <button name="confirm_payment" type="object" string="Confirm" class="btn-primary" invisible="state not in  ('draft')"/>
                 <button name="validate_payment" type="object" string="Validate" class="btn-success" invisible="state not in  ('confirm')"/>
-                <button string="Cancel" class="btn-secondary" special="cancel"/>
+                <button string="Cancel" class="btn-secondary" special="cancel" invisible="state not in  ('draft')"/>
             </header>
             <sheet>
                 <div class="oe_title">
@@ -18,29 +18,29 @@
                 </div>
                 <group name="main_group">
                     <group name="group1">
-                        <field name="user_approval" readonly="state in ('confirm', 'done')" />
-                        <field name="employee_petty"/>
+                        <field name="user_approval" readonly="state in ('done')" />
+                        <field name="employee_petty" readonly="state in ('confirm', 'done')"/>
                         <field name="payment_type" widget="radio" options="{'horizontal': True}" required="1" readonly="state != 'draft'" />
 
                     </group>
                     <group name="group2">
-                            <field name="account_receive" invisible="payment_type != 'receive'"/>
+                            <field name="account_receive" invisible="payment_type != 'receive'" readonly="state in ('done')"/>
 
-                            <field name="payment_date"/>
-                            <field name="amount"/>
-                            <field name="currency_id" />
+                            <field name="payment_date" readonly="state in ('done')"/>
+                            <field name="amount" readonly="state in ('done')"/>
+                            <field name="currency_id" readonly="state in ('done')" />
 
                     </group>
                 </group>
                 <group name="=main_group">
                     <group>
-                        <field name="employee_request" invisible="payment_type != 'receive'"/>
-                        <field name="employee_card"/>
-                        <field name="employee_submission" invisible="payment_type == 'receive'"/>
-                        <field name="account_id" invisible="payment_type == 'receive'"/>
+                        <field name="employee_request" invisible="payment_type != 'receive'" readonly="state in ('done')"/>
+                        <field name="employee_card" readonly="state in ('confirm', 'done')"/>
+                        <field name="employee_submission" invisible="payment_type == 'receive'" readonly="state in ('done')"/>
+                        <field name="account_id" invisible="payment_type == 'receive'" readonly="state in ('done')"/>
                     </group>
                     <group>
-                        <field name="company_id"/>
+                        <field name="company_id" readonly="state in ('done')"/>
                     </group>
 
                 </group>

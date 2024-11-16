@@ -16,13 +16,13 @@ class PettyCashPayment(models.Model):
     account_id = fields.Many2one(string=" Account " , comodel_name='account.account',
         store=True, readonly=False,
         domain="[('account_type', 'in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card')), ('company_id', '=', company_id)]",
-    )
+       )
     account_receive = fields.Many2one(
         comodel_name='account.account',
         string="Account Receive",
         store=True, readonly=False,
         domain="[('account_type', 'in', ('asset_receivable', 'liability_payable', 'asset_cash', 'liability_credit_card')), ('company_id', '=', company_id)]",
-        help="An petty cash account is receive",
+        help="An petty cash account is receive",required=True,
     )
     account_code = fields.Char(string="Account Code", compute="_compute_account_code", store=True)
     payment_type = fields.Selection([('send', 'Send'), ('receive', 'Receive')], string="Payment Type", required=True)
