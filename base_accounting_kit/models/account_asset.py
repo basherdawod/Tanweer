@@ -816,7 +816,13 @@ class AccountAssetDepreciationLine(models.Model):
             # Sum amount of all depreciation lines
             company_currency = line.asset_id.company_id.currency_id
             current_currency = line.asset_id.currency_id
-            amount += current_currency.compute(line.amount, company_currency)
+
+            # Convert the amount to the company currency if it's different from the current currency
+            if current_currency != company_currency:
+                amount += current_currency._compute(line.amount, company_currency)
+            else:
+                amount += line.amount  # No conversion needed if the currencies are the same
+
         name = category_id.name + _(' (grouped)')
         move_line_1 = {
             'name': name,
