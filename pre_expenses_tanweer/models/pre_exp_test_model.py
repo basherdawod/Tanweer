@@ -230,7 +230,6 @@ class PreExpTestModel(models.Model):
     def pre_exp_cron_job_method(self):
         today = fields.Date.today()
         records = self.search([('line_ids.date', '=', today)])
-
         for record in records:
             move_lines = []
             for line in record.line_ids:
