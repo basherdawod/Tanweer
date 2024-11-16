@@ -27,21 +27,20 @@
                        </div>
 
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
-                       <div style="padding:20px;">
-                        Employee Name : <span t-field="o.employee_id.name"/>
-                       </div>
-                       <div style="padding:20px;">
-                        Job Title : <span t-field="o.job_title.name"/>
-                       </div>
-                       <div style="padding:20px;">
-                        Account : <span t-field="o.account_id.name"/>
-                       </div>
-                       <div style="padding:20px;">
-                        Open Balance : <span t-field="o.open_balance"/>
-                       </div>
+                           <div class="row" style="padding:20px;">
+                               <div class="col-6">
+                                Job Title : <span t-field="o.job_title.name"/>
+                               </div>
+                               <div class="col-6">
+                                Account : <span t-field="o.account_id.name"/>
+                               </div>
+                           </div>
+                           <div style="padding:20px;">
+                            Open Balance : <span t-field="o.open_balance"/>
+                           </div>
                        <hr style="border: 2px solid black; width: 100%; margin: 10px 0;" />
 
-                       <t t-set="related_records" t-value="o.env['petty.cash.request'].search([('petty_card', '=', o.name)])"/>
+                       <t t-set="related_records" t-value="o.env['petty.cash.request'].search([('petty_card', '=', o.name), ('state', '=', 'approved')])"/>
                        
                        <t t-if="related_records">
                            <h4 style="text-align: left;">Requests :</h4>
@@ -56,6 +55,7 @@
                                    </tr>
                                </thead>
                                <tbody>
+                                <t t-set="amount_sum" t-value="0"/>
                                    <t t-foreach="related_records" t-as="related">
                                        <tr>
                                            <td><span t-field="related.name"/></td>
@@ -64,41 +64,63 @@
                                            <td><span t-field="related.request_amount"/></td>
                                            <td><span t-field="related.state"/></td>
                                        </tr>
+                                       <t t-set="amount_sum" t-value="amount_sum + (related.request_amount or 0)"/>
                                    </t>
                                </tbody>
+                               <tfoot>
+                                    <tr>
+                                        <td colspan="3" style="text-align: left; font-weight: bold;">Total:</td>
+                                        <td><span t-esc="amount_sum"/></td>
+                                        <td></td>
+                                  
+                                    </tr>
+                                </tfoot>
                            </table>
                        </t>
 
                        <br/><br/>
                        <t t-set="related_records" t-value="o.env['petty.cash.submission'].search([('petty_cash_id', '=', o.name)])"/>
                        
-                       <t t-if="related_records">
-                           <h4 style="text-align: left;">Submission :</h4>
-                           <table class="table table-bordered expense-table" style="width: 100%; margin-top: 20px;">
-                               <thead>
-                                   <tr>
-                                       <th>REF</th>
-                                       <th>Submission Date</th>
-                                       <th>Total Amount Spent</th>
-                                       <th>Remaining Amount</th>
-                                       <th>States</th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   <t t-foreach="related_records" t-as="related">
-                                       <tr>
-                                           <td><span t-field="related.name"/></td>
-                                           <td><span t-field="related.submission_date"/></td>
-                                           <td><span t-field="related.total_spent"/></td>
-                                           <td><span t-field="related.remaining_amount"/></td>
-                                           <td><span t-field="related.state"/></td>
-                                       </tr>
-                                   </t>
-                               </tbody>
-                           </table>
-                       </t>
+                        <t t-if="related_records">
+                            <h4 style="text-align: left;">Submission :</h4>
+                            <table class="table table-bordered expense-table" style="width: 100%; margin-top: 20px;">
+                                <thead>
+                                    <tr>
+                                        <th>REF</th>
+                                        <th>Submission Date</th>
+                                        <th>Total Amount Spent</th>
+                                        <th>Remaining Amount</th>
+                                        <th>States</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total_spent_sum" t-value="0"/>
+                                    <t t-set="remaining_amount_sum" t-value="0"/>
+                                    <t t-foreach="related_records" t-as="related">
+                                        <tr>
+                                            <td><span t-field="related.name"/></td>
+                                            <td><span t-field="related.submission_date"/></td>
+                                            <td><span t-field="related.total_spent"/></td>
+                                            <td><span t-field="related.remaining_amount"/></td>
+                                            <td><span t-field="related.state"/></td>
+                                        </tr>
+                                        <t t-set="total_spent_sum" t-value="total_spent_sum + (related.total_spent or 0)"/>
+                                        <t t-set="remaining_amount_sum" t-value="remaining_amount_sum + (related.remaining_amount or 0)"/>
+                                    </t>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" style="text-align: left; font-weight: bold;">Total:</td>
+                                        <td><span t-esc="total_spent_sum"/></td>
+                                        <td><span t-esc="remaining_amount_sum"/></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </t>
 
-                       <t t-set="related_records" t-value="o.env['petty.cash.payment'].search([('employee_card', '=', o.name)])"/>
+
+                       <t t-set="related_records" t-value="o.env['petty.cash.payment'].search([('employee_card', '=', o.name), ('state', '=', 'done')])"/>
                        
                        <t t-if="related_records">
                            <h4 style="text-align: left;">Payments :</h4>
@@ -113,6 +135,7 @@
                                    </tr>
                                </thead>
                                <tbody>
+                                <t t-set="total_amount" t-value="0"/>
                                    <t t-foreach="related_records" t-as="related">
                                        <tr>
                                            <td><span t-field="related.name"/></td>
@@ -121,10 +144,42 @@
                                            <td><span t-field="related.amount"/></td>
                                            <td><span t-field="related.state"/></td>
                                        </tr>
+                                       <t t-set="total_amount" t-value="total_amount + (related.amount or 0)"/>
+                                        
                                    </t>
                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" style="text-align: letf; font-weight: bold;">Total:</td>
+                                        <td><span t-esc="total_amount"/></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
                            </table>
+
                        </t>
+                       <br/><br/>
+                       <br/><br/>
+                       <table class="table table-bordered expense-table" style="width: 100%; margin-top: 20px;">
+                                <thead>
+                                    <tr>
+                                        <th>Card</th>
+                                        <th>Total Requests</th>
+                                        <th>Total Payments</th>
+                                        <th>Balance</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                     <t t-set="balance" t-value="amount_sum - total_amount"/>
+                                    <tr>
+                                        <td><span t-field="o.name"/></td>
+                                        <td><span t-esc="amount_sum"/></td>
+                                        <td><span t-esc="total_amount"/></td>
+                                        <td><span t-esc="balance"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                    </div>
                </t>
            </t>
