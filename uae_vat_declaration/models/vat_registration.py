@@ -29,9 +29,13 @@ class VatRegistration(models.Model):
 
     reverse_charge_mechanism = fields.Boolean(string='Reverse Charge Mechanism Applicable')
     vat_due_date_q1 = fields.Date(string='VAT Due Date Q1', compute='_compute_vat_due_dates', store=True)
+    vat_due_date_q1_end = fields.Date(string='End VAT Due Date Q1', compute='_compute_vat_due_dates', store=True)
     vat_due_date_q2 = fields.Date(string='VAT Due Date Q2', compute='_compute_vat_due_dates', store=True)
+    vat_due_date_q2_end = fields.Date(string='End VAT Due Date Q2', compute='_compute_vat_due_dates', store=True)
     vat_due_date_q3 = fields.Date(string='VAT Due Date Q3', compute='_compute_vat_due_dates', store=True)
+    vat_due_date_q3_end = fields.Date(string='End VAT Due Date Q3', compute='_compute_vat_due_dates', store=True)
     vat_due_date_q4 = fields.Date(string='VAT Due Date Q4', compute='_compute_vat_due_dates', store=True)
+    vat_due_date_q4_end = fields.Date(string='End VAT Due Date Q4', compute='_compute_vat_due_dates', store=True)
     corporate_tax_due_date = fields.Date(string='Corporate Tax Due Date', compute='_compute_due_date', store=True)
     status = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string='Status', default='draft')
     creation_date = fields.Date(string='Creation Date')
@@ -80,6 +84,11 @@ class VatRegistration(models.Model):
                 record.vat_due_date_q2 = creation_date + relativedelta(months=3)
                 record.vat_due_date_q3 = creation_date + relativedelta(months=6)
                 record.vat_due_date_q4 = creation_date + relativedelta(months=9)
+
+                record.vat_due_date_q1_end = record.vat_due_date_q2 - relativedelta(days=1)
+                record.vat_due_date_q2_end = record.vat_due_date_q3 - relativedelta(days=1)
+                record.vat_due_date_q3_end = record.vat_due_date_q4 - relativedelta(days=1)
+                record.vat_due_date_q4_end = record.vat_due_date_q4 + relativedelta(months=3) - relativedelta(days=1)
 
     @api.depends('vat_due_date_q1', 'vat_due_date_q2', 'vat_due_date_q3', 'vat_due_date_q4')
     def _compute_due_date(self):

@@ -1,5 +1,5 @@
 {
-    'name': 'UAE VAT Declaration',
+    'name': 'UAE TAX',
     'version': '1.2',
     'sequence': -10000,
     'category': 'Accounting',

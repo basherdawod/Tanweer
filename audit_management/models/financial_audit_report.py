@@ -63,6 +63,7 @@ class AccountTypeLevel(models.Model):
         string='Account Type',
         readonly=True,
         required=False)
+    account_type_level = fields.Many2one('account.type.level',string="Account Type")
 
     balance_this = fields.Float(
         string='This Year',

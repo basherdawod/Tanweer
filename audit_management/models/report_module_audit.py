@@ -16,6 +16,43 @@ class AuditFinancialReport(models.Model):
     level2 = fields.Char('Main', translate=True)
     level3 = fields.Char('Main ', translate=True)
 
+    # new1 = fields.Selection(
+    #     string="New Field 1",
+    #     selection=[
+    #         ('asset', "Assets"),
+    #         ('equaty', "Equity"),
+    #         ('liability', "Liabilities"),
+    #     ]
+    # )
+
+    # new2 = fields.Selection(
+    #     string="New Field 2",
+    #     selection=[
+    #         ('current_asset', "Current Assets"),
+    #         ('non_current_asset', "Non Current Assets"),
+    #     ]
+    # )
+
+    # new3 = fields.Selection(
+    #     string="New Field 2",
+    #     selection=[
+    #         ('current_equaty', "Current Equity"),
+    #         ('non_current_equaty', "Non Current Equity"),
+    #     ]
+    # )
+
+    # new4 = fields.Selection(
+    #     string="New Field 2",
+    #     selection=[
+    #         ('current_liability', "Current Liabilities"),
+    #         ('non_current_liability', "Non Current Liabilities"),
+    #     ]
+    # )
+
+    
+
+
+
     partner_id = fields.Many2one('res.partner', string="Customer Name")
     data_fis_years_end = fields.Date(
         string='Fiscal Year End',
@@ -97,6 +134,70 @@ class AuditFinancialReport(models.Model):
     def _compute_current_datetime(self):
         for record in self:
             record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
+
+    # @api.onchange('new1')
+    # def _onchange_new1(self):
+    #     if self.new1 == 'asset':
+    #         return {
+    #             'domain': {
+    #                 'new2': [('id', 'in', ['current_asset', 'non_current_asset'])]
+    #             }
+    #         }
+    #     elif self.new1 == 'equaty':
+    #         return {
+    #             'domain': {
+    #                 'new2': [('id', 'in', ['current_equaty', 'non_current_equaty'])]
+    #             }
+    #         }
+    #     elif self.new1 == 'liability':
+    #         return {
+    #             'domain': {
+    #                 'new2': [('id', 'in', ['current_liability', 'non_current_liability'])]
+    #             }
+    #         }
+    #     else:
+    #         return {
+    #             'domain': {
+    #                 'new2': []  # No options available
+    #             }
+    #         }
+
+    # @api.onchange('new1')
+    # def _onchange_new1(self):
+    #     # Reset the value of `new2` when `new1` changes
+    #     self.new2 = False
+
+    #     # Set the domain and assign valid default value to `new2` based on `new1`
+    #     if self.new1 == 'asset':
+    #         self.new2 = 'current_asset' 
+    #         return {
+    #             'domain': {
+    #                 'new2': [('new2', 'in', ['current_asset', 'non_current_asset'])]
+    #             }
+    #         }
+    #     elif self.new1 == 'equaty':
+    #         self.new2 = 'current_equaty'  # Assign default value to `new2`
+    #         return {
+    #             'domain': {
+    #                 'new2': [('new2', 'in', ['current_equaty', 'non_current_equaty'])]
+    #             }
+    #         }
+    #     elif self.new1 == 'liability':
+    #         self.new2 = 'current_liability'  # Assign default value to `new2`
+    #         return {
+    #             'domain': {
+    #                 'new2': [('new2', 'in', ['current_liability', 'non_current_liability'])]
+    #             }
+    #         }
+    #     else:
+    #         return {
+    #             'domain': {
+    #                 'new2': []
+    #             }
+    #         }
+
+
+
 
     @api.model_create_multi
     def create(self, vals_list):

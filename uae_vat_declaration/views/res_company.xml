@@ -10,6 +10,7 @@
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="corporate_tax"/>
                 <field name="effective_reg_date"/>
+                <field name="corporit_tax_date"/>
             </xpath>
 
         </field>

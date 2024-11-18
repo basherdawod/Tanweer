@@ -39,6 +39,7 @@
                                 <field name="expense" readonly='1'/>
                                 <field name="other_expense" readonly='1'/>
                                 <field name="income_total" readonly='1'/>
+                                <field name="total_corporate_tax" readonly='1'/>
                             </group>
                         </group>
                     </page>
