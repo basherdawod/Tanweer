@@ -6,7 +6,7 @@
         <field name="name">vat.declaration.form</field>
         <field name="model">vat.declaration</field>
         <field name="arch" type="xml">
-            <form string="Vat Declaration">
+            <form string="VAT">
                 <header>
                         <field name="status" widget="statusbar"/>
                         <button string="Set To Draft" name="set_to_draft" type="object" class="oe_highlight"
@@ -24,10 +24,10 @@
                     </div>
                     <group>
                         <group>
-                            <field name="vat_registration_id" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="q_dates" />
-                            <field name="date_from"/>
-                            <field name="date_to"/>
+                            <field name="vat_registration_id" options="{'no_create': True, 'no_open': True}" readonly="status != 'draft'"/>
+                            <field name="q_dates"  readonly="status != 'draft'"/>
+                            <field name="date_from" readonly="1"/>
+                            <field name="date_to" readonly="1"/>
                             <field name="trn"/>
                         </group>
                         <group>
@@ -39,8 +39,18 @@
                     </group>
                     <notebook>
                         <page string="VAT Information">
-                            <field name="vat_sales_outputs" widget="one2many_list" editable="bottom">
-                                <tree create="false">
+                            <field name="vat_sales_outputs" widget="one2many_list" readonly="1">
+                                <form create="0" readonly="1">
+                                    <group>
+                                        <field name="description" widget="text"/>
+                                        <field name="amount"/>
+                                    </group>
+                                    <group>
+                                        <field name="taxamount"/>
+                                        <field name='line_type'/>
+                                    </group>
+                                </form>
+                                <tree>
                                     <field name="description" widget="text"/>
                                     <field name="amount" editable="true"/>
                                     <field name="taxamount" editable="true"/>
@@ -74,7 +84,7 @@
                 <field name="date_from"/>
                 <field name="date_to"/>
                 <field name="trn"/>
-                <field name="net_vat"/>
+            
             </tree>
         </field>
     </record>
@@ -94,14 +104,14 @@
 
 
     <record id="action_vat_declaration" model="ir.actions.act_window">
-        <field name="name">VAT Declarations</field>
+        <field name="name">VAT</field>
         <field name="res_model">vat.declaration</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_vat_declaration_search"/>
     </record>
 
     <menuitem id="menu_uae_vat_main"
-              name="VAT"
+              name="TAX"
               parent="account.menu_finance"
               sequence="10"/>
 
@@ -116,7 +126,7 @@
               sequence="2"/>
 
     <menuitem id="menu_vat_declaration_list"
-              name="Declaration List"
+              name="VAT"
               action="action_vat_declaration"
               parent="menu_vat_declaration_parent"
               sequence="1"/>
@@ -130,7 +140,7 @@
     </record>
 
     <menuitem id="menu_vat_registration"
-              name="VAT Registration"
+              name="VAT"
               action="action_vat_registration"
               parent="menu_corporate_tax_parent"
               sequence="1"/>

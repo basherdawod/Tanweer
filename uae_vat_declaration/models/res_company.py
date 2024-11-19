@@ -6,3 +6,4 @@ class ResCompany(models.Model):
     name_ar = fields.Char(string="Name In Arabic")
     corporate_tax = fields.Char(string="Corporate Tax")
     effective_reg_date = fields.Date(string="Effective Regestration Date")
+    corporit_tax_date = fields.Date(string="Corporate Tax Date")

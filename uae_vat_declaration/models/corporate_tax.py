@@ -45,12 +45,14 @@ class CorporateTax(models.Model):
     expense = fields.Float(string="Expense",compute='_compute_income_balance')
     other_expense = fields.Float(string="Other Expense",compute='_compute_income_balance')
 
+    total_corporate_tax = fields.Float(string="Corporate Tax")
+
     current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
     effective_reg_date = fields.Date(string='Effective Regesrtation Date', related='vat_registration_id.effective_reg_date', store=True, readonly=True)
 
     def _compute_current_datetime(self):
             for record in self:
-                record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y, %I:%M %p")
+                record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
 
     @api.depends()
     def _compute_income_balance(self):
@@ -135,8 +137,10 @@ class CorporateTax(models.Model):
         # Income total logic
         if income_total > 357000:
             self.income_total = (income_total - 357000) * 0.9
+            self.total_corporate_tax = income_total
         else:
-            self.income_total = 0.0
+            self.income_total = income_total
+            self.total_corporate_tax = 0.0
 
 
     def set_to_draft(self):

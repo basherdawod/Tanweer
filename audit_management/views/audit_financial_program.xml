@@ -22,6 +22,16 @@
                             </group>
                         </group>
                             <group>
+<<<<<<< HEAD
+=======
+                               <!--  <group>
+                                    <field name="new1"/>
+                                    <field name="new2" invisible="new1 in ('equaty','liability')" />
+                                    <field name="new3"  invisible="new1 in ('asset','liability')"/>
+                                    <field name="new4"  invisible="new1 in ('equaty','asset')"/>
+                                </group> -->
+                                <field name="level1"/>
+>>>>>>> 742387498974597975ae419a9b51234d6684edb7
                                     <group>
                                         <field name="level1" options="{'no_create': True , 'no_edit':True} "/>
                                         <field name="level_sub1" />

@@ -106,7 +106,7 @@ class VatDeclaration(models.Model):
     name = fields.Char(string='Reference', readonly=True, copy=False, default=lambda self: _('New'), unique=True)
     date_from = fields.Date(string='From Date')
     date_to = fields.Date(string='To Date')
-    vat_registration_id = fields.Many2one('vat.registration', string='VAT Registration', required=True,domain="[('tax_type', '=', 'vat')]")
+    vat_registration_id = fields.Many2one('vat.registration', string='VAT', required=True,domain="[('tax_type', '=', 'vat')]")
     trn = fields.Char(string='TRN', related='vat_registration_id.trn', readonly=True, store=True)
     due_date = fields.Date(string='Due Date')
     legal_name = fields.Char(string='Legal Name of Entity', related='vat_registration_id.legal_name_english', readonly=True, store=True)
@@ -126,7 +126,7 @@ class VatDeclaration(models.Model):
     total_purchase_vat = fields.Float(compute="_compute_totals", string="Total Purchase VAT", store=True)
     total_expenses = fields.Float(string='Total Expenses', compute='_compute_totals', store=True)
     total_expenses_vat = fields.Float(string='Total Expenses VAT', compute='_compute_totals', store=True)
-    net_vat = fields.Float(string='Net VAT Due', compute='_compute_totals', store=True)
+    # net_vat = fields.Float(string='Net VAT Due', compute='_compute_totals', store=True)
     effective_reg_date = fields.Date(string='Effective Regesrtation Date', related='vat_registration_id.effective_reg_date', store=True, readonly=True)
 
     tax_id = fields.Many2one('account.tax',string="Tax")
@@ -139,6 +139,7 @@ class VatDeclaration(models.Model):
         ('q3', 'Q3 Date'),
         ('q4', 'Q4 Date')
     ], string='Quarter Dates')
+
     line_type = fields.Selection([
         ('sale', 'Sales'),
         ('purchase', 'Purchase'),
@@ -218,18 +219,21 @@ class VatDeclaration(models.Model):
             
 
             if self.q_dates == 'q1':
-                self.date_from = q1_date 
-                self.date_to = q1_date + relativedelta(months=3) 
+                self.date_from = q1_date
+                self.date_to = q1_date + relativedelta(months=3) - relativedelta(days=1)
             elif self.q_dates == 'q2':
-                self.date_from = q2_date   
-                self.date_to = q2_date  + relativedelta(months=3)
+                self.date_from = q2_date
+                self.date_to = q2_date + relativedelta(months=3) - relativedelta(days=1)
             elif self.q_dates == 'q3':
-                self.date_from = q3_date   
-                self.date_to = q3_date + relativedelta(months=3)
+                self.date_from = q3_date
+                self.date_to = q3_date + relativedelta(months=3) - relativedelta(days=1)
             elif self.q_dates == 'q4':
-                self.date_from = q4_date  
-                self.date_to = q4_date + relativedelta(months=3,)
-            self.due_date = self.date_to - timedelta(days=2)
-        else:
-            self.date_from = False 
-            self.date_to = False
+                self.date_from = q4_date
+                self.date_to = q4_date + relativedelta(months=3) - relativedelta(days=1)
+
+            # حساب تاريخ الاستحقاق (قبل يومين من نهاية الفترة)
+                self.due_date = self.date_to - timedelta(days=2)
+            else:
+                self.date_from = False
+                self.date_to = False
+                self.due_date = False

@@ -42,6 +42,7 @@ class FinancialAuditReporting(models.Model):
         inverse_name='account_ids_audit',
         string='Account lines',
         required=False)
+    account_type_level = fields.Many2one('account.type.level',string="Account Type")
 
     @api.model_create_multi
     def create(self, vals_list):

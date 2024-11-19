@@ -38,16 +38,22 @@
             </group>
         </group>
         <group>
-            <group string="Date Due Return VAT">
-                <field name="vat_due_date_q1" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
-                <field name="vat_due_date_q2" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
-                <field name="vat_due_date_q3" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
-                <field name="vat_due_date_q4" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+            <group string="Quarter Start Date">
+          
+                    <field name="vat_due_date_q1" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                    <field name="vat_due_date_q2" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                    <field name="vat_due_date_q3" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                    <field name="vat_due_date_q4" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+              
+              
             </group>
         
-          <!--   <group string="Corporate Tax Due Date">
-                <field name="corporate_tax_due_date"/>
-            </group> -->
+            <group string="Quarter End Date">
+                    <field name="vat_due_date_q1_end" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                    <field name="vat_due_date_q2_end" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                    <field name="vat_due_date_q3_end" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+                    <field name="vat_due_date_q4_end" readonly="status != 'draft'" invisible="tax_type  !=  'vat'"/>
+            </group>
         </group>
     </sheet>
       <div class="oe_chatter">
