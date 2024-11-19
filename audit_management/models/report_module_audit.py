@@ -13,7 +13,7 @@ class AuditFinancialReport(models.Model):
     name = fields.Char(strring="Number" ,readonly=True, default=lambda self: _('New'), copy=False,
                       translate=True)
 
-<<<<<<< HEAD
+
     level1 = fields.Many2one('type.class.account' , 'Main Type',domain="[('id', '!=', level2),('id', '!=', level3)]")
     level2 = fields.Many2one('type.class.account' , 'Main Type' , domain="[('id', '!=', level1),('id', '!=', level2)]")
     level3 = fields.Many2one('type.class.account' , 'Main Type' , default=lambda self: self._get_default_level3(),  domain="[('id', '!=', level1),('id', '!=', level2)]")
@@ -62,46 +62,7 @@ class AuditFinancialReport(models.Model):
         )
 
     partner_id = fields.Many2one('financial.audit.customer', string="Customer Registration")
-=======
-    # new1 = fields.Selection(
-    #     string="New Field 1",
-    #     selection=[
-    #         ('asset', "Assets"),
-    #         ('equaty', "Equity"),
-    #         ('liability', "Liabilities"),
-    #     ]
-    # )
 
-    # new2 = fields.Selection(
-    #     string="New Field 2",
-    #     selection=[
-    #         ('current_asset', "Current Assets"),
-    #         ('non_current_asset', "Non Current Assets"),
-    #     ]
-    # )
-
-    # new3 = fields.Selection(
-    #     string="New Field 2",
-    #     selection=[
-    #         ('current_equaty', "Current Equity"),
-    #         ('non_current_equaty', "Non Current Equity"),
-    #     ]
-    # )
-
-    # new4 = fields.Selection(
-    #     string="New Field 2",
-    #     selection=[
-    #         ('current_liability', "Current Liabilities"),
-    #         ('non_current_liability', "Non Current Liabilities"),
-    #     ]
-    # )
-
-    
-
-
-
-    partner_id = fields.Many2one('res.partner', string="Customer Name")
->>>>>>> 742387498974597975ae419a9b51234d6684edb7
     data_fis_years_end = fields.Date(
         string='Fiscal Year End',
         required=False,
