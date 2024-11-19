@@ -1,5 +1,7 @@
 from odoo import api, fields, models, _, tools, Command
 from odoo.exceptions import ValidationError
+import xlrd
+
 
 class FinancialAuditReporting(models.Model):
     _name = "financial.audit.customer" #model_financial_audit_customer
