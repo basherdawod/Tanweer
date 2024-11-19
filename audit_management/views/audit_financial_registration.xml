@@ -9,7 +9,8 @@
                 <form string="Customer Registration">
                     <header>
                         <button name="create_audit_report" type="object" string="ObjectButton"/>
-                       
+                        <button name="%(audit_management.action_audit_account_import_wizard)d" type="action" 
+                        string="Import Accounts"/>
                     </header>
                     <sheet>
                         <div class="row text-center" >
@@ -28,6 +29,13 @@
                             <group invisible="integration_type != 'customers_system'">
                                 <field name="audit_char_account_id"/>
                             </group>
+                        <notebook>
+                            <page name="account_lines_ss" string="account lines ">
+                                <group>
+                                    <field name="account_lines_ss"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
