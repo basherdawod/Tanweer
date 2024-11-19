@@ -9,6 +9,7 @@
     'depends': ['base', 'account',],
     'data': [
         'security/ir.model.access.csv',
+        'wizerd/audit_accounts_lines.xml',
         'data/sequence_views.xml',
         'data/program_line_demo.xml',
         'views/audit_item_views.xml',
@@ -24,6 +25,7 @@
         'reports/account_type_level_report.xml',
         # 'reports/type_line.xml',
         'views/menu.xml',
+        
     ],
     'assets': {
         'web.assets_backend': [

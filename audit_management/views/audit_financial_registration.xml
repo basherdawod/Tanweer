@@ -5,10 +5,11 @@
         <record id="view_financial_audit_customer_form" model="ir.ui.view">
             <field name="name">financial.audit.customer.form</field>
             <field name="model">financial.audit.customer</field>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml"> 
                 <form string="Customer Registration">
                     <header>
                         <button name="create_audit_report" type="object" string="ObjectButton"/>
+                       
                     </header>
                     <sheet>
                         <div class="row text-center" >

@@ -6,6 +6,10 @@
             <field name="model">audit.account.account</field>
             <field name="arch" type="xml">
                 <form string="Customer Registration">
+                    <header>
+                         <button name="%(audit_management.action_audit_account_import_wizard)d" type="action" 
+                        string="Import Accounts"/>
+                    </header>
                     <sheet>
                         <group>
                             <group col="4">

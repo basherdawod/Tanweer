@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+
+        <record id="view_audit_account_import_wizard_form" model="ir.ui.view">
+            <field name="name">audit.account.import.wizard.form</field>
+            <field name="model">audit.account.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Import Audit Account Lines">
+                    <group>
+                        <field name="excel_file" widget="binary" required="1"/>
+                        <field name="excel_filename"/>
+                    </group>
+                    <footer>
+                        <button name="action_import_excel" type="object" string="Import" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_audit_account_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import Audit Account Lines</field>
+            <field name="res_model">audit.account.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

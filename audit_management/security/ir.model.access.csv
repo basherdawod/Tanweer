@@ -18,3 +18,10 @@ access_type_class_account_manager,access_type_class_account_manager,model_type_c
 access_type_class_line_manager,access_type_class_line_manager,model_type_class_line,base.group_user,1,1,1,1
 access_addition_period_assets_manager,access_addition_period_assets,model_addition_period_assets,base.group_user,1,1,1,1
 
+access_audit_account_import_wizard,audit_account_import_wizard,model_audit_account_import_wizard,,1,1,1,1
+access_audit_account_account,audit_account_account,model_audit_account_account,,1,1,1,1
+access_financial_audit_customer,financial_audit_customer,model_financial_audit_customer,,1,1,1,1
+access_audit_account_account_line,audit_account_account_line,model_audit_account_account_line,,1,1,1,1
+
+
+
