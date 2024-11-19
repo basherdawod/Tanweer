@@ -16,11 +16,14 @@
         'views/program_line_views.xml',
         'views/leval_line.xml',
         'views/audit_financial_program.xml',
-        'views/menu.xml',
+        'views/account_account_registration.xml',
+        'views/audit_financial_registration.xml',
         'reports/program_report_template.xml',
         'reports/audit_item.xml',
         'reports/audit_financial_program_report.xml',
         'reports/account_type_level_report.xml',
+        # 'reports/type_line.xml',
+        'views/menu.xml',
     ],
     'assets': {
         'web.assets_backend': [

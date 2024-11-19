@@ -1,91 +1,113 @@
-from odoo import models, fields, api, Command, _
-from odoo.exceptions import UserError
-from dateutil.relativedelta import relativedelta
-import base64
-import logging
-from datetime import datetime, date
-
+from odoo import api, fields, models, _, tools, Command
+from odoo.exceptions import ValidationError
 
 class FinancialAuditReporting(models.Model):
-    _name = "financial.audit.reporting"
+    _name = "financial.audit.customer"
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _description = "Audit Report Financial"
+    _description = "Customer Registration"
 
-    name = fields.Char(strring="Number", readonly=True, default=lambda self: _('New'), copy=False,
-                       translate=True)
+    lable1 = fields.Char(
+        string="Text" ,readonly=True,
+        default="MODULAR CONCEPTS L.L.C.\n DUBAI - UNITED ARAB EMIRATES \n FINANCIAL STATEMENTS & REPORTS")
+    name = fields.Char(
+        strring="Registration No", required=False ,readonly=True,
+        default=lambda self: _('New'), copy=False)
+    partner_id = fields.Many2one(
+        'res.partner',
+        string="Customer Name")
+    integration_type = fields.Selection(
+        string='Integration Type',
+        selection=[('current_system', 'Current Systems'),
+                   ('customers_system', 'Customers Systems '), ],
+        required=False, default='current_system')
 
-    level1 = fields.Char('Main', translate=True)
-    level2 = fields.Char('Main', translate=True)
-    level3 = fields.Char('Main ', translate=True)
-
-    partner_id = fields.Many2one('res.partner', string="Customer Name")
-    data_fis_years_end = fields.Date(
-        string='Fiscal Year End',
-        required=False,
-        default=lambda self: datetime(date.today().year, 12, 31).strftime("%Y-%m-%d")
-    )
     data_last_years_end = fields.Date(
-        string='Last Fiscal Year End',
-        required=False,
-        default=lambda self: datetime(date.today().year - 1, 12, 31).strftime("%Y-%m-%d")
+        string='Registration Date',
+        required=True,
     )
-    audit_lines_ids = fields.One2many(
-        comodel_name='account.audit.level.line',
-        inverse_name='audit_financial_id',
-        string='Audit Lines',
-        required=False
-    )
-
-
-class AccountTypeLevel(models.Model):
-    _name = 'account.audit.level.line'
-    _description = 'Account Level Line'
-
-    audit_financial_id = fields.Many2one(
+    audit_financial_program_ids = fields.One2many(
         comodel_name='audit.financial.program',
-        string='Account Type',
-        required=False, readonly=True)
-    name = fields.Char(string="Name")
+        inverse_name='partner_id',
+        string='Customers Audit Report',
+        required=False)
+    api_key = fields.Char(
+        strring="APT Key", required=False, copy=False)
 
-    seq = fields.Integer(string="seq")
-    seq2 = fields.Integer(string="seq")
-    seq3 = fields.Integer(string="seq")
-
-    display_type = fields.Selection(
-        selection=[
-            ('line_section', "Section"),
-            ('line_sub', "Sub Section "),
-        ],
-        default=False)
-
-    level_line_id = fields.Many2one(
-        comodel_name='account.type.level',
-        string='Account Type',
-        readonly=True,
+    audit_char_account_id = fields.Many2one(
+        comodel_name='audit.account.account',
+        string='Char Of Account',
+        required=False)
+    account_lines_ss = fields.One2many(
+        comodel_name='audit.account.account.line',
+        inverse_name='account_ids_audit',
+        string='Account lines',
         required=False)
 
-    balance_this = fields.Float(
-        string='This Year',
-        required=False,
-        related="level_line_id.balance_this",
-        # compute='_compute_current_balance',
-    )
-    currency_id = fields.Many2one(
-        'res.currency',
-        string="Currency",
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', _('New')) == _('New'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('financial.audit.customer') or _('New')
+        records = super(FinancialAuditReporting, self).create(vals_list)
 
-        required=True,
-        default=lambda self: self.env.company.currency_id
-    )
+        return records
+    def create_audit_report(self):
+        for record in self:
+            existing_audit_reports = record.audit_financial_program_ids
+            if not existing_audit_reports:
+                audit_report_name = record.name
+            else:
+                next_letter = chr(65 + len(existing_audit_reports))  # ASCII 'A' is 65
+                audit_report_name = f"{record.name}/{next_letter}"
 
-    balance_last = fields.Monetary(
-        string='Last Year',
-        related="level_line_id.balance_last",
-        required=False,
-        currency_field='currency_id',
-    )
+            # Create the new audit_report record
+            audit_report = self.env['audit.financial.program'].create({
+                'partner_id': record.id,
+                'name': audit_report_name,
+            })
 
-    type = fields.Selection(
+            # Log the creation in chatter
+            record.message_post(body=f"audit_report {audit_report.name} has been created.")
+
+
+class AuditAccountChar(models.Model):
+    _name = 'audit.account.account'
+    _description = 'AuditAccountChar'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+
+    name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)
+    customer_account_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Account ',
+        required=False)
+    account_lines_ids = fields.One2many(
+        comodel_name='audit.account.account.line',
+        inverse_name='account_ids_audit',
+        string='Account_lines_ids',
+        required=False)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', _('New')) == _('New'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('audit.account.account') or _('New')
+        records = super(AuditAccountChar, self).create(vals_list)
+        return records
+
+
+class AuditAccountCharLine(models.Model):
+    _name = 'audit.account.account.line'
+    _description = 'audit.account.account.line'
+
+
+    name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)
+    account_ids_audit = fields.Many2one(
+        comodel_name='audit.account.account',
+        string='Account_ids_audit',
+        required=False)
+    code = fields.Char(size=64, required=True, tracking=True, index=True, unaccent=False)
+    account_type = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
             ("asset_cash", "Bank and Cash"),
@@ -106,45 +128,14 @@ class AccountTypeLevel(models.Model):
             ("expense_direct_cost", "Cost of Revenue"),
             ("off_balance", "Off-Balance Sheet"),
         ],
-        string="Type",
-        related="level_line_id.type",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
+        string="Type", tracking=True,
+        required=True,
+        store=True, readonly=False, precompute=True, index=True,
+        help="Account Type is used for information purpose, to generate country-specific legal reports, and set the rules to close a fiscal year and generate opening entries."
     )
-    level1_match = fields.Boolean(string="Level 1 Match", compute="_compute_level1_match")
 
-    @api.depends('audit_financial_id', 'level_line_id')
-    def _compute_level1_match(self):
-        for record in self:
-            # Ensure both fields are set before comparing
-            if record.audit_financial_id.level1 == record.level_line_id.name:
-                record.level1_match = True
-            elif record.audit_financial_id.level2 == record.level_line_id.name:
-                record.level1_match = True
-            elif record.audit_financial_id.level3 == record.level_line_id.name:
-                record.level1_match = True
-            else:
-                record.level1_match = False
+    opening_debit = fields.Float(string="Opening Debit" )
+    opening_credit = fields.Float(string="Opening Credit"  )
+    opening_balance = fields.Float(string="Opening Balance")
 
-    @api.depends('level_line_id')
-    def _compute_name(self):
-        for line in self:
-            # If there's no 'level_line_id', assign a name based on audit_financial_id levels
-            print("Line Fields:", dir(line))
-            if not line.level_line_id:
-                # Handle the case where audit_financial_id is not set
-                if line.name != '' and line.seq == 1:
-                    line.name = line.audit_financial_id.level1
-                elif line.name != '' and line.seq2 == 2:
-                    line.name = line.audit_financial_id.level2
-                elif line.name != '' and line.seq3 == 3:
-                    line.name = line.audit_financial_id.level3
-                else:
-                    print("Name", line.name)
-                    line.name = "No line"
-                continue  # Skip the next logic if no level_line_id
-
-
-            # If 'level_line_id' is set, directly use its 'name' or 'type' (depending on the field you want)
-            else:
-                line.name = ''  # or use line.level_line_id.type if that's more appropriate
+    current_balance = fields.Float(string="Current balance")

@@ -35,6 +35,20 @@
                   action="action_account_type_level_audit_tree"
                   sequence="500"
                   parent="menu_audit_management_Configuration"/>
+
+         <menuitem id="ins_audit_account_account_report"
+                  name="Account Audit Customer"
+                  action="action_audit_account_account_tree"
+                  sequence="4"
+                  parent="menu_audit_management_Configuration"/>
+
+        <menuitem id="ins_financial_audit_customer_report"
+                  name="Account Audit Customer"
+                  action="action_financial_audit_customer_tree"
+                  sequence="4"
+                  parent="menu_audit_management_Configuration"/>
+
+
         <menuitem id="ins_account_type_audit_report"
                   name="Financial Reports"
                   action="action_account_type_audit_tree"

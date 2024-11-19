@@ -12,11 +12,55 @@ class AuditFinancialReport(models.Model):
 
     name = fields.Char(strring="Number" ,readonly=True, default=lambda self: _('New'), copy=False,
                       translate=True)
-    level1 = fields.Char('Main', translate=True)
-    level2 = fields.Char('Main', translate=True)
-    level3 = fields.Char('Main ', translate=True)
 
-    partner_id = fields.Many2one('res.partner', string="Customer Name")
+    level1 = fields.Many2one('type.class.account' , 'Main Type',domain="[('id', '!=', level2),('id', '!=', level3)]")
+    level2 = fields.Many2one('type.class.account' , 'Main Type' , domain="[('id', '!=', level1),('id', '!=', level2)]")
+    level3 = fields.Many2one('type.class.account' , 'Main Type' , default=lambda self: self._get_default_level3(),  domain="[('id', '!=', level1),('id', '!=', level2)]")
+
+    level_sub1 = fields.Many2one('type.class.line' , 'Main Sub' ,domain="[('type_class_id', '=', level1)]")
+    level_sub2 = fields.Many2one('type.class.line' , 'Main Sub' ,domain="[('type_class_id', '=', level1)]")
+
+    level2_sub1 = fields.Many2one('type.class.line' , 'Main Sub' , domain="[('type_class_id', '=', level2)]" )
+    level2_sub2 = fields.Many2one('type.class.line' , 'Main Sub' , domain="[('type_class_id', '=', level2)]")
+
+    # Assuming the relation is correct, the final code should look like this:
+
+    audit_lines1_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        column2='level_sub1',
+        string='Audit Lines',
+        required=False,
+        domain="[('type', '=', 'asset_current')]",
+    )
+
+
+    audit_lines2_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        string='Audit Lines',
+        required=False,
+    )
+    audit_lines3_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        string='Audit Lines',
+        required=False,
+    )
+    audit_lines4_ids = fields.One2many(
+        comodel_name='account.type.level',
+        inverse_name='audit_financial_id',
+        string='Audit Lines',
+        required=False,
+    )
+    audit_lines5_ids = fields.One2many(
+            comodel_name='account.type.level',
+            inverse_name='audit_financial_id',
+            string='Audit Lines',
+            required=False,
+        )
+
+    partner_id = fields.Many2one('financial.audit.customer', string="Customer Registration")
     data_fis_years_end = fields.Date(
         string='Fiscal Year End',
         required=False,
@@ -32,6 +76,7 @@ class AuditFinancialReport(models.Model):
         inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False
+
     )
 
     type_line_L1_ids = fields.Many2many(
@@ -40,7 +85,15 @@ class AuditFinancialReport(models.Model):
         column1='audit_financial_id',
         column2='type_level_id',
         string='Level 1 Lines',
+
     )
+    type_line1_L1_ids = fields.Many2many(
+            comodel_name='account.type.level',
+            relation='audit_financial_level1_rel',
+            column1='audit_financial_id',
+            column2='type_level_id',
+            string='Level 1 Lines',
+        )
 
     type_line_l2_ids = fields.Many2many(
         comodel_name='account.type.level',
@@ -48,6 +101,14 @@ class AuditFinancialReport(models.Model):
         column1='audit_financial_id',
         column2='type_level_id',
         string='Level 2 Lines',
+    )
+    type_line2_l2_ids = fields.Many2many(
+        comodel_name='account.type.level',
+        relation='audit_financial_level2_rel',
+        column1='audit_financial_id',
+        column2='type_level_id',
+        string='Level 2 Lines',
+
     )
 
     type_line_l3_ids = fields.Many2many(
@@ -93,7 +154,25 @@ class AuditFinancialReport(models.Model):
         currency_field='currency_id',
     )
 
+    @api.model
+    def _get_default_level3(self):
+        # Search for the record where name is 'Equity'
+        equity_record = self.env['type.class.account'].search([('name', '=', 'Equity')], limit=1)
+        if equity_record:
+            return equity_record.id
+        return False  # In case no record is found, return False to not set a default
+
     current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
+    #
+    # @api.onchange('level1', 'level2', 'level3')
+    # def _onchange_levels(self):
+    #     domain = {}
+    #     if self.level1:
+    #         domain['level2'] = [('id', '!=', self.level1.id)]
+    #     if self.level2:
+    #         domain['level3'] = [('id', '!=', self.level2.id)]
+    #     return {'domain': domain}
+
     def _compute_current_datetime(self):
         for record in self:
             record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
@@ -109,6 +188,7 @@ class AuditFinancialReport(models.Model):
         records = super(AuditFinancialReport, self).create(vals_list)
 
         return records
+
 
     def action_create_audit_line(self):
         # Clear existing audit lines
@@ -344,3 +424,65 @@ class AccountTypeLevel(models.Model):
             # If 'level_line_id' is set, directly use its 'name' or 'type' (depending on the field you want)
             else:
                 line.name =''  # or use line.level_line_id.type if that's more appropriate
+
+
+class TypeClass(models.Model):
+    _name = 'type.class.account'
+    _description = 'Type Class'
+
+    name = fields.Char("name")
+    tec_name = fields.Char("Tech Name")
+
+    type_line_ids = fields.One2many(
+        comodel_name='type.class.line',
+        inverse_name='type_class_id',
+        string='Type line id',
+        required=False)
+
+class TypeClassLine(models.Model):
+    _name = 'type.class.line'
+    _description = 'Type Class Line'
+
+    name = fields.Char("name")
+    tec_name = fields.Char("Tech Name")
+    type_class_id = fields.Many2one(
+        comodel_name='type.class.account',
+        string='Type class',
+        required=False)
+    type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
+
+
+    @api.model
+    def create(self, vals):
+        if 'tec_name' in vals and not vals.get('type'):
+            if vals['tec_name'] :
+                vals['type'] = vals['tec_name']
+        return super(TypeClassLine, self).create(vals)
+
+
+
+

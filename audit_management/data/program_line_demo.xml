@@ -1,6 +1,69 @@
 <!-- program_line_demo.xml -->
 <odoo>
-<record id="demo_program_line_gap_1" model="program.line">
+    <!-- Create the 'Assets' type class account -->
+
+    <!-- Create the first line 'Current Assets' -->
+    <record id="demo_type_class_account_line" model="type.class.line">
+        <field name="name">Current Assets</field>
+        <field name="tec_name">asset_current</field>
+        <field name="type">asset_current</field>
+
+    </record>
+
+    <!-- Create the second line 'Non-Current Assets' -->
+    <record id="demo_type_class_account_line2" model="type.class.line">
+        <field name="name">Non-Current Assets</field>
+        <field name="tec_name">asset_non_current</field>
+        <field name="type">asset_non_current</field>
+    </record>
+
+    <!-- Create the 'Liability' type class account -->
+
+    <!-- Create the first liability line 'Current Liability' -->
+    <record id="demo_type_class_account_line3" model="type.class.line">
+        <field name="name">Current Liability</field>
+        <field name="tec_name">liability_current</field>
+        <field name="type">liability_current</field>
+    </record>
+
+    <!-- Create the second liability line 'Non-Current Liabilities' -->
+    <record id="demo_type_class_account_line4" model="type.class.line">
+        <field name="name">Non-Current Liabilities</field>
+        <field name="tec_name">liability_non_current</field>
+        <field name="type">liability_non_current</field>
+    </record>
+
+    <!-- Create the 'Equity' type class account -->
+
+    <!-- Create the equity line -->
+    <record id="demo_type_class_account_line5" model="type.class.line">
+        <field name="name">Equity</field>
+        <field name="tec_name">equity</field>
+        <field name="type">equity</field>
+    </record>
+
+  <record id="demo_type_class_account_1" model="type.class.account">
+        <field name="name">Assets</field>
+        <field name="tec_name">assets</field>
+        <field name="type_line_ids" eval="[(6, 0, [ref('demo_type_class_account_line'), ref('demo_type_class_account_line2')])]"/>
+    </record>
+<record id="demo_type_class_account_3" model="type.class.account">
+        <field name="name">Equity</field>
+        <field name="tec_name">equity</field>
+        <!-- Link to the type line via the 'type_line_ids' One2many field -->
+        <field name="type_line_ids" eval="[(6, 0, [ref('demo_type_class_account_line5')])]"/>
+    </record>
+  <record id="demo_type_class_account_2" model="type.class.account">
+        <field name="name">Liability</field>
+        <field name="tec_name">liability</field>
+        <!-- Link to the type lines via the 'type_line_ids' One2many field -->
+        <field name="type_line_ids" eval="[(6, 0, [ref('demo_type_class_account_line3'), ref('demo_type_class_account_line4')])]"/>
+    </record>
+
+
+
+
+ <record id="demo_program_line_gap_1" model="program.line">
  <field name="number">1</field>
  <field name="discription_arabic">طابق الرصيد الافتتاحى للأرباح المبقاة مع أوراق عمل العام الماضى</field>
  <field name="discription_english">Reconcile opening retained earnings from previous years working papers to general ledger.</field>

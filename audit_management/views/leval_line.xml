@@ -28,6 +28,17 @@
                             </field>
                         </group>
                     </page>
+                             <page name="account_type_ids" string="Cost">
+                        <group>
+                            <!-- Make account_type_name field invisible, but it is still used for domain -->
+                            <field name="account_type_ids">
+                                <tree editable="bottom">
+                                    <field name="account"/>
+                                    <field name="account_move_line"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                 </notebook>
                     </sheet>
 

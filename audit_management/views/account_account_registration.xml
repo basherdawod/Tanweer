@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_audit_account_account_form" model="ir.ui.view">
+            <field name="name">audit.account.account.form</field>
+            <field name="model">audit.account.account</field>
+            <field name="arch" type="xml">
+                <form string="Customer Registration">
+                    <sheet>
+                        <group>
+                            <group col="4">
+                                <field name="name"/>
+                                <field name="customer_account_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="account_lines_ids" string="Account Line">
+                                <group>
+                                    <field name="account_lines_ids"/>
+                                </group>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_audit_account_account_tree" model="ir.ui.view">
+            <field name="name">audit.account.account.tree</field>
+            <field name="model">audit.account.account</field>
+            <field name="arch" type="xml">
+                <tree string="Account Report">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_audit_account_account_search" model="ir.ui.view">
+            <field name="name">audit.account.account.search</field>
+            <field name="model">audit.account.account</field>
+            <field name="arch" type="xml">
+                <search string="Account Report">
+                    <field name="name" string="Account Report"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_audit_account_account_tree" model="ir.actions.act_window">
+            <field name="name">Account Registration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">audit.account.account</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id"
+                   ref="view_audit_account_account_search"/>
+            <field name="view_id" ref="view_audit_account_account_tree"/>
+        </record>
+    </data>
+</odoo>

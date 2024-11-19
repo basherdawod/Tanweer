@@ -9,13 +9,19 @@ class AccountTypeLevel(models.Model):
     _name = 'account.type.level'
     _description = 'Account Type Level'
 
-    number_audit = fields.Char(strring="Number" ,readonly=True, default=lambda self: _('New'), copy=False)
+    number_audit = fields.Char(string="Note" ,readonly=True, default=lambda self: _('New'), copy=False)
     name = fields.Char(
         string='Name',
         required=False)
+    
     account_level_type_ids = fields.One2many(
         comodel_name='account.type.audit',
         inverse_name='account_type_name',
+        string='Account Type',
+        required=False)
+    account_type_ids = fields.One2many(
+        comodel_name='addition.period.assets',
+        inverse_name='account_ids',
         string='Account Type',
         required=False)
     audit_financial_id = fields.Many2one(
@@ -208,3 +214,28 @@ class AccountAccountTypeAudit(models.Model):
           # Default handler
     )
 
+class AdditionPeriodAssets(models.Model):
+    _name = 'addition.period.assets'
+    _description = 'AdditionPeriodAssets'
+
+    account_ids = fields.Many2one(
+        comodel_name='account.type.level',
+        string='Account',
+    )
+    account = fields.Many2one(
+        comodel_name='account.account',
+        string='Account',
+        domain=lambda self: self._get_account_domain()
+    )
+
+    account_move_line= fields.Many2one(
+        comodel_name='account.move.line',
+        string='Account',
+        domain=lambda self: self._get_account_domain()
+    )
+    
+    def _get_account_domain(self):
+        if not self.account_ids:
+            print("Account type is not set")
+            return []
+        return [('account_id', '=', self.account)]

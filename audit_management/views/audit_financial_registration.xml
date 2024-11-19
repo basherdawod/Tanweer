@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_financial_audit_customer_form" model="ir.ui.view">
+            <field name="name">financial.audit.customer.form</field>
+            <field name="model">financial.audit.customer</field>
+            <field name="arch" type="xml">
+                <form string="Customer Registration">
+                    <header>
+                        <button name="create_audit_report" type="object" string="ObjectButton"/>
+                    </header>
+                    <sheet>
+                        <div class="row text-center" >
+                                <field name="lable1"/>
+                        </div>
+                        <group>
+                            <group col="4">
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group >
+                                <field name="data_last_years_end"/>
+                                <field name="integration_type"/>
+                            </group>
+                        </group>
+                            <group invisible="integration_type != 'customers_system'">
+                                <field name="audit_char_account_id"/>
+                            </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_financial_audit_customer_tree" model="ir.ui.view">
+            <field name="name">financial.audit.customer.tree</field>
+            <field name="model">financial.audit.customer</field>
+            <field name="arch" type="xml">
+                <tree string="Account Report">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="data_last_years_end"/>
+                    <field name="integration_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_financial_audit_customer_search" model="ir.ui.view">
+            <field name="name">financial.audit.customer.search</field>
+            <field name="model">financial.audit.customer</field>
+            <field name="arch" type="xml">
+                <search string="Account Report">
+                    <field name="name" string="Account Report"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_financial_audit_customer_tree" model="ir.actions.act_window">
+            <field name="name">Customer Registration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">financial.audit.customer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id"
+                   ref="view_financial_audit_customer_search"/>
+            <field name="view_id" ref="view_financial_audit_customer_tree"/>
+        </record>
+    </data>
+</odoo>
