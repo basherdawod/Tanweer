@@ -39,7 +39,7 @@ class FinancialAuditReporting(models.Model):
         required=False)
     account_lines_ss = fields.One2many(
         comodel_name='audit.account.account.line',
-        inverse_name='account_ids_audit',
+        inverse_name='account_ids_audit1',
         string='Account lines',
         required=False)
     account_type_level = fields.Many2one('account.type.level',string="Account Type")
@@ -105,6 +105,10 @@ class AuditAccountCharLine(models.Model):
     name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)
     account_ids_audit = fields.Many2one(
         comodel_name='audit.account.account',
+        string='Account_ids_audit',
+        required=False)
+    account_ids_audit1 = fields.Many2one(
+        comodel_name='financial.audit.customer',
         string='Account_ids_audit',
         required=False)
     code = fields.Char(size=64, required=True, tracking=True, index=True, unaccent=False)
