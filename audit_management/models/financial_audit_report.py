@@ -1,8 +1,11 @@
+# import openpyxl
+import io
 import base64
 from odoo import api, fields, models, _, tools, Command
 from odoo.exceptions import AccessError, ValidationError, UserError
 from datetime import datetime, date
-import xlrd
+
+
 
 class FinancialAuditReporting(models.Model):
     _name = "financial.audit.customer"
@@ -64,35 +67,89 @@ class FinancialAuditReporting(models.Model):
         required=False)
     account_type_level = fields.Many2one('account.type.level', string="Account Type")
 
-    
+
 
     def action_import_account_lines(self):
         if not self.upload_xlsx:
             raise ValidationError(_("Please upload an XLSX file first."))
 
         try:
+            # Decode the uploaded XLSX file content
             file_content = base64.b64decode(self.upload_xlsx)
-            workbook = xlrd.open_workbook(file_contents=file_content)
-            sheet = workbook.sheet_by_index(0)  
+            file = io.BytesIO(file_content)
+            
+            # Load the workbook and get the active sheet
+            workbook = openpyxl.load_workbook(filename=file)
+            sheet = workbook.active
 
+            # Initialize an empty list for lines
             lines = []
-            for row_idx in range(1, sheet.nrows):
-                code = sheet.cell_value(row_idx, 0)
-                account_type = sheet.cell_value(row_idx, 1)
-                opening_balance = sheet.cell_value(row_idx, 2)
-                
+
+            # Iterate through the rows, starting from row 1 to max_row (inclusive)
+            for row_idx in range(1, sheet.max_row + 1): 
+                # Read data from each cell (adjusting for the correct column index)
+                code = sheet.cell(row=row_idx, column=1).value 
+                account_name = sheet.cell(row=row_idx, column=2).value
+                account_type = sheet.cell(row=row_idx, column=3).value
+                opening = sheet.cell(row=row_idx, column=4).value or 0
+                opening_debit = sheet.cell(row=row_idx, column=5).value or 0
+                opening_credit = sheet.cell(row=row_idx, column=6).value or 0
+                opening_balance = sheet.cell(row=row_idx, column=7).value or 0
+
+                # Append the line to the list
                 lines.append((0, 0, {
-                    'code': account_code,
+                    'code': code,
                     'account_name': account_name,
-                    'account_balance': account_balance,
-                     
+                    'account_type': account_type,
+                    'opening': opening,
+                    'opening_debit': opening_debit,
+                    'opening_credit': opening_credit,
+                    'account_balance': opening_balance,
                 }))
 
+            # Set the lines to the field (replace `account_lines_ss` with your actual field)
             self.account_lines_ss = lines
 
         except Exception as e:
-            raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
+            raise ValidationError(_("Error processing: %s") % str(e))
 
+    
+
+    # def action_import_account_lines(self):
+    #     if not self.upload_xlsx:
+    #         raise ValidationError(_("Please upload an XLSX file first."))
+
+    #     try:
+    #         file_content = base64.b64decode(self.upload_xlsx)
+
+    #         file = io.BytesIO(file_content)
+    #         workbook = openpyxl.load_workbook(filename=file) 
+    #         sheet = workbook.active
+            
+    #         lines = []
+    #         for row_idx in range(1, sheet.max_row): 
+    #             code = sheet.cell(row=row_idx + 1, column=1).value
+    #             account_name = sheet.cell(row=row_idx + 1, column=2).value or 0
+    #             account_type = sheet.cell(row=row_idx + 1, column=3).value or 0 
+    #             opening = sheet.cell(row=row_idx + 1, column=4).value or 0 
+    #             opening_debit = sheet.cell(row=row_idx + 1, column=5).value or 0 
+    #             opening_credit = sheet.cell(row=row_idx + 1, column=6).value or 0  
+    #             opening_balance = sheet.cell(row=row_idx + 1, column=7).value or 0  
+                
+    #             lines.append((0, 0, {
+    #                 'code': code,
+    #                 'account_name': account_name,
+    #                 'account_type': account_type,
+    #                 'opening': opening,
+    #                 'opening_debit': opening_debit,
+    #                 'opening_credit': opening_credit,
+    #                 'account_balance': opening_balance,
+    #             }))
+            
+    #         self.account_lines_ss = lines
+
+    #     except Exception as e:
+    #         raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
 
     def create_account_lines_customers(self):
         if self.integration_type == 'current_system':
