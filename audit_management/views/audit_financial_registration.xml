@@ -37,8 +37,6 @@
                                 <group>
                                     <field name="active"/>
                                 </group>
-
-
                             </group>
                         <notebook>
                             <group>
@@ -47,7 +45,6 @@
                             </group>
 
                             <page name="account_lines_ss" string="account lines ">
-
                                     <field name="account_lines_ss">
                                         <tree>
                                             <field name="code"/>
@@ -105,6 +102,5 @@
                    ref="view_financial_audit_customer_search"/>
             <field name="view_id" ref="view_financial_audit_customer_tree"/>
         </record>
-        
     </data>
 </odoo>

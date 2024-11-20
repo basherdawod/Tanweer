@@ -166,13 +166,53 @@ class AccountAccountTypeAudit(models.Model):
         required=False,
         # Default handler
     )
+    type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type", related="account_type_name.type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
 
     account_ids = fields.Many2one(
         comodel_name='account.account',
         string='Account',
-        domain=[('account_type','=',account_type_name.type)]
     )
 
+    @api.onchange('type')
+    def _onchange_type(self):
+        print ("RRRRRRR",self.type)
+        if self.type != '':
+            # Update the domain of account_ids based on the selected type
+            return {
+                'domain': {
+                    'account_ids': [('account_type', '=', self.type)],
+                }
+            }
+        else:
+            return {
+                'domain': {
+                    'account_ids': [],
+                }
+            }
     @api.depends('account_ids')
     def _compute_current_balance(self):
         for record in self:
@@ -229,15 +269,18 @@ class AccountAccountTypeAudit(models.Model):
             record.balance_last = total_balance_last
             record.balance_credit = total_balance_credit
             record.balance_debit = total_balance_debit
-    #
+
     # def _get_account_domain(self):
+    #     # If there's no account_type_name, return an empty domain
     #     if not self.account_type_name:
     #         return []
     #
+    #     # Extract the type key and get the corresponding selection value
     #     type_key = self.account_type_name.type
     #     type_selection = dict(self.account_type_name._fields['type'].selection).get(type_key)
     #
-    #     return [('account_type', '=', type_key)]
+    #     # Return a domain to filter records based on account_type
+    #     return [('account_type', '=', type_selection)]
 
     # Account Type Level selection (this will filter accounts)
 

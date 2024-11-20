@@ -211,10 +211,10 @@ class AuditAccountCharLine(models.Model):
 
 
     name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)
-    # account_ids_audit = fields.Many2one(
-    #     comodel_name='audit.account.account',
-    #     string='Account_ids_audit',
-    #     required=False)
+    account_ids_audit = fields.Many2one(
+        comodel_name='audit.account.account',
+        string='Account_ids_audit',
+        required=False)
     account_ids_audit1 = fields.Many2one(
         comodel_name='financial.audit.customer',
         string='Account_ids_audit',
