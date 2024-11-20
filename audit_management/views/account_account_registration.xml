@@ -6,6 +6,7 @@
             <field name="model">audit.account.account</field>
             <field name="arch" type="xml">
                 <form string="Customer Registration">
+                   
                     <sheet>
                         <group>
                             <group col="4">

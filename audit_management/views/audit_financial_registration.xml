@@ -5,11 +5,13 @@
         <record id="view_financial_audit_customer_form" model="ir.ui.view">
             <field name="name">financial.audit.customer.form</field>
             <field name="model">financial.audit.customer</field>
-            <field name="arch" type="xml">
+            <field name="arch" type="xml"> 
                 <form string="Customer Registration">
                     <header>
                         <button name="create_audit_report" type="object" string="ObjectButton"/>
                         <button name="create_account_lines_customers" type="object" string="Confirm" invisible="integration_type != 'current_system'"/>
+                        <button name="%(audit_management.action_audit_account_import_wizard)d" type="action"
+                        string="Import Accounts" invisible="integration_type == 'current_system'"/>
                     </header>
                     <sheet>
                         <div class="row text-center" >

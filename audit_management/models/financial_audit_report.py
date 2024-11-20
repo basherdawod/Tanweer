@@ -2,8 +2,11 @@ from odoo import api, fields, models, _, tools, Command
 from odoo.exceptions import AccessError, ValidationError, UserError
 from datetime import datetime, date
 
+import xlrd
+
+
 class FinancialAuditReporting(models.Model):
-    _name = "financial.audit.customer"
+    _name = "financial.audit.customer" #model_financial_audit_customer
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Customer Registration"
 
@@ -142,7 +145,7 @@ class FinancialAuditReporting(models.Model):
 
 
 class AuditAccountChar(models.Model):
-    _name = 'audit.account.account'
+    _name = 'audit.account.account' #model_audit_account_account
     _description = 'AuditAccountChar'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
@@ -170,7 +173,7 @@ class AuditAccountChar(models.Model):
 
 
 class AuditAccountCharLine(models.Model):
-    _name = 'audit.account.account.line'
+    _name = 'audit.account.account.line' #model_audit_account_account_line
     _description = 'audit.account.account.line'
 
 
