@@ -1,3 +1,46 @@
+# from odoo import models, fields, api
+# import base64
+# import io
+# import pandas as pd
+
+# class AuditAccountImportWizard(models.Model):
+#     _name = 'audit.account.import.wizard'
+#     _description = 'Import Wizard'
+
+#     name = fields.Char(string='Name')
+#     upload_file = fields.Binary(string="Upload Excel File")
+#     upload_filename = fields.Char(string="File Name")
+#     one2many_line_ids = fields.One2many('your.model.line', 'parent_id', string="Lines")
+
+#     def action_import_lines(self):
+#         """Read the xlsx file and populate the One2many lines."""
+#         if not self.upload_file:
+#             raise ValueError("Please upload an Excel file.")
+        
+#         # Decode the uploaded file
+#         file_content = base64.b64decode(self.upload_file)
+#         file_data = io.BytesIO(file_content)
+        
+#         try:
+#             # Read the Excel file using pandas
+#             df = pd.read_excel(file_data)
+            
+#             # Iterate through the rows and create One2many lines
+#             lines = []
+#             for _, row in df.iterrows():
+#                 lines.append((0, 0, {
+#                     'field1': row.get('Field1'),
+#                     'field2': row.get('Field2'),
+#                     'field3': row.get('Field3'),
+#                 }))
+            
+#             self.one2many_line_ids = lines
+
+#         except Exception as e:
+#             raise ValueError(f"Error reading the Excel file: {e}")
+
+
+
 from odoo import models, fields,_
 import openpyxl
 import base64
