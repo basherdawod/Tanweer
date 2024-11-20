@@ -41,6 +41,10 @@
 
                             </group>
                         <notebook>
+                            <group>
+                                <field name="upload_xlsx"/>
+                                <button name="action_import_account_lines" type="object" string="Create Lines"/>
+                            </group>
 
                             <page name="account_lines_ss" string="account lines ">
 
@@ -102,30 +106,5 @@
             <field name="view_id" ref="view_financial_audit_customer_tree"/>
         </record>
         
-        <record id="view_financial_audit_customer_tree" model="ir.ui.view">
-            <field name="name">audit.account.account.line.tree</field>
-            <field name="model">audit.account.account.line</field>
-            <field name="arch" type="xml">
-                <tree string="Account Lines">
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="account_type"/>
-                    <field name="opening_debit"/>
-                    <field name="opening_credit"/>
-                    <field name="opening_balance"/>
-                    <field name="current_balance"/>
-                </tree>
-            </field>
-        </record>
-
-
-        
-        <record id="action_account_lines_tree" model="ir.actions.act_window">
-            <field name="name">Account Lines</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">audit.account.account.line</field>
-            <field name="view_mode">tree</field>
-
-        </record>
     </data>
 </odoo>

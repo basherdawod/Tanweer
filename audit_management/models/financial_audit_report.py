@@ -77,14 +77,15 @@ class FinancialAuditReporting(models.Model):
 
             lines = []
             for row_idx in range(1, sheet.nrows):
-                account_code = sheet.cell_value(row_idx, 0)
-                account_name = sheet.cell_value(row_idx, 1)
-                account_balance = sheet.cell_value(row_idx, 2)
+                code = sheet.cell_value(row_idx, 0)
+                account_type = sheet.cell_value(row_idx, 1)
+                opening_balance = sheet.cell_value(row_idx, 2)
                 
                 lines.append((0, 0, {
-                    'account_code': account_code,
+                    'code': account_code,
                     'account_name': account_name,
                     'account_balance': account_balance,
+                     
                 }))
 
             self.account_lines_ss = lines

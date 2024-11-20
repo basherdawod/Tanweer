@@ -335,7 +335,7 @@ class AdditionPeriodAssets(models.Model):
     #
 
 
-class AdditionAccumulatedAssets(models.Model):
+class AdditionAcccumulatedAssets(models.Model):
     _name = 'addition.acccumulated.assets' #model_addition_acccumulated_assets
     _description = 'AdditionAccumulated'
 

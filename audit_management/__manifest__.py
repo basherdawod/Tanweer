@@ -6,7 +6,7 @@
     'summary': 'Manage and ',
     'sequence': 1,
     'website': 'https://www.odoo.com/app/purchase',
-    'depends': ['base', 'account',],
+    'depends': ['base', 'account'],
     'data': [
         'security/ir.model.access.csv',
         'wizerd/audit_accounts_lines.xml',
