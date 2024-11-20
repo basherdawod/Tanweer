@@ -14,29 +14,62 @@
                          <group>
                              <field name="audit_financial_id"/>
                              <field name="type"/>
+                             <field name="accumulated" invisible="type != 'asset_non_current'"/>
+                             <field name="work_In_Progress" invisible="type != 'asset_current'"/>
                         </group>
                          <notebook>
-                    <page name="account_level_type_ids" string="Account Levels">
+                    <page name="account_level_type_ids" string="Account" invisible="type == 'asset_non_current'">
                         <group>
-                            <!-- Make account_type_name field invisible, but it is still used for domain -->
                             <field name="account_level_type_ids">
                                 <tree editable="bottom">
                                     <field name="account_ids"/>
-                                    <field name="balance_this"/>
                                     <field name="balance_last"/>
+                                    <field name="balance_credit"/>
+                                    <field name="balance_debit"/>
+                                    <field name="balance_this"/>
                                 </tree>
                             </field>
+                            <field name="account_type_accumulated" string="Account"  invisible="not work_In_Progress">
+                                <tree editable="bottom">
+                                    <field name="account"  string="Account" />
+                                    <field name="balance_last" nolabel="1" />
+                                    <field name="balance_credit" nolabel="1" />
+                                    <field name="balance_debit" nolabel="1" />
+                                    <field name="balance_this" nolabel="1"/>
+                                </tree>
+                            </field>
+                             <group class="oe_subtotal_footer" colspan="4" >
+                                <field name="balance_this"/>
+                                <field name="balance_last"/>
+                            </group>
                         </group>
                     </page>
-                             <page name="account_type_ids" string="Cost">
+                     <page name="account_type_ids" string="Cost and Accumulated" invisible="type != 'asset_non_current'" >
                         <group>
                             <!-- Make account_type_name field invisible, but it is still used for domain -->
-                            <field name="account_type_ids">
+                            <field name="account_type_ids" string="Cost">
                                 <tree editable="bottom">
                                     <field name="account"/>
-                                    <field name="account_move_line"/>
+                                    <field name="balance_last"/>
+                                    <field name="balance_credit"/>
+                                    <field name="balance_debit"/>
+                                    <field name="balance_this"/>
                                 </tree>
                             </field>
+
+                            <field name="account_type_accumulated" string="Accumulated" >
+                                <tree editable="bottom">
+                                    <field name="account"/>
+                                    <field name="balance_last" nolabel="1" />
+                                    <field name="balance_credit" nolabel="1" />
+                                    <field name="balance_debit" nolabel="1" />
+                                    <field name="balance_this" nolabel="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer" colspan="4" >
+                                <field name="balance_this"/>
+                                <field name="balance_last"/>
+                            </group>
                         </group>
                     </page>
                 </notebook>
@@ -62,7 +95,6 @@
             <field name="arch" type="xml">
                 <search string="Account Report">
                     <field name="name" string="Account Report"/>
-
                 </search>
             </field>
         </record>
@@ -76,7 +108,6 @@
                    ref="view_account_type_level_audit_search"/>
             <field name="view_id" ref="view_account_type_level_audit_tree"/>
         </record>
-
 
     </data>
 </odoo>

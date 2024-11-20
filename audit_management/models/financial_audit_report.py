@@ -1,6 +1,7 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 import base64
+from odoo import api, fields, models, _, tools, Command
+from odoo.exceptions import AccessError, ValidationError, UserError
+from datetime import datetime, date
 import xlrd
 
 class FinancialAuditReporting(models.Model):
@@ -25,9 +26,25 @@ class FinancialAuditReporting(models.Model):
         required=True,
     )
 
+
     upload_xlsx = fields.Binary(string="Upload XLSX File")
     upload_xlsx_filename = fields.Char(string="Filename")
 
+
+
+    data_fis_years_end = fields.Date(
+        string='Fiscal Year End',
+        required=False,
+        default=lambda self: datetime(date.today().year, 12, 31).strftime("%Y-%m-%d")
+    )
+    data_last_years = fields.Date(
+        string='Last Fiscal Year End',
+        required=False,
+        default=lambda self: datetime(date.today().year - 1, 12, 31).strftime("%Y-%m-%d")
+    )
+    active = fields.Boolean(
+        string='Active Account',
+        required=False)
 
     audit_financial_program_ids = fields.One2many(
         comodel_name='audit.financial.program',
@@ -76,13 +93,69 @@ class FinancialAuditReporting(models.Model):
             raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
 
 
+    def create_account_lines_customers(self):
+        if self.integration_type == 'current_system':
+            list_account = []
+            for record in self :
+                lines = self.env['account.account'].search([])
+                for account in lines :
+                    total_credit = 0.0
+                    total_debit = 0.0
+                    total_balance = 0.0
+                    open_balance = 0.0
+
+                    move_lines = self.env['account.move.line'].search([
+                        ('account_id', '=', account.id)
+                        ])
+                    for mov in move_lines:
+                        if record.data_fis_years_end >= mov.date <= record.data_fis_years_end  :
+                            total_credit += mov.credit
+                            total_debit += mov.debit
+                            total_balance += mov.debit - mov.credit
+                        if mov.date >= record.data_fis_years_end :
+                            open_balance += mov.debit - mov.credit
+                    if record.active :
+                        if total_credit or total_debit != 0.0:
+                            list_account.append({
+                            'code': account.code,
+                            'name': account.name,
+                            'account_type': account.account_type,
+                            'current_balance': total_balance,
+                            'opening_balance': open_balance,
+                            'opening_credit': total_credit,
+                            'opening_debit': total_debit,
+                        })
+                    else:
+                        list_account.append({
+                            'code': account.code,
+                            'name': account.name,
+                            'account_type': account.account_type,
+                            'current_balance': total_balance,
+                            'opening_balance': open_balance,
+                            'opening_credit': total_credit,
+                            'opening_debit': total_debit,
+                        })
+                record.write({
+                    'account_lines_ss': [Command.create(vals) for vals in list_account]
+                })
+
+    def write(self, vals):
+        # Check if the field to be updated is already in the vals dictionary
+        if 'account_lines_ss' not in vals:  # Only modify if not already in vals
+            for record in self:
+                if record.integration_type != 'customers_system':  # Example condition
+                    vals['account_lines_ss'] = None  # Setting the field to None
+        # Call the parent method to actually update the record
+        return super(FinancialAuditReporting, self).write(vals)
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('financial.audit.customer') or _('New')
         records = super(FinancialAuditReporting, self).create(vals_list)
-
+        if records.integration_type == 'current_system':
+            records.create_account_lines_customers()
         return records
     def create_audit_report(self):
         for record in self:
@@ -119,6 +192,8 @@ class AuditAccountChar(models.Model):
         inverse_name='account_ids_audit',
         string='Account_lines_ids',
         required=False)
+
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -171,8 +246,8 @@ class AuditAccountCharLine(models.Model):
         help="Account Type is used for information purpose, to generate country-specific legal reports, and set the rules to close a fiscal year and generate opening entries."
     )
 
-    opening_debit = fields.Float(string="Opening Debit" )
-    opening_credit = fields.Float(string="Opening Credit"  )
+    opening_debit = fields.Float(string="Debit" )
+    opening_credit = fields.Float(string="Credit"  )
     opening_balance = fields.Float(string="Opening Balance")
 
     current_balance = fields.Float(string="Current balance")
