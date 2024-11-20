@@ -9,6 +9,7 @@
                 <form string="Customer Registration">
                     <header>
                         <button name="create_audit_report" type="object" string="ObjectButton"/>
+                        <button name="create_account_lines_customers" type="object" string="Confirm" invisible="integration_type != 'current_system'"/>
                     </header>
                     <sheet>
                         <div class="row text-center" >
@@ -24,14 +25,34 @@
                                 <field name="integration_type"/>
                             </group>
                         </group>
-                            <group invisible="integration_type != 'customers_system'">
-                                <field name="audit_char_account_id"/>
+                            <group invisible="integration_type == 'customers_system'">
+                                <group>
+                                    <field name="data_fis_years_end"/>
+                                </group>
+                                <group>
+                                    <field name="data_last_years"/>
+                                </group>
+                                <group>
+                                    <field name="active"/>
+                                </group>
+
+
                             </group>
                         <notebook>
                             <page name="account_lines_ss" string="account lines ">
-                                <group>
-                                    <field name="account_lines_ss"/>
-                                </group>
+
+                                    <field name="account_lines_ss">
+                                        <tree>
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                            <field name="account_type"/>
+                                            <field name="opening_balance"/>
+                                            <field name="opening_debit"/>
+                                            <field name="opening_credit"/>
+                                            <field name="current_balance"/>
+                                        </tree>
+                                    </field>
+
                             </page>
                         </notebook>
                     </sheet>
