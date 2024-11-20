@@ -32,7 +32,12 @@ class AccountTypeLevel(models.Model):
     audit_financial_id = fields.Many2one(
         comodel_name='audit.financial.program',
         string='Audit Financial Program')
-    
+
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="audit_financial_id.partner_id",
+        required=False)
+
     accumulated = fields.Boolean(
         string='Accumulated',
         required=False)
@@ -81,7 +86,10 @@ class AccountTypeLevel(models.Model):
         required=True,
         default=lambda self: self.env.company.currency_id
     )
-
+    account_account_line = fields.Many2one(
+        comodel_name='audit.account.account.line',
+        string='Account Account line', domain=[ ('account_type','=',type)],
+        required=False)
     balance_last = fields.Monetary(
         string='Total Last Year',
         required=False,
@@ -140,32 +148,17 @@ class AccountAccountTypeAudit(models.Model):
     _name = "account.type.audit"
     _description = "Audit Account Type"
 
-    balance_this = fields.Float(
-        string='This Year',
-        required=False,
-        compute='_compute_balance',
-    )
-    currency_id = fields.Many2one(
-        'res.currency',
-        string="Currency",
-        required=True,
-        default=lambda self: self.env.company.currency_id
-    )
 
-    # Define the monetary field with the currency_field parameter
-
-    balance_last = fields.Monetary(
-        string='Last Year',
-        required=False ,
-        currency_field='currency_id',
-        compute='_compute_balance',
-    )
     account_type_name = fields.Many2one(
         comodel_name='account.type.level',
         string='Account Type',
         required=False,
-        # Default handler
     )
+
+    account_ids = fields.Many2one(
+        comodel_name='audit.account.account.line',
+        string='Account Account line', domain=[ ('account_type','=','asset_current')],
+        required=False)
     type = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -187,126 +180,15 @@ class AccountAccountTypeAudit(models.Model):
             ("expense_direct_cost", "Cost of Revenue"),
             ("off_balance", "Off-Balance Sheet"),
         ],
-        string="Type", related="account_type_name.type",
+        string="Type",related='account_type_name.type',
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
 
-    account_ids = fields.Many2one(
-        comodel_name='account.account',
-        string='Account',
-    )
-
-    @api.onchange('type')
-    def _onchange_type(self):
-        print ("RRRRRRR",self.type)
-        if self.type != '':
-            # Update the domain of account_ids based on the selected type
-            return {
-                'domain': {
-                    'account_ids': [('account_type', '=', self.type)],
-                }
-            }
-        else:
-            return {
-                'domain': {
-                    'account_ids': [],
-                }
-            }
-    @api.depends('account_ids')
-    def _compute_current_balance(self):
-        for record in self:
-            total_balance = 0.0
-            for account in record.account_ids:
-                print(f"Account ID: {account.id}, Current Balance: {account.current_balance}")
-                total_balance += account.current_balance
-            record.balance_this = total_balance
-
-    balance_credit = fields.Float(
-        string='credit',
-        required=False,
-        currency_field='currency_id',
-        compute='_compute_balance',
-    )
-    balance_debit = fields.Float(
-        string='credit',
-        required=False,
-        currency_field='currency_id',
-        compute='_compute_balance',
-    )
-
-    @api.depends('account_ids')
-    def _compute_balance(self):
-        for record in self:
-            total_balance_this = 0.0
-            total_balance_last = 0.0
-            total_balance_credit = 0.0
-            total_balance_debit = 0.0
-
-            # Define the date ranges for the current and previous years
-            current_year_start = date(date.today().year, 1, 1)
-            current_year_end = date(date.today().year, 12, 31)
-            last_year_start = date(date.today().year - 1, 1, 1)
-            last_year_end = date(date.today().year - 1, 12, 31)
-
-            # Calculate balances for each account
-            for account in record.account_ids:
-                lines = self.env['account.move.line'].search([
-                    ('account_id', '=', account.id)
-                ])
-                for line in lines:
-                    # Calculate balance for the current year
-                    if current_year_start <= line.date <= current_year_end:
-                        total_balance_this += line.debit - line.credit
-                        total_balance_credit += line.credit
-                        total_balance_debit += line.debit
-                    # Calculate balance for the previous year
-                    elif last_year_start <= line.date <= last_year_end:
-                        total_balance_last += line.debit - line.credit
-
-            # Assign computed balances
-            record.balance_this = total_balance_this
-            record.balance_last = total_balance_last
-            record.balance_credit = total_balance_credit
-            record.balance_debit = total_balance_debit
-
-    # def _get_account_domain(self):
-    #     # If there's no account_type_name, return an empty domain
-    #     if not self.account_type_name:
-    #         return []
-    #
-    #     # Extract the type key and get the corresponding selection value
-    #     type_key = self.account_type_name.type
-    #     type_selection = dict(self.account_type_name._fields['type'].selection).get(type_key)
-    #
-    #     # Return a domain to filter records based on account_type
-    #     return [('account_type', '=', type_selection)]
-
-    # Account Type Level selection (this will filter accounts)
-
-
-class AdditionPeriodAssets(models.Model):
-    _name = 'addition.period.assets'
-    _description = 'AdditionPeriodAssets'
-
-    account_ids = fields.Many2one(
-        comodel_name='account.type.level',
-        string='Account',
-    )
-    account = fields.Many2one(
-        comodel_name='account.account',
-        string='Cost'
-    )
-
-    account_move_line= fields.Many2one(
-        comodel_name='account.move.line',
-        string='Account',
-        # domain=lambda self: self._get_account_domain()
-    )
     balance_this = fields.Float(
-        string='Ending Balance',
+        string='This Year',
         required=False,
-        compute='_compute_balance',
+        related='account_ids.current_balance',
     )
     currency_id = fields.Many2one(
         'res.currency',
@@ -317,65 +199,69 @@ class AdditionPeriodAssets(models.Model):
 
     # Define the monetary field with the currency_field parameter
 
-    balance_last = fields.Monetary(
-        string='Opening Balance ',
-        required=False,
-        currency_field='currency_id',
-        compute='_compute_balance',
+    balance_last = fields.Float(
+        string='Last Year',
+        required=False ,
+        related='account_ids.opening_balance',
     )
+
     balance_credit = fields.Float(
-            string='credit',
-            required=False,
-            currency_field='currency_id',
-            compute='_compute_balance',
-        )
+        string='credit',
+        required=False,
+        related='account_ids.opening_credit',
+    )
     balance_debit = fields.Float(
-                string='credit',
-                required=False,
-                currency_field='currency_id',
-                compute='_compute_balance',
-            )
+        string='credit',
+        required=False,
+        related='account_ids.opening_debit',
+    )
 
 
-    @api.depends('account')
-    def _compute_balance(self):
-        for record in self:
-            total_balance_this = 0.0
-            total_balance_last = 0.0
-            total_balance_credit = 0.0
-            total_balance_debit = 0.0
+class AdditionPeriodAssets(models.Model):
+    _name = 'addition.period.assets'
+    _description = 'AdditionPeriodAssets'
 
-            # Define the date ranges for the current and previous years
-            current_year_start = date(date.today().year, 1, 1)
-            current_year_end = date(date.today().year, 12, 31)
-            last_year_start = date(date.today().year - 1, 1, 1)
-            last_year_end = date(date.today().year - 1, 12, 31)
 
-            # Calculate balances for each account
-            for accou in record.account:
-                lines = self.env['account.move.line'].search([
-                    ('account_id', '=', accou.id)
-                ])
-                for line in lines:
-                    # Calculate balance for the current year
-                    if current_year_start <= line.date <= current_year_end:
-                        total_balance_credit+=line.credit
-                        total_balance_debit+=line.debit
-                        total_balance_this += line.debit - line.credit
-                    # Calculate balance for the previous year
-                    elif last_year_start <= line.date <= last_year_end:
-                        total_balance_last += line.debit - line.credit
+    account_ids = fields.Many2one(
+        comodel_name='account.type.level',
+        string='Account',
+    )
+    account = fields.Many2one(
+        comodel_name='audit.account.account.line',
+        string='Account', related="account_ids.account_account_line"
+    )
 
-            # Assign computed balances
-            record.balance_this = total_balance_this
-            record.balance_last = total_balance_last
-            record.balance_credit = total_balance_credit
-            record.balance_debit = total_balance_debit
-    #
-    # def _get_account_domain(self):
-    #     for accont in self.account_ids :
-    #         return [('type', '=', accont.type)]
-    #
+
+    balance_this = fields.Float(
+        string='This Year',
+        required=False,
+        related='account.current_balance',
+    )
+    currency_id = fields.Many2one(
+        'res.currency',
+        string="Currency",
+        required=True,
+        default=lambda self: self.env.company.currency_id
+    )
+
+    # Define the monetary field with the currency_field parameter
+
+    balance_last = fields.Float(
+        string='Last Year',
+        required=False,
+        related='account.opening_balance',
+    )
+
+    balance_credit = fields.Float(
+        string='credit',
+        required=False,
+        related='account.opening_credit',
+    )
+    balance_debit = fields.Float(
+        string='credit',
+        required=False,
+        related='account.opening_debit',
+    )
 
 
 class AdditionAccumulatedAssets(models.Model):
@@ -387,20 +273,15 @@ class AdditionAccumulatedAssets(models.Model):
         string='Account',
     )
     account = fields.Many2one(
-        comodel_name='account.account',
-        string='Accumulated',
-        domain=lambda self: self._get_account_domain()
+        comodel_name='audit.account.account.line',
+        string='Account', related="accumulated_account.account_account_line"
     )
 
-    account_move_line= fields.Many2one(
-        comodel_name='account.move.line',
-        string='Account',
-        domain=lambda self: self._get_account_domain()
-    )
+
     balance_this = fields.Float(
-        string='Ending Balance',
+        string='This Year',
         required=False,
-        compute='_compute_balance',
+        related='account.current_balance',
     )
     currency_id = fields.Many2one(
         'res.currency',
@@ -411,64 +292,19 @@ class AdditionAccumulatedAssets(models.Model):
 
     # Define the monetary field with the currency_field parameter
 
-    balance_last = fields.Monetary(
-        string='Opening Balance ',
+    balance_last = fields.Float(
+        string='Last Year',
         required=False,
-        currency_field='currency_id',
-        compute='_compute_balance',
+        related='account.opening_balance',
     )
+
     balance_credit = fields.Float(
         string='credit',
         required=False,
-        currency_field='currency_id',
-        compute='_compute_balance',
+        related='account.opening_credit',
     )
     balance_debit = fields.Float(
         string='credit',
         required=False,
-        currency_field='currency_id',
-        compute='_compute_balance',
+        related='account.opening_debit',
     )
-
-    @api.depends('account')
-    def _compute_balance(self):
-        for record in self:
-            total_balance_this = 0.0
-            total_balance_last = 0.0
-            total_balance_credit = 0.0
-            total_balance_debit = 0.0
-
-            # Define the date ranges for the current and previous years
-            current_year_start = date(date.today().year, 1, 1)
-            current_year_end = date(date.today().year, 12, 31)
-            last_year_start = date(date.today().year - 1, 1, 1)
-            last_year_end = date(date.today().year - 1, 12, 31)
-
-            # Calculate balances for each account
-            for accou in record.account:
-                lines = self.env['account.move.line'].search([
-                    ('account_id', '=', accou.id)
-                ])
-                for line in lines:
-                    # Calculate balance for the current year
-                    if current_year_start <= line.date <= current_year_end:
-                        total_balance_credit += line.credit
-                        total_balance_debit += line.debit
-                        total_balance_this += line.debit - line.credit
-                    # Calculate balance for the previous year
-                    elif last_year_start <= line.date <= last_year_end:
-                        total_balance_last += line.debit - line.credit
-
-            # Assign computed balances
-            record.balance_this = total_balance_this
-            record.balance_last = total_balance_last
-            record.balance_credit = total_balance_credit
-            record.balance_debit = total_balance_debit
-
-    def _get_account_domain(self):
-        if not self.accumulated_account:
-            print("Account type is not set")
-            return []
-        return [('account_id', '=', self.account)]
-
-

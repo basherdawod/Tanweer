@@ -21,8 +21,9 @@
                     <page name="account_level_type_ids" string="Account" invisible="type == 'asset_non_current'">
                         <group>
                             <field name="account_level_type_ids">
-                                <tree >
+                                <tree editable="bottom">
                                     <field name="account_ids"/>
+                                    <field name="type"/>
                                     <field name="balance_last"/>
                                     <field name="balance_credit"/>
                                     <field name="balance_debit"/>
