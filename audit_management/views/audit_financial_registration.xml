@@ -98,6 +98,6 @@
                    ref="view_financial_audit_customer_search"/>
             <field name="view_id" ref="view_financial_audit_customer_tree"/>
         </record>
-   
+
     </data>
 </odoo>
