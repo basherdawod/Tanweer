@@ -48,6 +48,12 @@
                   sequence="4"
                   parent="menu_audit_management_Configuration"/>
 
+        <menuitem id="account_lines_report"
+                  name="Account Lines"
+                  action="action_account_lines_tree"
+                  sequence="6"
+                  parent="menu_audit_management_Configuration"/>
+
 
         <menuitem id="ins_account_type_audit_report"
                   name="Financial Reports"

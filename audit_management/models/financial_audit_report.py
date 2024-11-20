@@ -1,34 +1,37 @@
+import base64
 from odoo import api, fields, models, _, tools, Command
 from odoo.exceptions import AccessError, ValidationError, UserError
 from datetime import datetime, date
-
 import xlrd
 
-
 class FinancialAuditReporting(models.Model):
-    _name = "financial.audit.customer" #model_financial_audit_customer
+    _name = "financial.audit.customer"
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Customer Registration"
 
     lable1 = fields.Char(
-        string="Text" ,readonly=True,
+        string="Text", readonly=True,
         default="MODULAR CONCEPTS L.L.C.\n DUBAI - UNITED ARAB EMIRATES \n FINANCIAL STATEMENTS & REPORTS")
     name = fields.Char(
-        strring="Registration No", required=False ,readonly=True,
+        string="Registration No", readonly=True,
         default=lambda self: _('New'), copy=False)
-    partner_id = fields.Many2one(
-        'res.partner',
-        string="Customer Name")
+    partner_id = fields.Many2one('res.partner', string="Customer Name")
     integration_type = fields.Selection(
         string='Integration Type',
         selection=[('current_system', 'Current Systems'),
-                   ('customers_system', 'Customers Systems '), ],
+                   ('customers_system', 'Customers Systems')],
         required=False, default='current_system')
-
     data_last_years_end = fields.Date(
         string='Registration Date',
         required=True,
     )
+
+
+    upload_xlsx = fields.Binary(string="Upload XLSX File")
+    upload_xlsx_filename = fields.Char(string="Filename")
+
+
+
     data_fis_years_end = fields.Date(
         string='Fiscal Year End',
         required=False,
@@ -42,24 +45,53 @@ class FinancialAuditReporting(models.Model):
     active = fields.Boolean(
         string='Active Account',
         required=False)
+
     audit_financial_program_ids = fields.One2many(
         comodel_name='audit.financial.program',
         inverse_name='partner_id',
         string='Customers Audit Report',
         required=False)
-    api_key = fields.Char(
-        strring="APT Key", required=False, copy=False)
+    api_key = fields.Char(string="API Key", required=False, copy=False)
 
     audit_char_account_id = fields.Many2one(
         comodel_name='audit.account.account',
-        string='Char Of Account',
+        string='Chart Of Account',
         required=False)
     account_lines_ss = fields.One2many(
         comodel_name='audit.account.account.line',
         inverse_name='account_ids_audit1',
         string='Account lines',
         required=False)
-    account_type_level = fields.Many2one('account.type.level',string="Account Type")
+    account_type_level = fields.Many2one('account.type.level', string="Account Type")
+
+    
+
+    def action_import_account_lines(self):
+        if not self.upload_xlsx:
+            raise ValidationError(_("Please upload an XLSX file first."))
+
+        try:
+            file_content = base64.b64decode(self.upload_xlsx)
+            workbook = xlrd.open_workbook(file_contents=file_content)
+            sheet = workbook.sheet_by_index(0)  
+
+            lines = []
+            for row_idx in range(1, sheet.nrows):
+                account_code = sheet.cell_value(row_idx, 0)
+                account_name = sheet.cell_value(row_idx, 1)
+                account_balance = sheet.cell_value(row_idx, 2)
+                
+                lines.append((0, 0, {
+                    'account_code': account_code,
+                    'account_name': account_name,
+                    'account_balance': account_balance,
+                }))
+
+            self.account_lines_ss = lines
+
+        except Exception as e:
+            raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
+
 
     def create_account_lines_customers(self):
         if self.integration_type == 'current_system':
@@ -178,10 +210,10 @@ class AuditAccountCharLine(models.Model):
 
 
     name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)
-    account_ids_audit = fields.Many2one(
-        comodel_name='audit.account.account',
-        string='Account_ids_audit',
-        required=False)
+    # account_ids_audit = fields.Many2one(
+    #     comodel_name='audit.account.account',
+    #     string='Account_ids_audit',
+    #     required=False)
     account_ids_audit1 = fields.Many2one(
         comodel_name='financial.audit.customer',
         string='Account_ids_audit',
@@ -219,3 +251,29 @@ class AuditAccountCharLine(models.Model):
     opening_balance = fields.Float(string="Opening Balance")
 
     current_balance = fields.Float(string="Current balance")
+
+    # @api.model
+    # def import_xlsx(self, file_data):
+    #     try:
+    #         # Read the XLSX file data
+    #         wb = xlrd.open_workbook(file_contents=file_data)
+    #         sheet = wb.sheet_by_index(0)
+
+    #         for row_num in range(1, sheet.nrows):  # Skip the header
+    #             parent_name = sheet.cell(row_num, 0).value
+    #             field_1 = sheet.cell(row_num, 1).value
+    #             field_2 = sheet.cell(row_num, 2).value
+
+    #             # Create or get the parent record
+    #             parent = self.search([('name', '=', parent_name)], limit=1)
+    #             if not parent:
+    #                 parent = self.create({'name': parent_name})
+
+    #             # Create the line record
+    #             self.env['your.line.model'].create({
+    #                 'parent_id': parent.id,
+    #                 'field_1': field_1,
+    #                 'field_2': field_2,
+    #             })
+    #     except Exception as e:
+    #         raise ValidationError(f"Error importing XLSX: {str(e)}")

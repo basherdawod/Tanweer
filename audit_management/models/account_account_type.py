@@ -379,7 +379,7 @@ class AdditionPeriodAssets(models.Model):
 
 
 class AdditionAccumulatedAssets(models.Model):
-    _name = 'addition.acccumulated.assets'
+    _name = 'addition.acccumulated.assets' #model_addition_acccumulated_assets
     _description = 'AdditionAccumulated'
 
     accumulated_account = fields.Many2one(
