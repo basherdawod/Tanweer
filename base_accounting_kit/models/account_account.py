@@ -181,3 +181,8 @@ class AccountCommonJournalReport(models.TransientModel):
         result['strict_range'] = True if result['date_from'] else False
         result['company_id'] = data['form']['company_id'][0] or False
         return result
+
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'  # or _name if it's a new model
+
+    analytic_account_id = fields.Many2one('account.analytic.account', string="Analytic Account")

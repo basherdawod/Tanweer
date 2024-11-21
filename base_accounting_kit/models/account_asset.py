@@ -284,8 +284,7 @@ class AccountAssetAsset(models.Model):
         ungrouped_assets = self.env['account.asset.asset'].search(
             type_domain + [('state', '=', 'open'),
                            ('category_id.group_entries', '=', False)])
-        created_move_ids += (ungrouped_assets.
-                             _compute_entries(date, group_entries=False))
+        created_move_ids += (ungrouped_assets._compute_entries(date, group_entries=False))
 
         for grouped_category in self.env['account.asset.category'].search(
                 type_domain + [('group_entries', '=', True)]):

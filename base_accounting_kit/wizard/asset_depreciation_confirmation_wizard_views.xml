@@ -37,9 +37,9 @@
         <field name="target">new</field>
         <field name="context">{'asset_type': 'purchase'}</field>
     </record>
-<!--    <menuitem name="Generate Assets Entries"-->
-<!--              action="action_asset_depreciation_confirmation_wizard"-->
-<!--              id="menu_asset_depreciation_confirmation_wizard"-->
-<!--              parent="account.menu_finance_entries_generate_entries"-->
-<!--              sequence="111" groups="base.group_no_one"/>-->
+    <menuitem name="Generate Assets Entries"
+              action="action_asset_depreciation_confirmation_wizard"
+              id="menu_asset_depreciation_confirmation_wizard"
+              parent="account.menu_finance_entries_generate_entries"
+              sequence="111" groups="base.group_no_one"/>
 </odoo>
