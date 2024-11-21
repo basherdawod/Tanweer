@@ -32,6 +32,7 @@
             # 'audit_management/static/src/js/audit_lines.js',
             # 'audit_management/static/src/xml/audit.xml',
             'audit_management/static/src/css/style.css',
+            'audit_management/static/src/css/line.css',
         ],
     },
     'demo': [],

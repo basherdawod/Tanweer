@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Define a Custom Paper Format -->
-    <record id="report_paper_format" model="report.paperformat">
-        <field name="name">Audit Financial Report Paper</field>
-        <field name="format">A4</field>
-        <field name="page_height">0</field>
-        <field name="page_width">0</field>
-        <field name="margin_top">10</field>
-        <field name="margin_bottom">10</field>
-        <field name="margin_left">10</field>
-        <field name="margin_right">10</field>
-    </record>
+<!--    <record id="report_paper_format" model="report.paperformat">-->
+<!--        <field name="name">Audit Financial Report Paper</field>-->
+<!--        <field name="format">A4</field>-->
+<!--        <field name="margin_top">10</field>-->
+<!--        <field name="margin_bottom">10</field>-->
+<!--        <field name="margin_left">10</field>-->
+<!--        <field name="margin_right">10</field>-->
+<!--    </record>-->
 
 
 
@@ -25,10 +23,19 @@
         <field name="binding_model_id" ref="model_audit_financial_program"/>
         <field name="print_report_name">'Financial  - %s' % (object.name).replace('/', '')</field>
         <field name="binding_type">report</field>
-        <!-- <field name="paperformat_id" ref="report_paper_format"/> -->
-    </record>
+<!--         <field name="paperformat_id" ref="report_paper_format"/>-->
+    </record >
 
-    <!-- Report Template -->
+    <template id="header_report">
+        <div style=" text-align: center; width: 100%;">
+            <div>MODULAR CONCEPTS L.L.C.</div>
+            <div>DUBAI - UNITED ARAB EMIRATES</div>
+                <br/>
+            <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
+            <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
+        </div>
+    </template>
+
     <template id="report_audit_audit_financial_template">
     <t t-call="web.html_container">
         <style>
@@ -68,21 +75,11 @@
         <t t-foreach="docs" t-as="doc">
 
             <div class="cover-page" style="page-break-after: always; text-align: center; padding-top: 30%; width: 100%;">
-                <div>MODULAR CONCEPTS L.L.C.</div>
-                <div>DUBAI - UNITED ARAB EMIRATES</div>
-                <br/><br/>
-                <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
+                <t t-call="audit_management.header_report"/>
             </div>
 
              <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
+                <t t-call="audit_management.header_report"/>
                 <br/>
                 <br/>
                 <br/>
@@ -156,15 +153,9 @@
                  
              </div>
 
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
-                <br/>
+             <div style="page-break-after: always;padding:20px;">
+                 <t t-call="audit_management.header_report"/>
+
                 <br/>
                 <div style="width: 80%; padding-right: 30%;">
                     We have audited the accompanying financial statements of Modular Concepts L.L.C., (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at 31 December 2014, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
@@ -197,7 +188,7 @@
                 </div>
              </div>
 
-             <div style="page-break-after: always;">
+             <div style="page-break-after: always;padding:20px;">
                 <div style=" text-align: center; width: 100%;">
                     <div>MODULAR CONCEPTS L.L.C.</div>
                     <div>DUBAI - UNITED ARAB EMIRATES</div>
@@ -253,21 +244,14 @@
                 </div>
              </div>
 
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
-                
+             <div style="page-break-after: always;padding:20px;">
+                <t t-call="audit_management.header_report"/>
                 <br/>
                 <h6 style="width=100%;padding:20px">Finincial Program:
-                            <t t-esc="doc.name"/>
+<!--                            <t t-esc="doc.name"/>-->
                 </h6>
               
-                <table border="1" style="width: 90%;">
+                <table border="sold" style="width: 90%;">
                     <thead>
                         <tr>
                             <th style="padding: 10px; text-align: center;width:40;">Account</th>
@@ -277,31 +261,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                         <t t-foreach="doc.audit_lines_ids" t-as="test">
-                            <tr>
-                                <td style="padding:10px;width:20%;">
-                                    <t t-esc="test.level_line_id.name"/>
-                                </td>
-                                <td colspan="3" style="padding:10px;width:80%;">
-                                    <!-- Iterate through each unique type and display accounts -->
-                                    <t t-set="types" t-value="doc.audit_lines_ids.mapped('type')"/>
-                                    <t t-foreach="types" t-as="type">
-                                        <div style="padding:5px;">
-                                            <strong><t t-esc="type"/></strong>
-                                        </div>
-                                        <t t-foreach="doc.audit_lines_ids.filtered(lambda l: l.type == type)" t-as="account">
-                                            <div style="padding-left:20px;">
-                                                <span><t t-esc="account.name"/></span> - 
-                                                <span>Balance This Year: <t t-esc="account.balance_this"/></span>,
-                                                <span>Balance Last Year: <t t-esc="account.balance_last"/></span>
-                                            </div>
-                                        </t>
-                                    </t>
-                                </td>
-                            </tr>
-                        </t>
+<!--                         <t t-foreach="doc.audit_lines_ids" t-as="test">-->
+<!--                            <tr>-->
+<!--                                <td style="padding:10px;width:20%;">-->
+<!--                                    <t t-esc="test.level_line_id.name"/>-->
+<!--                                </td>-->
+<!--                                <td colspan="3" style="padding:10px;width:80%;">-->
+<!--                                    &lt;!&ndash; Iterate through each unique type and display accounts &ndash;&gt;-->
+<!--                                    <t t-set="types" t-value="doc.audit_lines_ids.mapped('type')"/>-->
+<!--                                    <t t-foreach="types" t-as="type">-->
+<!--                                        <div style="padding:5px;">-->
+<!--                                            <strong><t t-esc="type"/></strong>-->
+<!--                                        </div>-->
+<!--                                        <t t-foreach="doc.audit_lines_ids.filtered(lambda l: l.type == type)" t-as="account">-->
+<!--                                            <div style="padding-left:20px;">-->
+<!--                                                <span><t t-esc="account.name"/></span> - -->
+<!--                                                <span>Balance This Year: <t t-esc="account.balance_this"/></span>,-->
+<!--                                                <span>Balance Last Year: <t t-esc="account.balance_last"/></span>-->
+<!--                                            </div>-->
+<!--                                        </t>-->
+<!--                                    </t>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </t>-->
 
-                 <!--        <tr>
+                      <tr>
                             <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">ASSETS</td>
                         </tr>
                         <tr>
@@ -363,7 +347,7 @@
                             <td style="padding: 10px; text-align: right;">55,588,602</td>
                         </tr>
                         <tr>
-                            
+
                             <td colspan="2" style="padding: 10px; text-align: left;font-weight: bold;">TOTAL ASSETS</td>
                             <td style="padding: 10px; text-align: right;">76,967,399</td>
                             <td style="padding: 10px; text-align: right;">59,045,156</td>
@@ -455,7 +439,7 @@
                             <td style="padding: 10px; text-align: right;">76,967,399</td>
                             <td style="padding: 10px; text-align: right;">59,045,156</td>
 
-                        </tr> -->
+                        </tr>
                     </tbody>
                 </table>
 
@@ -474,14 +458,8 @@
                     Page<span class="total-pages">3</span>
                 </div>
              </div>
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
+             <div style="page-break-after: always;padding:20px;">
+                <t t-call="audit_management.header_report"/>
                 
                 <br/>
               
@@ -590,14 +568,8 @@
                 </div>
              </div>
 
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
+             <div style="page-break-after: always;padding:20px;">
+               <t t-call="audit_management.header_report"/>
                 
                 <br/>
                 <br/>
@@ -701,14 +673,8 @@
                 </div>
              </div>
 
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
+             <div style="page-break-after: always;padding:20px;">
+             <t t-call="audit_management.header_report"/>
                 
                 <br/>
                 <br/>
@@ -723,7 +689,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="padding: 10px;font-weight: bold;">OPERATING ACTIVITIES</td>
+                            <td colspan="3" style="padding: 10px;font-weight: bold;">OPERATING ACTIVITIES</td>
                         </tr>
                         <tr>
                             <td  style="padding: 10px;font-weight: bold;">Profit for the Year</td>
@@ -940,14 +906,8 @@
                             Page<span class="total-pages">7</span>
                         </div>
              </div>
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
+             <div style="page-break-after: always;padding:20px;">
+               <t t-call="audit_management.header_report"/>
                 
                 <br/>
               
@@ -1056,14 +1016,8 @@
                         </div>
              </div>
 
-             <div style="page-break-after: always;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
+             <div style="page-break-after: always;padding:20px;">
+                <t t-call="audit_management.header_report"/>
                 
                 <br/>
               
@@ -1224,8 +1178,211 @@
                             Page<span class="total-pages">7</span>
                         </div>
              </div>
-        </t>
 
+             <div style="page-break-after: always;padding:20px;">
+                <t t-call="audit_management.header_report"/>
+                <br/>
+
+                <table border="1" style="width: 90%;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 10px; text-align: center;width:40;"></th>
+                            <th style="padding: 10px; text-align: center;width:15;">31-12-2014 AED</th>
+                            <th style="padding: 10px; text-align: center;width:15;">31.12.2013 AED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" style="padding:10px;font-weight: bold;">Allowance for doubtful debt: </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding:10px">The movements in the allowance for doubtful debt as at reporting date are as follows:</td>
+                        </tr>
+                         <tr>
+                            <td style="padding:10px">Opening Balance</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Add: Charge during the year</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px"></td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+
+                                In determing the recoverability of trade receivables, the Entity considers any change in the credit quality of the trade receivable from the date credit was initially granted up to the reporting date. Accordingly, the management believes that there is no further credit allowance required for doubtful debts.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding:10px">Geographical Analysis:</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding:10px">The geographical analysis of trade receivables are as follows</td>
+                        </tr>
+                         <tr>
+                            <td style="padding:10px">Within U.A.E.</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">G.C.C.: Oman</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding:10px">10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES</td>
+                        </tr>
+                         <tr>
+                            <td style="padding:10px">Prepayments</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Deposits</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Advances to Suppliers</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Advances for Expenses</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Staff Loans &amp; Advances</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Total</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" style="padding:10px">11. CASH AND BANK BALANCE</td>
+                        </tr>
+                         <tr>
+                            <td style="padding:10px">Cash in hand</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Cash at Banks</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Margin Deposits with Banks</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Fixed Deposit with Banks</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Total</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                       <div class="page-number">
+                            Page<span class="total-pages">7</span>
+                        </div>
+             </div>
+             <div style="page-break-after: always;padding:20px;">
+               <t t-call="audit_management.header_report"/>
+
+                <br/>
+
+                <table border="1" style="width: 90%;">
+                    <thead>
+                        <tr>
+                            <th style="padding: 10px; text-align: center;width:40;"></th>
+                            <th style="padding: 10px; text-align: center;width:15;">31-12-2014 AED</th>
+                            <th style="padding: 10px; text-align: center;width:15;">31.12.2013 AED</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" style="padding:10px;font-weight: bold;"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="padding:10px">12. DUE TO BANKS</td>
+                        </tr>
+                         <tr>
+                            <td style="padding:10px">Bank Overdraft</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Vehicle Loan - Current Portion</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Term Loan - Current Portion</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Trust Receipts</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Bills Discounted</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:10px">Total</td>
+                            <td>582,900</td>
+                            <td>588,013</td>
+                        </tr>
+                    </tbody>
+                </table>
+                 <br/>
+                 <br/>
+                 <div>
+                      In determing the recoverability of trade receivables, the Entity considers any change in the credit quality of the trade receivable from the date credit was initially granted up to the reporting date. Accordingly, the management believes that there is no further credit allowance required for doubtful debts.
+                 </div>
+                 <br/>
+                 <br/>
+                 <br/>
+                 <div>
+                     10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES.
+                        - Lien of margin and fixed deposits with the bank.
+                        - Subordination of Shareholders current account balances against the bank borrowing.
+                        - Assignment of keyman insurance policy of Mr. Manoj Thandassery Dharman in favour of the bank.
+                        - Assignment of receivables on a pari passu basis.
+                        - Undated security cheque and promisory note.
+
+                        - Hypothecation of inventory, duly insured in banks favour.
+                        - Personal guarantee of Mr. Manoj Thandassery Dharman and Mrs. Jyothi Manoj Thandassery
+
+                        - Bank borrowing are subject to certain financial covenants as mutually agreed with each bank
+                                from whom the credit facilities have been obtained.
+                 </div>
+                       <div class="page-number">
+                            Page<span class="total-pages">7</span>
+                        </div>
+             </div>
+        </t>
     </t>
 </template>
 
