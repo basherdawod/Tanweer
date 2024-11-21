@@ -1,4 +1,4 @@
-# import openpyxl
+import openpyxl
 import io
 import base64
 from odoo import api, fields, models, _, tools, Command
@@ -67,8 +67,6 @@ class FinancialAuditReporting(models.Model):
         required=False)
     account_type_level = fields.Many2one('account.type.level', string="Account Type")
 
-
-
     def action_import_account_lines(self):
         if not self.upload_xlsx:
             raise ValidationError(_("Please upload an XLSX file first."))
@@ -77,18 +75,27 @@ class FinancialAuditReporting(models.Model):
             # Decode the uploaded XLSX file content
             file_content = base64.b64decode(self.upload_xlsx)
             file = io.BytesIO(file_content)
-            
+
             # Load the workbook and get the active sheet
             workbook = openpyxl.load_workbook(filename=file)
             sheet = workbook.active
 
+            # List of valid account types
+            valid_account_types = [
+                "asset_receivable", "asset_cash", "asset_current", "asset_non_current",
+                "asset_prepayments", "asset_fixed", "liability_payable",
+                "liability_credit_card", "liability_current", "liability_non_current",
+                "equity", "equity_unaffected", "income", "income_other", "expense",
+                "expense_depreciation", "expense_direct_cost", "off_balance"
+            ]
+
             # Initialize an empty list for lines
             lines = []
 
-            # Iterate through the rows, starting from row 1 to max_row (inclusive)
-            for row_idx in range(1, sheet.max_row + 1): 
-                # Read data from each cell (adjusting for the correct column index)
-                code = sheet.cell(row=row_idx, column=1).value 
+            # Iterate through the rows, starting from row 2 (assuming row 1 is headers)
+            for row_idx in range(2, sheet.max_row + 1):
+                # Read data from each cell
+                code = sheet.cell(row=row_idx, column=1).value
                 account_name = sheet.cell(row=row_idx, column=2).value
                 account_type = sheet.cell(row=row_idx, column=3).value
                 opening = sheet.cell(row=row_idx, column=4).value or 0
@@ -96,22 +103,32 @@ class FinancialAuditReporting(models.Model):
                 opening_credit = sheet.cell(row=row_idx, column=6).value or 0
                 opening_balance = sheet.cell(row=row_idx, column=7).value or 0
 
+                # Validate required fields
+                if not code or not account_name or not account_type:
+                    raise ValidationError(
+                        _("Row %d: 'Code', 'Account Name', and 'Account Type' are required.") % row_idx)
+
+                # Validate account_type
+                if account_type not in valid_account_types:
+                    raise ValidationError(_("Row %d: Invalid 'Account Type' value '%s'. Must be one of: %s") %
+                                          (row_idx, account_type, ", ".join(valid_account_types)))
+
                 # Append the line to the list
                 lines.append((0, 0, {
                     'code': code,
-                    'account_name': account_name,
+                    'name': account_name,
                     'account_type': account_type,
-                    'opening': opening,
+                    'opening_balance': opening,
                     'opening_debit': opening_debit,
                     'opening_credit': opening_credit,
-                    'account_balance': opening_balance,
+                    'current_balance': opening_balance,
                 }))
 
-            # Set the lines to the field (replace `account_lines_ss` with your actual field)
+            # Assign the processed lines to the One2many field
             self.account_lines_ss = lines
 
         except Exception as e:
-            raise ValidationError(_("Error processing: %s") % str(e))
+            raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
 
     
 
