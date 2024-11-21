@@ -42,18 +42,6 @@
             body {
                 font-size: 18px;
             }
-
-            .report-header { background-color: #87CEEB; color: white; padding: 10px; margin-bottom: 20px; }
-            .info-box { background-color: #E6F3FF; border: 2px solid #87CEEB; padding: 10px; margin-bottom: 15px; }
-            .info-box strong { color: #d3d3d3; }
-            .expense-table th { background-color: #c7c7c7; color: white; }
-            .expense-table tr:nth-child(even) { background-color: #ededed; }
-            .total-table { background-color: #E6F3FF; }
-            .total-table .border-black { border-top: 2px solid #c7c7c7; }
-            @page {
-                size: auto;
-                margin: 0;
-            }
             body {
                 margin: 0;
                 padding: 0;
@@ -62,7 +50,7 @@
                 page-break-before: always;
                 page-break-inside: avoid;
                 position: relative;
-                padding-bottom: 30px;
+
             }
             
             .page-number {
@@ -157,7 +145,7 @@
                  <t t-call="audit_management.header_report"/>
 
                 <br/>
-                <div style="width: 80%; padding-right: 30%;">
+                <div>
                     We have audited the accompanying financial statements of Modular Concepts L.L.C., (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at 31 December 2014, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
                 </div>
                 <br/>
@@ -448,7 +436,7 @@
                             The accompanying notes form an integral part of these financial statements.<br/>
                             The report of the auditors is set out on pages 3 and 4.
                         </div>
-                        <br/><br/>
+                        <br/>
                         <div style="padding:10px;">
                             Managing Director<br/>
                             Modular Concepts L.L.C.<br/>
