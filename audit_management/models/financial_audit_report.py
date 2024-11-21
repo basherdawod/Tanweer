@@ -51,7 +51,6 @@ class FinancialAuditReporting(models.Model):
         inverse_name='partner_id',
         string='Customers Audit Report',
         required=False)
-    api_key = fields.Char(string="API Key", required=False, copy=False)
 
     audit_char_account_id = fields.Many2one(
         comodel_name='audit.account.account',
@@ -65,33 +64,33 @@ class FinancialAuditReporting(models.Model):
     account_type_level = fields.Many2one('account.type.level', string="Account Type")
 
     
-
-    def action_import_account_lines(self):
-        if not self.upload_xlsx:
-            raise ValidationError(_("Please upload an XLSX file first."))
-
-        try:
-            file_content = base64.b64decode(self.upload_xlsx)
-            workbook = xlrd.open_workbook(file_contents=file_content)
-            sheet = workbook.sheet_by_index(0)  
-
-            lines = []
-            for row_idx in range(1, sheet.nrows):
-                code = sheet.cell_value(row_idx, 0)
-                account_type = sheet.cell_value(row_idx, 1)
-                opening_balance = sheet.cell_value(row_idx, 2)
-                
-                lines.append((0, 0, {
-                    'code': account_code,
-                    'account_name': account_name,
-                    'account_balance': account_balance,
-                     
-                }))
-
-            self.account_lines_ss = lines
-
-        except Exception as e:
-            raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
+    #
+    # def action_import_account_lines(self):
+    #     if not self.upload_xlsx:
+    #         raise ValidationError(_("Please upload an XLSX file first."))
+    #
+    #     try:
+    #         file_content = base64.b64decode(self.upload_xlsx)
+    #         workbook = xlrd.open_workbook(file_contents=file_content)
+    #         sheet = workbook.sheet_by_index(0)
+    #
+    #         lines = []
+    #         for row_idx in range(1, sheet.nrows):
+    #             code = sheet.cell_value(row_idx, 0)
+    #             account_type = sheet.cell_value(row_idx, 1)
+    #             opening_balance = sheet.cell_value(row_idx, 2)
+    #
+    #             lines.append((0, 0, {
+    #                 'code': code,
+    #                 'account_name': account_name,
+    #                 'account_balance': opening_balance,
+    #
+    #             }))
+    #
+    #         self.account_lines_ss = lines
+    #
+    #     except Exception as e:
+    #         raise ValidationError(_("Error processing the XLSX file: %s") % str(e))
 
 
     def create_account_lines_customers(self):
@@ -109,11 +108,11 @@ class FinancialAuditReporting(models.Model):
                         ('account_id', '=', account.id)
                         ])
                     for mov in move_lines:
-                        if record.data_fis_years_end >= mov.date <= record.data_fis_years_end  :
+                        if record.data_last_years >= mov.date >= record.data_fis_years_end:
                             total_credit += mov.credit
                             total_debit += mov.debit
                             total_balance += mov.debit - mov.credit
-                        if mov.date >= record.data_fis_years_end :
+                        if mov.date >= record.data_last_years :
                             open_balance += mov.debit - mov.credit
                     if record.active :
                         if total_credit or total_debit != 0.0:
@@ -155,9 +154,9 @@ class FinancialAuditReporting(models.Model):
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('financial.audit.customer') or _('New')
         records = super(FinancialAuditReporting, self).create(vals_list)
-        if records.integration_type == 'current_system':
-            records.create_account_lines_customers()
         return records
+
+
     def create_audit_report(self):
         for record in self:
             existing_audit_reports = record.audit_financial_program_ids
@@ -168,13 +167,11 @@ class FinancialAuditReporting(models.Model):
                 audit_report_name = f"{record.name}/{next_letter}"
 
             # Create the new audit_report record
-            audit_report = self.env['audit.financial.program'].create({
+            self.env['audit.financial.program'].create({
                 'partner_id': record.id,
                 'name': audit_report_name,
             })
 
-            # Log the creation in chatter
-            record.message_post(body=f"audit_report {audit_report.name} has been created.")
 
 
 class AuditAccountChar(models.Model):

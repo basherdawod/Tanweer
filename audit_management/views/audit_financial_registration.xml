@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="view_financial_audit_customer_form" model="ir.ui.view">
             <field name="name">financial.audit.customer.form</field>
             <field name="model">financial.audit.customer</field>
@@ -41,11 +40,10 @@
                         <notebook>
                             <group>
                                 <field name="upload_xlsx"/>
-                                <button name="action_import_account_lines" type="object" string="Create Lines"/>
+<!--                                <button name="action_import_account_lines" type="object" string="Create Lines"/>-->
                             </group>
-
                             <page name="account_lines_ss" string="account lines ">
-                                    <field name="account_lines_ss">
+                                    <field name="account_lines_ss" context="{'default_account_ids_audit': id}">
                                         <tree>
                                             <field name="code"/>
                                             <field name="name"/>
@@ -55,8 +53,6 @@
                                             <field name="current_balance"/>
                                         </tree>
                                     </field>
-
-
                             </page>
                         </notebook>
                     </sheet>
@@ -82,23 +78,13 @@
             </field>
         </record>
 
-        <record id="view_financial_audit_customer_search" model="ir.ui.view">
-            <field name="name">financial.audit.customer.search</field>
-            <field name="model">financial.audit.customer</field>
-            <field name="arch" type="xml">
-                <search string="Account Report">
-                    <field name="name" string="Account Report"/>
-                </search>
-            </field>
-        </record>
 
         <record id="action_financial_audit_customer_tree" model="ir.actions.act_window">
             <field name="name">Customer Registration</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">financial.audit.customer</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id"
-                   ref="view_financial_audit_customer_search"/>
+
             <field name="view_id" ref="view_financial_audit_customer_tree"/>
         </record>
     </data>

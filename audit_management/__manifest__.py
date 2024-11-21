@@ -29,7 +29,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            # 'audit_management/static/src/js/audit_lines.js',
+            # 'audit_management/static/src/js/One2manyWidget.js',
             # 'audit_management/static/src/xml/audit.xml',
             'audit_management/static/src/css/style.css',
         ],

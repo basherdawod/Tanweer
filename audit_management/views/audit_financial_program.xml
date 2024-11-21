@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <form string="Account Report">
                     <header>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,in_progress,completed,cancelled"/>
                         <button name="action_create_audit_line" type="object"  string="Create" class="oe_highlight"/>
                     </header>
                     <sheet>
@@ -16,28 +17,24 @@
                                 <field name="name"/>
                                 <field name="partner_id" invisible="1"/>
                             </group>
-                            <group >
-                                <field name="data_fis_years_end"/>
-                                <field name="data_last_years_end"/>
-                            </group>
                         </group>
-                            <group>
+                        <group>
+                            <group col="4">
+                                <field name="level1" options="{'no_create': True , 'no_edit':True} "/>
+                            </group>
 
-                               <!--  <group>
-                                    <field name="new1"/>
-                                    <field name="new2" invisible="new1 in ('equaty','liability')" />
-                                    <field name="new3"  invisible="new1 in ('asset','liability')"/>
-                                    <field name="new4"  invisible="new1 in ('equaty','asset')"/>
-                                </group> -->
-                                <field name="level1"/>
+                        </group>
+
+                            <group>
                                     <group>
-                                        <field name="level1" options="{'no_create': True , 'no_edit':True} "/>
                                         <field name="level_sub1" />
-                                        <field name="audit_lines1_ids"/>
+                                        <field name="type1" invisible="1"  />
+                                        <field name="audit_lines1_ids" context="{'default_type': type1 }"   />
                                     </group>
                                     <group>
+                                        <field name="type2" invisible="1"  />
                                         <field name="level_sub2"/>
-                                        <field name="audit_lines2_ids"/>
+                                        <field name="audit_lines2_ids" context="{'default_type': type2}"  domain="[('type', '=', type2)]"/>
                                     </group>
 
                             </group>
@@ -45,16 +42,20 @@
                                 <group>
                                         <field name="level2"  options="{'no_create': True , 'no_edit':True} "/>
                                         <field name="level2_sub1" />
-                                        <field name="audit_lines3_ids"/>
+                                        <field name="type3" invisible="1"  />
+                                        <field name="audit_lines3_ids" context="{'default_type': type3}"  domain="[('type', '=', type3)]"/>
                                     </group>
                                     <group>
+                                        <field name="type4" invisible="1"  />
                                         <field name="level2_sub2"/>
-                                        <field name="audit_lines4_ids"/>
+                                        <field name="audit_lines4_ids" context="{'default_type': type4}"  domain="[('type', '=', type4)]"/>
                                     </group>
                             </group>
                             <group>
                                 <field name="level3" options="{'no_create': True , 'no_edit':True} "/>
-                                <field name="audit_lines5_ids"/>
+                                <field name="type5" invisible="1"  />
+                                <field name="level3_sub1" invisible="1" />
+                                <field name="audit_lines5_ids" context="{'default_type': type5}"  domain="[('type', '=', type5)]"/>
                             </group>
                            <notebook>
                            <page string="Levels">
@@ -63,22 +64,22 @@
                                         <field name="display_type" invisible="1"/>
                                         <field name="name" />
                                         <label for="name" string="Section Name (eg. Products, Services)" invisible="display_type != 'line_section'"/>
-                                         <field name="level1_match"/>
+                                         <field name="seq"/>
                                         <field name="level_line_id" />
                                         <field name="type" />
                                         <field name="balance_this" />
                                         <field name="balance_last" />
                                     </form>
-                                    <tree editable="bottom" decoration-info="level1_match == True" colors="green:level1_match == False;">
+                                    <tree editable="bottom"  decoration-info="seq != 4 and seq !=0 " colors="red:seq == 4; red:seq == 0;">
                                         <control>
                                             <create name="add_product_control" string="Add a Line" />
                                             <create name="add_section_control" string="Add a Section" context="{'default_display_type': 'line_section'}"/>
                                         </control>
                                          <field name="display_type" column_invisible="True"/>
-                                        <field name="name" widget="section_and_note_text"/>
-                                        <field name="level1_match" column_invisible="True"/>
-                                        <field name="type" />
-                                        <field name="level_line_id" />
+                                        <field name="name" readonly="True" widget="section_and_note_text"/>
+                                        <field name="seq" column_invisible="True"/>
+                                        <field name="type" column_invisible="True" />
+                                        <field name="level_line_id" nolabel="1"  />
                                         <field name="balance_this" />
                                         <field name="balance_last" />
                                     </tree>

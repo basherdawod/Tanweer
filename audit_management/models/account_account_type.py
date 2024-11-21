@@ -33,10 +33,7 @@ class AccountTypeLevel(models.Model):
         comodel_name='audit.financial.program',
         string='Audit Financial Program')
 
-    customer_req_id = fields.Many2one(
-        comodel_name='financial.audit.customer',
-        string='Customer Rege', related="audit_financial_id.partner_id",
-        required=False)
+
 
     accumulated = fields.Boolean(
         string='Accumulated',
@@ -68,9 +65,11 @@ class AccountTypeLevel(models.Model):
             ("off_balance", "Off-Balance Sheet"),
         ],
         string="Type",
+
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
+
     balance_this = fields.Float(
         string='Total This Year',
         required=False,
@@ -90,6 +89,11 @@ class AccountTypeLevel(models.Model):
         comodel_name='audit.account.account.line',
         string='Account Account line', domain=[ ('account_type','=',type)],
         required=False)
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="audit_financial_id.partner_id",
+        required=False)
+
     balance_last = fields.Monetary(
         string='Total Last Year',
         required=False,
@@ -157,8 +161,14 @@ class AccountAccountTypeAudit(models.Model):
 
     account_ids = fields.Many2one(
         comodel_name='audit.account.account.line',
-        string='Account Account line', domain=[ ('account_type','=','asset_current')],
+        string='Account Account line',
         required=False)
+
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="account_type_name.customer_req_id",
+        required=False)
+
     type = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -226,10 +236,40 @@ class AdditionPeriodAssets(models.Model):
         comodel_name='account.type.level',
         string='Account',
     )
+    type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type", related='account_ids.type',
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
+
     account = fields.Many2one(
         comodel_name='audit.account.account.line',
-        string='Account', related="account_ids.account_account_line"
+        string='Cost',
     )
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="account_ids.customer_req_id",
+        required=False)
 
 
     balance_this = fields.Float(
@@ -258,7 +298,7 @@ class AdditionPeriodAssets(models.Model):
         related='account.opening_credit',
     )
     balance_debit = fields.Float(
-        string='credit',
+        string='Debit',
         required=False,
         related='account.opening_debit',
     )
@@ -274,9 +314,12 @@ class AdditionAcccumulatedAssets(models.Model):
     )
     account = fields.Many2one(
         comodel_name='audit.account.account.line',
-        string='Account', related="accumulated_account.account_account_line"
+        string='Account'
     )
-
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="accumulated_account.customer_req_id",
+        required=False)
 
     balance_this = fields.Float(
         string='This Year',
@@ -290,7 +333,6 @@ class AdditionAcccumulatedAssets(models.Model):
         default=lambda self: self.env.company.currency_id
     )
 
-    # Define the monetary field with the currency_field parameter
 
     balance_last = fields.Float(
         string='Last Year',
@@ -307,4 +349,29 @@ class AdditionAcccumulatedAssets(models.Model):
         string='credit',
         required=False,
         related='account.opening_debit',
+    )
+    type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type", related='accumulated_account.type',
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
     )

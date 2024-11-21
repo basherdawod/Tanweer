@@ -14,25 +14,135 @@ class AuditFinancialReport(models.Model):
                       translate=True)
 
 
+    status = fields.Selection(
+        [
+            ('draft', 'Draft'),
+            ('in_progress', 'In Progress'),
+            ('completed', 'Completed'),
+            ('cancelled', 'Cancelled'),
+        ],
+        default='draft',  # Default status is 'draft'
+        string='Status',
+    )
+
     level1 = fields.Many2one('type.class.account' , 'Main Type',domain="[('id', '!=', level2),('id', '!=', level3)]")
     level2 = fields.Many2one('type.class.account' , 'Main Type' , domain="[('id', '!=', level1),('id', '!=', level2)]")
     level3 = fields.Many2one('type.class.account' , 'Main Type' , default=lambda self: self._get_default_level3(),  domain="[('id', '!=', level1),('id', '!=', level2)]")
 
     level_sub1 = fields.Many2one('type.class.line' , 'Main Sub' ,domain="[('type_class_id', '=', level1)]")
+    type1 = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+        related="level_sub1.type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
     level_sub2 = fields.Many2one('type.class.line' , 'Main Sub' ,domain="[('type_class_id', '=', level1)]")
-
+    type2 = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+        related="level_sub2.type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
     level2_sub1 = fields.Many2one('type.class.line' , 'Main Sub' , domain="[('type_class_id', '=', level2)]" )
+    type3 = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+        related="level2_sub1.type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
     level2_sub2 = fields.Many2one('type.class.line' , 'Main Sub' , domain="[('type_class_id', '=', level2)]")
-
-    # Assuming the relation is correct, the final code should look like this:
+    type4 = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+        related="level2_sub2.type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
 
     audit_lines1_ids = fields.One2many(
         comodel_name='account.type.level',
         inverse_name='audit_financial_id',
-        column2='level_sub1',
         string='Audit Lines',
-        required=False,
-        domain="[('type', '=', 'asset_current')]",
+        required=False,domain=lambda self: [('type', '=', self.type1)]
     )
 
 
@@ -40,26 +150,54 @@ class AuditFinancialReport(models.Model):
         comodel_name='account.type.level',
         inverse_name='audit_financial_id',
         string='Audit Lines',
-        required=False,
+        required=False,domain=lambda self: [('type', '=', self.type2)]
     )
     audit_lines3_ids = fields.One2many(
         comodel_name='account.type.level',
         inverse_name='audit_financial_id',
         string='Audit Lines',
-        required=False,
+        required=False,domain=lambda self: [('type', '=', self.type3)]
     )
     audit_lines4_ids = fields.One2many(
         comodel_name='account.type.level',
         inverse_name='audit_financial_id',
         string='Audit Lines',
-        required=False,
+        required=False,domain=lambda self: [('type', '=', self.type4)]
     )
     audit_lines5_ids = fields.One2many(
             comodel_name='account.type.level',
             inverse_name='audit_financial_id',
             string='Audit Lines',
-            required=False,
+            required=False,domain=lambda self: [('type', '=', self.type5)]
         )
+    level3_sub1 = fields.Many2one('type.class.line', 'Main Sub', default=lambda self: self._get_default_level4())
+    type5 = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+        related="level3_sub1.type",
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
+
 
     partner_id = fields.Many2one('financial.audit.customer', string="Customer Registration")
 
@@ -87,7 +225,6 @@ class AuditFinancialReport(models.Model):
         column1='audit_financial_id',
         column2='type_level_id',
         string='Level 1 Lines',
-
     )
     type_line1_L1_ids = fields.Many2many(
             comodel_name='account.type.level',
@@ -97,29 +234,7 @@ class AuditFinancialReport(models.Model):
             string='Level 1 Lines',
         )
 
-    type_line_l2_ids = fields.Many2many(
-        comodel_name='account.type.level',
-        relation='audit_financial_level2_rel',
-        column1='audit_financial_id',
-        column2='type_level_id',
-        string='Level 2 Lines',
-    )
-    type_line2_l2_ids = fields.Many2many(
-        comodel_name='account.type.level',
-        relation='audit_financial_level2_rel',
-        column1='audit_financial_id',
-        column2='type_level_id',
-        string='Level 2 Lines',
 
-    )
-
-    type_line_l3_ids = fields.Many2many(
-        comodel_name='account.type.level',
-        relation='audit_financial_level3_rel',
-        column1='audit_financial_id',
-        column2='type_level_id',
-        string='Level 3 Lines',
-    )
     total_balance_this_lival1 = fields.Float(
         string='This Year',
         required=False,
@@ -164,82 +279,19 @@ class AuditFinancialReport(models.Model):
             return equity_record.id
         return False  # In case no record is found, return False to not set a default
 
+    @api.model
+    def _get_default_level4(self):
+        # Search for the record where name is 'Equity'
+        equity_record = self.env['type.class.line'].search([('name', '=', 'Equity')], limit=1)
+        if equity_record:
+            return equity_record.id
+        return False  # In case no record is found, return False to not set a default
+
     current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
-    #
-    # @api.onchange('level1', 'level2', 'level3')
-    # def _onchange_levels(self):
-    #     domain = {}
-    #     if self.level1:
-    #         domain['level2'] = [('id', '!=', self.level1.id)]
-    #     if self.level2:
-    #         domain['level3'] = [('id', '!=', self.level2.id)]
-    #     return {'domain': domain}
 
     def _compute_current_datetime(self):
         for record in self:
             record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
-
-    # @api.onchange('new1')
-    # def _onchange_new1(self):
-    #     if self.new1 == 'asset':
-    #         return {
-    #             'domain': {
-    #                 'new2': [('id', 'in', ['current_asset', 'non_current_asset'])]
-    #             }
-    #         }
-    #     elif self.new1 == 'equaty':
-    #         return {
-    #             'domain': {
-    #                 'new2': [('id', 'in', ['current_equaty', 'non_current_equaty'])]
-    #             }
-    #         }
-    #     elif self.new1 == 'liability':
-    #         return {
-    #             'domain': {
-    #                 'new2': [('id', 'in', ['current_liability', 'non_current_liability'])]
-    #             }
-    #         }
-    #     else:
-    #         return {
-    #             'domain': {
-    #                 'new2': []  # No options available
-    #             }
-    #         }
-
-    # @api.onchange('new1')
-    # def _onchange_new1(self):
-    #     # Reset the value of `new2` when `new1` changes
-    #     self.new2 = False
-
-    #     # Set the domain and assign valid default value to `new2` based on `new1`
-    #     if self.new1 == 'asset':
-    #         self.new2 = 'current_asset' 
-    #         return {
-    #             'domain': {
-    #                 'new2': [('new2', 'in', ['current_asset', 'non_current_asset'])]
-    #             }
-    #         }
-    #     elif self.new1 == 'equaty':
-    #         self.new2 = 'current_equaty'  # Assign default value to `new2`
-    #         return {
-    #             'domain': {
-    #                 'new2': [('new2', 'in', ['current_equaty', 'non_current_equaty'])]
-    #             }
-    #         }
-    #     elif self.new1 == 'liability':
-    #         self.new2 = 'current_liability'  # Assign default value to `new2`
-    #         return {
-    #             'domain': {
-    #                 'new2': [('new2', 'in', ['current_liability', 'non_current_liability'])]
-    #             }
-    #         }
-    #     else:
-    #         return {
-    #             'domain': {
-    #                 'new2': []
-    #             }
-    #         }
-
 
 
 
@@ -248,11 +300,7 @@ class AuditFinancialReport(models.Model):
         for vals in vals_list:
             if vals.get('name', _('New')) == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('audit.financial.program') or _('New')
-
-        # records = self.with_context(skip_generate_lines=True).action_create_audit_line()
-        
         records = super(AuditFinancialReport, self).create(vals_list)
-
         return records
 
 
@@ -265,90 +313,64 @@ class AuditFinancialReport(models.Model):
         line_vals = []
         total_balance_this_lival1 = 0.0
         total_balance_last_lival1 = 0.0
-        total_balance_this_lival2 = 0.0
-        total_balance_last_lival2 = 0.0
-        total_balance_this_lival3 = 0.0
-        total_balance_last_lival3 = 0.0
+        # total_balance_this_lival2 = 0.0
+        # total_balance_last_lival2 = 0.0
+        # total_balance_this_lival3 = 0.0
+        # total_balance_last_lival3 = 0.0
 
         for record in self:
             # Fetch or create level records
-            level_id1 = self.env['account.type.level'].search([('name', '=', record.level1)], limit=1)
-            if not level_id1:
-                level_id1 = self.env['account.type.level'].create({'name': record.level1})
+            level = self.env['account.type.level'].search([('audit_financial_id', '=', record.id)])
+            if level:
+    # Leval1 add line
+                if record.level1:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level1.name, 'seq': '1'})
+                    if record.level_sub1:
+                        line_vals.append({'display_type': 'line_section', 'name': record.level_sub1.name, 'seq': '4'})
+                        for line in level:
+                            if line.type == record.type1:
+                                line_vals.append({'level_line_id': line.id})
+                                total_balance_this_lival1 += line.balance_this
+                                total_balance_last_lival1 += line.balance_last
+                    if record.level_sub2:
+                        line_vals.append({'display_type': 'line_section', 'name': record.level_sub2.name, 'seq': '4'})
+                        for line in level:
+                            if line.type == record.type2:
+                                line_vals.append({'level_line_id': line.id})
+                                total_balance_this_lival1 += line.balance_this
+                                total_balance_last_lival1 += line.balance_last
+    # Leval2 add line
+                if record.level2:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level2.name, 'seq': '2'})
+                    if record.level2_sub1:
+                        line_vals.append({'display_type': 'line_section', 'name': record.level2_sub1.name, 'seq': '4'})
+                        for line in level:
+                            if line.type == record.type3:
+                                line_vals.append({'level_line_id': line.id})
+                                total_balance_this_lival1 += line.balance_this
+                                total_balance_last_lival1 += line.balance_last
+                    if record.level2_sub2:
+                        line_vals.append({'display_type': 'line_section', 'name': record.level2_sub2.name, 'seq': '4'})
+                        for line in level:
+                            if line.type == record.type4:
+                                line_vals.append({'level_line_id': line.id})
+                                total_balance_this_lival1 += line.balance_this
+                                total_balance_last_lival1 += line.balance_last
+    # Leval3 add line
+                if record.level3:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level3.name, 'seq': '3'})
+                    if record.level3_sub1:
+                        for line in level:
+                            if line.type == record.type5:
+                                line_vals.append({'level_line_id': line.id})
+                                total_balance_this_lival1 += line.balance_this
+                                total_balance_last_lival1 += line.balance_last
 
-            level_id2 = self.env['account.type.level'].search([('name', '=', record.level2)], limit=1)
-            if not level_id2:
-                level_id2 = self.env['account.type.level'].create({'name': record.level2})
 
-            level_id3 = self.env['account.type.level'].search([('name', '=', record.level3)], limit=1)
-            if not level_id3:
-                level_id3 = self.env['account.type.level'].create({'name': record.level3})
-
-            # Add level lines for L1, L2, L3
-            if level_id1:
-                line_vals.append({'display_type': 'line_section', 'name': record.level1, 'seq': '1'})
-                num = 0
-                line_type=[]
-                # for line in record.type_line_L1_ids:
-                #     label = line.type
-                #     if label not in line_type:
-                #         line_type.append(label)
-                #         num +=1
-                # print("###############", line_type , num)
-
-                for line in record.type_line_L1_ids:
-                    selection = line._fields['type'].selection
-                    label = dict(selection).get(line.type, 'Unknown Type')
-
-                    if label not in line_type:
-                        line_type.append(label)
-                        num +=1
-                print("###############", line_type , num)
-                # line_vals.append({'display_type': 'line_sub', 'name': line_type, 'seq': '1'})
-                for i in range(num):
-                    line_vals.append({'display_type': 'line_section', 'name': line_type[i], 'seq': '4'})
-                    # line_vals.append({'level_line_id': level_id2.id})
-                    for line in record.type_line_L1_ids:
-                        selection = line._fields['type'].selection
-                        label = dict(selection).get(line.type, 'Unknown Type')
-                        if label == line_type[i]:
-                            line_vals.append({'level_line_id': line.id})
-                            total_balance_this_lival1 += line.balance_this
-                            total_balance_last_lival1 += line.balance_last
-                    i +=1
-
-            if level_id2:
-                line_vals.append({'display_type': 'line_section', 'name': record.level2, 'seq2': '2'})
-                # line_vals.append({'level_line_id': level_id2.id})
-                for line in record.type_line_l2_ids:
-                    line_vals.append({'level_line_id': line.id})
-                    total_balance_this_lival2 += line.balance_this
-                    total_balance_last_lival2 += line.balance_last
-
-            if level_id3:
-                line_vals.append({'display_type': 'line_section', 'name': record.level1, 'seq3': '3'})
-                # line_vals.append({'level_line_id': level_id3.id})
-                for line in record.type_line_l3_ids:
-                    line_vals.append({'level_line_id': line.id})
-                    total_balance_this_lival3 += line.balance_this
-                    total_balance_last_lival3 += line.balance_last
 
             # Write the new audit lines
             self.write({
                 'audit_lines_ids': [Command.create(vals) for vals in line_vals]
-            })
-
-            level_id1.write ({
-                'total_balance_this': total_balance_this_lival1,
-                'total_balance_last': total_balance_last_lival1
-            })
-            level_id2.write ({
-                'total_balance_this': total_balance_this_lival2,
-                'total_balance_last': total_balance_last_lival2
-            })
-            level_id3.write ({
-                'total_balance_this': total_balance_this_lival3,
-                'total_balance_last': total_balance_last_lival3
             })
 
 # Separate models for each level
@@ -357,8 +379,7 @@ class AccountTypeLevelL1(models.Model):
     _description = 'Account Type Level for Level 1'
 
     record_id = fields.Many2one('account.type.level', string='Record')
-    audit_financial_id = fields.Many2one('audit.financial.report', string='Audit Financial Program')
-
+    audit_financial_id = fields.Many2one('audit.financial.program', string='Audit Financial Program')
 
 
 
@@ -367,7 +388,7 @@ class AccountTypeLevelL2(models.Model):
     _description = 'Account Type Level for Level 2'
 
     record_id = fields.Many2one('account.type.level', string='Record')
-    audit_financial_id = fields.Many2one('audit.financial.report', string='Audit Financial Program')
+    audit_financial_id = fields.Many2one('audit.financial.program', string='Audit Financial Program')
 
 
 class AccountTypeLevelL3(models.Model):
@@ -375,7 +396,7 @@ class AccountTypeLevelL3(models.Model):
     _description = 'Account Type Level for Level 3'
 
     record_id = fields.Many2one('account.type.level', string='Record')
-    audit_financial_id = fields.Many2one('audit.financial.report', string='Audit Financial Program')
+    audit_financial_id = fields.Many2one('audit.financial.program', string='Audit Financial Program')
 
 
 
@@ -453,20 +474,6 @@ class AccountTypeLevel(models.Model):
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
-    level1_match = fields.Boolean(string="Level 1 Match", compute="_compute_level1_match")
-
-    @api.depends('audit_financial_id', 'level_line_id')
-    def _compute_level1_match(self):
-        for record in self:
-            # Ensure both fields are set before comparing
-            if record.audit_financial_id.level1 == record.level_line_id.name:
-                record.level1_match = True
-            elif record.audit_financial_id.level2 == record.level_line_id.name:
-                record.level1_match = True
-            elif record.audit_financial_id.level3 == record.level_line_id.name:
-                record.level1_match = True
-            else:
-                record.level1_match = False
 
     @api.depends('level_line_id')
     def _compute_name(self):
@@ -476,11 +483,11 @@ class AccountTypeLevel(models.Model):
             if not line.level_line_id:
                 # Handle the case where audit_financial_id is not set
                 if line.name !='' and line.seq == 1:
-                    line.name = line.audit_financial_id.level1
+                    line.name = line.audit_financial_id.level1.name
                 elif line.name !='' and line.seq2 == 2:
-                    line.name = line.audit_financial_id.level2
+                    line.name = line.audit_financial_id.level2.name
                 elif line.name !='' and line.seq3 == 3:
-                    line.name = line.audit_financial_id.level3
+                    line.name = line.audit_financial_id.level3.name
                 else:
                     print("Name",line.name )
                     line.name = "No line"

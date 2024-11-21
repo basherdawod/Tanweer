@@ -14,13 +14,13 @@
                                 <field name="customer_account_id"/>
                             </group>
                         </group>
-                        <notebook>
-                            <page name="account_lines_ids" string="Account Line">
-                                <group>
-                                    <field name="account_lines_ids"/>
-                                </group>
-                            </page>
-                        </notebook>
+<!--                        <notebook>-->
+<!--                            <page name="account_lines_ids" string="Account Line">-->
+<!--                                <group>-->
+<!--                                    <field name="account_lines_ids"/>-->
+<!--                                </group>-->
+<!--                            </page>-->
+<!--                        </notebook>-->
 
                     </sheet>
                     <div class="oe_chatter">

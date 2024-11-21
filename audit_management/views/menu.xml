@@ -36,19 +36,24 @@
                   sequence="500"
                   parent="menu_audit_management_Configuration"/>
 
-         <menuitem id="ins_audit_account_account_report"
-                  name="Account Audit Customer"
-                  action="action_audit_account_account_tree"
-                  sequence="4"
-                  parent="menu_audit_management_Configuration"/>
+<!--         <menuitem id="ins_audit_account_account_report"-->
+<!--                  name="Account Audit Customer"-->
+<!--                  action="action_audit_account_account_tree"-->
+<!--                  sequence="4"-->
+<!--                  parent="menu_audit_management_Configuration"/>-->
 
         <menuitem id="ins_financial_audit_customer_report"
                   name="Account Audit Customer"
                   action="action_financial_audit_customer_tree"
-                  sequence="4"
+                  sequence="1"
+                  parent="menu_audit_management_systems_report"/>
+
+
+        <menuitem id="ins_account_char_audit_report"
+                  name="Char Account Customer"
+                  action="action_account_char_audit_tree"
+                  sequence="5"
                   parent="menu_audit_management_Configuration"/>
-
-
 
 
         <menuitem id="ins_account_type_audit_report"
