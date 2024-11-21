@@ -66,7 +66,7 @@
             }
             
             .page-number {
-                position: fixed;
+                position: absolute;
                 bottom: 10px;
                 width: 100%;
                 text-align: center;
@@ -1366,16 +1366,16 @@
                  <br/>
                  <div>
                      10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES.
-                        - Lien of margin and fixed deposits with the bank.
-                        - Subordination of Shareholders current account balances against the bank borrowing.
-                        - Assignment of keyman insurance policy of Mr. Manoj Thandassery Dharman in favour of the bank.
-                        - Assignment of receivables on a pari passu basis.
-                        - Undated security cheque and promisory note.
+                        <br/>- Lien of margin and fixed deposits with the bank.
+                        <br/>- Subordination of Shareholders current account balances against the bank borrowing.
+                        <br/>- Assignment of keyman insurance policy of Mr. Manoj Thandassery Dharman in favour of the bank.
+                        <br/>- Assignment of receivables on a pari passu basis.
+                        <br/>- Undated security cheque and promisory note.
 
-                        - Hypothecation of inventory, duly insured in banks favour.
-                        - Personal guarantee of Mr. Manoj Thandassery Dharman and Mrs. Jyothi Manoj Thandassery
+                        <br/>- Hypothecation of inventory, duly insured in banks favour.
+                        <br/>- Personal guarantee of Mr. Manoj Thandassery Dharman and Mrs. Jyothi Manoj Thandassery
 
-                        - Bank borrowing are subject to certain financial covenants as mutually agreed with each bank
+                        <br/>- Bank borrowing are subject to certain financial covenants as mutually agreed with each bank
                                 from whom the credit facilities have been obtained.
                  </div>
                        <div class="page-number">
