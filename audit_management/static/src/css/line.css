@@ -1,0 +1,16 @@
+.horizontal-tree .o_list_view tbody {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.horizontal-tree .o_list_view tbody tr {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    width: 300px; /* Adjust as needed */
+}
+.horizontal-tree .o_list_view tbody tr td {
+    display: block;
+}
