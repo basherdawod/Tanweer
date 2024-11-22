@@ -67,6 +67,8 @@ class FinancialAuditReporting(models.Model):
     account_type_level = fields.Many2one('account.type.level', string="Account Type")
 
 
+
+
     #
     # def action_import_account_lines(self):
     #     if not self.upload_xlsx:

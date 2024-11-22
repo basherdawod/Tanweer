@@ -29,6 +29,8 @@ access_financial_audit_customer_manager,access_financial_audit_customer_manager,
 access_audit_account_account,audit_account_account,model_audit_account_account,,1,1,1,1
 
 access_audit_account_account_line,audit_account_account_line,model_audit_account_account_line,,1,1,1,1
+access_comprehensive_income,comprehensive_income,model_comprehensive_income,,1,1,1,1
+access_comprehensive_income_line,comprehensive_income_line,model_comprehensive_income_line,,1,1,1,1
 
 
 

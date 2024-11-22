@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_comprehensive_income_tree" model="ir.ui.view">
+        <field name="name">comprehensive.income.tree</field>
+        <field name="model">comprehensive.income</field>
+        <field name="arch" type="xml">
+            <tree string="Comprehensive Income">
+                <field name="name"/>
+<!--                <field name="data_fis_years_end"/>-->
+<!--                <field name="data_last_years"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_comprehensive_income_form" model="ir.ui.view">
+        <field name="name">comprehensive.income.form</field>
+        <field name="model">comprehensive.income</field>
+        <field name="arch" type="xml">
+            <form string="Comprehensive Income">
+<!--                    <header>-->
+<!--                        <button name="create_account_lines_customers" type="object" string="Confirm" invisible="integration_type != 'current_system'"/>-->
+<!--                    </header>-->
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+<!--                            <field name="partner_id"/>-->
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="registration_date"/>-->
+<!--                            <field name="integration_type"/>-->
+<!--                        </group>-->
+                    </group>
+
+<!--                    <group invisible="integration_type == 'customers_system'">-->
+<!--                        <group>-->
+<!--                            <field name="data_fis_years_end"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="data_last_years"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="active_account"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                    <group invisible="integration_type == 'current_system'">-->
+<!--                        <group>-->
+<!--                            <field name="upload_xlsx" filename="upload_xlsx_filename" widget="binary"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <button name="action_import_account_lines" type="object" string="Add Account's" class="oe_highlight"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+                    <notebook>
+                        <page name="comprehensive_income_line_ids" string="Comprehensive Income">
+                                <field name="comprehensive_income_line_ids">
+                                    <tree editable="bottom" limit="20" >
+                                        <field name="code"/>
+                                        <field name="account_name"/>
+                                        <field name="total_last_year"/>
+                                        <field name="total_this_year"/>
+                                    </tree>
+                                </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_comprehensive_income" model="ir.actions.act_window">
+        <field name="name">Comprehensive Income</field>
+        <field name="res_model">comprehensive.income</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+    </record>
+
+</odoo>
