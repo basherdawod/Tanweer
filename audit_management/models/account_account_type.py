@@ -333,7 +333,6 @@ class AdditionAcccumulatedAssets(models.Model):
         default=lambda self: self.env.company.currency_id
     )
 
-
     balance_last = fields.Float(
         string='Last Year',
         required=False,

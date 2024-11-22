@@ -50,6 +50,8 @@
                                         <tree>
                                             <field name="code"/>
                                             <field name="name"/>
+                                            <field name="account_type"/>
+                                            <field name="balance_2years"/>
                                             <field name="opening_balance"/>
                                             <field name="opening_debit"/>
                                             <field name="opening_credit"/>
