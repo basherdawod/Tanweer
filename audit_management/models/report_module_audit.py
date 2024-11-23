@@ -30,6 +30,7 @@ class AuditFinancialReport(models.Model):
     level3 = fields.Many2one('type.class.account' , 'Main Type' , default=lambda self: self._get_default_level3(),  domain="[('id', '!=', level1),('id', '!=', level2)]")
 
     level_sub1 = fields.Many2one('type.class.line' , 'Main Sub' ,domain="[('type_class_id', '=', level1)]")
+
     type1 = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -408,6 +409,7 @@ class AccountTypeLevel(models.Model):
         comodel_name='audit.financial.program',
         string='Account Type',
         required=False , readonly=True )
+
     name = fields.Char(string="Name")
 
     seq = fields.Integer(string="seq")
@@ -557,5 +559,8 @@ class TypeClassLine(models.Model):
         return super(TypeClassLine, self).create(vals)
 
 
+class AuditFinancialProgramCategory(models.Model):
+    _name = "audit.financial.program.category" #model_audit_financial_program_category
 
+    name = fields.Char(string="Category")
 

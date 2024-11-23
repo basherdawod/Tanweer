@@ -35,8 +35,9 @@
                                     </field>
                                     <field name="account_type_accumulated" string="Account"  invisible="not work_In_Progress">
                                         <tree editable="bottom">
-                                            <field name="account"  string="Account" domain="[('account_type', '=', type), ('account_ids_audit1', '=', customer_req_id)]" />
+<!--                                            <field name="account"  string="Account" domain="[('account_type', '=', type), ('account_ids_audit1', '=', customer_req_id)]" />-->
                                             <field name="type" column_invisible="True"/>
+                                            <field name="accounts_account"/>
                                             <field name="customer_req_id" column_invisible="True" />
                                             <field name="balance_last" nolabel="1" />
                                             <field name="balance_credit" nolabel="1" />
@@ -50,29 +51,72 @@
                                     </group>
                                 </group>
                             </page>
-                             <page name="account_type_ids" string="Cost and Accumulated" invisible="type != 'asset_non_current'" >
+                             <page name="account_type_ids" string="Cost" invisible="type != 'asset_non_current'" >
                                 <group>
                                     <field name="account_type_ids" string="Cost">
+
                                         <tree editable="bottom">
-                                            <field name="account" domain="[('account_type', '=', type), ('account_ids_audit1', '=', customer_req_id)]" />
+<!--                                            <field name="account"/>-->
                                             <field name="type" column_invisible="True"/>
+                                            <field name="accounts_account" widget="many2many_tags"/>
                                             <field name="customer_req_id" column_invisible="True" />
+                                            <field name="category_ids"/>
+                                            <field name="balance_last_last"/>
                                             <field name="balance_last"/>
-                                            <field name="balance_credit"/>
-                                            <field name="balance_debit"/>
+<!--                                            <field name="balance_credit"/>-->
+<!--                                            <field name="balance_debit"/>-->
                                             <field name="balance_this"/>
                                         </tree>
                                     </field>
 
+<!--                                    <field name="account_type_accumulated" string="Accumulated" >-->
+<!--                                        <tree editable="bottom">-->
+<!--&lt;!&ndash;                                            <field name="account" domain="[('account_type', '=', type),('account_ids_audit1', '=', customer_req_id)]" />&ndash;&gt;-->
+<!--                                            <field name="type" column_invisible="True"/>-->
+<!--                                            <field name="accounts_account" widget="many2many_tags"/>-->
+<!--                                            <field name="customer_req_id" column_invisible="True" />-->
+<!--                                            <field name="category_ids"/>-->
+<!--                                            <field name="balance_last" nolabel="1" />-->
+<!--&lt;!&ndash;                                            <field name="balance_credit" nolabel="1" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <field name="balance_debit" nolabel="1" />&ndash;&gt;-->
+<!--                                            <field name="balance_this" nolabel="1"/>-->
+<!--                                        </tree>-->
+<!--                                    </field>-->
+                                    <group class="oe_subtotal_footer" colspan="4" >
+                                        <field name="balance_this"/>
+                                        <field name="balance_last"/>
+                                    </group>
+                                </group>
+                            </page>
+                             <page name="account_type_ids" string="Accumulated" invisible="type != 'asset_non_current'" >
+                                <group>
+<!--                                    <field name="account_type_ids" string="Cost">-->
+
+<!--                                        <tree editable="bottom">-->
+<!--&lt;!&ndash;                                            <field name="account"/>&ndash;&gt;-->
+<!--                                            <field name="type" column_invisible="True"/>-->
+<!--                                            <field name="accounts_account" widget="many2many_tags"/>-->
+<!--                                            <field name="customer_req_id" column_invisible="True" />-->
+<!--                                            <field name="category_ids"/>-->
+<!--                                            <field name="balance_last"/>-->
+<!--&lt;!&ndash;                                            <field name="balance_credit"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <field name="balance_debit"/>&ndash;&gt;-->
+<!--                                            <field name="balance_this"/>-->
+<!--                                        </tree>-->
+<!--                                    </field>-->
+
                                     <field name="account_type_accumulated" string="Accumulated" >
                                         <tree editable="bottom">
-                                            <field name="account" domain="[('account_type', '=', type),('account_ids_audit1', '=', customer_req_id)]" />
+<!--                                            <field name="account" domain="[('account_type', '=', type),('account_ids_audit1', '=', customer_req_id)]" />-->
                                             <field name="type" column_invisible="True"/>
+                                            <field name="accounts_account" widget="many2many_tags"/>
                                             <field name="customer_req_id" column_invisible="True" />
-                                            <field name="balance_last" nolabel="1" />
-                                            <field name="balance_credit" nolabel="1" />
-                                            <field name="balance_debit" nolabel="1" />
-                                            <field name="balance_this" nolabel="1"/>
+                                            <field name="category_ids"/>
+                                            <field name="balance_last_last" />
+                                            <field name="balance_last"  />
+<!--                                            <field name="balance_credit" nolabel="1" />-->
+<!--                                            <field name="balance_debit" nolabel="1" />-->
+                                            <field name="balance_this"/>
                                         </tree>
                                     </field>
                                     <group class="oe_subtotal_footer" colspan="4" >
@@ -81,6 +125,22 @@
                                     </group>
                                 </group>
                             </page>
+                             <page name="summary_id" string="Summary">
+                                <group>
+                                     <field name="summary_id" >
+                                        <tree editable="bottom">
+                                            <field name="desc"/>
+<!--                                            <field name="category"/>-->
+                                            <field name="balanse_last_last"/>
+                                            <field name="balanse_last"/>
+<!--                                            <field name="balanse_this"/>-->
+
+                                    </tree>
+                                     </field>
+
+                                </group>
+                            </page>
+
                         </notebook>
                     </sheet>
 

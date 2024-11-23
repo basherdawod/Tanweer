@@ -5,8 +5,6 @@ from odoo import api, fields, models, _, tools, Command
 from odoo.exceptions import AccessError, ValidationError, UserError
 from datetime import datetime, date
 
-
-
 class FinancialAuditReporting(models.Model):
     _name = "financial.audit.customer"
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -15,6 +13,14 @@ class FinancialAuditReporting(models.Model):
     lable1 = fields.Char(
         string="Text", readonly=True,
         default="MODULAR CONCEPTS L.L.C.\n DUBAI - UNITED ARAB EMIRATES \n FINANCIAL STATEMENTS & REPORTS")
+    comprehensive_income_ids = fields.One2many(
+        'comprehensive.income',
+        'financial_id',
+    )
+    comprehensive_income_line_ids = fields.One2many(
+        'comprehensive.income.line',
+        'financial_line_id',
+    )
     name = fields.Char(
         string="Registration No", readonly=True,
         default=lambda self: _('New'), copy=False)
@@ -65,6 +71,8 @@ class FinancialAuditReporting(models.Model):
         string='Account lines',
         required=False)
     account_type_level = fields.Many2one('account.type.level', string="Account Type")
+
+
 
 
 
@@ -201,31 +209,44 @@ class FinancialAuditReporting(models.Model):
         if self.integration_type == 'current_system':
             list_account = []
             for record in self :
+                years1 = record.data_fis_years_end.year
+                start_this_years = datetime(years1, 1, 31).strftime("%Y-%m-%d")
+                years2 = record.data_last_years.year
+                start_last_years =datetime(years2, 1, 31).date()
+                years_2last = datetime(years2-1, 12, 31).date()
+                yy = years_2last.year
+                start_2_last = datetime(yy, 1, 31).date()
+
+
                 lines = self.env['account.account'].search([])
                 for account in lines :
                     total_credit = 0.0
                     total_debit = 0.0
                     total_balance = 0.0
                     open_balance = 0.0
+                    balance_2years = 0.0
 
                     move_lines = self.env['account.move.line'].search([
                         ('account_id', '=', account.id)
                         ])
                     for mov in move_lines:
-                        if record.data_last_years >= mov.date >= record.data_fis_years_end:
+                        if  mov.date <= record.data_fis_years_end :
                             total_credit += mov.credit
                             total_debit += mov.debit
                             total_balance += mov.debit - mov.credit
-                        if mov.date >= record.data_last_years :
+                        if start_last_years <= mov.date <= record.data_last_years :
                             open_balance += mov.debit - mov.credit
+                        if start_2_last  <= mov.date <= years_2last :
+                            balance_2years += mov.debit - mov.credit
                     if record.active :
-                        if total_credit or total_debit != 0.0:
+                        if total_credit or total_balance or open_balance or balance_2years or total_debit != 0.0:
                             list_account.append({
                             'code': account.code,
                             'name': account.name,
                             'account_type': account.account_type,
                             'current_balance': total_balance,
                             'opening_balance': open_balance,
+                            'balance_2years': balance_2years,
                             'opening_credit': total_credit,
                             'opening_debit': total_debit,
                         })
@@ -236,6 +257,7 @@ class FinancialAuditReporting(models.Model):
                             'account_type': account.account_type,
                             'current_balance': total_balance,
                             'opening_balance': open_balance,
+                            'balance_2years': balance_2years,
                             'opening_credit': total_credit,
                             'opening_debit': total_debit,
                         })
@@ -276,6 +298,45 @@ class FinancialAuditReporting(models.Model):
                 'name': audit_report_name,
             })
 
+    def create_comprehensive_report(self):
+        for record in self:
+            existing_comprehensive_report = record.comprehensive_income_ids
+            if not existing_comprehensive_report:
+                audit_report_name = record.name
+            else:
+                next_letter = chr(65 + len(existing_comprehensive_report))  # ASCII 'A' is 65
+                audit_report_name = f"{record.name}/{next_letter}"
+
+            # Create the new audit_report record
+            self.env['comprehensive.income'].create({
+                'financial_id':record.id,
+                'name': audit_report_name,
+            })
+
+    # def create_comprehensive_report(self):
+    #     for record in self:
+    #         existing_comprehensive_report = record.comprehensive_income_ids
+    #         if not existing_comprehensive_report:
+    #             audit_report_name = record.name
+    #         else:
+    #             next_letter = chr(65 + len(existing_comprehensive_report))  # ASCII 'A' is 65
+    #             audit_report_name = f"{record.name}/{next_letter}"
+    #
+    #         # Create the new audit_report record
+    #         new_report = self.env['comprehensive.income'].create({
+    #             'financial_id': record.id,
+    #             'name': audit_report_name,
+    #         })
+    #
+    #         for line in record.comprehensive_income_line_ids:
+    #             self.env['comprehensive.income.line'].create({
+    #                 'comprehensive_income_id': new_report.id,
+    #                 'code': line.code,
+    #                 'account_name': line.name,
+    #                 'total_last_year': line.opening_balance,
+    #                 'total_this_year': line.current_balance,
+    #
+    #             })
 
 
 class AuditAccountChar(models.Model):
@@ -350,32 +411,8 @@ class AuditAccountCharLine(models.Model):
 
     opening_debit = fields.Float(string="Debit" )
     opening_credit = fields.Float(string="Credit"  )
-    opening_balance = fields.Float(string="Opening Balance")
 
     current_balance = fields.Float(string="Current balance")
 
-    # @api.model
-    # def import_xlsx(self, file_data):
-    #     try:
-    #         # Read the XLSX file data
-    #         wb = xlrd.open_workbook(file_contents=file_data)
-    #         sheet = wb.sheet_by_index(0)
-
-    #         for row_num in range(1, sheet.nrows):  # Skip the header
-    #             parent_name = sheet.cell(row_num, 0).value
-    #             field_1 = sheet.cell(row_num, 1).value
-    #             field_2 = sheet.cell(row_num, 2).value
-
-    #             # Create or get the parent record
-    #             parent = self.search([('name', '=', parent_name)], limit=1)
-    #             if not parent:
-    #                 parent = self.create({'name': parent_name})
-
-    #             # Create the line record
-    #             self.env['your.line.model'].create({
-    #                 'parent_id': parent.id,
-    #                 'field_1': field_1,
-    #                 'field_2': field_2,
-    #             })
-    #     except Exception as e:
-    #         raise ValidationError(f"Error importing XLSX: {str(e)}")
+    opening_balance = fields.Float(string="Balance before 1 years")
+    balance_2years = fields.Float(string="Balance before 2 years")
