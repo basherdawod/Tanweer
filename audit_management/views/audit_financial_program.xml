@@ -68,6 +68,7 @@
                                         <field name="name" />
                                         <label for="name" string="Section Name (eg. Products, Services)" invisible="display_type != 'line_section'"/>
                                          <field name="seq"/>
+<!--                                         <field name="category_ids"/>-->
                                         <field name="level_line_id" />
                                         <field name="type" />
                                         <field name="balance_this" />
@@ -84,6 +85,7 @@
                                         <field name="seq" column_invisible="True"/>
                                         <field name="type" column_invisible="True" />
                                         <field name="level_line_id" nolabel="1"  />
+<!--                                        <field name="category_ids"/>-->
                                         <field name="balance_this" />
                                         <field name="balance_last" />
                                     </tree>
@@ -98,9 +100,6 @@
                         <field name="activity_ids"/>
                         <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
                     </div>
-
-
-
                 </form>
             </field>
         </record>

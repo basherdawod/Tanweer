@@ -8,6 +8,7 @@
                 <form string="Customer Registration">
                     <header>
                         <button name="create_audit_report" type="object" string="ObjectButton"/>
+                        <button name="create_comprehensive_report" type="object" string="Create Comprehensive Report"/>
                         <button name="create_account_lines_customers" type="object" string="Confirm" invisible="integration_type != 'current_system'"/>
                     </header>
                     <sheet>

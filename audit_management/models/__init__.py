@@ -4,3 +4,4 @@ from . import program_line
 from . import account_account_type
 from . import report_module_audit
 from . import financial_audit_report
+from . import comprehensive_income

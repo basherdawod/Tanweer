@@ -32,6 +32,10 @@ access_share_capital_assets_manager,access_share_capital_assets_manager,model_sh
 access_audit_account_account,audit_account_account,model_audit_account_account,,1,1,1,1
 
 access_audit_account_account_line,audit_account_account_line,model_audit_account_account_line,,1,1,1,1
+access_comprehensive_income,comprehensive_income,model_comprehensive_income,,1,1,1,1
+access_comprehensive_income_line,comprehensive_income_line,model_comprehensive_income_line,,1,1,1,1
+access_model_audit_financial_program_category,audit_financial_program_category,model_audit_financial_program_category,,1,1,1,1
+access_model_summary,summary,model_summary,,1,1,1,1
 
 
 

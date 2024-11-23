@@ -13,6 +13,14 @@ class FinancialAuditReporting(models.Model):
     lable1 = fields.Char(
         string="Text", readonly=True,
         default="MODULAR CONCEPTS L.L.C.\n DUBAI - UNITED ARAB EMIRATES \n FINANCIAL STATEMENTS & REPORTS")
+    comprehensive_income_ids = fields.One2many(
+        'comprehensive.income',
+        'financial_id',
+    )
+    comprehensive_income_line_ids = fields.One2many(
+        'comprehensive.income.line',
+        'financial_line_id',
+    )
     name = fields.Char(
         string="Registration No", readonly=True,
         default=lambda self: _('New'), copy=False)
@@ -70,6 +78,10 @@ class FinancialAuditReporting(models.Model):
         string='Account lines',
         required=False)
     account_type_level = fields.Many2one('account.type.level', string="Account Type")
+
+
+
+
 
 
     #
@@ -315,6 +327,45 @@ class FinancialAuditReporting(models.Model):
                 'name': audit_report_name,
             })
 
+    def create_comprehensive_report(self):
+        for record in self:
+            existing_comprehensive_report = record.comprehensive_income_ids
+            if not existing_comprehensive_report:
+                audit_report_name = record.name
+            else:
+                next_letter = chr(65 + len(existing_comprehensive_report))  # ASCII 'A' is 65
+                audit_report_name = f"{record.name}/{next_letter}"
+
+            # Create the new audit_report record
+            self.env['comprehensive.income'].create({
+                'financial_id':record.id,
+                'name': audit_report_name,
+            })
+
+    # def create_comprehensive_report(self):
+    #     for record in self:
+    #         existing_comprehensive_report = record.comprehensive_income_ids
+    #         if not existing_comprehensive_report:
+    #             audit_report_name = record.name
+    #         else:
+    #             next_letter = chr(65 + len(existing_comprehensive_report))  # ASCII 'A' is 65
+    #             audit_report_name = f"{record.name}/{next_letter}"
+    #
+    #         # Create the new audit_report record
+    #         new_report = self.env['comprehensive.income'].create({
+    #             'financial_id': record.id,
+    #             'name': audit_report_name,
+    #         })
+    #
+    #         for line in record.comprehensive_income_line_ids:
+    #             self.env['comprehensive.income.line'].create({
+    #                 'comprehensive_income_id': new_report.id,
+    #                 'code': line.code,
+    #                 'account_name': line.name,
+    #                 'total_last_year': line.opening_balance,
+    #                 'total_this_year': line.current_balance,
+    #
+    #             })
 
 
 class AuditAccountChar(models.Model):

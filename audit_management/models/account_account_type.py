@@ -5,6 +5,8 @@ import base64
 import logging
 from datetime import datetime, date
 
+
+
 class AccountTypeLevel(models.Model):
     _name = 'account.type.level'
     _description = 'Account Type Level'
@@ -38,6 +40,20 @@ class AccountTypeLevel(models.Model):
     audit_financial_id = fields.Many2one(
         comodel_name='audit.financial.program',
         string='Audit Financial Program')
+
+
+    category_ids = fields.Many2one("addition.acccumulated.assets")
+
+
+    account_account_type_level = fields.Many2one("audit.account.account.line",string="account")
+
+    summary_id = fields.One2many(
+        comodel_name='summary',
+        inverse_name='account_type_level_id',
+        required=False)
+
+
+
 
     accumulated = fields.Boolean(
         string='Accumulated',
@@ -116,6 +132,15 @@ class AccountTypeLevel(models.Model):
             required=False,
             currency_field='currency_id',
         )
+
+
+
+    account_comprehensive_income_id = fields.Many2one("comprehensive.income",string="Account Comprehensive Income")
+
+    as_at_des = fields.Char(string="As at December 31 2022")
+    as_at_des1 = fields.Char(string="As at December 31 2023")
+    # as_at_des2 = fields.Char(string="As at December 31 2022")
+    # as_at_des3 = fields.Char(string="As at December 31 2022")
 
     def _inverse_balance_last(self):
         """
@@ -260,6 +285,8 @@ class AdditionPeriodAssets(models.Model):
         comodel_name='account.type.level',
         string='Account',
     )
+    accounts_account = fields.Many2many("account.account")
+    balance_last_last = fields.Float(string="2022")
     type = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -285,6 +312,7 @@ class AdditionPeriodAssets(models.Model):
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
+    category_ids = fields.Many2one("audit.financial.program.category")
 
     account = fields.Many2one(
         comodel_name='audit.account.account.line',
@@ -333,6 +361,8 @@ class AdditionPeriodAssets(models.Model):
     )
 
 
+
+
 class AdditionAcccumulatedAssets(models.Model):
     _name = 'addition.acccumulated.assets' #model_addition_acccumulated_assets
     _description = 'AdditionAccumulated'
@@ -341,10 +371,13 @@ class AdditionAcccumulatedAssets(models.Model):
         comodel_name='account.type.level',
         string='Account',
     )
+    balance_last_last = fields.Float(string="2022")
     account = fields.Many2one(
         comodel_name='audit.account.account.line',
         string='Account'
     )
+    accounts_account = fields.Many2many("account.account")
+    category_ids = fields.Many2one("audit.financial.program.category")
     customer_req_id = fields.Many2one(
         comodel_name='financial.audit.customer',
         string='Customer Rege', related="accumulated_account.customer_req_id",
@@ -459,3 +492,16 @@ class ShareCapitalAssets(models.Model):
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
+
+class Summary(models.Model):
+    _name = 'summary' #model_summary
+    _description = 'Summary'
+
+    desc = fields.Char("Description")
+    category = fields.Char("Category")
+    balanse_last_last = fields.Char("Vehicles")
+    balanse_last = fields.Char("Office Furniture & Equipment")
+    # balanse_this = fields.Char("As at December 31 2024")
+    account_type_level_id = fields.Many2one("account.type.level")
+
+
