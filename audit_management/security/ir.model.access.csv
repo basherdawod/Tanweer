@@ -22,6 +22,9 @@ access_addition_acccumulated_assets_manager,access_addition_acccumulated_assets_
 
 
 access_financial_audit_customer_manager,access_financial_audit_customer_manager,model_financial_audit_customer,base.group_user,1,1,1,1
+access_account_assets_audit_manager,access_account_assets_audit_manager,model_account_assets_audit,base.group_user,1,1,1,1
+access_share_capital_assets_manager,access_share_capital_assets_manager,model_share_capital_assets,base.group_user,1,1,1,1
+
 
 
 

@@ -7,19 +7,24 @@
             <field name="arch" type="xml">
                 <form string="Account Report">
                     <sheet>
-                        <group>
-                            <field name="number_audit"/>
-                             <field name="name"/>
-                        </group>
                          <group>
-                             <field name="audit_financial_id"/>
-                             <field name="customer_req_id"/>
-                             <field name="type"/>
+                             <group>
+                                <field name="number_audit"/>
+                                <field name="name"/>
+                             </group>
+                             <group>
+                                 <field name="audit_financial_id" readonly ="('audit_financial_id', '!=', '') " />
+                                 <field name="customer_req_id" invisible="1"/>
+                                 <field name="type" readonly ="('customer_req_id', '!=', '') " />
+                             </group>
+                        </group>
+                        <group>
                              <field name="accumulated" invisible="type != 'asset_non_current'"/>
                              <field name="work_In_Progress" invisible="type != 'asset_current'"/>
+                             <field name="capital_share" invisible="type != 'equity'"/>
                         </group>
                          <notebook>
-                            <page name="account_level_type_ids" string="Account" invisible="type == 'asset_non_current'">
+                            <page name="account_level_type_ids" string="Account" invisible="type =='asset_non_current' or capital_share">
                                 <group>
                                     <field name="account_level_type_ids">
                                         <tree editable="bottom">
@@ -28,8 +33,8 @@
                                             <field name="customer_req_id" column_invisible="True" />
                                             <field name="type" column_invisible="True"/>
                                             <field name="balance_last"/>
-                                            <field name="balance_credit"/>
-                                            <field name="balance_debit"/>
+<!--                                            <field name="balance_credit"/>-->
+<!--                                            <field name="balance_debit"/>-->
                                             <field name="balance_this"/>
                                         </tree>
                                     </field>
@@ -39,8 +44,8 @@
                                             <field name="type" column_invisible="True"/>
                                             <field name="customer_req_id" column_invisible="True" />
                                             <field name="balance_last" nolabel="1" />
-                                            <field name="balance_credit" nolabel="1" />
-                                            <field name="balance_debit" nolabel="1" />
+<!--                                            <field name="balance_credit" nolabel="1" />-->
+<!--                                            <field name="balance_debit" nolabel="1" />-->
                                             <field name="balance_this" nolabel="1"/>
                                         </tree>
                                     </field>
@@ -57,22 +62,41 @@
                                             <field name="account" domain="[('account_type', '=', type), ('account_ids_audit1', '=', customer_req_id)]" />
                                             <field name="type" column_invisible="True"/>
                                             <field name="customer_req_id" column_invisible="True" />
+                                            <field name="balance_2years"/>
                                             <field name="balance_last"/>
-                                            <field name="balance_credit"/>
-                                            <field name="balance_debit"/>
+<!--                                            <field name="balance_credit"/>-->
+<!--                                            <field name="balance_debit"/>-->
                                             <field name="balance_this"/>
                                         </tree>
                                     </field>
-
-                                    <field name="account_type_accumulated" string="Accumulated" >
+                                    <field name="account_type_accumulated" invisible="not accumulated" >
                                         <tree editable="bottom">
-                                            <field name="account" domain="[('account_type', '=', type),('account_ids_audit1', '=', customer_req_id)]" />
+                                            odoo_
+                                            <field name="account" string="Accumulated"  domain="[('account_type', '=', type),('account_ids_audit1', '=', customer_req_id)]" />
                                             <field name="type" column_invisible="True"/>
                                             <field name="customer_req_id" column_invisible="True" />
-                                            <field name="balance_last" nolabel="1" />
-                                            <field name="balance_credit" nolabel="1" />
-                                            <field name="balance_debit" nolabel="1" />
-                                            <field name="balance_this" nolabel="1"/>
+                                            <field name="balance_last" />
+                                            <field name="balance_2years" />
+<!--                                            <field name="balance_credit"  />-->
+<!--                                            <field name="balance_debit" />-->
+                                            <field name="balance_this" />
+                                        </tree>
+                                    </field>
+                                    <group class="oe_subtotal_footer" colspan="4" >
+                                        <field name="balance_this"/>
+                                        <field name="balance_last"/>
+                                    </group>
+                                </group>
+                            </page>
+                             <page name="account_share_capital" string="Equity" invisible="not capital_share" >
+                                <group>
+                                    <field name="account_share_capital" string="Cost">
+                                        <tree editable="bottom">
+                                            <field name="account" domain="[('account_type', '=', type), ('account_ids_audit1', '=', customer_req_id)]" />
+                                            <field name="type" column_invisible="True"/>
+                                            <field name="customer_req_id" column_invisible="True" />
+                                            <field name="share_perc"/>
+                                            <field name="balance_this"/>
                                         </tree>
                                     </field>
                                     <group class="oe_subtotal_footer" colspan="4" >

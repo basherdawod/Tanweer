@@ -28,6 +28,13 @@ class FinancialAuditReporting(models.Model):
     )
 
 
+    assets_category_ids = fields.One2many(
+        comodel_name='account.assets.audit',
+        inverse_name='financial_audit_customer_id',
+        string='Assets_category_ids',
+        required=False)
+
+
     upload_xlsx = fields.Binary(string="Upload XLSX File")
     upload_xlsx_filename = fields.Char(string="Filename")
 
@@ -43,7 +50,7 @@ class FinancialAuditReporting(models.Model):
         required=False,
         default=lambda self: datetime(date.today().year - 1, 12, 31).strftime("%Y-%m-%d")
     )
-    active = fields.Boolean(
+    active_audit = fields.Boolean(
         string='Active Account',
         required=False)
 
@@ -195,7 +202,10 @@ class FinancialAuditReporting(models.Model):
 
     def create_account_lines_customers(self):
         if self.integration_type == 'current_system':
+            self.account_lines_ss.unlink()
+            self.assets_category_ids.unlink()
             list_account = []
+            list_category = []
             for record in self :
                 years1 = record.data_fis_years_end.year
                 start_this_years = datetime(years1, 1, 31).strftime("%Y-%m-%d")
@@ -204,54 +214,73 @@ class FinancialAuditReporting(models.Model):
                 years_2last = datetime(years2-1, 12, 31).date()
                 yy = years_2last.year
                 start_2_last = datetime(yy, 1, 31).date()
-
-
+                account_audit_customers = self.env['audit.account.account.line'].search([('account_ids_audit1', '=', record.id)])
                 lines = self.env['account.account'].search([])
-                for account in lines :
-                    total_credit = 0.0
-                    total_debit = 0.0
-                    total_balance = 0.0
-                    open_balance = 0.0
-                    balance_2years = 0.0
+                account_asset = self.env['account.asset.asset'].search([])
+                for rec in account_asset :
+                    for cat in rec.category_id :
+                        for account in cat.account_asset_id:
+                            list_category.append({
+                            'code': account.code,
+                            'account_name': account.name,
+                            'name': cat.name,
+                            'asset_name': rec.name,
+                            'date': rec.date,
+                            'cross_value': rec.value,
+                            'residual': rec.value_residual,
+                            'cumulate':rec.value - rec.value_residual ,
+                        })
+                if record.id not in account_audit_customers.ids:
+                    for account in lines :
+                        total_credit = 0.0
+                        total_debit = 0.0
+                        total_balance = 0.0
+                        open_balance = 0.0
+                        balance_2years = 0.0
 
-                    move_lines = self.env['account.move.line'].search([
-                        ('account_id', '=', account.id)
-                        ])
-                    for mov in move_lines:
-                        if  mov.date <= record.data_fis_years_end :
-                            total_credit += mov.credit
-                            total_debit += mov.debit
-                            total_balance += mov.debit - mov.credit
-                        if start_last_years <= mov.date <= record.data_last_years :
-                            open_balance += mov.debit - mov.credit
-                        if start_2_last  <= mov.date <= years_2last :
-                            balance_2years += mov.debit - mov.credit
-                    if record.active :
-                        if total_credit or total_balance or open_balance or balance_2years or total_debit != 0.0:
+                        move_lines = self.env['account.move.line'].search([
+                            ('account_id', '=', account.id)
+                            ])
+
+                        for mov in move_lines:
+                            if  mov.date <= record.data_fis_years_end :
+                                total_credit += mov.credit
+                                total_debit += mov.debit
+                                total_balance += mov.debit - mov.credit
+                            if start_last_years <= mov.date <= record.data_last_years :
+                                open_balance += mov.debit - mov.credit
+                            if start_2_last  <= mov.date <= years_2last :
+                                balance_2years += mov.debit - mov.credit
+                                # balance_2years += mov.debit - mov.credit
+                        if record.active_audit :
+                            if total_credit or total_balance or open_balance or balance_2years or total_debit != 0.0:
+                                list_account.append({
+                                'code': account.code,
+                                'name': account.name,
+                                'account_type': account.account_type,
+                                'current_balance': total_balance,
+                                'opening_balance': open_balance,
+                                'balance_2years': balance_2years,
+                                'opening_credit': total_credit,
+                                'opening_debit': total_debit,
+                            })
+                        else:
                             list_account.append({
-                            'code': account.code,
-                            'name': account.name,
-                            'account_type': account.account_type,
-                            'current_balance': total_balance,
-                            'opening_balance': open_balance,
-                            'balance_2years': balance_2years,
-                            'opening_credit': total_credit,
-                            'opening_debit': total_debit,
-                        })
-                    else:
-                        list_account.append({
-                            'code': account.code,
-                            'name': account.name,
-                            'account_type': account.account_type,
-                            'current_balance': total_balance,
-                            'opening_balance': open_balance,
-                            'balance_2years': balance_2years,
-                            'opening_credit': total_credit,
-                            'opening_debit': total_debit,
-                        })
+                                'code': account.code,
+                                'name': account.name,
+                                'account_type': account.account_type,
+                                'current_balance': total_balance,
+                                'opening_balance': open_balance,
+                                'balance_2years': balance_2years,
+                                'opening_credit': total_credit,
+                                'opening_debit': total_debit,
+                            })
+
                 record.write({
-                    'account_lines_ss': [Command.create(vals) for vals in list_account]
+                    'account_lines_ss': [Command.create(vals) for vals in list_account] ,
+                    'assets_category_ids': [Command.create(vals) for vals in list_category]
                 })
+
 
     def write(self, vals):
         # Check if the field to be updated is already in the vals dictionary
@@ -365,3 +394,36 @@ class AuditAccountCharLine(models.Model):
 
     opening_balance = fields.Float(string="Balance before 1 years")
     balance_2years = fields.Float(string="Balance before 2 years")
+
+
+class AccountAssetsAudit(models.Model):
+    _name = 'account.assets.audit'
+    _description = 'AccountAssetsAudit'
+
+    name = fields.Char(string="Assets Name")
+    asset_name = fields.Char(string="Assets Category")
+
+    financial_audit_customer_id= fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Assets Category',
+        required=False)
+    # assets_category = fields.Many2one(
+    #     comodel_name='account.asset.asset',
+    #     string='Assets_category',
+    #     required=False)
+    cross_value = fields.Float(
+        string='Cross Value',
+        required=False)
+    date = fields.Date(
+        string='Date',
+        required=False)
+    residual = fields.Float(
+        string='Residual',
+        required=False)
+    cumulate = fields.Float(
+        string='cumulate',
+        required=False)
+
+
+    code = fields.Char(size=64, required=True, tracking=True, index=True, unaccent=False)
+    account_name = fields.Char(string="Account Name", required=True, index='trigram', tracking=True, translate=True)

@@ -32,7 +32,7 @@
                                     <field name="data_last_years"/>
                                 </group>
                                 <group>
-                                    <field name="active"/>
+                                    <field name="active_audit"/>
                                 </group>
                             </group>
                         <group invisible="integration_type == 'current_system'">
@@ -51,11 +51,26 @@
                                             <field name="code"/>
                                             <field name="name"/>
                                             <field name="account_type"/>
-                                            <field name="balance_2years"/>
-                                            <field name="opening_balance"/>
-                                            <field name="opening_debit"/>
-                                            <field name="opening_credit"/>
-                                            <field name="current_balance"/>
+                                            <field name="balance_2years"  sum="True"/>
+                                            <field name="opening_balance"  sum="True"/>
+                                            <field name="opening_debit"  sum="True"/>
+                                            <field name="opening_credit"  sum="True"/>
+                                            <field name="current_balance"  sum="True"/>
+                                        </tree>
+                                    </field>
+                            </page>
+                            <page name="assets_category_ids" string="Assets Category ">
+                                   <field name="assets_category_ids" context="{'default_account_ids_audit': id}">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="asset_name"/>
+                                            <field name="date"/>
+                                            <field name="cross_value"/>
+                                            <field name="residual"/>
+                                            <field name="cumulate"/>
+                                            <field name="code"/>
+                                            <field name="account_name"/>
+                                            <field name="financial_audit_customer_id" column_invisible="True"/>
                                         </tree>
                                     </field>
                             </page>

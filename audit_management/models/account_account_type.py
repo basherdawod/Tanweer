@@ -12,7 +12,7 @@ class AccountTypeLevel(models.Model):
     number_audit = fields.Char(string="Note" ,readonly=True, default=lambda self: _('New'), copy=False)
     name = fields.Char(
         string='Name',
-        required=False)
+        required=True)
     
     account_level_type_ids = fields.One2many(
         comodel_name='account.type.audit',
@@ -24,6 +24,12 @@ class AccountTypeLevel(models.Model):
         inverse_name='account_ids',
         string='Cost',
         required=False)
+    account_share_capital = fields.One2many(
+        comodel_name='share.capital.assets',
+        inverse_name='share_capital',
+        string='Equity',
+        required=False)
+
     account_type_accumulated = fields.One2many(
         comodel_name='addition.acccumulated.assets',
         inverse_name='accumulated_account',
@@ -33,13 +39,15 @@ class AccountTypeLevel(models.Model):
         comodel_name='audit.financial.program',
         string='Audit Financial Program')
 
-
-
     accumulated = fields.Boolean(
         string='Accumulated',
         required=False)
     work_In_Progress = fields.Boolean(
             string='Work',
+            required=False)
+
+    capital_share = fields.Boolean(
+            string='Capital Share',
             required=False)
 
 
@@ -79,6 +87,9 @@ class AccountTypeLevel(models.Model):
         string='This Year',
         required=False,
     )
+    accum = fields.Char(
+        string='Accumulated',
+        required=False ,readonly=True )
     currency_id = fields.Many2one(
         'res.currency',
         string="Currency",
@@ -115,6 +126,7 @@ class AccountTypeLevel(models.Model):
             if record.total_balance_last != 0.0 and record.balance_last == 0.0:
                 # If total_balance_last is set and balance_last is zero, set balance_last to total_balance_last
                 record.balance_last = record.total_balance_last
+
             elif record.total_balance_last == 0.0 and record.balance_last != 0.0:
                 # You could add additional logic to reset or manage other fields if needed
                 pass
@@ -128,25 +140,37 @@ class AccountTypeLevel(models.Model):
         records = super(AccountTypeLevel, self).create(vals_list)
         return records  # Ensure created records are returned
 
-    @api.depends('balance_this' , 'account_level_type_ids' ,'account_level_type_ids.balance_this',)
+    @api.depends('account_type_accumulated.balance_this','account_type_ids.balance_this' ,'account_level_type_ids.balance_this', 'type')
     def _compute_current_balance(self):
         for record in self:
             balance = 0.0
-            if record.type:
-                for line in record.account_level_type_ids:
-                    balance += line.balance_this
+            if record.type and record.account_level_type_ids :
+                balance = sum(line.balance_this for line in record.account_level_type_ids)
+                record.balance_this = balance
+            elif record.type and record.account_type_ids :
+                balance = sum(line.balance_this for line in record.account_type_ids)
+                record.balance_this = balance
+            elif record.type and record.account_type_accumulated :
+                balance = sum(line.balance_this for line in record.account_type_accumulated)
                 record.balance_this = balance
             else:
                 record.balance_this = record.total_balance_this
 
-    @api.depends('account_level_type_ids.balance_last', 'type')
+    @api.depends('account_type_accumulated.balance_last','account_type_ids.balance_last' ,'account_level_type_ids.balance_last', 'type')
     def _compute_open_balance(self):
         for record in self:
-            if record.type:
+            if record.type and record.account_level_type_ids :
                 balance = sum(line.balance_last for line in record.account_level_type_ids)
+                record.balance_last = balance
+            elif record.type and record.account_type_ids :
+                balance = sum(line.balance_last for line in record.account_type_ids)
+                record.balance_last = balance
+            elif record.type and record.account_type_accumulated:
+                balance = sum(line.balance_last for line in record.account_type_accumulated)
                 record.balance_last = balance
             else:
                 record.balance_last = record.total_balance_last
+
 
 class AccountAccountTypeAudit(models.Model):
     _name = "account.type.audit"
@@ -161,7 +185,7 @@ class AccountAccountTypeAudit(models.Model):
 
     account_ids = fields.Many2one(
         comodel_name='audit.account.account.line',
-        string='Account Account line',
+        string='Account',
         required=False)
 
     customer_req_id = fields.Many2one(
@@ -277,6 +301,11 @@ class AdditionPeriodAssets(models.Model):
         required=False,
         related='account.current_balance',
     )
+    balance_2years = fields.Float(
+        string='Last 2 Year',
+        required=False,
+        related='account.balance_2years',
+    )
     currency_id = fields.Many2one(
         'res.currency',
         string="Currency",
@@ -326,6 +355,11 @@ class AdditionAcccumulatedAssets(models.Model):
         required=False,
         related='account.current_balance',
     )
+    balance_2years = fields.Float(
+        string='Last 2 Year',
+        required=False,
+        related='account.balance_2years',
+    )
     currency_id = fields.Many2one(
         'res.currency',
         string="Currency",
@@ -371,6 +405,57 @@ class AdditionAcccumulatedAssets(models.Model):
             ("off_balance", "Off-Balance Sheet"),
         ],
         string="Type", related='accumulated_account.type',
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
+
+class ShareCapitalAssets(models.Model):
+    _name = 'share.capital.assets' #model_addition_acccumulated_assets
+    _description = 'Share Capital Assets'
+
+    share_capital = fields.Many2one(
+        comodel_name='account.type.level',
+        string='Account',
+    )
+    account = fields.Many2one(
+        comodel_name='audit.account.account.line',
+        string='Account'
+    )
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="share_capital.customer_req_id",
+        required=False)
+
+    balance_this = fields.Float(
+        string='This Year',
+        required=False,
+        related='account.current_balance',
+    )
+    share_perc= fields.Float(
+        string='Share %',
+        required=False , readonly=False)
+    type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type", related='share_capital.type',
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )

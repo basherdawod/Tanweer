@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+        <record id="demo_report_asset_non_current_1" model="account.type.level">
+            <field name="name">Property Plant and Equipments</field>
+            <field name="type">asset_non_current</field>
+        </record>
+
+       <record id="demo_report_asset_non_current_2" model="account.type.level">
+            <field name="name">Investment in Associates</field>
+            <field name="type">asset_non_current</field>
+        </record>
+
+       <record id="demo_report_asset_current_1" model="account.type.level">
+            <field name="name">Work in Progress and Inventories</field>
+            <field name="type">asset_current</field>
+        </record>
+
+       <record id="demo_report_asset_current_2" model="account.type.level">
+            <field name="name">Trade Receivables</field>
+            <field name="type">asset_current</field>
+        </record>
+
+       <record id="demo_report_asset_current_3" model="account.type.level">
+            <field name="name">Advances Deposits and other receivables</field>
+            <field name="type">asset_current</field>
+        </record>
+
+       <record id="demo_report_asset_current_4" model="account.type.level">
+            <field name="name">Cash and Bank Balances</field>
+            <field name="type">asset_current</field>
+        </record>
+
+       <record id="demo_report_liability_current_1" model="account.type.level">
+            <field name="name">Due to Banks</field>
+            <field name="type">liability_current</field>
+        </record>
+
+       <record id="demo_report_liability_current_2" model="account.type.level">
+            <field name="name">Trade and Other Payables </field>
+            <field name="type">liability_current</field>
+        </record>
+
+       <record id="demo_report_liability_non_current_1" model="account.type.level">
+            <field name="name">Bank Loans</field>
+            <field name="type">liability_non_current</field>
+        </record>
+
+       <record id="demo_report_liability_non_current_2" model="account.type.level">
+            <field name="name">Employees end of service benefits</field>
+            <field name="type">liability_non_current</field>
+        </record>
+
+       <record id="demo_report_equity_1" model="account.type.level">
+            <field name="name">Share Capital</field>
+            <field name="type">equity</field>
+        </record>
+
+       <record id="demo_report_equity_2" model="account.type.level">
+            <field name="name">Statutory Reserve</field>
+            <field name="type">equity</field>
+        </record>
+
+       <record id="demo_report_equity_3" model="account.type.level">
+            <field name="name">Shareholders Current Account</field>
+            <field name="type">equity</field>
+        </record>
+
+       <record id="demo_report_equity_4" model="account.type.level">
+            <field name="name">Retained Earnings</field>
+            <field name="type">equity</field>
+        </record>
+
+</odoo>

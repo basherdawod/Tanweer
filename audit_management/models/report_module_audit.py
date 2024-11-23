@@ -13,11 +13,10 @@ class AuditFinancialReport(models.Model):
     name = fields.Char(strring="Number" ,readonly=True, default=lambda self: _('New'), copy=False,
                       translate=True)
 
-
     status = fields.Selection(
         [
             ('draft', 'Draft'),
-            ('in_progress', 'In Progress'),
+            ('confirm', 'Confirm'),
             ('completed', 'Completed'),
             ('cancelled', 'Cancelled'),
         ],
@@ -250,7 +249,6 @@ class AuditFinancialReport(models.Model):
     currency_id = fields.Many2one(
         'res.currency',
         string="Currency",
-
         required=True,
         default=lambda self: self.env.company.currency_id
     )
@@ -270,6 +268,14 @@ class AuditFinancialReport(models.Model):
         required=False,
         currency_field='currency_id',
     )
+
+
+    def reset_to_draft(self):
+        self.status='draft'
+
+    def set_confirm(self):
+        self.status = 'confirm'
+        self.action_create_audit_line()
 
     @api.model
     def _get_default_level3(self):
@@ -294,7 +300,6 @@ class AuditFinancialReport(models.Model):
             record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
 
 
-
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -302,6 +307,74 @@ class AuditFinancialReport(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code('audit.financial.program') or _('New')
         records = super(AuditFinancialReport, self).create(vals_list)
         return records
+
+
+    def action_create_program(self):
+        self.audit_lines1_ids.unlink()
+        self.audit_lines2_ids.unlink()
+        self.audit_lines3_ids.unlink()
+        self.audit_lines4_ids.unlink()
+        self.audit_lines5_ids.unlink()
+        for record in self:
+            level_id1 = self.env['account.type.level'].search([('type', '=', record.type1)])
+            level_id2 = self.env['account.type.level'].search([('type', '=', record.type2)])
+            level_id3 = self.env['account.type.level'].search([('type', '=', record.type3)])
+            level_id4 = self.env['account.type.level'].search([('type', '=', record.type4)])
+            level_id5 = self.env['account.type.level'].search([('type', '=', record.type5)])
+            value_leval2 = []  # Initialize an empty list to hold the created records
+            value_leval3 = []  # Initialize an empty list to hold the created records
+            value_leval4 = []  # Initialize an empty list to hold the created records
+            value_leval5 = []  # Initialize an empty list to hold the created records
+            value_leval1 = []  # Initialize the list for storing the created record IDs
+            for line_level_id1 in level_id1:
+                if line_level_id1.audit_financial_id.id != record.id:
+                    new_record = self.env['account.type.level'].create({
+                        'name': line_level_id1.name,
+                        'audit_financial_id': record.id,
+                        'type': line_level_id1.type,
+                    })
+                    value_leval1.append(new_record.id)
+            for line_level_id2 in  level_id2:
+                if line_level_id2.audit_financial_id.id != record.id:
+                    new_record = self.env['account.type.level'].create({
+                        'name': line_level_id2.name,
+                        'audit_financial_id': record.id,
+                        'type': line_level_id2.type,
+                    })
+                    value_leval2.append(new_record.id)
+            for line_level_id3 in level_id3:
+                if line_level_id3.audit_financial_id.id != record.id:
+                    new_record = self.env['account.type.level'].create({
+                        'name': line_level_id3.name,
+                        'audit_financial_id': record.id,
+                        'type': line_level_id3.type,
+                    })
+                    value_leval3.append(new_record.id)
+            for line_level_id4 in  level_id4:
+                if line_level_id4.audit_financial_id.id != record.id:
+                    new_record = self.env['account.type.level'].create({
+                        'name': line_level_id4.name,
+                        'audit_financial_id': record.id,
+                        'type': line_level_id4.type,
+                    })
+                    value_leval4.append(new_record.id)
+            for line_level_id5 in level_id5:
+                if line_level_id5.audit_financial_id.id != record.id:
+                    new_record = self.env['account.type.level'].create({
+                        'name': line_level_id5.name,
+                        'audit_financial_id': record.id,
+                        'type': line_level_id5.type,
+                    })
+                    value_leval5.append(new_record.id)
+
+            self.write({
+                'audit_lines1_ids': value_leval1 ,
+                'audit_lines2_ids': value_leval2 ,
+                'audit_lines3_ids': value_leval3 ,
+                'audit_lines4_ids': value_leval4 ,
+                'audit_lines5_ids': value_leval5 ,
+            })
+
 
 
     def action_create_audit_line(self):
@@ -313,18 +386,31 @@ class AuditFinancialReport(models.Model):
         line_vals = []
         total_balance_this_lival1 = 0.0
         total_balance_last_lival1 = 0.0
-        # total_balance_this_lival2 = 0.0
-        # total_balance_last_lival2 = 0.0
-        # total_balance_this_lival3 = 0.0
-        # total_balance_last_lival3 = 0.0
+        total_balance_this_lival2 = 0.0
+        total_balance_last_lival2 = 0.0
+        total_balance_this_lival3 = 0.0
+        total_balance_last_lival3 = 0.0
 
         for record in self:
             # Fetch or create level records
+            level_id1 = self.env['account.type.level'].search([('name', '=', f"{'Total'} {record.level1.name}"),('audit_financial_id', '=', record.id)], limit=1)
+            if not level_id1:
+                level_id1 = self.env['account.type.level'].create({'name': f"{'Total'} {record.level1.name}" , 'audit_financial_id': record.id})
+
+            level_id2 = self.env['account.type.level'].search([('name', '=', f"{'Total'} {record.level2.name}"),('audit_financial_id', '=', record.id)], limit=1)
+            if not level_id2:
+                level_id2 = self.env['account.type.level'].create({'name': f"{'Total'} {record.level2.name}" , 'audit_financial_id': record.id})
+
+            level_id3 = self.env['account.type.level'].search([('name', '=', f"{'Total'} {record.level3.name}"),('audit_financial_id', '=', record.id)], limit=1)
+            if not level_id3:
+                level_id3 = self.env['account.type.level'].create({'name': f"{'Total'} {record.level3.name}" , 'audit_financial_id': record.id})
+
             level = self.env['account.type.level'].search([('audit_financial_id', '=', record.id)])
             if level:
     # Leval1 add line
                 if record.level1:
                     line_vals.append({'display_type': 'line_section', 'name': record.level1.name, 'seq': '1'})
+                    line_vals.append({'level_line_id': level_id1.id})
                     if record.level_sub1:
                         line_vals.append({'display_type': 'line_section', 'name': record.level_sub1.name, 'seq': '4'})
                         for line in level:
@@ -342,13 +428,14 @@ class AuditFinancialReport(models.Model):
     # Leval2 add line
                 if record.level2:
                     line_vals.append({'display_type': 'line_section', 'name': record.level2.name, 'seq': '2'})
+                    line_vals.append({'level_line_id': level_id2.id})
                     if record.level2_sub1:
                         line_vals.append({'display_type': 'line_section', 'name': record.level2_sub1.name, 'seq': '4'})
                         for line in level:
                             if line.type == record.type3:
                                 line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
+                                total_balance_this_lival2 += line.balance_this
+                                total_balance_last_lival2 += line.balance_last
                     if record.level2_sub2:
                         line_vals.append({'display_type': 'line_section', 'name': record.level2_sub2.name, 'seq': '4'})
                         for line in level:
@@ -359,18 +446,29 @@ class AuditFinancialReport(models.Model):
     # Leval3 add line
                 if record.level3:
                     line_vals.append({'display_type': 'line_section', 'name': record.level3.name, 'seq': '3'})
+                    line_vals.append({'level_line_id': level_id3.id})
                     if record.level3_sub1:
                         for line in level:
                             if line.type == record.type5:
                                 line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
-
-
+                                total_balance_this_lival3 += line.balance_this
+                                total_balance_last_lival3 += line.balance_last
 
             # Write the new audit lines
             self.write({
                 'audit_lines_ids': [Command.create(vals) for vals in line_vals]
+            })
+            level_id1.write({
+                'total_balance_this': total_balance_this_lival1,
+                'total_balance_last': total_balance_last_lival1
+            })
+            level_id2.write({
+                'total_balance_this': total_balance_this_lival2,
+                'total_balance_last': total_balance_last_lival2
+            })
+            level_id3.write({
+                'total_balance_this': total_balance_this_lival3,
+                'total_balance_last': total_balance_last_lival3
             })
 
 # Separate models for each level
@@ -403,11 +501,13 @@ class AccountTypeLevelL3(models.Model):
 class AccountTypeLevel(models.Model):
     _name = 'account.audit.level.line'
     _description = 'Account Level Line'
+    _order = 'audit_financial_id, sequence, id'
 
     audit_financial_id = fields.Many2one(
         comodel_name='audit.financial.program',
         string='Account Type',
         required=False , readonly=True )
+    sequence = fields.Integer(string="Sequence", default=10)
     name = fields.Char(string="Name")
 
     seq = fields.Integer(string="seq")
@@ -431,7 +531,6 @@ class AccountTypeLevel(models.Model):
         string='This Year',
         required=False,
         related="level_line_id.balance_this",
-        # compute='_compute_current_balance',
     )
     currency_id = fields.Many2one(
         'res.currency',
