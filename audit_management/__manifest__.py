@@ -23,6 +23,7 @@
         'views/account_account_registration.xml',
         'views/audit_financial_registration.xml',
         'views/comprehensive_income.xml',
+        'views/account_level_type.xml',
         'reports/program_report_template.xml',
         'reports/audit_item.xml',
         'reports/audit_financial_program_report.xml',

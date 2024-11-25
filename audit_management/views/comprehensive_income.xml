@@ -16,7 +16,7 @@
                             <group col="4">
                                 <field name="name"/>
                                 <field name="partner_id" invisible="1"/>
-                                <field name="audit_report"/>
+<!--                                <field name="audit_report"/>-->
                             </group>
                         </group>
                         <group>
@@ -114,6 +114,7 @@
             <field name="arch" type="xml">
                 <search string="Account Report">
                     <field name="name" string="Comprehensive Income"/>
+<!--                    <field name="audit_report" string="Registration Sequence"/>-->
 
                 </search>
             </field>

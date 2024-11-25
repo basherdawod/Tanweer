@@ -62,11 +62,11 @@ class FinancialAuditReporting(models.Model):
         string='Active Account',
         required=False)
 
-    audit_financial_program_ids = fields.One2many(
-        comodel_name='audit.financial.program',
-        inverse_name='partner_id',
-        string='Customers Audit Report',
-        required=False)
+    # audit_financial_program_ids = fields.One2many(
+    #     comodel_name='audit.financial.program',
+    #     inverse_name='partner_id',
+    #     string='Customers Audit Report',
+    #     required=False)
 
     audit_char_account_id = fields.Many2one(
         comodel_name='audit.account.account',
@@ -338,10 +338,9 @@ class FinancialAuditReporting(models.Model):
 
             # Create the new audit_report record
             self.env['comprehensive.income'].create({
-                'partner_id': record.id,
-                'audit_report': audit_report_name,
+                'partner_id':record.id,
+                'name': audit_report_name,
             })
-
 
     # def create_comprehensive_report(self):
     #     for record in self:
