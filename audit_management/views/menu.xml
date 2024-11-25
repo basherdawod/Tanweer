@@ -62,9 +62,10 @@
                   sequence="2"
                   parent="menu_audit_management_systems_report"/>
 
+
         <menuitem id="menu_comprehensive_income"
               name="Comprehensive Income"
-              action="action_comprehensive_income"
+              action="action_comprehensive_income_tree"
               parent="menu_audit_management_systems_report"
               sequence="4"/>
 

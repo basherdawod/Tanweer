@@ -35,7 +35,9 @@ access_audit_account_account_line,audit_account_account_line,model_audit_account
 access_comprehensive_income,comprehensive_income,model_comprehensive_income,,1,1,1,1
 access_comprehensive_income_line,comprehensive_income_line,model_comprehensive_income_line,,1,1,1,1
 access_model_audit_financial_program_category,audit_financial_program_category,model_audit_financial_program_category,,1,1,1,1
-access_model_summary,summary,model_summary,,1,1,1,1
+access_model_type_line_class,type_line_class,model_type_line_class,,1,1,1,1
+access_model_account_level_type,account_level_type,model_account_level_type,,1,1,1,1
+
 
 
 

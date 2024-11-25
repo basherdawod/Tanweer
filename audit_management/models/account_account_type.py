@@ -47,10 +47,6 @@ class AccountTypeLevel(models.Model):
 
     account_account_type_level = fields.Many2one("audit.account.account.line",string="account")
 
-    summary_id = fields.One2many(
-        comodel_name='summary',
-        inverse_name='account_type_level_id',
-        required=False)
 
 
 
@@ -493,15 +489,141 @@ class ShareCapitalAssets(models.Model):
              "about the account and its specificities."
     )
 
-class Summary(models.Model):
-    _name = 'summary' #model_summary
-    _description = 'Summary'
+class AccountLevelType(models.Model):
+    _name = 'account.level.type' #model_account_level_type
+    _description = 'Account Type Level'
 
-    desc = fields.Char("Description")
-    category = fields.Char("Category")
-    balanse_last_last = fields.Char("Vehicles")
-    balanse_last = fields.Char("Office Furniture & Equipment")
-    # balanse_this = fields.Char("As at December 31 2024")
-    account_type_level_id = fields.Many2one("account.type.level")
+    number_audit = fields.Char(string="Note", readonly=True, default=lambda self: _('New'), copy=False)
+    name = fields.Char(
+        string='Name',
+        required=False)
+
+    account_level_type_ids = fields.One2many(
+        comodel_name='account.type.audit',
+        inverse_name='account_type_name',
+        string='Account',
+        required=False)
+    account_type_ids = fields.One2many(
+        comodel_name='addition.period.assets',
+        inverse_name='account_ids',
+        string='Cost',
+        required=False)
+
+    account_type_accumulated = fields.One2many(
+        comodel_name='addition.acccumulated.assets',
+        inverse_name='accumulated_account',
+        string='Accumulated',
+        required=False)
+    audit_financial_id = fields.Many2one(
+        comodel_name='comprehensive.income',
+        string='Audit Financial Program')
+
+    accumulated = fields.Boolean(
+        string='Accumulated',
+        required=False)
+    work_In_Progress = fields.Boolean(
+        string='Work',
+        required=False)
+
+    type = fields.Selection(
+        selection=[
+            ("asset_receivable", "Receivable"),
+            ("asset_cash", "Bank and Cash"),
+            ("asset_current", "Current Assets"),
+            ("asset_non_current", "Non-current Assets"),
+            ("asset_prepayments", "Prepayments"),
+            ("asset_fixed", "Fixed Assets"),
+            ("liability_payable", "Payable"),
+            ("liability_credit_card", "Credit Card"),
+            ("liability_current", "Current Liabilities"),
+            ("liability_non_current", "Non-current Liabilities"),
+            ("equity", "Equity"),
+            ("equity_unaffected", "Current Year Earnings"),
+            ("income", "Income"),
+            ("income_other", "Other Income"),
+            ("expense", "Expenses"),
+            ("expense_depreciation", "Depreciation"),
+            ("expense_direct_cost", "Cost of Revenue"),
+            ("off_balance", "Off-Balance Sheet"),
+        ],
+        string="Type",
+
+        help="These types are defined according to your country. The type contains more information " \
+             "about the account and its specificities."
+    )
+
+    balance_this = fields.Float(
+        string='Total This Year',
+        required=False,
+        compute='_compute_current_balance',
+    )
+    total_balance_this = fields.Float(
+        string='This Year',
+        required=False,
+    )
+
+    currency_id = fields.Many2one(
+        'res.currency',
+        string="Currency",
+        required=True,
+        default=lambda self: self.env.company.currency_id
+    )
+    account_account_line = fields.Many2one(
+        comodel_name='audit.account.account.line',
+        string='Account Account line', domain=[('account_type', '=', type)],
+        required=False)
+    comprehensive_income = fields.Many2one('comprehensive.income')
+    customer_req_id = fields.Many2one(
+        comodel_name='financial.audit.customer',
+        string='Customer Rege', related="audit_financial_id.partner_id",
+        required=False)
+
+    balance_last = fields.Monetary(
+        string='Total Last Year',
+        required=False,
+        currency_field='currency_id',
+        compute='_compute_open_balance',
+    )
+    total_balance_last = fields.Monetary(
+        string='Total Last Year',
+        required=False,
+        currency_field='currency_id',
+    )
+
+
+    def _inverse_balance_last(self):
+        """
+        This method is triggered when 'balance_last' is updated directly.
+        It syncs the balance_last field with the total_balance_last field when appropriate.
+        """
+        for record in self:
+            if record.total_balance_last != 0.0 and record.balance_last == 0.0:
+                # If total_balance_last is set and balance_last is zero, set balance_last to total_balance_last
+                record.balance_last = record.total_balance_last
+            elif record.total_balance_last == 0.0 and record.balance_last != 0.0:
+                # You could add additional logic to reset or manage other fields if needed
+                pass
+
+
+    @api.depends('balance_this', 'account_level_type_ids', 'account_level_type_ids.balance_this', )
+    def _compute_current_balance(self):
+        for record in self:
+            balance = 0.0
+            if record.type:
+                for line in record.account_level_type_ids:
+                    balance += line.balance_this
+                record.balance_this = balance
+            else:
+                record.balance_this = record.total_balance_this
+
+    @api.depends('account_level_type_ids.balance_last', 'type')
+    def _compute_open_balance(self):
+        for record in self:
+            if record.type:
+                balance = sum(line.balance_last for line in record.account_level_type_ids)
+                record.balance_last = balance
+            else:
+                record.balance_last = record.total_balance_last
+
 
 

@@ -150,21 +150,6 @@
                                     </group>
                                 </group>
                             </page>
-                             <page name="summary_id" string="Summary">
-                                <group>
-                                     <field name="summary_id" >
-                                        <tree editable="bottom">
-                                            <field name="desc"/>
-<!--                                            <field name="category"/>-->
-                                            <field name="balanse_last_last"/>
-                                            <field name="balanse_last"/>
-<!--                                            <field name="balanse_this"/>-->
-
-                                    </tree>
-                                     </field>
-
-                                </group>
-                            </page>
 
                         </notebook>
                     </sheet>
