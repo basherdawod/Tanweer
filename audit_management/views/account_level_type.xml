@@ -13,7 +13,7 @@
                                 <field name="name"/>
                              </group>
                              <group>
-                                 <field name="audit_financial_id"/>
+<!--                                 <field name="audit_financial_id"/>-->
                                  <field name="customer_req_id" invisible="1"/>
                                  <field name="type" readonly ="('customer_req_id', '!=', '') " />
                              </group>
@@ -53,23 +53,11 @@
             </field>
         </record>
 
-        <record id="view_account_level_type_audit_search" model="ir.ui.view">
-            <field name="name">account.level.type.search</field>
-            <field name="model">account.level.type</field>
-            <field name="arch" type="xml">
-                <search string="Account Report">
-                    <field name="name" string="Account Report"/>
-                </search>
-            </field>
-        </record>
-
         <record id="action_account_level_type_audit_tree" model="ir.actions.act_window">
             <field name="name">Financial Reports</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.level.type</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id"
-                   ref="view_account_level_type_audit_search"/>
             <field name="view_id" ref="view_account_level_type_audit_tree"/>
         </record>
     </data>

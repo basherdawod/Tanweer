@@ -17,14 +17,12 @@ class AccountLevelType(models.Model):
 
     account_level_type_ids = fields.One2many(
         comodel_name='account.type.audit',
-        inverse_name='account_type_name',
+        inverse_name='account_name_type',
         string='Account',
         required=False)
     audit_financial_id = fields.Many2one(
         comodel_name='audit.financial.program',
-        string='Audit Financial Program')
-
-
+        string='Comprehensive Income')
 
     type = fields.Selection(
         selection=[
@@ -56,7 +54,7 @@ class AccountLevelType(models.Model):
     balance_this = fields.Float(
         string='Total This Year',
         required=False,
-        compute='_compute_current_balance',
+        # compute='_compute_current_balance',
     )
     total_balance_this = fields.Float(
         string='This Year',
@@ -77,4 +75,6 @@ class AccountLevelType(models.Model):
         comodel_name='financial.audit.customer',
         string='Customer Rege', related="audit_financial_id.partner_id",
         required=False)
+
+
 

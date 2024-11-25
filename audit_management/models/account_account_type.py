@@ -42,15 +42,6 @@ class AccountTypeLevel(models.Model):
         string='Audit Financial Program')
 
 
-    category_ids = fields.Many2one("addition.acccumulated.assets")
-
-
-    account_account_type_level = fields.Many2one("audit.account.account.line",string="account")
-
-
-
-
-
     accumulated = fields.Boolean(
         string='Accumulated',
         required=False)
@@ -131,7 +122,7 @@ class AccountTypeLevel(models.Model):
 
 
 
-    account_comprehensive_income_id = fields.Many2one("comprehensive.income",string="Account Comprehensive Income")
+
 
     def _inverse_balance_last(self):
         """
@@ -195,6 +186,11 @@ class AccountAccountTypeAudit(models.Model):
 
     account_type_name = fields.Many2one(
         comodel_name='account.type.level',
+        string='Account Type',
+        required=False,
+    )
+    account_name_type = fields.Many2one(
+        comodel_name='account.level.type',
         string='Account Type',
         required=False,
     )
@@ -303,7 +299,6 @@ class AdditionPeriodAssets(models.Model):
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
-    category_ids = fields.Many2one("audit.financial.program.category")
 
     account = fields.Many2one(
         comodel_name='audit.account.account.line',
@@ -368,7 +363,6 @@ class AdditionAcccumulatedAssets(models.Model):
         string='Account'
     )
     accounts_account = fields.Many2many("account.account")
-    category_ids = fields.Many2one("audit.financial.program.category")
     customer_req_id = fields.Many2one(
         comodel_name='financial.audit.customer',
         string='Customer Rege', related="accumulated_account.customer_req_id",

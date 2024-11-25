@@ -226,13 +226,11 @@ class ComprehensiveIncome(models.Model):
 
 
     comprehensive_income_line_ids = fields.One2many('comprehensive.income.line','comprehensive_income_id',string="Comprehensive Income Line")
-    financial_id = fields.Many2one('financial.audit.customer', string="Financial Report")
     audit_lines_ids = fields.One2many(
         comodel_name='account.audit.level.line',
         inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False
-
     )
 
 

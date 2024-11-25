@@ -10,12 +10,13 @@ class FinancialAuditReporting(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = "Customer Registration"
 
-    lable1 = fields.Char(
+    lable1 = fields.Text(
         string="Text", readonly=True,
-        default="MODULAR CONCEPTS L.L.C.\n DUBAI - UNITED ARAB EMIRATES \n FINANCIAL STATEMENTS & REPORTS")
+        default="MODULAR CONCEPTS L.L.C.<br> DUBAI - UNITED ARAB EMIRATES <br> FINANCIAL STATEMENTS & REPORTS")
+
     comprehensive_income_ids = fields.One2many(
         'comprehensive.income',
-        'financial_id',
+        'partner_id',
     )
     comprehensive_income_line_ids = fields.One2many(
         'comprehensive.income.line',
@@ -62,11 +63,11 @@ class FinancialAuditReporting(models.Model):
         string='Active Account',
         required=False)
 
-    # audit_financial_program_ids = fields.One2many(
-    #     comodel_name='audit.financial.program',
-    #     inverse_name='partner_id',
-    #     string='Customers Audit Report',
-    #     required=False)
+    audit_financial_program_ids = fields.One2many(
+        comodel_name='audit.financial.program',
+        inverse_name='partner_id',
+        string='Customers Audit Report',
+        required=False)
 
     audit_char_account_id = fields.Many2one(
         comodel_name='audit.account.account',

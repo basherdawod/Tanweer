@@ -31,7 +31,7 @@
                                     <group>
                                         <field name="level_sub1" />
                                         <field name="type1" invisible="1"  />
-                                        <field name="audit_lines1_ids" context="{'default_type': type1}"/>
+                                        <field name="audit_lines1_ids" context="{'default_type': type1}" domain="[('type', '=', type1)]"/>
                                     </group>
                                     <group>
                                         <field name="type2" invisible="1"  />

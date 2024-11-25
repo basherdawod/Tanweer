@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Define a Custom Paper Format -->
-<!--    <record id="report_paper_format" model="report.paperformat">-->
-<!--        <field name="name">Audit Financial Report Paper</field>-->
-<!--        <field name="format">A4</field>-->
-<!--        <field name="margin_top">10</field>-->
-<!--        <field name="margin_bottom">10</field>-->
-<!--        <field name="margin_left">10</field>-->
-<!--        <field name="margin_right">10</field>-->
-<!--    </record>-->
-
-
-
-
     <!-- Link Paper Format to the Report -->
     <record id="action_print_finincial_report" model="ir.actions.report">
         <field name="name">Financial Report</field>
@@ -23,44 +10,46 @@
         <field name="binding_model_id" ref="model_audit_financial_program"/>
         <field name="print_report_name">'Financial  - %s' % (object.name).replace('/', '')</field>
         <field name="binding_type">report</field>
-<!--         <field name="paperformat_id" ref="report_paper_format"/>-->
     </record >
 
     <template id="header_report">
-        <div style=" text-align: center; width: 100%;">
-            <div>MODULAR CONCEPTS L.L.C.</div>
-            <div>DUBAI - UNITED ARAB EMIRATES</div>
-                <br/>
-            <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-            <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-        </div>
+        <t t-foreach="docs" t-as="doc">
+            <div style=" text-align: center; width: 100%;">
+<!--        <span><t t-esc="doc.partner_id.lable1"/></span>-->
+                <div>MODULAR CONCEPTS L.L.C.</div>
+                <div>DUBAI - UNITED ARAB EMIRATES</div>
+                    <br/>
+                <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
+                <div>FOR THE YEAR ENDED <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span></div>
+            </div>
+        </t>
     </template>
 
     <template id="report_audit_audit_financial_template">
-    <t t-call="web.html_container">
-        <style>
-            body {
-                font-size: 18px;
-            }
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            .page {
-                page-break-before: always;
-                page-break-inside: avoid;
-                position: relative;
 
-            }
-            
-            .page-number {
-                position: absolute;
-                bottom: 10px;
-                width: 100%;
-                text-align: center;
-                font-size: 12px;
-        </style>
         <t t-foreach="docs" t-as="doc">
+
+    <t t-call="web.html_container">
+         <style>
+                body {
+                    font-size: 18px;
+                    margin: 0;
+                    padding: 0;
+                }
+                .page {
+                    page-break-before: always;
+                    page-break-inside: avoid;
+                    position: relative;
+                }
+                .page-number {
+                    position: fixed;
+                    bottom: 10px;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 12px;
+                }
+            </style>
+
 
             <div class="cover-page" style="page-break-after: always; text-align: center; padding-top: 30%; width: 100%;">
                 <t t-call="audit_management.header_report"/>
@@ -72,7 +61,7 @@
                 <br/>
                 <br/>
                 <br/>
-                <table  class="table" style="margin: 0 auto; padding: 20px; width: 90%;height:100;border:0;">
+                <table  class="table" style="margin: 0 auto; padding: 10px; width: 90%;height:100;border:0;">
                     <thead>
                         <tr>
                             <th style="padding:10px;width:20%;text-align: left;">CONTENTS</th>
@@ -141,12 +130,12 @@
                  
              </div>
 
-             <div style="page-break-after: always;padding:20px;">
+             <div style="page-break-after: always;padding:10px;">
                  <t t-call="audit_management.header_report"/>
 
                 <br/>
                 <div>
-                    We have audited the accompanying financial statements of Modular Concepts L.L.C., (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at 31 December 2014, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
+                    We have audited the accompanying financial statements of Modular Concepts L.L.C., (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
                 </div>
                 <br/>
                 <br/>
@@ -174,17 +163,24 @@
                 <div class="page-number">
                     Page<span class="total-pages">1</span>
                 </div>
+<!--                 <div class="page-number">-->
+<!--                    Page <span t-raw="0">[page]</span> of <span t-raw="0">[toPage]</span>-->
+<!--                </div>-->
+<!--                 <tr class="py-initial-ending-tr" t-if="state.subLinesVisibility &amp; renderPageNumbers().length > 1">-->
+<!--                    <td colspan="8"  class="page-numbers">-->
+<!--                        <div>-->
+<!--                            <t t-foreach="renderPageNumbers()" t-as="pageNumber" t-key="pageNumber">-->
+<!--                                <a t-on-click="() => this.goToPage(pageNumber)" t-attf-class="{{ pageNumber === state.currentPage ? 'active-page' : '' }}">-->
+<!--                                    <t t-esc="pageNumber"/>-->
+<!--                                </a>-->
+<!--                            </t>-->
+<!--                        </div>-->
+<!--                    </td>-->
+<!--                </tr>-->
              </div>
 
-             <div style="page-break-after: always;padding:20px;">
-                <div style=" text-align: center; width: 100%;">
-                    <div>MODULAR CONCEPTS L.L.C.</div>
-                    <div>DUBAI - UNITED ARAB EMIRATES</div>
-                    <br/><br/>
-                    <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                    <div>FOR THE YEAR ENDED DECEMBER 31, 2014</div>
-                </div>
-                
+             <div style="page-break-after: always;padding:10px;">
+              <t t-call="audit_management.header_report"/>
                 <br/>
                 <br/>
                 <div>
@@ -192,7 +188,7 @@
                 </div>
                 <br/>
                 <div>
-                    In our opinion, the financial statements present fairly, in all material respects, the financial position of Modular Concepts L.L.C., Dubai - United Arab Emirates as of 31 December 2014 and of its financial performance and cash flows for the year then ended, in accordance with Generally Accepted Accounting Principles.
+                    In our opinion, the financial statements present fairly, in all material respects, the financial position of Modular Concepts L.L.C., Dubai - United Arab Emirates as of <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span> and of its financial performance and cash flows for the year then ended, in accordance with Generally Accepted Accounting Principles.
 
                     Also we confirm that we have obtained all the information and explanations necessary for our audit, proper books of account have been kept by the Company, physical count of inventory were duly carried out by the management and the contents of the report of the Manager relating to these financial statements are in agreement with the books of account.
                 </div>
@@ -203,19 +199,18 @@
                 </div>
                 <br/>
                 <div>
-                   Further, as required by the UAE Federal Law No. (8) of 1984, as amended, we report that:
+                   Further, as required by the UAE Federal Law No. (8) of 1984, as amended, we report that:<br/>
 
-                    (i) we have obtained all the information we considered necessary for the purposes of our audit;
+                    (i) we have obtained all the information we considered necessary for the purposes of our audit;<br/>
 
-                    (ii) the financial statements comply, in all material respects, with the applicable provisions of the UAE Federal Law No. (8) of 1984, as amended and the Articles of Association of the Company;
+                    (ii) the financial statements comply, in all material respects, with the applicable provisions of the UAE Federal Law No. (8) of 1984, as amended and the Articles of Association of the Company;<br/>
 
-                    (iii) the Company had maintained proper books of accounts.
+                    (iii) the Company had maintained proper books of accounts.<br/>
 
-                    (iv) the financial information included in the Directors' report is consistent with the books of account of the Company; and
+                    (iv) the financial information included in the Directors' report is consistent with the books of account of the Company; and<br/>
 
-                    (v) nothing has come to our attention which causes us to believe that the Company has breached any of the applicable provisions of the UAE Federal Law No. (8) of 1984, as amended, or of its Articles of Association which would materially affect its activities or its financial position as of 31 December 2014.
+                    (v) nothing has come to our attention which causes us to believe that the Company has breached any of the applicable provisions of the UAE Federal Law No. (8) of 1984, as amended, or of its Articles of Association which would materially affect its activities or its financial position as of <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>
                 </div>
-                <br/>
                 <br/>
                 <br/>
 
@@ -232,1166 +227,1014 @@
                 </div>
              </div>
 
-             <div style="page-break-after: always;padding:20px;">
-                <t t-call="audit_management.header_report"/>
-                <br/>
-                <h6 style="width=100%;padding:20px">Finincial Program:
-<!--                            <t t-esc="doc.name"/>-->
-                </h6>
-              
-                <table border="sold" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;">Account</th>
-                            <th style="padding: 10px; text-align: center;width:20;">Code</th>
-                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-<!--                         <t t-foreach="doc.audit_lines_ids" t-as="test">-->
-<!--                            <tr>-->
-<!--                                <td style="padding:10px;width:20%;">-->
-<!--                                    <t t-esc="test.level_line_id.name"/>-->
-<!--                                </td>-->
-<!--                                <td colspan="3" style="padding:10px;width:80%;">-->
-<!--                                    &lt;!&ndash; Iterate through each unique type and display accounts &ndash;&gt;-->
-<!--                                    <t t-set="types" t-value="doc.audit_lines_ids.mapped('type')"/>-->
-<!--                                    <t t-foreach="types" t-as="type">-->
-<!--                                        <div style="padding:5px;">-->
-<!--                                            <strong><t t-esc="type"/></strong>-->
-<!--                                        </div>-->
-<!--                                        <t t-foreach="doc.audit_lines_ids.filtered(lambda l: l.type == type)" t-as="account">-->
-<!--                                            <div style="padding-left:20px;">-->
-<!--                                                <span><t t-esc="account.name"/></span> - -->
-<!--                                                <span>Balance This Year: <t t-esc="account.balance_this"/></span>,-->
-<!--                                                <span>Balance Last Year: <t t-esc="account.balance_last"/></span>-->
-<!--                                            </div>-->
-<!--                                        </t>-->
-<!--                                    </t>-->
-<!--                                </td>-->
-<!--                            </tr>-->
-<!--                        </t>-->
-
-                      <tr>
-                            <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">ASSETS</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">Non-Current Assets</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Property, Plant and Equipments</td>
-                            <td style="padding: 10px; text-align: right;">6</td>
-                            <td style="padding: 10px; text-align: right;">310,198</td>
-                            <td style="padding: 10px; text-align: right;">431,623</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Investment in Associates</td>
-                            <td style="padding: 10px; text-align: right;">7</td>
-                            <td style="padding: 10px; text-align: right;">6,698,028</td>
-                            <td style="padding: 10px; text-align: right;">3,024,931</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold ;">Total Non-Current Assets</td>
-                            <td style="pSadding: 10px; text-align: right;">7,008,226</td>
-                            <td style="padding: 10px; text-align: right;">3,456,554</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                       <tr>
-                            <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">Current Assets</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Work in Progress &amp; Inventories</td>
-                            <td style="padding: 10px; text-align: right;">8</td>
-                            <td style="padding: 10px; text-align: right;">23,577,257</td>
-                            <td style="padding: 10px; text-align: right;">10,070,172</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Trade Receivables</td>
-                            <td style="padding: 10px; text-align: right;">9</td>
-                            <td style="padding: 10px; text-align: right;">31,842,175</td>
-                            <td style="padding: 10px; text-align: right;">29,662,870</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Advances, Deposits, and other receivables</td>
-                            <td style="padding: 10px; text-align: right;">10</td>
-                            <td style="padding: 10px; text-align: right;">7,379,215</td>
-                            <td style="padding: 10px; text-align: right;">5,370,329</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Cash and Bank Balances</td>
-                            <td style="padding: 10px; text-align: right;">11</td>
-                            <td style="padding: 10px; text-align: right;">7,160,526</td>
-                            <td style="padding: 10px; text-align: right;">10,485,231</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold color: #0000FF;;">Total Current Assets</td>
-                            <td style="padding: 10px; text-align: right;">69,959,173</td>
-                            <td style="padding: 10px; text-align: right;">55,588,602</td>
-                        </tr>
-                        <tr>
-
-                            <td colspan="2" style="padding: 10px; text-align: left;font-weight: bold;">TOTAL ASSETS</td>
-                            <td style="padding: 10px; text-align: right;">76,967,399</td>
-                            <td style="padding: 10px; text-align: right;">59,045,156</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">Current Liabilities</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Due to Banks</td>
-                            <td style="padding: 10px; text-align: right;">12</td>
-                            <td style="padding: 10px; text-align: right;">40,873,025</td>
-                            <td style="padding: 10px; text-align: right;">32,051,301</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Trade and Other Payables</td>
-                            <td style="padding: 10px; text-align: right;">13</td>
-                            <td style="padding: 10px; text-align: right;">3,681,835</td>
-                            <td style="padding: 10px; text-align: right;">3,907,659</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">Non-Current Liabilities</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Bank Loans</td>
-                            <td style="padding: 10px; text-align: right;">14</td>
-                            <td style="padding: 10px; text-align: right;">144,508</td>
-                            <td style="padding: 10px; text-align: right;">719,357</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Employees' end of service benefits</td>
-                            <td style="padding: 10px; text-align: right;">15</td>
-                            <td style="padding: 10px; text-align: right;">1,362,007</td>
-                            <td style="padding: 10px; text-align: right;">1,238,188</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold;">Total Non-Current Liabilities</td>
-                            <td style="padding: 10px; text-align: right;">1,506,515</td>
-                            <td style="padding: 10px; text-align: right;">1,957,545</td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold;">TOTAL LIABILITIES</td>
-                            <td style="padding: 10px; text-align: right;">46,061,375</td>
-                            <td style="padding: 10px; text-align: right;">37,916,505</td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="4" style="padding: 10px;font-weight: bold; color: #0000FF;">EQUITY</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Share Capital</td>
-                            <td style="padding: 10px; text-align: right;">16</td>
-                            <td style="padding: 10px; text-align: right;">300,000</td>
-                            <td style="padding: 10px; text-align: right;">300,000</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Statutory Reserve</td>
-                            <td style="padding: 10px; text-align: right;">17</td>
-                            <td style="padding: 10px; text-align: right;">150,000</td>
-                            <td style="padding: 10px; text-align: right;">150,000</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Shareholders' Current Account</td>
-                            <td style="padding: 10px; text-align: right;">18</td>
-                            <td style="padding: 10px; text-align: right;">(3,733,057)</td>
-                            <td style="padding: 10px; text-align: right;">(4,524,475)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Retained Earnings</td>
-                            <td style="padding: 10px; text-align: right;">19</td>
-                            <td style="padding: 10px; text-align: right;">34,189,081</td>
-                            <td style="padding: 10px; text-align: right;">25,203,126</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold;">TOTAL EQUITY</td>
-                            <td style="padding: 10px; text-align: right;">30,906,024</td>
-                            <td style="padding: 10px; text-align: right;">21,128,651</td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold;">TOTAL EQUITY AND LIABILITIES</td>
-                            <td style="padding: 10px; text-align: right;">76,967,399</td>
-                            <td style="padding: 10px; text-align: right;">59,045,156</td>
-
-                        </tr>
-                    </tbody>
-                </table>
-
-                <br/><br/>
-                        <div style="padding:10px;">
-                            The accompanying notes form an integral part of these financial statements.<br/>
-                            The report of the auditors is set out on pages 3 and 4.
-                        </div>
-                        <br/>
-                        <div style="padding:10px;">
-                            Managing Director<br/>
-                            Modular Concepts L.L.C.<br/>
-                            <!-- <t t-esc="doc.current_datetime"/> -->
-                        </div>
-                     <div class="page-number">
-                    Page<span class="total-pages">3</span>
-                </div>
-             </div>
-             <div style="page-break-after: always;padding:20px;">
-                <t t-call="audit_management.header_report"/>
-                
-                <br/>
-              
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;">Account</th>
-                            <th style="padding: 10px; text-align: center;width:20;">Code</th>
-                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding: 10px;font-weight: bold ;">Revenue</td>
-                            <td style="padding: 10px; text-align: right;">20</td>
-                            <td style="padding: 10px; text-align: right;"> 80,054,253</td>
-                            <td style="padding: 10px; text-align: right;"> 84,955,912 </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Direct Cost</td>
-                            <td style="padding: 10px; text-align: right;">21</td>
-                            <td style="padding: 10px; text-align: right;">(58,444,274)</td>
-                            <td style="padding: 10px; text-align: right;">(62,284,873)
-    </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold ;">Gross Profit</td>
-                            <td style="padding: 10px; text-align: right;">21,609,979</td>
-                            <td style="padding: 10px; text-align: right;">22,671,039</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Selling and Distribution Expenses</td>
-                            <td style="padding: 10px; text-align: right;">22</td>
-                            <td style="padding: 10px; text-align: right;">(1,104,747)</td>
-                            <td style="padding: 10px; text-align: right;">(1,334,798)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">General and Administrative Expenses</td>
-                            <td style="padding: 10px; text-align: right;">23</td>
-                            <td style="padding: 10px; text-align: right;">(9,675,113)</td>
-                            <td style="padding: 10px; text-align: right;">(9,563,106)</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;">Depreciation</td>
-                            <td style="padding: 10px; text-align: right;"> (396,466)</td>
-                            <td style="padding: 10px; text-align: right;"> (316,954)</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;">Provision of Doubtful Debt</td>
-                            <td style="padding: 10px; text-align: right;">-</td>
-                            <td style="padding: 10px; text-align: right;">10,485,231</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Finance Cost</td>
-                            <td>
-                                24
-                            </td>
-                            <td style="padding: 10px; text-align: right;"> (1,486,158)</td>
-                            <td style="padding: 10px; text-align: right;"> (1,225,697)</td>
-                        </tr>
-                        <tr>
-                            
-                            <td colspan="2" style="padding: 10px; text-align: left;font-weight: bold;">Operating Profit for the year</td>
-                           
-                            <td style="padding: 10px; text-align: right;"> 8,947,495 </td>
-                            <td style="padding: 10px; text-align: right;"> 10,180,036 </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Other Incomes</td>
-                            <td style="padding: 10px; text-align: right;">25</td>
-                            <td style="padding: 10px; text-align: right;"> 38,460 </td>
-                            <td style="padding: 10px; text-align: right;"> 41,562 </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px; font-weight: bold ;">Total comprehensive income for the year</td>
-                            <td style="padding: 10px; text-align: right;"> 8,985,955 </td>
-                            <td style="padding: 10px; text-align: right;"> 10,221,598 </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;">Accumulated Profit</td>
-                            <td style="padding: 10px; text-align: right;"> 25,203,126 </td>
-                            <td style="padding: 10px; text-align: right;"> 14,981,528 </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="padding: 10px;font-weight: bold ;">Retained earnings</td>
-                            <td style="padding: 10px; text-align: right;"> 34,189,081 </td>
-                            <td style="padding: 10px; text-align: right;"> 25,203,126 </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <br/><br/>
-                        <div style="padding:10px;">
-                            The accompanying notes form an integral part of these financial statements.<br/>
-                            The report of the auditors is set out on pages 3 and 4.
-                        </div>
-                        <br/><br/>
-                        <div style="padding:10px;">
-                            Managing Director<br/>
-                            Modular Concepts L.L.C.<br/>
-                            <!-- <t t-esc="doc.current_datetime"/> -->
-                        </div>
-                     <div class="page-number">
-                    Page<span class="total-pages">3</span>
-                </div>
-             </div>
-
-             <div style="page-break-after: always;padding:20px;">
-               <t t-call="audit_management.header_report"/>
-                
-                <br/>
-                <br/>
-              
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th style="padding: 10px; text-align: center;width:40;">Share Capital(AED)</th>
-                            <th style="padding: 10px; text-align: center;width:20;">Legal Reserve(AED)</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Shareholder
-                            Current Account(AED)</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Retained Earnings(AED) </th>
-                            <th style="padding: 10px; text-align: center;width:15;">Total(AED) </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="padding: 10px;font-weight: bold ;">Balance as of 31 December 2012</td>
-                            <td style="padding: 10px;font-weight: bold;"> 300,000 </td>
-                            <td style="padding: 10px;font-weight: bold;"> 150,000 </td>
-                            <td style="padding: 10px; font-weight: bold;"> (104,798)</td>
-                            <td style="padding: 10px; font-weight: bold;"> 14,981,528 </td>
-                            <td style="padding: 10px; font-weight: bold;">  15,326,730  </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Total comprehensive Income for the year</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td></td>
-                            <td style="padding: 10px; text-align: right;">10221598</td>
-                            <td style="padding: 10px; text-align: right;"> 10,221,598 </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;font-weight: bold ;">Net movements</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td style="padding: 10px; text-align: right;"> (4,419,677)</td>
-                            <td style="padding: 10px; text-align: right;">-</td>
-                            <td style="padding: 10px; text-align: right;"> (4,419,677)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Balance as of 31 December 2013</td>
-                            <td style="padding: 10px; text-align: right;"> 300,000 </td>
-                            <td style="padding: 10px; text-align: right;"> 150,000 </td>
-                            <td style="padding: 10px; text-align: right;"> (4,524,475)</td>
-                            <td style="padding: 10px; text-align: right;">  25,203,126 </td>
-                            <td style="padding: 10px; text-align: right;"> 21,128,651 </td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td style="padding: 10px;">Balance as of 31 December 2013</td>
-                            <td style="padding: 10px; text-align: right;"> 300,000 </td>
-                            <td style="padding: 10px; text-align: right;"> 150,000 </td>
-                            <td style="padding: 10px; text-align: right;"> (4,524,475)</td>
-                            <td style="padding: 10px; text-align: right;">  25,203,126 </td>
-                            <td style="padding: 10px; text-align: right;"> 21,128,651 </td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">Total comprehensive Income for the year</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td></td>
-                            <td style="padding: 10px; text-align: right;"> 8,985,955 </td>
-                            <td style="padding: 10px; text-align: right;">  8,985,955  </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold ;">Net movements</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td style="padding: 10px; text-align: right;">  791,418 </td>
-                            <td style="padding: 10px; text-align: right;">-</td>
-                            <td style="padding: 10px; text-align: right;">  791,418 </td>
-                        </tr>
-                         <tr></tr>
-                        <tr>
-                            <td style="padding: 10px;">Balance as of 31 December 2014</td>
-                            <td style="padding: 10px; text-align: right;"> 300,000 </td>
-                            <td style="padding: 10px; text-align: right;"> 150,000 </td>
-                            <td style="padding: 10px; text-align: right;">  (3,733,057)</td>
-                            <td style="padding: 10px; text-align: right;">   34,189,081  </td>
-                            <td style="padding: 10px; text-align: right;">  30,906,024 </td>
-                        </tr>
-                  
-                    </tbody>
-                </table>
-
-                <br/><br/>
-                        <div style="padding:10px;">
-                            The accompanying notes form an integral part of these financial statements.<br/>
-                            The report of the auditors is set out on pages 3 and 4.
-                        </div>
-                        <br/><br/>
-                        <div style="padding:10px;">
-                            Managing Director<br/>
-                            Modular Concepts L.L.C.<br/>
-                            <!-- <t t-esc="doc.current_datetime"/> -->
-                        </div>
-                     <div class="page-number">
-                    Page<span class="total-pages">3</span>
-                </div>
-             </div>
-
-             <div style="page-break-after: always;padding:20px;">
-             <t t-call="audit_management.header_report"/>
-                
-                <br/>
-                <br/>
-              
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;">Account</th>
-                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">OPERATING ACTIVITIES</td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">Profit for the Year</td>
-                            <td>8,985,955</td>
-                            <td> 10,221,598 </td>
-                        </tr>
-                         <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">Adjustments for :</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px; ">Depreciation</td>
-                            <td>8,985,955</td>
-                            <td> 10,221,598 </td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">Allowance for doubtful debt</td>
-                            <td>-</td>
-                            <td>  50,448  </td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">Finance cost</td>
-                            <td> 1,486,158 </td>
-                            <td>  1,225,697  </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">Provision for employees end of service indemnity</td>
-                            <td>  298,808  </td>
-                            <td>   372,569   </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;font-weight: bold;">Operating Profit before changes in Operating Assets &amp; Liabilities</td>
-                            <td>  11,167,387  </td>
-                            <td>   12,187,266   </td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">Changes in working capital</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">(Increase) / Decrease in current assets:</td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">
-                                Inventories
-                            </td>
-                            <td>  (13,507,085) </td>
-                            <td>   (3,481,635)  </td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">
-                                Trade Receivables
-                            </td>
-                            <td>  (2,179,305) </td>
-                            <td>  (8,476,997)  </td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">
-                                Advances, Deposits and other receivables
-                            </td>
-                            <td>  (2,008,886) </td>
-                            <td>   (1,308,657)  </td>
-                        </tr>
-                         <tr>
-                            <td style="padding: 10px;">
-                                Investment in Associates
-                            </td>
-                            <td>  (3,673,097) </td>
-                            <td>   238,486   </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">
-                                Increase / Decrease in current liabilities:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">
-                                Trade and other payables
-                            </td>
-                            <td>  (225,824) </td>
-                            <td> (11,188,824)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">
-                               Employees end of services paid
-                            </td>
-                            <td> (174,989)</td>
-                            <td> (47,952)</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">
-                                Cash (used in/provided) from operation
-                            </td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">
-                                Cash flows from Investing activities
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">
-                                Investment in fixed deposits
-                            </td>
-                            <td> 1,387,285 </td>
-                            <td> (2,185,922)</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">
-                               Purchase of property, plant and equipment
-                            </td>
-                            <td> (275,041)</td>
-                            <td> (260,000)</td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                                Net cash used  in Investing activities
-                            </td>
-                            <td> 1,112,244 </td>
-                            <td>  (2,445,922) </td>
-                        </tr>
-                        <tr></tr>
-                        <tr>
-                            <td colspan="3" style="padding: 10px;font-weight: bold;">
-                                Cash flows from financing activities
-                            </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;">
-                                Current portion of term loan
-                            </td>
-                            <td>  8,821,724  </td>
-                            <td>   21,385,204  </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;">
-                                Non current portion of term loan
-                            </td>
-                            <td>  (574,849) </td>
-                            <td>   (77,576)  </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;">
-                                Finance costs
-                            </td>
-                            <td>(1,486,158)</td>
-                            <td>(1,225,697)</td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;">
-                                Net movement in Shareholders Current account
-                            </td>
-                            <td> 791,418</td>
-                            <td> (4,419,677)</td>
-                        </tr>
-                         <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                             Net Cash (used) from financing activities
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                            Net Increase / (Decrease) in cash and cash equivalents
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                            Cash and cash equivalents at beginning of the year
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-                         <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                            Cash and cash equivalents at end of the year
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                            Cash and cash equivalents
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                            Cash in hand
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-                        <tr>
-                            <td  style="padding: 10px;font-weight: bold;">
-                            Cash at bank
-                            </td>
-                            <td> (1,937,420)</td>
-                            <td>  1,138,019 </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-                <br/><br/>
-                        <div style="padding:10px;">
-                            The accompanying notes form an integral part of these financial statements.<br/>
-                            The report of the auditors is set out on pages 3 and 4.
-                        </div>
-                       <div class="page-number">
-                            Page<span class="total-pages">7</span>
-                        </div>
-             </div>
-             <div style="page-break-after: always;padding:20px;">
-               <t t-call="audit_management.header_report"/>
-                
-                <br/>
-              
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;">Level</th>
-                            <th style="padding: 10px; text-align: center;width:40;">Category</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Vehicles</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Office Furniture &amp; Equipment</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                         <t t-foreach="doc.audit_lines_ids" t-as="test">
+             <div style="page-break-after: always; padding: 10px;">
+                    <t t-call="audit_management.header_report"/>
+                    <br/>
+                    <table style="width: 100%;border:none;">
+                        <thead>
                             <tr>
-                                <td style="padding: 10px; text-align: left;">
-                                    <t t-esc="test.level_line_id.name"/>
-                                </td>
-<!--                                <t t-foreach="test.level_line_id" t-as="t">-->
-                                    <td style="padding: 10px; text-align: left;">
-                                        <t t-esc="test.category_ids.name"/>
-                                    </td>
-<!--                                </t>-->
-                                <td style="padding: 10px; text-align: right;">
-                                    <t t-esc="test.balance_this" />
-                                </td>
-                                <td style="padding: 10px; text-align: right;">
-                                    <t t-esc="test.balance_last"/>
-                                </td>
-                                <td style="padding: 10px; text-align: right;">
-                                    <t t-esc="test.balance_this + test.balance_last"/>
-                                </td>
+                                <th style="padding: 5px; text-align: left;width:50%;">Account</th>
+                                <th style="padding: 5px; text-align: center;width:25%;">This Year</th>
+                                <th style="padding: 5px; text-align: center;width:25%;">Last Year</th>
                             </tr>
-                        </t>
-<!--                        <tr>-->
-<!--                            <td colspan="4" style="padding:10px;font-weight: bold;">Cost</td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31 2012</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td style="padding:10px">Addition during the period</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31, 2013</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td style="padding:10px">Addition during the period</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31 ,2014</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
-<!--                        </tr>-->
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.audit_lines_ids" t-as="line">
+                                <t t-if="line.display_type == 'line_section'">
+                                    <tr>
+                                        <td colspan="3" style="padding: 10px; text-align: left; font-weight: bold;color:#0000FF;">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                    </tr>
+                                </t>
 
+<!--                                <t t-elif="line.display_type == ''">-->
+                                <t>
+                                    <tr>
+                                        <t t-if="line.level_line_id.name">
+                                            <td><t t-esc="line.level_line_id.name"/></td>
+                                        </t>
+                                        <t t-else="">
+                                            <td/>
+                                        </t>
+<!--                                        <td><t t-esc="line.level_line_id.name"/></td>-->
+                                         <t t-if="line.level_line_id.name">
+                                            <td style="text-align: center;"><t t-esc="line.balance_this"/></td>
+                                         </t>
+                                        <t t-else="">
+                                            <td/>
+                                        </t>
+                                        <t t-if="line.level_line_id.name">
+                                        <td style="text-align: center;"><t t-esc="line.balance_last"/></td>
+                                        </t>
+                                         <t t-else="">
+                                            <td/>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                 <br/>
+                        <div style="padding:2px;">
+                            The accompanying notes form an integral part of these financial statements.<br/>
+                            The report of the auditors is set out on pages 3 and 4.
+                        </div>
+                        <div style="padding:2px;">
+                            Managing Director<br/>
+                            Modular Concepts L.L.C.<br/>
+                            <!-- <t t-esc="doc.current_datetime"/> -->
+                        </div>
+                     <div class="page-number">
+                         Page<span class="total-pages">3</span>
+                     </div>
+             </div>
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--                <t t-call="audit_management.header_report"/>-->
+<!--                -->
+<!--                <br/>-->
+<!--              -->
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
 <!--                        <tr>-->
-<!--                            <td colspan="4" style="padding:10px;font-weight: bold;">Accumulated Depreciation </td>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;">Account</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:20;">Code</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;font-weight: bold ;">Revenue</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">20</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 80,054,253</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 84,955,912 </td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31 2012</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td style="padding: 10px;">Direct Cost</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">21</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">(58,444,274)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">(62,284,873)-->
+<!--    </td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">Change for the period</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td colspan="2" style="padding: 10px;font-weight: bold ;">Gross Profit</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">21,609,979</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">22,671,039</td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31, 2013</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td style="padding: 10px;">Selling and Distribution Expenses</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">22</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">(1,104,747)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">(1,334,798)</td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">Change for the period</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td style="padding: 10px;">General and Administrative Expenses</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">23</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">(9,675,113)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">(9,563,106)</td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31 ,2014</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td colspan="2" style="padding: 10px;">Depreciation</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (396,466)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (316,954)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="2" style="padding: 10px;">Provision of Doubtful Debt</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">-</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">10,485,231</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Finance Cost</td>-->
+<!--                            <td>-->
+<!--                                24-->
+<!--                            </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (1,486,158)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (1,225,697)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            -->
+<!--                            <td colspan="2" style="padding: 10px; text-align: left;font-weight: bold;">Operating Profit for the year</td>-->
+<!--                           -->
+<!--                            <td style="padding: 10px; text-align: right;"> 8,947,495 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 10,180,036 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Other Incomes</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">25</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 38,460 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 41,562 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="2" style="padding: 10px; font-weight: bold ;">Total comprehensive income for the year</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 8,985,955 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 10,221,598 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="2" style="padding: 10px;">Accumulated Profit</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 25,203,126 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 14,981,528 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="2" style="padding: 10px;font-weight: bold ;">Retained earnings</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 34,189,081 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 25,203,126 </td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+<!--                <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                            The accompanying notes form an integral part of these financial statements.<br/>-->
+<!--                            The report of the auditors is set out on pages 3 and 4.-->
+<!--                        </div>-->
+<!--                        <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                            Managing Director<br/>-->
+<!--                            Modular Concepts L.L.C.<br/>-->
+<!--                            &lt;!&ndash; <t t-esc="doc.current_datetime"/> &ndash;&gt;-->
+<!--                        </div>-->
+<!--                     <div class="page-number">-->
+<!--                    Page<span class="total-pages">3</span>-->
+<!--                </div>-->
+<!--             </div>-->
+
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--               <t t-call="audit_management.header_report"/>-->
+<!--                -->
+<!--                <br/>-->
+<!--                <br/>-->
+<!--              -->
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th></th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;">Share Capital(AED)</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:20;">Legal Reserve(AED)</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Shareholder-->
+<!--                            Current Account(AED)</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Retained Earnings(AED) </th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Total(AED) </th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;font-weight: bold ;">Balance as of 31 December 2012</td>-->
+<!--                            <td style="padding: 10px;font-weight: bold;"> 300,000 </td>-->
+<!--                            <td style="padding: 10px;font-weight: bold;"> 150,000 </td>-->
+<!--                            <td style="padding: 10px; font-weight: bold;"> (104,798)</td>-->
+<!--                            <td style="padding: 10px; font-weight: bold;"> 14,981,528 </td>-->
+<!--                            <td style="padding: 10px; font-weight: bold;">  15,326,730  </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Total comprehensive Income for the year</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td></td>-->
+<!--                            <td style="padding: 10px; text-align: right;">10221598</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 10,221,598 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;font-weight: bold ;">Net movements</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (4,419,677)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">-</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (4,419,677)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Balance as of 31 December 2013</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 300,000 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 150,000 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (4,524,475)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  25,203,126 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 21,128,651 </td>-->
+<!--                        </tr>-->
+<!--                        <tr></tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Balance as of 31 December 2013</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 300,000 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 150,000 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> (4,524,475)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  25,203,126 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 21,128,651 </td>-->
 <!--                        </tr>-->
 <!--                         <tr>-->
-<!--                            <td colspan="4" style="padding:10px;font-weight: bold;">Net Book Value</td>-->
+<!--                            <td style="padding: 10px;">Total comprehensive Income for the year</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td></td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 8,985,955 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  8,985,955  </td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31 2014</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td  style="padding: 10px;font-weight: bold ;">Net movements</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  791,418 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;">-</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  791,418 </td>-->
+<!--                        </tr>-->
+<!--                         <tr></tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Balance as of 31 December 2014</td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 300,000 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;"> 150,000 </td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  (3,733,057)</td>-->
+<!--                            <td style="padding: 10px; text-align: right;">   34,189,081  </td>-->
+<!--                            <td style="padding: 10px; text-align: right;">  30,906,024 </td>-->
+<!--                        </tr>-->
+<!--                  -->
+<!--                    </tbody>-->
+<!--                </table>-->
+
+<!--                <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                            The accompanying notes form an integral part of these financial statements.<br/>-->
+<!--                            The report of the auditors is set out on pages 3 and 4.-->
+<!--                        </div>-->
+<!--                        <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                            Managing Director<br/>-->
+<!--                            Modular Concepts L.L.C.<br/>-->
+<!--                            &lt;!&ndash; <t t-esc="doc.current_datetime"/> &ndash;&gt;-->
+<!--                        </div>-->
+<!--                     <div class="page-number">-->
+<!--                    Page<span class="total-pages">3</span>-->
+<!--                </div>-->
+<!--             </div>-->
+
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--             <t t-call="audit_management.header_report"/>-->
+<!--                -->
+<!--                <br/>-->
+<!--                <br/>-->
+<!--              -->
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;">Account</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">OPERATING ACTIVITIES</td>-->
 <!--                        </tr>-->
 <!--                        <tr>-->
-<!--                            <td style="padding:10px">As at December 31 2014</td>-->
-<!--                            <td>582,900</td>-->
-<!--                            <td>588,013</td>-->
-<!--                            <td>1,170,913</td>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">Profit for the Year</td>-->
+<!--                            <td>8,985,955</td>-->
+<!--                            <td> 10,221,598 </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">Adjustments for :</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px; ">Depreciation</td>-->
+<!--                            <td>8,985,955</td>-->
+<!--                            <td> 10,221,598 </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding: 10px;">Allowance for doubtful debt</td>-->
+<!--                            <td>-</td>-->
+<!--                            <td>  50,448  </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding: 10px;">Finance cost</td>-->
+<!--                            <td> 1,486,158 </td>-->
+<!--                            <td>  1,225,697  </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">Provision for employees end of service indemnity</td>-->
+<!--                            <td>  298,808  </td>-->
+<!--                            <td>   372,569   </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;font-weight: bold;">Operating Profit before changes in Operating Assets &amp; Liabilities</td>-->
+<!--                            <td>  11,167,387  </td>-->
+<!--                            <td>   12,187,266   </td>-->
+<!--                        </tr>-->
+<!--                        <tr></tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">Changes in working capital</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">(Increase) / Decrease in current assets:</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                                Inventories-->
+<!--                            </td>-->
+<!--                            <td>  (13,507,085) </td>-->
+<!--                            <td>   (3,481,635)  </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                                Trade Receivables-->
+<!--                            </td>-->
+<!--                            <td>  (2,179,305) </td>-->
+<!--                            <td>  (8,476,997)  </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                                Advances, Deposits and other receivables-->
+<!--                            </td>-->
+<!--                            <td>  (2,008,886) </td>-->
+<!--                            <td>   (1,308,657)  </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                                Investment in Associates-->
+<!--                            </td>-->
+<!--                            <td>  (3,673,097) </td>-->
+<!--                            <td>   238,486   </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">-->
+<!--                                Increase / Decrease in current liabilities:-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                                Trade and other payables-->
+<!--                            </td>-->
+<!--                            <td>  (225,824) </td>-->
+<!--                            <td> (11,188,824)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                               Employees end of services paid-->
+<!--                            </td>-->
+<!--                            <td> (174,989)</td>-->
+<!--                            <td> (47,952)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">-->
+<!--                                Cash (used in/provided) from operation-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr></tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">-->
+<!--                                Cash flows from Investing activities-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                                Investment in fixed deposits-->
+<!--                            </td>-->
+<!--                            <td> 1,387,285 </td>-->
+<!--                            <td> (2,185,922)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding: 10px;">-->
+<!--                               Purchase of property, plant and equipment-->
+<!--                            </td>-->
+<!--                            <td> (275,041)</td>-->
+<!--                            <td> (260,000)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                                Net cash used  in Investing activities-->
+<!--                            </td>-->
+<!--                            <td> 1,112,244 </td>-->
+<!--                            <td>  (2,445,922) </td>-->
+<!--                        </tr>-->
+<!--                        <tr></tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding: 10px;font-weight: bold;">-->
+<!--                                Cash flows from financing activities-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;">-->
+<!--                                Current portion of term loan-->
+<!--                            </td>-->
+<!--                            <td>  8,821,724  </td>-->
+<!--                            <td>   21,385,204  </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;">-->
+<!--                                Non current portion of term loan-->
+<!--                            </td>-->
+<!--                            <td>  (574,849) </td>-->
+<!--                            <td>   (77,576)  </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;">-->
+<!--                                Finance costs-->
+<!--                            </td>-->
+<!--                            <td>(1,486,158)</td>-->
+<!--                            <td>(1,225,697)</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;">-->
+<!--                                Net movement in Shareholders Current account-->
+<!--                            </td>-->
+<!--                            <td> 791,418</td>-->
+<!--                            <td> (4,419,677)</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                             Net Cash (used) from financing activities-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                            Net Increase / (Decrease) in cash and cash equivalents-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                            Cash and cash equivalents at beginning of the year-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                            Cash and cash equivalents at end of the year-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                            Cash and cash equivalents-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                            Cash in hand-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td  style="padding: 10px;font-weight: bold;">-->
+<!--                            Cash at bank-->
+<!--                            </td>-->
+<!--                            <td> (1,937,420)</td>-->
+<!--                            <td>  1,138,019 </td>-->
 <!--                        </tr>-->
 
-                    </tbody>
-                </table>
+<!--                    </tbody>-->
+<!--                </table>-->
 
-                <br/><br/>
-                        <div style="padding:10px;">
-                           Some of the above vehicles are hypothecated to the bank against vehicle loan
-                        </div>
-                       <div class="page-number">
-                            Page<span class="total-pages">7</span>
-                        </div>
-             </div>
+<!--                <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                            The accompanying notes form an integral part of these financial statements.<br/>-->
+<!--                            The report of the auditors is set out on pages 3 and 4.-->
+<!--                        </div>-->
+<!--                       <div class="page-number">-->
+<!--                            Page<span class="total-pages">7</span>-->
+<!--                        </div>-->
+<!--             </div>-->
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--               <t t-call="audit_management.header_report"/>-->
+<!--                -->
+<!--                <br/>-->
+<!--              -->
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;">Level</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;">Category</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Vehicles</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Office Furniture &amp; Equipment</th>-->
+<!--                            <th>Total</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--&lt;!&ndash;                         <t t-foreach="doc.audit_lines_ids" t-as="test">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="padding: 10px; text-align: left;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <t t-esc="test.level_line_id.name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <t t-foreach="test.level_line_id" t-as="t">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <td style="padding: 10px; text-align: left;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-esc="test.category_ids.name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </td>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                </t>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="padding: 10px; text-align: right;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <t t-esc="test.balance_this" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="padding: 10px; text-align: right;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <t t-esc="test.balance_last"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <td style="padding: 10px; text-align: right;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <t t-esc="test.balance_this + test.balance_last"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </t>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td colspan="4" style="padding:10px;font-weight: bold;">Cost</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31 2012</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">Addition during the period</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31, 2013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">Addition during the period</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31 ,2014</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
 
-             <div style="page-break-after: always;padding:20px;">
-                <t t-call="audit_management.header_report"/>
-                
-                <br/>
-              
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;"> </th>
-                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>
-                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;">7. INVESTMENT IN ASSOCIATES</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Excel Technical Distribution, Abu Dhabi</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Hoscon Construction LLC, Dubai</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Modcon FZ LLC, RAK</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Excel Hitec India Enterprises Pvt Ltd</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Modular Concepts India Pvt LTd</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px;font-weight: bold;">Total</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td colspan="4" style="padding:10px;font-weight: bold;">Accumulated Depreciation </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31 2012</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">Change for the period</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31, 2013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">Change for the period</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31 ,2014</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                         <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td colspan="4" style="padding:10px;font-weight: bold;">Net Book Value</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31 2014</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td style="padding:10px">As at December 31 2014</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>582,900</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>588,013</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td>1,170,913</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
 
-                         <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;">
-                                8. WORK IN PROGRESS &amp; INVENTORIES
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;">
-                               Work In Progress
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">New Medical Center</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Engineering Systems Establishments</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Union Contracting -Zabeel Clinic</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">National MEP Contracting</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Miscellaneous - Work in Progress</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;">
-                               Inventory
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Goods held for Sale </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px;font-weight: bold;">Total </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px;font-weight: bold;">
-                               9. TRADE RECEIVABLES
-                            </td>
-                            <td>AED</td>
-                            <td>AED</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Trade Receivable * </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px;font-weight: bold;">Less: Allowance for doubtful debts</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                         <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;">
-                               Ageing of receivables:
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">1   -  60 days </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">61 - 120 days </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                         <tr>
-                            <td style="padding:10px">121 - 180 days </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">181- 365 days </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">More than 365 Days </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px"> </td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
+<!--                    </tbody>-->
+<!--                </table>-->
 
-                    </tbody>
-                </table>
+<!--                <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                           Some of the above vehicles are hypothecated to the bank against vehicle loan-->
+<!--                        </div>-->
+<!--                       <div class="page-number">-->
+<!--                            Page<span class="total-pages">7</span>-->
+<!--                        </div>-->
+<!--             </div>-->
 
-                <br/><br/>
-                        <div style="padding:10px;">
-                          * Trade Receivables includes the Rentention Amount of AED 10,950,541
-                        </div>
-                       <div class="page-number">
-                            Page<span class="total-pages">7</span>
-                        </div>
-             </div>
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--                <t t-call="audit_management.header_report"/>-->
+<!--                -->
+<!--                <br/>-->
+<!--              -->
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;"> </th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">This Year</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">Last Year</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;">7. INVESTMENT IN ASSOCIATES</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Excel Technical Distribution, Abu Dhabi</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Hoscon Construction LLC, Dubai</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Modcon FZ LLC, RAK</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Excel Hitec India Enterprises Pvt Ltd</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Modular Concepts India Pvt LTd</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px;font-weight: bold;">Total</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
 
-             <div style="page-break-after: always;padding:20px;">
-                <t t-call="audit_management.header_report"/>
-                <br/>
+<!--                         <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;">-->
+<!--                                8. WORK IN PROGRESS &amp; INVENTORIES-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;">-->
+<!--                               Work In Progress-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">New Medical Center</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Engineering Systems Establishments</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Union Contracting -Zabeel Clinic</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">National MEP Contracting</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Miscellaneous - Work in Progress</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;">-->
+<!--                               Inventory-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Goods held for Sale </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px;font-weight: bold;">Total </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px;font-weight: bold;">-->
+<!--                               9. TRADE RECEIVABLES-->
+<!--                            </td>-->
+<!--                            <td>AED</td>-->
+<!--                            <td>AED</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Trade Receivable * </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px;font-weight: bold;">Less: Allowance for doubtful debts</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;">-->
+<!--                               Ageing of receivables:-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">1   -  60 days </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">61 - 120 days </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding:10px">121 - 180 days </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">181- 365 days </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">More than 365 Days </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px"> </td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
 
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;"></th>
-                            <th style="padding: 10px; text-align: center;width:15;">31-12-2014 AED</th>
-                            <th style="padding: 10px; text-align: center;width:15;">31.12.2013 AED</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;">Allowance for doubtful debt: </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px">The movements in the allowance for doubtful debt as at reporting date are as follows:</td>
-                        </tr>
-                         <tr>
-                            <td style="padding:10px">Opening Balance</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Add: Charge during the year</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px"></td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3">
+<!--                    </tbody>-->
+<!--                </table>-->
 
-                                In determing the recoverability of trade receivables, the Entity considers any change in the credit quality of the trade receivable from the date credit was initially granted up to the reporting date. Accordingly, the management believes that there is no further credit allowance required for doubtful debts.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px">Geographical Analysis:</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px">The geographical analysis of trade receivables are as follows</td>
-                        </tr>
-                         <tr>
-                            <td style="padding:10px">Within U.A.E.</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">G.C.C.: Oman</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px">10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES</td>
-                        </tr>
-                         <tr>
-                            <td style="padding:10px">Prepayments</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Deposits</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Advances to Suppliers</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Advances for Expenses</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Staff Loans &amp; Advances</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Total</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
+<!--                <br/><br/>-->
+<!--                        <div style="padding:10px;">-->
+<!--                          * Trade Receivables includes the Rentention Amount of AED 10,950,541-->
+<!--                        </div>-->
+<!--                       <div class="page-number">-->
+<!--                            Page<span class="total-pages">7</span>-->
+<!--                        </div>-->
+<!--             </div>-->
 
-                        <tr>
-                            <td colspan="3" style="padding:10px">11. CASH AND BANK BALANCE</td>
-                        </tr>
-                         <tr>
-                            <td style="padding:10px">Cash in hand</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Cash at Banks</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Margin Deposits with Banks</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Fixed Deposit with Banks</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Total</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--                <t t-call="audit_management.header_report"/>-->
+<!--                <br/>-->
 
-                    </tbody>
-                </table>
-                       <div class="page-number">
-                            Page<span class="total-pages">7</span>
-                        </div>
-             </div>
-             <div style="page-break-after: always;padding:20px;">
-               <t t-call="audit_management.header_report"/>
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;"></th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">31-12-2014 AED</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">31.12.2013 AED</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;">Allowance for doubtful debt: </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px">The movements in the allowance for doubtful debt as at reporting date are as follows:</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding:10px">Opening Balance</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Add: Charge during the year</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px"></td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3">-->
 
-                <br/>
+<!--                                In determing the recoverability of trade receivables, the Entity considers any change in the credit quality of the trade receivable from the date credit was initially granted up to the reporting date. Accordingly, the management believes that there is no further credit allowance required for doubtful debts.-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px">Geographical Analysis:</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px">The geographical analysis of trade receivables are as follows</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding:10px">Within U.A.E.</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">G.C.C.: Oman</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px">10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding:10px">Prepayments</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Deposits</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Advances to Suppliers</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Advances for Expenses</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Staff Loans &amp; Advances</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Total</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
 
-                <table border="1" style="width: 90%;">
-                    <thead>
-                        <tr>
-                            <th style="padding: 10px; text-align: center;width:40;"></th>
-                            <th style="padding: 10px; text-align: center;width:15;">31-12-2014 AED</th>
-                            <th style="padding: 10px; text-align: center;width:15;">31.12.2013 AED</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3" style="padding:10px;font-weight: bold;"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding:10px">12. DUE TO BANKS</td>
-                        </tr>
-                         <tr>
-                            <td style="padding:10px">Bank Overdraft</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Vehicle Loan - Current Portion</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Term Loan - Current Portion</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Trust Receipts</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Bills Discounted</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                        <tr>
-                            <td style="padding:10px">Total</td>
-                            <td>582,900</td>
-                            <td>588,013</td>
-                        </tr>
-                    </tbody>
-                </table>
-                 <br/>
-                 <br/>
-                 <div>
-                      In determing the recoverability of trade receivables, the Entity considers any change in the credit quality of the trade receivable from the date credit was initially granted up to the reporting date. Accordingly, the management believes that there is no further credit allowance required for doubtful debts.
-                 </div>
-                 <br/>
-                 <br/>
-                 <br/>
-                 <div>
-                     10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES.
-                        <br/>- Lien of margin and fixed deposits with the bank.
-                        <br/>- Subordination of Shareholders current account balances against the bank borrowing.
-                        <br/>- Assignment of keyman insurance policy of Mr. Manoj Thandassery Dharman in favour of the bank.
-                        <br/>- Assignment of receivables on a pari passu basis.
-                        <br/>- Undated security cheque and promisory note.
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px">11. CASH AND BANK BALANCE</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding:10px">Cash in hand</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Cash at Banks</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Margin Deposits with Banks</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Fixed Deposit with Banks</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Total</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
 
-                        <br/>- Hypothecation of inventory, duly insured in banks favour.
-                        <br/>- Personal guarantee of Mr. Manoj Thandassery Dharman and Mrs. Jyothi Manoj Thandassery
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--                       <div class="page-number">-->
+<!--                            Page<span class="total-pages">7</span>-->
+<!--                        </div>-->
+<!--             </div>-->
+<!--             <div style="page-break-after: always;padding:20px;">-->
+<!--               <t t-call="audit_management.header_report"/>-->
 
-                        <br/>- Bank borrowing are subject to certain financial covenants as mutually agreed with each bank
-                                from whom the credit facilities have been obtained.
-                 </div>
-                       <div class="page-number">
-                            Page<span class="total-pages">7</span>
-                        </div>
-             </div>
+<!--                <br/>-->
+
+<!--                <table border="1" style="width: 90%;">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="padding: 10px; text-align: center;width:40;"></th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">31-12-2014 AED</th>-->
+<!--                            <th style="padding: 10px; text-align: center;width:15;">31.12.2013 AED</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px;font-weight: bold;"></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td colspan="3" style="padding:10px">12. DUE TO BANKS</td>-->
+<!--                        </tr>-->
+<!--                         <tr>-->
+<!--                            <td style="padding:10px">Bank Overdraft</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Vehicle Loan - Current Portion</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Term Loan - Current Portion</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Trust Receipts</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Bills Discounted</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="padding:10px">Total</td>-->
+<!--                            <td>582,900</td>-->
+<!--                            <td>588,013</td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--                 <br/>-->
+<!--                 <br/>-->
+<!--                 <div>-->
+<!--                      In determing the recoverability of trade receivables, the Entity considers any change in the credit quality of the trade receivable from the date credit was initially granted up to the reporting date. Accordingly, the management believes that there is no further credit allowance required for doubtful debts.-->
+<!--                 </div>-->
+<!--                 <br/>-->
+<!--                 <br/>-->
+<!--                 <br/>-->
+<!--                 <div>-->
+<!--                     10. ADVANCES, DEPOSITS, AND OTHER RECEIVABLES.-->
+<!--                        <br/>- Lien of margin and fixed deposits with the bank.-->
+<!--                        <br/>- Subordination of Shareholders current account balances against the bank borrowing.-->
+<!--                        <br/>- Assignment of keyman insurance policy of Mr. Manoj Thandassery Dharman in favour of the bank.-->
+<!--                        <br/>- Assignment of receivables on a pari passu basis.-->
+<!--                        <br/>- Undated security cheque and promisory note.-->
+
+<!--                        <br/>- Hypothecation of inventory, duly insured in banks favour.-->
+<!--                        <br/>- Personal guarantee of Mr. Manoj Thandassery Dharman and Mrs. Jyothi Manoj Thandassery-->
+
+<!--                        <br/>- Bank borrowing are subject to certain financial covenants as mutually agreed with each bank-->
+<!--                                from whom the credit facilities have been obtained.-->
+<!--                 </div>-->
+<!--                       <div class="page-number">-->
+<!--                            Page<span class="total-pages">7</span>-->
+<!--                        </div>-->
+<!--             </div>-->
         </t>
     </t>
 </template>
