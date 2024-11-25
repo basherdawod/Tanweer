@@ -14,6 +14,7 @@
         'data/program_line_demo.xml',
         'data/report_demo.xml',
         'data/comprehensive_income_seq.xml',
+        'data/comprehensive_income_demo_data.xml',
         'views/audit_item_views.xml',
         'views/audit_program_views.xml',
         'views/program_line_views.xml',

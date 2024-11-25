@@ -380,11 +380,6 @@ class TypeLineClass(models.Model):
     _description = 'Type Line Class'
 
     name = fields.Char("name")
-    tec_name = fields.Char("Tech Name")
-    type_class_id = fields.Many2one(
-        comodel_name='type.class.account',
-        string='Type class',
-        required=False)
 
     type = fields.Selection(
         selection=[

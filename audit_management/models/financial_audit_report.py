@@ -338,9 +338,10 @@ class FinancialAuditReporting(models.Model):
 
             # Create the new audit_report record
             self.env['comprehensive.income'].create({
-                'financial_id':record.id,
-                'name': audit_report_name,
+                'partner_id': record.id,
+                'audit_report': audit_report_name,
             })
+
 
     # def create_comprehensive_report(self):
     #     for record in self:
