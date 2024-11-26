@@ -12,7 +12,7 @@ class FinancialAuditReporting(models.Model):
 
     lable1 = fields.Text(
         string="Text", readonly=True,
-        default="MODULAR CONCEPTS L.L.C.<br> DUBAI - UNITED ARAB EMIRATES <br> FINANCIAL STATEMENTS & REPORTS")
+        default="MODULAR CONCEPTS L.L.C.")
 
     comprehensive_income_ids = fields.One2many(
         'comprehensive.income',

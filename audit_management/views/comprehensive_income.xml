@@ -22,7 +22,7 @@
                         <group>
                             <group col="4">
 
-                                <field name="level1" invisible="1"/>
+<!--                                <field name="level1" invisible="1"/>-->
                             </group>
 
                         </group>
@@ -31,33 +31,37 @@
                                     <group>
                                         <field name="level_sub1" />
                                         <field name="type1" invisible="1"  />
-                                        <field name="audit_lines1_ids" context="{'default_type': type1}" domain="[('type', '=', type1)]"/>
+                                        <field name="audit_lines1_ids" context="{'default_type': type1}" />
                                     </group>
                                     <group>
                                         <field name="type2" invisible="1"  />
                                         <field name="level_sub2"/>
-                                        <field name="audit_lines2_ids" context="{'default_type': type2}"  domain="[('type', '=', type2)]"/>
+                                        <field name="audit_lines2_ids" context="{'default_type': type2}"  domain="[('type', '=', type2),('type', '!=', '')]"/>
                                     </group>
 
                             </group>
                             <group>
                                 <group>
-                                        <field name="level2"  options="{'no_create': True , 'no_edit':True} " invisible="1"/>
+<!--                                        <field name="level2"  options="{'no_create': True , 'no_edit':True} " invisible="1"/>-->
                                         <field name="level2_sub1" />
                                         <field name="type3" invisible="1"  />
-                                        <field name="audit_lines3_ids" context="{'default_type': type3}"  domain="[('type', '=', type3)]"/>
+                                        <field name="audit_lines3_ids" context="{'default_type': type3}"  domain="[('type', '=', type3),('type', '!=', '')]"/>
                                     </group>
                                     <group>
                                         <field name="type4" invisible="1"  />
                                         <field name="level2_sub2"/>
-                                        <field name="audit_lines4_ids" context="{'default_type': type4}"  domain="[('type', '=', type4)]"/>
+                                        <field name="audit_lines4_ids" context="{'default_type': type4}"  domain="[('type', '=', type4),('type', '!=', '')]"/>
                                     </group>
                             </group>
                             <group>
-                                <field name="level3" options="{'no_create': True , 'no_edit':True} " invisible="1"/>
-                                <field name="type5" invisible="1"  />
-                                <field name="level3_sub1" invisible="1" />
-                                <field name="audit_lines5_ids" context="{'default_type': type5}"  domain="[('type', '=', type5)]" invisible="1"/>
+                                <group>
+    <!--                            <field name="level3" options="{'no_create': True , 'no_edit':True} " invisible="1"/>-->
+                                    <field name="type5" invisible="1"/>
+                                    <field name="level3_sub1" />
+                                    <field name="audit_lines5_ids" context="{'default_type': type5}"  domain="[('type', '=', type5),('type', '!=', '')]"/>
+                                </group>
+                                <group>
+                                </group>
                             </group>
                            <notebook>
                            <page string="Levels">

@@ -5,6 +5,9 @@ import base64
 import logging
 from datetime import datetime, date
 
+import qrcode
+from io import BytesIO
+
 class AuditFinancialReport(models.Model):
     _name = "audit.financial.program"
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -269,8 +272,37 @@ class AuditFinancialReport(models.Model):
         required=False,
         currency_field='currency_id',
     )
+    #########        QR Code
+    qr_code_data = fields.Char(string='QR Code Data', compute='_compute_qr_code_image')
 
+    def _compute_qr_code_image(self):
+        for record in self:
+            qr = qrcode.QRCode()
+            qr.add_data(record.name)  # Replace with your QR code data
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            record.qr_code_data = base64.b64encode(buffer.getvalue())
+    #########
 
+    #########    Page Number
+    @api.model
+    def render_html(self, docids, data=None):
+        docs = self.env['audit.financial.program'].browse(docids)
+        # Example logic for pages (simplify as per your use case)
+        pages = []
+        for i, doc in enumerate(docs, 1):
+            pages.append({
+                'current_number': i,
+                'total_pages': len(docs),
+                'doc': doc,
+            })
+        return self.env.ref('audit_management.report_audit_audit_financial_template').render({
+            'docs': pages
+        })
+
+    ########
     def reset_to_draft(self):
         self.status='draft'
 
@@ -649,7 +681,6 @@ class TypeClassLine(models.Model):
              "about the account and its specificities."
     )
 
-
     @api.model
     def create(self, vals):
         if 'tec_name' in vals and not vals.get('type'):
@@ -658,8 +689,4 @@ class TypeClassLine(models.Model):
         return super(TypeClassLine, self).create(vals)
 
 
-class AuditFinancialProgramCategory(models.Model):
-    _name = "audit.financial.program.category" #model_audit_financial_program_category
-
-    name = fields.Char(string="Category")
 

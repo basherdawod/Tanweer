@@ -40,6 +40,9 @@ class AccountTypeLevel(models.Model):
     audit_financial_id = fields.Many2one(
         comodel_name='audit.financial.program',
         string='Audit Financial Program')
+    comprehensive_income_id = fields.Many2one(
+        comodel_name='comprehensive.income',
+        string='Comprehensive Income')
 
 
     accumulated = fields.Boolean(

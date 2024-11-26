@@ -20,19 +20,15 @@ class ComprehensiveIncome(models.Model):
             ('completed', 'Completed'),
             ('cancelled', 'Cancelled'),
         ],
-        default='draft',  # Default status is 'draft'
+        default='draft',
         string='Status',
     )
     financial_id = fields.Many2one('financial.audit.customer', string="Financial Report")
-
-    level1 = fields.Many2one('type.class.account' , 'No Label',domain="[('id', '!=', level2),('id', '!=', level3)]")
-    level2 = fields.Many2one('type.class.account' , 'Main Type',domain="[('id', '!=', level1),('id', '!=', level2)]" )
-    level3 = fields.Many2one('type.class.account' , 'Main Type' ,domain="[('id', '!=', level1),('id', '!=', level2)]")
-    level4 = fields.Many2one('type.class.account' , 'Main Type' ,domain="[('id', '!=', level1),('id', '!=', level2)]")
-    comprehensive_income = fields.Many2one("account.type.level")
+    comprehensive_income_ids = fields.Many2one("account.type.level")
 
     level_sub1 = fields.Many2one('type.line.class' , 'Comprehensive Income',
-                domain="[('id', '!=', level_sub2),('id', '!=', level2_sub1),('id', '!=', level2_sub1)]")
+                domain="[('id', '!=', level_sub2),('id', '!=', level2_sub1),('id', '!=', level2_sub2),('id', '!=', level3_sub1)]"
+                                 )
     audit_report = fields.Char(string="Audit Sequence")
     type1 = fields.Selection(
         selection=[
@@ -61,7 +57,7 @@ class ComprehensiveIncome(models.Model):
              "about the account and its specificities."
     )
     level_sub2 = fields.Many2one('type.line.class' , 'Comprehensive Income',
-                domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level2_sub1)]")
+                domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level2_sub2),('id', '!=', level3_sub1)]")
     type2 = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -89,7 +85,7 @@ class ComprehensiveIncome(models.Model):
              "about the account and its specificities."
     )
     level2_sub1 = fields.Many2one('type.line.class' , 'Comprehensive Income',
-                domain="[('id', '!=', level_sub1),('id', '!=', level2_sub2),('id', '!=', level_sub2)]")
+                domain="[('id', '!=', level_sub1),('id', '!=', level2_sub2),('id', '!=', level_sub2),('id', '!=', level3_sub1)]")
     type3 = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -117,7 +113,7 @@ class ComprehensiveIncome(models.Model):
              "about the account and its specificities."
     )
     level2_sub2 = fields.Many2one('type.line.class' , 'Comprehensive Income' ,
-                                  domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2)]")
+                                  domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2),('id', '!=', level3_sub1)]")
     type4 = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -146,43 +142,42 @@ class ComprehensiveIncome(models.Model):
     )
 
     audit_lines1_ids = fields.One2many(
-        comodel_name='account.level.type',
-        inverse_name='audit_financial_id',
+        comodel_name='account.type.level',
+        inverse_name='comprehensive_income_id',
         string='Audit Lines',
         required=False,
         domain = lambda self: [('type', '=', self.type1)]
     )
-
-
     audit_lines2_ids = fields.One2many(
-        comodel_name='account.level.type',
-        inverse_name='audit_financial_id',
+        comodel_name='account.type.level',
+        inverse_name='comprehensive_income_id',
         string='Audit Lines',
         required=False,
         domain=lambda self: [('type', '=', self.type2)]
     )
     audit_lines3_ids = fields.One2many(
-        comodel_name='account.level.type',
-        inverse_name='audit_financial_id',
+        comodel_name='account.type.level',
+        inverse_name='comprehensive_income_id',
         string='Audit Lines',
         required=False,
         domain=lambda self: [('type', '=', self.type3)]
     )
     audit_lines4_ids = fields.One2many(
-        comodel_name='account.level.type',
-        inverse_name='audit_financial_id',
+        comodel_name='account.type.level',
+        inverse_name='comprehensive_income_id',
         string='Audit Lines',
         required=False,
         domain=lambda self: [('type', '=', self.type4)]
     )
     audit_lines5_ids = fields.One2many(
-            comodel_name='account.level.type',
-            inverse_name='audit_financial_id',
+            comodel_name='account.type.level',
+            inverse_name='comprehensive_income_id',
             string='Audit Lines',
             required=False,
         domain=lambda self: [('type', '=', self.type5)]
         )
-    level3_sub1 = fields.Many2one('type.class.line', 'Main Sub', default=lambda self: self._get_default_level4())
+    level3_sub1 = fields.Many2one('type.line.class', 'Comprehensive Income',
+                                  domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2),('id', '!=', level2_sub2)]")
     type5 = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -210,7 +205,6 @@ class ComprehensiveIncome(models.Model):
              "about the account and its specificities."
     )
 
-
     partner_id = fields.Many2one('financial.audit.customer', string="Customer Registration")
 
     data_fis_years_end = fields.Date(
@@ -227,14 +221,11 @@ class ComprehensiveIncome(models.Model):
 
     comprehensive_income_line_ids = fields.One2many('comprehensive.income.line','comprehensive_income_id',string="Comprehensive Income Line")
     audit_lines_ids = fields.One2many(
-        comodel_name='account.audit.level.line',
+        comodel_name='account.audit.line.level',
         inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False
     )
-
-
-
     total_balance_this_lival1 = fields.Float(
         string='This Year',
         required=False,
@@ -254,7 +245,6 @@ class ComprehensiveIncome(models.Model):
         required=True,
         default=lambda self: self.env.company.currency_id
     )
-
     total_balance_last_lival1 = fields.Monetary(
         string='Last Year',
         required=False,
@@ -320,51 +310,46 @@ class ComprehensiveIncome(models.Model):
 
         for record in self:
             # Fetch or create level records
-            level = self.env['account.type.level'].search([('audit_financial_id', '=', record.id)])
+            level = self.env['account.type.level'].search([('comprehensive_income_id', '=', record.id)])
             if level:
     # Leval1 add line
-                if record.level1:
-                    line_vals.append({'display_type': 'line_section', 'name': record.level1.name, 'seq': '1'})
-                    if record.level_sub1:
-                        line_vals.append({'display_type': 'line_section', 'name': record.level_sub1.name, 'seq': '4'})
-                        for line in level:
-                            if line.type == record.type1:
-                                line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
-                    if record.level_sub2:
-                        line_vals.append({'display_type': 'line_section', 'name': record.level_sub2.name, 'seq': '4'})
-                        for line in level:
-                            if line.type == record.type2:
-                                line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
+                if record.level_sub1:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level_sub1.name, 'seq': '4'})
+                    for line in level:
+                        if line.type == record.type1:
+                            line_vals.append({'level_line_id': line.id})
+                            total_balance_this_lival1 += line.balance_this
+                            total_balance_last_lival1 += line.balance_last
+                if record.level_sub2:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level_sub2.name, 'seq': '4'})
+                    for line in level:
+                        if line.type == record.type2:
+                            line_vals.append({'level_line_id': line.id})
+                            total_balance_this_lival1 += line.balance_this
+                            total_balance_last_lival1 += line.balance_last
     # Leval2 add line
-                if record.level2:
-                    line_vals.append({'display_type': 'line_section', 'name': record.level2.name, 'seq': '2'})
-                    if record.level2_sub1:
-                        line_vals.append({'display_type': 'line_section', 'name': record.level2_sub1.name, 'seq': '4'})
-                        for line in level:
-                            if line.type == record.type3:
-                                line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
-                    if record.level2_sub2:
-                        line_vals.append({'display_type': 'line_section', 'name': record.level2_sub2.name, 'seq': '4'})
-                        for line in level:
-                            if line.type == record.type4:
-                                line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
+                if record.level2_sub1:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level2_sub1.name, 'seq': '4'})
+                    for line in level:
+                        if line.type == record.type3:
+                            line_vals.append({'level_line_id': line.id})
+                            total_balance_this_lival1 += line.balance_this
+                            total_balance_last_lival1 += line.balance_last
+                if record.level2_sub2:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level2_sub2.name, 'seq': '4'})
+                    for line in level:
+                        if line.type == record.type4:
+                            line_vals.append({'level_line_id': line.id})
+                            total_balance_this_lival1 += line.balance_this
+                            total_balance_last_lival1 += line.balance_last
     # Leval3 add line
-                if record.level3:
-                    line_vals.append({'display_type': 'line_section', 'name': record.level3.name, 'seq': '3'})
-                    if record.level3_sub1:
-                        for line in level:
-                            if line.type == record.type5:
-                                line_vals.append({'level_line_id': line.id})
-                                total_balance_this_lival1 += line.balance_this
-                                total_balance_last_lival1 += line.balance_last
+                if record.level3_sub1:
+                    line_vals.append({'display_type': 'line_section', 'name': record.level3_sub1.name, 'seq': '4'})
+                    for line in level:
+                        if line.type == record.type5:
+                            line_vals.append({'level_line_id': line.id})
+                            total_balance_this_lival1 += line.balance_this
+                            total_balance_last_lival1 += line.balance_last
 
 
 
@@ -373,12 +358,29 @@ class ComprehensiveIncome(models.Model):
                 'audit_lines_ids': [Command.create(vals) for vals in line_vals]
             })
 
+class ClassType(models.Model):
+    _name = 'type.account.class'
+    _description = 'Class Type'
+
+    name = fields.Char("name")
+    tec_name = fields.Char("Tech Name")
+
+    type_line_ids = fields.One2many(
+        comodel_name='type.line.class',
+        inverse_name='type_class_id',
+        string='Type line id',
+        required=False)
+
 class TypeLineClass(models.Model):
     _name = 'type.line.class' #model_type_line_class
     _description = 'Type Line Class'
 
     name = fields.Char("name")
-
+    tec_name = fields.Char("Tech Name")
+    type_class_id = fields.Many2one(
+        comodel_name='type.account.class',
+        string='Type class',
+        required=False)
     type = fields.Selection(
         selection=[
             ("asset_receivable", "Receivable"),
@@ -401,9 +403,17 @@ class TypeLineClass(models.Model):
             ("off_balance", "Off-Balance Sheet"),
         ],
         string="Type",
+        # related = "type_class_id.tec_name",
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
+
+    @api.model
+    def create(self, vals):
+        if 'tec_name' in vals and not vals.get('type'):
+            if vals['tec_name'] :
+                vals['type'] = vals['tec_name']
+        return super(TypeLineClass, self).create(vals)
 
 
 

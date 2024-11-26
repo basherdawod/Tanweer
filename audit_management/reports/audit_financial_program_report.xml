@@ -15,12 +15,14 @@
     <template id="header_report">
         <t t-foreach="docs" t-as="doc">
             <div style=" text-align: center; width: 100%;">
-<!--        <span><t t-esc="doc.partner_id.lable1"/></span>-->
+<!--                <div><span><t t-esc="doc.partner_id.lable1"/> </span></div>-->
                 <div>MODULAR CONCEPTS L.L.C.</div>
                 <div>DUBAI - UNITED ARAB EMIRATES</div>
                     <br/>
                 <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                <div>FOR THE YEAR ENDED <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span></div>
+                <div>FOR THE YEAR ENDED <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>
+                </div>
+
             </div>
         </t>
     </template>
@@ -53,6 +55,8 @@
 
             <div class="cover-page" style="page-break-after: always; text-align: center; padding-top: 30%; width: 100%;">
                 <t t-call="audit_management.header_report"/>
+                <br/>
+                <div > <img t-att-src="'data:image/png;base64,%s' % doc.qr_code_data" alt="QR Code" style="width:100px; height:100px;" /></div>
             </div>
 
              <div style="page-break-after: always;">
@@ -135,7 +139,7 @@
 
                 <br/>
                 <div>
-                    We have audited the accompanying financial statements of Modular Concepts L.L.C., (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
+                    We have audited the accompanying financial statements of <span><t t-esc="doc.partner_id.lable1"/> </span>, (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
                 </div>
                 <br/>
                 <br/>
@@ -160,23 +164,11 @@
                     We believe that the audit evidence we have obtained is sufficient and appropriate to provide a basis for our audit opinion.
                 </div>
 
-                <div class="page-number">
-                    Page<span class="total-pages">1</span>
-                </div>
-<!--                 <div class="page-number">-->
-<!--                    Page <span t-raw="0">[page]</span> of <span t-raw="0">[toPage]</span>-->
-<!--                </div>-->
-<!--                 <tr class="py-initial-ending-tr" t-if="state.subLinesVisibility &amp; renderPageNumbers().length > 1">-->
-<!--                    <td colspan="8"  class="page-numbers">-->
-<!--                        <div>-->
-<!--                            <t t-foreach="renderPageNumbers()" t-as="pageNumber" t-key="pageNumber">-->
-<!--                                <a t-on-click="() => this.goToPage(pageNumber)" t-attf-class="{{ pageNumber === state.currentPage ? 'active-page' : '' }}">-->
-<!--                                    <t t-esc="pageNumber"/>-->
-<!--                                </a>-->
-<!--                            </t>-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
+                    <div class="page-number">
+                        Page <span t-raw="'[page] of [topage]'" />
+                    </div>
+
+
              </div>
 
              <div style="page-break-after: always;padding:10px;">
@@ -188,7 +180,7 @@
                 </div>
                 <br/>
                 <div>
-                    In our opinion, the financial statements present fairly, in all material respects, the financial position of Modular Concepts L.L.C., Dubai - United Arab Emirates as of <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span> and of its financial performance and cash flows for the year then ended, in accordance with Generally Accepted Accounting Principles.
+                    In our opinion, the financial statements present fairly, in all material respects, the financial position of <span><t t-esc="doc.partner_id.lable1"/> </span>, Dubai - United Arab Emirates as of <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span> and of its financial performance and cash flows for the year then ended, in accordance with Generally Accepted Accounting Principles.
 
                     Also we confirm that we have obtained all the information and explanations necessary for our audit, proper books of account have been kept by the Company, physical count of inventory were duly carried out by the management and the contents of the report of the Manager relating to these financial statements are in agreement with the books of account.
                 </div>
@@ -216,15 +208,16 @@
 
                 <div style="padding:10px;">
                             Waleed Al Sayegh<br/>
-                            Registration No: 170<br/>
+                            Registration No: <span><t t-esc="doc.name"/></span><br/>
                             Behl, Lad &amp; Al Sayegh<br/>
                             Dubai, United Arab Emirates<br/>
                             Dated: 26 April, 2015<br/>
                         </div>
-               
-               <div class="page-number">
-                    Page <span class="total-pages">2</span>
-                </div>
+                        <div class="page-number">
+                            Page <span t-raw="'[page] of [topage]'" />
+                        </div>
+
+
              </div>
 
              <div style="page-break-after: always; padding: 10px;">
@@ -282,12 +275,13 @@
                         </div>
                         <div style="padding:2px;">
                             Managing Director<br/>
-                            Modular Concepts L.L.C.<br/>
+                            <span><t t-esc="doc.partner_id.lable1"/> </span><br/>
                             <!-- <t t-esc="doc.current_datetime"/> -->
                         </div>
-                     <div class="page-number">
-                         Page<span class="total-pages">3</span>
-                     </div>
+                    <div class="page-number">
+                        Page <span t-raw="'[page] of [topage]'" />
+                    </div>
+
              </div>
 <!--             <div style="page-break-after: always;padding:20px;">-->
 <!--                <t t-call="audit_management.header_report"/>-->

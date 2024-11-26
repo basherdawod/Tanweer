@@ -25,9 +25,4 @@
             <field name="type">income</field>
         </record>
 
-       <record id="comprehensive_income_demo_data_6" model="type.line.class">
-            <field name="name">Total comprehensive income for the year</field>
-            <field name="type">equity</field>
-        </record>
-
 </odoo>
