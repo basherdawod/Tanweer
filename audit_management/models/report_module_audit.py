@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 import base64
 import logging
 from datetime import datetime, date
-
+from collections import defaultdict
 import qrcode
 from io import BytesIO
 
@@ -302,6 +302,20 @@ class AuditFinancialReport(models.Model):
             'docs': pages
         })
 
+    ########
+    ########
+    @api.model
+    def get_lines_with_totals(self):
+        lines = self.env['account.audit.level.line'].search([])
+        grouped_data = defaultdict(lambda: {'lines': [], 'total_balance_this': 0, 'total_balance_last': 0})
+
+        for line in lines:
+            name = line.level_line_id.name or 'Unknown'
+            grouped_data[name]['lines'].append(line)
+            grouped_data[name]['total_balance_this'] += line.balance_this
+            grouped_data[name]['total_balance_last'] += line.balance_last
+
+        return grouped_data
     ########
     def reset_to_draft(self):
         self.status='draft'

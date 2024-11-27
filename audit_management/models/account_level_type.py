@@ -46,7 +46,7 @@ class AccountLevelType(models.Model):
             ("off_balance", "Off-Balance Sheet"),
         ],
         string="Type",
-
+        
         help="These types are defined according to your country. The type contains more information " \
              "about the account and its specificities."
     )
@@ -75,6 +75,18 @@ class AccountLevelType(models.Model):
         comodel_name='financial.audit.customer',
         string='Customer Rege', related="audit_financial_id.partner_id",
         required=False)
+    balance_last = fields.Monetary(
+        string='Total Last Year',
+        required=False,
+        currency_field='currency_id',
+    )
+    total_balance_last = fields.Monetary(
+            string='Total Last Year',
+            required=False,
+            currency_field='currency_id',
+        )
+
+
 
 
 class AccountTypeLevel(models.Model):
@@ -84,7 +96,7 @@ class AccountTypeLevel(models.Model):
 
     audit_financial_id = fields.Many2one(
         comodel_name='comprehensive.income',
-        string='Account Type',
+        string='Comprehensive Income',
         required=False , readonly=True )
     sequence = fields.Integer(string="Sequence", default=10)
 
@@ -102,7 +114,7 @@ class AccountTypeLevel(models.Model):
         default=False)
 
     level_line_id = fields.Many2one(
-        comodel_name='account.type.level',
+        comodel_name='account.level.type',
         string='Account Type',
         readonly=True,
         required=False)

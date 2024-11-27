@@ -332,10 +332,10 @@ class FinancialAuditReporting(models.Model):
         for record in self:
             existing_comprehensive_report = record.comprehensive_income_ids
             if not existing_comprehensive_report:
-                audit_report_name = record.name
+                audit_report_name = f"{'CI'}/{record.name}"
             else:
                 next_letter = chr(65 + len(existing_comprehensive_report))  # ASCII 'A' is 65
-                audit_report_name = f"{record.name}/{next_letter}"
+                audit_report_name = f"{'CI'}/{record.name}/{next_letter}"
 
             # Create the new audit_report record
             self.env['comprehensive.income'].create({

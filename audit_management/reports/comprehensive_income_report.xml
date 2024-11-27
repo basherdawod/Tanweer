@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Link Paper Format to the Report -->
+    <record id="action_print_comprehensive_income_report" model="ir.actions.report">
+        <field name="name">Comprhensive Income</field>
+        <field name="model">comprehensive.income</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">audit_management.report_comprehensive_income_template</field>
+        <field name="report_file">audit_management.report_comprehensive_income_template</field>
+        <field name="binding_model_id" ref="model_comprehensive_income"/>
+        <field name="print_report_name">'Comprehensive Income - %s' % (object.name).replace('/', '')</field>
+        <field name="binding_type">report</field>
+    </record >
+
+    <template id="header_comprehensive_income_report">
+        <t t-foreach="docs" t-as="doc">
+            <div style=" text-align: center; width: 100%;">
+                <div>MODULAR CONCEPTS L.L.C.</div>
+                <div>DUBAI - UNITED ARAB EMIRATES</div>
+                    <br/>
+                <div>STATEMENT OF COMPREHENSIVE INCOME</div>
+                <div>FOR THE YEAR ENDED <span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span>
+                </div>
+
+            </div>
+        </t>
+    </template>
+    <template id="report_comprehensive_income_template">
+        <t t-foreach="docs" t-as="doc">
+              <t t-call="web.html_container">
+                  <div class="cover-page" style="page-break-after: always; text-align: center; padding-top: 30%; width: 100%;">
+                      <t t-call="audit_management.header_report"/>
+                      <br/>
+                  <div><img t-att-src="'data:image/png;base64,%s' % doc.qr_code_data" alt="QR Code" style="width:150px; height:150px;" /></div>
+                  </div>
+                  <div style="page-break-after: always;padding:20px;">
+                    <t t-call="audit_management.header_comprehensive_income_report"/>
+                    <br/>
+                    <table style="width: 100%;border:none;">
+                        <thead>
+                            <tr>
+                                <th style="padding: 5px; text-align: left;width:50%;">Account</th>
+                                <th style="padding: 5px; text-align: left;width:10%;">Notes</th>
+                                <th style="padding: 5px; text-align: center;width:20%;"><span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span></th>
+                                <th style="padding: 5px; text-align: center;width:20%;"><span><t t-esc="doc.partner_id.data_last_years.strftime('%d %b %Y')"/></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                              <t t-foreach="doc.audit_lines_ids" t-as="line">
+                                <t t-if="line.display_type == 'line_section'">
+                                    <tr>
+                                        <td colspan="3" style="padding: 10px; text-align: left; font-weight: bold;">
+                                            <span t-field="line.name"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-if="line.level_line_id.name">
+                                    <tr>
+                                        <td><t t-esc="line.level_line_id.name"/></td>
+                                        <td><t t-esc="line.id"/></td>
+                                        <td style="text-align: center;">
+                                            <span t-field="line.balance_this"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <span t-field="line.balance_last"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                          </tr>
+                            <tr>
+                                <td style="padding: 10px; text-align: left; font-weight: bold;">
+                                    Total comprehensive income for the year
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                      </tbody>
+                    </table>
+                      <br/>
+                      <br/>
+                      <br/>
+                    <div style="padding:10px;">
+                      The accompanying notes form an integral part of these financial statements.<br/>
+                      The report of the auditors is set out on pages 3 and 4.
+                    </div>
+                      <div style="padding:10px;">
+                        The financial statements on pages  were approved by the Board of Directors on and signed on behalf by :
+                      </div>
+                    <div style="padding:10px;">
+                        Managing Director<br/>
+                        Modular Concepts L.L.C.<br/>
+                        Dated: <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span><br/>
+                    </div>
+                </div>
+              </t>
+        </t>
+    </template>
+</odoo>

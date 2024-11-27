@@ -28,6 +28,7 @@
         'reports/audit_item.xml',
         'reports/audit_financial_program_report.xml',
         'reports/account_type_level_report.xml',
+        'reports/comprehensive_income_report.xml',
         # 'reports/type_line.xml',
         'views/menu.xml',
         

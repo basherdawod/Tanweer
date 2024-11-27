@@ -2,27 +2,27 @@
 <odoo>
         <record id="comprehensive_income_demo_data_1" model="type.line.class">
             <field name="name">Revenue</field>
-            <field name="type">income</field>
+<!--            <field name="type">income</field>-->
         </record>
 
        <record id="comprehensive_income_demo_data_2" model="type.line.class">
             <field name="name">Gross Profit</field>
-            <field name="type">expense_direct_cost</field>
+<!--            <field name="type">expense_direct_cost</field>-->
         </record>
 
        <record id="comprehensive_income_demo_data_3" model="type.line.class">
             <field name="name">Depreciation</field>
-            <field name="type">expense_depreciation</field>
+<!--            <field name="type">expense_depreciation</field>-->
         </record>
 
        <record id="comprehensive_income_demo_data_4" model="type.line.class">
             <field name="name">Provision of Doubtful Debt</field>
-            <field name="type">expense</field>
+<!--            <field name="type">expense</field>-->
         </record>
 
        <record id="comprehensive_income_demo_data_5" model="type.line.class">
             <field name="name">Operating Profit for the year</field>
-            <field name="type">income</field>
+<!--            <field name="type">income</field>-->
         </record>
 
 </odoo>

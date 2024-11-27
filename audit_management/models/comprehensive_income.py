@@ -4,6 +4,8 @@ from dateutil.relativedelta import relativedelta
 import base64
 import logging
 from datetime import datetime, date
+import qrcode
+from io import BytesIO
 
 class ComprehensiveIncome(models.Model):
     _name = "comprehensive.income"
@@ -27,183 +29,82 @@ class ComprehensiveIncome(models.Model):
     comprehensive_income_ids = fields.Many2one("account.type.level")
 
     level_sub1 = fields.Many2one('type.line.class' , 'Comprehensive Income',
-                domain="[('id', '!=', level_sub2),('id', '!=', level2_sub1),('id', '!=', level2_sub2),('id', '!=', level3_sub1)]"
-                                 )
-    audit_report = fields.Char(string="Audit Sequence")
-    type1 = fields.Selection(
-        selection=[
-            ("asset_receivable", "Receivable"),
-            ("asset_cash", "Bank and Cash"),
-            ("asset_current", "Current Assets"),
-            ("asset_non_current", "Non-current Assets"),
-            ("asset_prepayments", "Prepayments"),
-            ("asset_fixed", "Fixed Assets"),
-            ("liability_payable", "Payable"),
-            ("liability_credit_card", "Credit Card"),
-            ("liability_current", "Current Liabilities"),
-            ("liability_non_current", "Non-current Liabilities"),
-            ("equity", "Equity"),
-            ("equity_unaffected", "Current Year Earnings"),
-            ("income", "Income"),
-            ("income_other", "Other Income"),
-            ("expense", "Expenses"),
-            ("expense_depreciation", "Depreciation"),
-            ("expense_direct_cost", "Cost of Revenue"),
-            ("off_balance", "Off-Balance Sheet"),
-        ],
-        string="Type",
-        related="level_sub1.type",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
-    )
+                domain="[('id', '!=', level_sub2),('id', '!=', level2_sub1),('id', '!=', level2_sub2),('id', '!=', level3_sub1)]")
     level_sub2 = fields.Many2one('type.line.class' , 'Comprehensive Income',
                 domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level2_sub2),('id', '!=', level3_sub1)]")
-    type2 = fields.Selection(
-        selection=[
-            ("asset_receivable", "Receivable"),
-            ("asset_cash", "Bank and Cash"),
-            ("asset_current", "Current Assets"),
-            ("asset_non_current", "Non-current Assets"),
-            ("asset_prepayments", "Prepayments"),
-            ("asset_fixed", "Fixed Assets"),
-            ("liability_payable", "Payable"),
-            ("liability_credit_card", "Credit Card"),
-            ("liability_current", "Current Liabilities"),
-            ("liability_non_current", "Non-current Liabilities"),
-            ("equity", "Equity"),
-            ("equity_unaffected", "Current Year Earnings"),
-            ("income", "Income"),
-            ("income_other", "Other Income"),
-            ("expense", "Expenses"),
-            ("expense_depreciation", "Depreciation"),
-            ("expense_direct_cost", "Cost of Revenue"),
-            ("off_balance", "Off-Balance Sheet"),
-        ],
-        string="Type",
-        related="level_sub2.type",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
-    )
     level2_sub1 = fields.Many2one('type.line.class' , 'Comprehensive Income',
                 domain="[('id', '!=', level_sub1),('id', '!=', level2_sub2),('id', '!=', level_sub2),('id', '!=', level3_sub1)]")
-    type3 = fields.Selection(
-        selection=[
-            ("asset_receivable", "Receivable"),
-            ("asset_cash", "Bank and Cash"),
-            ("asset_current", "Current Assets"),
-            ("asset_non_current", "Non-current Assets"),
-            ("asset_prepayments", "Prepayments"),
-            ("asset_fixed", "Fixed Assets"),
-            ("liability_payable", "Payable"),
-            ("liability_credit_card", "Credit Card"),
-            ("liability_current", "Current Liabilities"),
-            ("liability_non_current", "Non-current Liabilities"),
-            ("equity", "Equity"),
-            ("equity_unaffected", "Current Year Earnings"),
-            ("income", "Income"),
-            ("income_other", "Other Income"),
-            ("expense", "Expenses"),
-            ("expense_depreciation", "Depreciation"),
-            ("expense_direct_cost", "Cost of Revenue"),
-            ("off_balance", "Off-Balance Sheet"),
-        ],
-        string="Type",
-        related="level2_sub1.type",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
-    )
     level2_sub2 = fields.Many2one('type.line.class' , 'Comprehensive Income' ,
-                                  domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2),('id', '!=', level3_sub1)]")
-    type4 = fields.Selection(
-        selection=[
-            ("asset_receivable", "Receivable"),
-            ("asset_cash", "Bank and Cash"),
-            ("asset_current", "Current Assets"),
-            ("asset_non_current", "Non-current Assets"),
-            ("asset_prepayments", "Prepayments"),
-            ("asset_fixed", "Fixed Assets"),
-            ("liability_payable", "Payable"),
-            ("liability_credit_card", "Credit Card"),
-            ("liability_current", "Current Liabilities"),
-            ("liability_non_current", "Non-current Liabilities"),
-            ("equity", "Equity"),
-            ("equity_unaffected", "Current Year Earnings"),
-            ("income", "Income"),
-            ("income_other", "Other Income"),
-            ("expense", "Expenses"),
-            ("expense_depreciation", "Depreciation"),
-            ("expense_direct_cost", "Cost of Revenue"),
-            ("off_balance", "Off-Balance Sheet"),
-        ],
-        string="Type",
-        related="level2_sub2.type",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
-    )
-
+                domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2),('id', '!=', level3_sub1)]")
+    level3_sub1 = fields.Many2one('type.line.class', 'Comprehensive Income',
+                domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2),('id', '!=', level2_sub2)]")
     audit_lines1_ids = fields.One2many(
-        comodel_name='account.type.level',
-        inverse_name='comprehensive_income_id',
+        comodel_name='account.level.type',
+        inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False,
-        domain = lambda self: [('type', '=', self.type1)]
+        # domain = lambda self: [('type', '=', self.type1)]
+        domain="[('id', '!=', audit_lines2_ids),('id', '!=', audit_lines3_ids),('id', '!=', audit_lines4_ids),('id', '!=', audit_lines5_ids)]"
     )
     audit_lines2_ids = fields.One2many(
-        comodel_name='account.type.level',
-        inverse_name='comprehensive_income_id',
+        comodel_name='account.level.type',
+        inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False,
-        domain=lambda self: [('type', '=', self.type2)]
+        # domain=lambda self: [('type', '=', self.type2)]
+        domain="[('id', '!=', audit_lines1_ids),('id', '!=', audit_lines3_ids),('id', '!=', audit_lines4_ids),('id', '!=', audit_lines5_ids)]"
     )
     audit_lines3_ids = fields.One2many(
-        comodel_name='account.type.level',
-        inverse_name='comprehensive_income_id',
+        comodel_name='account.level.type',
+        inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False,
-        domain=lambda self: [('type', '=', self.type3)]
+        # domain=lambda self: [('type', '=', self.type3)]
+        domain="[('id', '!=', audit_lines1_ids),('id', '!=', audit_lines2_ids),('id', '!=', audit_lines4_ids),('id', '!=', audit_lines5_ids)]"
     )
     audit_lines4_ids = fields.One2many(
-        comodel_name='account.type.level',
-        inverse_name='comprehensive_income_id',
+        comodel_name='account.level.type',
+        inverse_name='audit_financial_id',
         string='Audit Lines',
         required=False,
-        domain=lambda self: [('type', '=', self.type4)]
+        # domain=lambda self: [('type', '=', self.type4)]
+        domain="[('id', '!=', audit_lines1_ids),('id', '!=', audit_lines2_ids),('id', '!=', audit_lines3_ids),('id', '!=', audit_lines5_ids)]"
     )
     audit_lines5_ids = fields.One2many(
-            comodel_name='account.type.level',
-            inverse_name='comprehensive_income_id',
+            comodel_name='account.level.type',
+            inverse_name='audit_financial_id',
             string='Audit Lines',
             required=False,
-        domain=lambda self: [('type', '=', self.type5)]
+        # domain=lambda self: [('type', '=', self.type5)]
+        domain="[('id', '!=', audit_lines1_ids),('id', '!=', audit_lines2_ids),('id', '!=', audit_lines3_ids),('id', '!=', audit_lines4_ids)]"
         )
-    level3_sub1 = fields.Many2one('type.line.class', 'Comprehensive Income',
-                                  domain="[('id', '!=', level_sub1),('id', '!=', level2_sub1),('id', '!=', level_sub2),('id', '!=', level2_sub2)]")
-    type5 = fields.Selection(
-        selection=[
-            ("asset_receivable", "Receivable"),
-            ("asset_cash", "Bank and Cash"),
-            ("asset_current", "Current Assets"),
-            ("asset_non_current", "Non-current Assets"),
-            ("asset_prepayments", "Prepayments"),
-            ("asset_fixed", "Fixed Assets"),
-            ("liability_payable", "Payable"),
-            ("liability_credit_card", "Credit Card"),
-            ("liability_current", "Current Liabilities"),
-            ("liability_non_current", "Non-current Liabilities"),
-            ("equity", "Equity"),
-            ("equity_unaffected", "Current Year Earnings"),
-            ("income", "Income"),
-            ("income_other", "Other Income"),
-            ("expense", "Expenses"),
-            ("expense_depreciation", "Depreciation"),
-            ("expense_direct_cost", "Cost of Revenue"),
-            ("off_balance", "Off-Balance Sheet"),
-        ],
-        string="Type",
-        related="level3_sub1.type",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
-    )
+
+    # type5 = fields.Selection(
+    #     selection=[
+    #         ("asset_receivable", "Receivable"),
+    #         ("asset_cash", "Bank and Cash"),
+    #         ("asset_current", "Current Assets"),
+    #         ("asset_non_current", "Non-current Assets"),
+    #         ("asset_prepayments", "Prepayments"),
+    #         ("asset_fixed", "Fixed Assets"),
+    #         ("liability_payable", "Payable"),
+    #         ("liability_credit_card", "Credit Card"),
+    #         ("liability_current", "Current Liabilities"),
+    #         ("liability_non_current", "Non-current Liabilities"),
+    #         ("equity", "Equity"),
+    #         ("equity_unaffected", "Current Year Earnings"),
+    #         ("income", "Income"),
+    #         ("income_other", "Other Income"),
+    #         ("expense", "Expenses"),
+    #         ("expense_depreciation", "Depreciation"),
+    #         ("expense_direct_cost", "Cost of Revenue"),
+    #         ("off_balance", "Off-Balance Sheet"),
+    #     ],
+    #     string="Type",
+    #     related="level3_sub1.type",
+    #     help="These types are defined according to your country. The type contains more information " \
+    #          "about the account and its specificities."
+    # )
 
     partner_id = fields.Many2one('financial.audit.customer', string="Customer Registration")
 
@@ -261,27 +162,27 @@ class ComprehensiveIncome(models.Model):
         currency_field='currency_id',
     )
 
-    @api.model
-    def _get_default_level3(self):
-        # Search for the record where name is 'Equity'
-        equity_record = self.env['type.class.account'].search([('name', '=', 'Equity')], limit=1)
-        if equity_record:
-            return equity_record.id
-        return False  # In case no record is found, return False to not set a default
-
-    @api.model
-    def _get_default_level4(self):
-        # Search for the record where name is 'Equity'
-        equity_record = self.env['type.class.line'].search([('name', '=', 'Equity')], limit=1)
-        if equity_record:
-            return equity_record.id
-        return False  # In case no record is found, return False to not set a default
 
     current_datetime = fields.Char(string="Current Date and Time", compute="_compute_current_datetime")
 
     def _compute_current_datetime(self):
         for record in self:
             record.current_datetime = fields.Datetime.now().strftime("%A, %d %B %Y")
+
+
+    #########        QR Code
+    qr_code_data = fields.Char(string='QR Code Data', compute='_compute_qr_code_image')
+
+    def _compute_qr_code_image(self):
+        for record in self:
+            qr = qrcode.QRCode()
+            qr.add_data(record.name)  # Replace with your QR code data
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+            record.qr_code_data = base64.b64encode(buffer.getvalue())
+    #########
 
 
 
@@ -310,46 +211,41 @@ class ComprehensiveIncome(models.Model):
 
         for record in self:
             # Fetch or create level records
-            level = self.env['account.type.level'].search([('comprehensive_income_id', '=', record.id)])
+            level = self.env['account.level.type'].search([('audit_financial_id', '=', record.id)])
             if level:
     # Leval1 add line
                 if record.level_sub1:
                     line_vals.append({'display_type': 'line_section', 'name': record.level_sub1.name, 'seq': '4'})
                     for line in level:
-                        if line.type == record.type1:
-                            line_vals.append({'level_line_id': line.id})
-                            total_balance_this_lival1 += line.balance_this
-                            total_balance_last_lival1 += line.balance_last
+                        line_vals.append({'level_line_id': line.id})
+                        total_balance_this_lival1 += line.balance_this
+                        total_balance_last_lival1 += line.balance_last
                 if record.level_sub2:
                     line_vals.append({'display_type': 'line_section', 'name': record.level_sub2.name, 'seq': '4'})
                     for line in level:
-                        if line.type == record.type2:
-                            line_vals.append({'level_line_id': line.id})
-                            total_balance_this_lival1 += line.balance_this
-                            total_balance_last_lival1 += line.balance_last
+                        line_vals.append({'level_line_id': line.id})
+                        total_balance_this_lival1 += line.balance_this
+                        total_balance_last_lival1 += line.balance_last
     # Leval2 add line
                 if record.level2_sub1:
                     line_vals.append({'display_type': 'line_section', 'name': record.level2_sub1.name, 'seq': '4'})
                     for line in level:
-                        if line.type == record.type3:
-                            line_vals.append({'level_line_id': line.id})
-                            total_balance_this_lival1 += line.balance_this
-                            total_balance_last_lival1 += line.balance_last
+                        line_vals.append({'level_line_id': line.id})
+                        total_balance_this_lival1 += line.balance_this
+                        total_balance_last_lival1 += line.balance_last
                 if record.level2_sub2:
                     line_vals.append({'display_type': 'line_section', 'name': record.level2_sub2.name, 'seq': '4'})
                     for line in level:
-                        if line.type == record.type4:
-                            line_vals.append({'level_line_id': line.id})
-                            total_balance_this_lival1 += line.balance_this
-                            total_balance_last_lival1 += line.balance_last
+                        line_vals.append({'level_line_id': line.id})
+                        total_balance_this_lival1 += line.balance_this
+                        total_balance_last_lival1 += line.balance_last
     # Leval3 add line
                 if record.level3_sub1:
                     line_vals.append({'display_type': 'line_section', 'name': record.level3_sub1.name, 'seq': '4'})
                     for line in level:
-                        if line.type == record.type5:
-                            line_vals.append({'level_line_id': line.id})
-                            total_balance_this_lival1 += line.balance_this
-                            total_balance_last_lival1 += line.balance_last
+                        line_vals.append({'level_line_id': line.id})
+                        total_balance_this_lival1 += line.balance_this
+                        total_balance_last_lival1 += line.balance_last
 
 
 
@@ -381,32 +277,32 @@ class TypeLineClass(models.Model):
         comodel_name='type.account.class',
         string='Type class',
         required=False)
-    type = fields.Selection(
-        selection=[
-            ("asset_receivable", "Receivable"),
-            ("asset_cash", "Bank and Cash"),
-            ("asset_current", "Current Assets"),
-            ("asset_non_current", "Non-current Assets"),
-            ("asset_prepayments", "Prepayments"),
-            ("asset_fixed", "Fixed Assets"),
-            ("liability_payable", "Payable"),
-            ("liability_credit_card", "Credit Card"),
-            ("liability_current", "Current Liabilities"),
-            ("liability_non_current", "Non-current Liabilities"),
-            ("equity", "Equity"),
-            ("equity_unaffected", "Current Year Earnings"),
-            ("income", "Income"),
-            ("income_other", "Other Income"),
-            ("expense", "Expenses"),
-            ("expense_depreciation", "Depreciation"),
-            ("expense_direct_cost", "Cost of Revenue"),
-            ("off_balance", "Off-Balance Sheet"),
-        ],
-        string="Type",
-        # related = "type_class_id.tec_name",
-        help="These types are defined according to your country. The type contains more information " \
-             "about the account and its specificities."
-    )
+    # type = fields.Selection(
+    #     selection=[
+    #         ("asset_receivable", "Receivable"),
+    #         ("asset_cash", "Bank and Cash"),
+    #         ("asset_current", "Current Assets"),
+    #         ("asset_non_current", "Non-current Assets"),
+    #         ("asset_prepayments", "Prepayments"),
+    #         ("asset_fixed", "Fixed Assets"),
+    #         ("liability_payable", "Payable"),
+    #         ("liability_credit_card", "Credit Card"),
+    #         ("liability_current", "Current Liabilities"),
+    #         ("liability_non_current", "Non-current Liabilities"),
+    #         ("equity", "Equity"),
+    #         ("equity_unaffected", "Current Year Earnings"),
+    #         ("income", "Income"),
+    #         ("income_other", "Other Income"),
+    #         ("expense", "Expenses"),
+    #         ("expense_depreciation", "Depreciation"),
+    #         ("expense_direct_cost", "Cost of Revenue"),
+    #         ("off_balance", "Off-Balance Sheet"),
+    #     ],
+    #     string="Type",
+    #     # related = "type_class_id.tec_name",
+    #     help="These types are defined according to your country. The type contains more information " \
+    #          "about the account and its specificities."
+    # )
 
     @api.model
     def create(self, vals):

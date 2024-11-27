@@ -35,6 +35,11 @@
                   action="action_account_type_level_audit_tree"
                   sequence="500"
                   parent="menu_audit_management_Configuration"/>
+        <menuitem id="ins_account_type_level_comprehensive_income_report"
+                  name="Comprehensive Income Accounts"
+                  action="action_account_level_type_audit_tree"
+                  sequence="3"
+                  parent="menu_audit_management_Configuration"/>
 
 <!--         <menuitem id="ins_audit_account_account_report"-->
 <!--                  name="Account Audit Customer"-->

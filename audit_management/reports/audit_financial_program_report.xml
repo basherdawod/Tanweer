@@ -20,7 +20,7 @@
                 <div>DUBAI - UNITED ARAB EMIRATES</div>
                     <br/>
                 <div>FINANCIAL STATEMENTS &amp; REPORTS</div>
-                <div>FOR THE YEAR ENDED <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>
+                <div>FOR THE YEAR ENDED <span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span>
                 </div>
 
             </div>
@@ -32,6 +32,7 @@
         <t t-foreach="docs" t-as="doc">
 
     <t t-call="web.html_container">
+
          <style>
                 body {
                     font-size: 18px;
@@ -56,7 +57,7 @@
             <div class="cover-page" style="page-break-after: always; text-align: center; padding-top: 30%; width: 100%;">
                 <t t-call="audit_management.header_report"/>
                 <br/>
-                <div > <img t-att-src="'data:image/png;base64,%s' % doc.qr_code_data" alt="QR Code" style="width:100px; height:100px;" /></div>
+                <div > <img t-att-src="'data:image/png;base64,%s' % doc.qr_code_data" alt="QR Code" style="width:150px; height:150px;" /></div>
             </div>
 
              <div style="page-break-after: always;">
@@ -99,7 +100,7 @@
                         </tr>
                          <tr>
                             <td style="text-align: left;">
-                                STATEMENT OF COMPREHENSIVE INCOME 
+                                STATEMENT OF COMPREHENSIVE INCOME
                             </td>
                             <td>
                                 6
@@ -131,7 +132,7 @@
                         </tr>
                     </tbody>
                 </table>
-                 
+
              </div>
 
              <div style="page-break-after: always;padding:10px;">
@@ -139,7 +140,7 @@
 
                 <br/>
                 <div>
-                    We have audited the accompanying financial statements of <span><t t-esc="doc.partner_id.lable1"/> </span>, (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
+                    We have audited the accompanying financial statements of <span><t t-esc="doc.partner_id.lable1"/> </span>, (the "Company"), Dubai, United Arab Emirates which comprise the Directors' report as at <span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span>, the statement of financial position, statement of comprehensive income, statement of- changes in shareholder's equity, statement of cash flows for the year ended and a summary of significant accounting policies and other explanatory notes.
                 </div>
                 <br/>
                 <br/>
@@ -180,7 +181,7 @@
                 </div>
                 <br/>
                 <div>
-                    In our opinion, the financial statements present fairly, in all material respects, the financial position of <span><t t-esc="doc.partner_id.lable1"/> </span>, Dubai - United Arab Emirates as of <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span> and of its financial performance and cash flows for the year then ended, in accordance with Generally Accepted Accounting Principles.
+                    In our opinion, the financial statements present fairly, in all material respects, the financial position of <span><t t-esc="doc.partner_id.lable1"/> </span>, Dubai - United Arab Emirates as of <span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span> and of its financial performance and cash flows for the year then ended, in accordance with Generally Accepted Accounting Principles.
 
                     Also we confirm that we have obtained all the information and explanations necessary for our audit, proper books of account have been kept by the Company, physical count of inventory were duly carried out by the management and the contents of the report of the Manager relating to these financial statements are in agreement with the books of account.
                 </div>
@@ -201,7 +202,7 @@
 
                     (iv) the financial information included in the Directors' report is consistent with the books of account of the Company; and<br/>
 
-                    (v) nothing has come to our attention which causes us to believe that the Company has breached any of the applicable provisions of the UAE Federal Law No. (8) of 1984, as amended, or of its Articles of Association which would materially affect its activities or its financial position as of <span><t t-esc="doc.partner_id.data_last_years_end.strftime('%d %b %Y')"/></span>
+                    (v) nothing has come to our attention which causes us to believe that the Company has breached any of the applicable provisions of the UAE Federal Law No. (8) of 1984, as amended, or of its Articles of Association which would materially affect its activities or its financial position as of <span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span>
                 </div>
                 <br/>
                 <br/>
@@ -211,10 +212,10 @@
                             Registration No: <span><t t-esc="doc.name"/></span><br/>
                             Behl, Lad &amp; Al Sayegh<br/>
                             Dubai, United Arab Emirates<br/>
-                            Dated: 26 April, 2015<br/>
+                            Dated: <span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span><br/>
                         </div>
                         <div class="page-number">
-                            Page <span t-raw="'[page] of [topage]'" />
+                            Page <span t-raw="'[page] of [topage]'"/>
                         </div>
 
 
@@ -227,47 +228,176 @@
                         <thead>
                             <tr>
                                 <th style="padding: 5px; text-align: left;width:50%;">Account</th>
-                                <th style="padding: 5px; text-align: center;width:25%;">This Year</th>
-                                <th style="padding: 5px; text-align: center;width:25%;">Last Year</th>
+                                <th style="padding: 5px; text-align: left;width:10%;">Notes</th>
+                                <th style="padding: 5px; text-align: center;width:20%;"><span><t t-esc="doc.partner_id.data_fis_years_end.strftime('%d %b %Y')"/></span></th>
+                                <th style="padding: 5px; text-align: center;width:20%;"><span><t t-esc="doc.partner_id.data_last_years.strftime('%d %b %Y')"/></span></th>
                             </tr>
                         </thead>
                         <tbody>
+
+                            <t t-set="total_equity_this" t-value="0"/>
+                            <t t-set="total_liability_this" t-value="0"/>
+                            <t t-set="total_equity_last" t-value="0"/>
+                            <t t-set="total_liability_last" t-value="0"/>
+                            <t t-set="total_equity_and_liabilty_this" t-value="0"/>
+                            <t t-set="total_equity_and_liabilty_last" t-value="0"/>
                             <t t-foreach="doc.audit_lines_ids" t-as="line">
                                 <t t-if="line.display_type == 'line_section'">
                                     <tr>
-                                        <td colspan="3" style="padding: 10px; text-align: left; font-weight: bold;color:#0000FF;">
+                                        <td colspan="3" style="padding: 10px; text-align: left; font-weight: bold;">
                                             <span t-field="line.name"/>
                                         </td>
                                     </tr>
                                 </t>
 
-<!--                                <t t-elif="line.display_type == ''">-->
-                                <t>
+                                <!-- Display data for lines with level_line_id.name -->
+                                <t t-if="line.level_line_id.name">
                                     <tr>
-                                        <t t-if="line.level_line_id.name">
-                                            <td><t t-esc="line.level_line_id.name"/></td>
-                                        </t>
-                                        <t t-else="">
-                                            <td/>
-                                        </t>
-<!--                                        <td><t t-esc="line.level_line_id.name"/></td>-->
-                                         <t t-if="line.level_line_id.name">
-                                            <td style="text-align: center;"><t t-esc="line.balance_this"/></td>
-                                         </t>
-                                        <t t-else="">
-                                            <td/>
-                                        </t>
-                                        <t t-if="line.level_line_id.name">
-                                        <td style="text-align: center;"><t t-esc="line.balance_last"/></td>
-                                        </t>
-                                         <t t-else="">
-                                            <td/>
-                                        </t>
+                                        <!-- Display Account Name -->
+                                        <td><t t-esc="line.level_line_id.name"/></td>
+
+                                        <td><t t-esc="line.id"/></td>
+
+                                        <!-- Display Balance This -->
+                                        <td style="text-align: center;">
+                                            <span t-field="line.balance_this"/>
+                                        </td>
+
+                                        <!-- Display Balance Last -->
+                                        <td style="text-align: center;">
+                                            <span t-field="line.balance_last"/>
+                                        </td>
                                     </tr>
+
+                                    <!-- Sum balances for 'Equity' and 'Liabilities' -->
+                                    <t t-if="line.level_line_id.name == 'Equity'">
+                                        <t t-set="total_equity_this" t-value="total_equity_this + line.balance_this"/>
+                                        <t t-set="total_equity_last" t-value="total_equity_last + line.balance_last"/>
+                                    </t>
+                                    <t t-if="line.level_line_id.name == 'Liabilities'">
+                                        <t t-set="total_liability_this" t-value="total_liability_this + line.balance_this"/>
+                                        <t t-set="total_liability_last" t-value="total_liability_last + line.balance_last"/>
+                                    </t>
                                 </t>
                             </t>
+
+                            <!-- Total Equity and Liabilities calculation -->
+                            <tr>
+                                <td style="padding: 10px; text-align: left; font-weight: bold;">
+                                    TOTAL EQUITY AND LIABILITIES
+                                </td>
+                                <td></td>
+                                <td style="text-align: center;">
+                                    <t t-set="total_equity_and_liabilty_this" t-value="total_equity_this + total_liability_this"/>
+                                </td>
+                                <td style="text-align: center;">
+                                    <t t-set="total_equity_and_liabilty_last" t-value="total_equity_last + total_liability_last"/>
+                                </td>
+                            </tr>
+
+
+
+
+<!--                            <t t-foreach="doc.audit_lines_ids" t-as="line">-->
+<!--                                <t t-if="line.display_type == 'line_section'">-->
+<!--                                    <tr>-->
+<!--                                        <td colspan="3" style="padding: 10px; text-align: left; font-weight: bold; color:#0000FF;">-->
+<!--                                            <span t-field="line.name"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+
+<!--                                &lt;!&ndash; Display data for lines with level_line_id.name &ndash;&gt;-->
+<!--                                <t t-if="line.level_line_id.name">-->
+<!--                                    <tr>-->
+<!--                                        &lt;!&ndash; Display Account Name &ndash;&gt;-->
+<!--                                        <td><t t-esc="line.level_line_id.name"/></td>-->
+
+<!--                                        &lt;!&ndash; Display Balance This &ndash;&gt;-->
+<!--                                        <td style="text-align: center;">-->
+<!--                                            <span t-field="line.balance_this"/>-->
+<!--                                        </td>-->
+
+<!--                                        &lt;!&ndash; Display Balance Last &ndash;&gt;-->
+<!--                                        <td style="text-align: center;">-->
+<!--                                            <span t-field="line.balance_last"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <t t-if="line.level_line_id.name == 'Equity'">-->
+<!--                                        <t t-set="total_equity_this" t-value="total_equity_this + line.balance_this"/>-->
+<!--                                        <t t-set="total_equity_last" t-value="total_equity_last + line.balance_last"/>-->
+<!--                                    </t>-->
+<!--                                    <t t-if="line.level_line_id.name == 'Liabilities'">-->
+<!--                                        <t t-set="total_liability_this" t-value="total_liability_this + line.balance_this"/>-->
+<!--                                        <t t-set="total_liability_last" t-value="total_liability_last + line.balance_last"/>-->
+<!--                                    </t>-->
+
+<!--                                </t>-->
+
+<!--                                    <tr>-->
+<!--                                        <td style="padding: 10px; text-align: left; font-weight: bold; color:#0000FF;">-->
+<!--                                            TOTAL EQUITY AND LIABILITIES-->
+<!--                                        </td>-->
+<!--                                        <td style="text-align: center;">-->
+<!--                                            <t t-set="total_equity_and_liabilty_this" t-value="total_equity_this + total_liability_this"/>-->
+<!--                                        </td>-->
+<!--                                        <td style="text-align: center;">-->
+<!--                                            <t t-set="total_equity_and_liabilty_last" t-value="total_equity_last + total_liability_last"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+
+<!--                            </t>-->
+
+
+
+
+
+<!--                            <t t-foreach="doc.audit_lines_ids" t-as="line">-->
+<!--                                <t t-if="line.display_type == 'line_section'">-->
+<!--                                    <tr>-->
+<!--                                        <td colspan="3" style="padding: 10px; text-align: left; font-weight: bold;color:#0000FF;">-->
+<!--                                            <span t-field="line.name"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </t>-->
+<!--                                <t>-->
+<!--                                    <tr>-->
+<!--                                        <t t-if="line.level_line_id.name">-->
+<!--                                            <td><t t-esc="line.level_line_id.name"/></td>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td/>-->
+<!--                                        </t>-->
+<!--                                         <t t-if="line.level_line_id.name">-->
+<!--                                            <td style="text-align: center;"><span t-field="line.balance_this"/></td>-->
+<!--                                         </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td/>-->
+<!--                                        </t>-->
+<!--                                        <t t-if="line.level_line_id.name">-->
+<!--                                            <td style="text-align: center;"><span t-field="line.balance_last"/></td>-->
+<!--                                        </t>-->
+<!--                                         <t t-else="">-->
+<!--                                            <td/>-->
+<!--                                        </t>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td>-->
+<!--                                            TOTAL EQUITY  AND LIABILITIES-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+
+<!--                                        </td>-->
+<!--                                        <td>-->
+
+<!--                                        </td>-->
+
+<!--                                    </tr>-->
+<!--                                </t>-->
+<!--                            </t>-->
                         </tbody>
                     </table>
+                 <br/>
                  <br/>
                         <div style="padding:2px;">
                             The accompanying notes form an integral part of these financial statements.<br/>
